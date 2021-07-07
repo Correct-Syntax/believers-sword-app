@@ -1,11 +1,9 @@
 <template>
     <div class="home">
         <h3>{{ GET_NUMBER }}</h3>
-        <h2>{{ number }}</h2>
         <button @click="increment()">Increase</button>
     </div>
 </template>
-
 <script lang="ts">
 import { mapGetters, useStore } from "vuex";
 
