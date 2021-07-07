@@ -1,18 +1,24 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
-  </div>
+    <div class="home">
+        <h3>{{ GET_NUMBER }}</h3>
+        <h2>{{ number }}</h2>
+        <button @click="increment()">Increase</button>
+    </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
+import { mapGetters, useStore } from "vuex";
 
-export default defineComponent({
-  name: "Home",
-  components: {
-    HelloWorld,
-  },
-});
+export default {
+    name: "Home",
+    setup() {
+        const store = useStore();
+        return {
+            increment: () => store.state.number++,
+        };
+    },
+    computed: {
+        ...mapGetters(["GET_NUMBER"]),
+    },
+};
 </script>
