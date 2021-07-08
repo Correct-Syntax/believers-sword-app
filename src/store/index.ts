@@ -8,6 +8,6 @@ export default createStore({
     actions: {},
     modules: {},
     getters: {
-        GET_NUMBER: (state) => state.number,
+        GET_NUMBER: state => state.number,
     },
 });
