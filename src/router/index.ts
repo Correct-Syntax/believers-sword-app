@@ -1,5 +1,12 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
+import {
+    createRouter,
+    createWebHashHistory,
+    createWebHistory,
+    RouteRecordRaw,
+} from "vue-router";
 import Bible from "../views/Bible/Bible.vue";
+import dotenv from "dotenv";
+dotenv.config();
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -38,7 +45,10 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-    history: createWebHashHistory(),
+    history:
+        process.env.ELECTRON == "true"
+            ? createWebHashHistory()
+            : createWebHistory(),
     routes,
 });
 

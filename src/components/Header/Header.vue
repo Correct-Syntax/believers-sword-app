@@ -4,13 +4,19 @@
         <div class="navigation">
             <ul>
                 <li>
-                    <router-link to="/bible">Bible</router-link>
+                    <router-link to="/bible">
+                        <button>Bible</button>
+                    </router-link>
                 </li>
                 <li>
-                    <router-link to="/sermons">Sermons</router-link>
+                    <router-link to="/sermons">
+                        <button>Sermons</button>
+                    </router-link>
                 </li>
                 <li>
-                    <router-link to="/store">Store</router-link>
+                    <router-link to="/store">
+                        <button>Store</button>
+                    </router-link>
                 </li>
             </ul>
         </div>
