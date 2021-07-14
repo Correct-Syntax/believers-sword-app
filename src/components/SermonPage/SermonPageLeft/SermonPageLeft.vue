@@ -31,6 +31,12 @@ export default {
 
     .left-side-content {
         position: fixed;
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
     }
 }
 </style>
