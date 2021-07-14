@@ -45,10 +45,11 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-    history:
-        process.env.ELECTRON == "true"
+    history: process.env.ELECTRON
+        ? process.env.ELECTRON == "true"
             ? createWebHashHistory()
-            : createWebHistory(),
+            : createWebHistory()
+        : createWebHistory(),
     routes,
 });
 
