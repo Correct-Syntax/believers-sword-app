@@ -1,130 +1,17 @@
 <template>
     <div class="sermon-page-middle-side-bar">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
-        assumenda eveniet, fuga facere earum tempore sapiente deserunt, magni
-        officiis culpa non temporibus aperiam, dolore dolorem debitis vitae
-        repellendus animi sit. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Laudantium assumenda eveniet, fuga facere earum
-        tempore sapiente deserunt, magni officiis culpa non temporibus aperiam,
-        dolore dolorem debitis vitae repellendus animi sit. Lorem ipsum dolor
-        sit amet consectetur adipisicing elit. Laudantium assumenda eveniet,
-        fuga facere earum tempore sapiente deserunt, magni officiis culpa non
-        temporibus aperiam, dolore dolorem debitis vitae repellendus animi sit.
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
-        assumenda eveniet, fuga facere earum tempore sapiente deserunt, magni
-        officiis culpa non temporibus aperiam, dolore dolorem debitis vitae
-        repellendus animi sit. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Laudantium assumenda eveniet, fuga facere earum
-        tempore sapiente deserunt, magni officiis culpa non temporibus aperiam,
-        dolore dolorem debitis vitae repellendus animi sit. Lorem ipsum dolor
-        sit amet consectetur adipisicing elit. Laudantium assumenda eveniet,
-        fuga facere earum tempore sapiente deserunt, magni officiis culpa non
-        temporibus aperiam, dolore dolorem debitis vitae repellendus animi sit.
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
-        assumenda eveniet, fuga facere earum tempore sapiente deserunt, magni
-        officiis culpa non temporibus aperiam, dolore dolorem debitis vitae
-        repellendus animi sit. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Laudantium assumenda eveniet, fuga facere earum
-        tempore sapiente deserunt, magni officiis culpa non temporibus aperiam,
-        dolore dolorem debitis vitae repellendus animi sit. Lorem ipsum dolor
-        sit amet consectetur adipisicing elit. Laudantium assumenda eveniet,
-        fuga facere earum tempore sapiente deserunt, magni officiis culpa non
-        temporibus aperiam, dolore dolorem debitis vitae repellendus animi sit.
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
-        assumenda eveniet, fuga facere earum tempore sapiente deserunt, magni
-        officiis culpa non temporibus aperiam, dolore dolorem debitis vitae
-        repellendus animi sit. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Laudantium assumenda eveniet, fuga facere earum
-        tempore sapiente deserunt, magni officiis culpa non temporibus aperiam,
-        dolore dolorem debitis vitae repellendus animi sit. Lorem ipsum dolor
-        sit amet consectetur adipisicing elit. Laudantium assumenda eveniet,
-        fuga facere earum tempore sapiente deserunt, magni officiis culpa non
-        temporibus aperiam, dolore dolorem debitis vitae repellendus animi sit.
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
-        assumenda eveniet, fuga facere earum tempore sapiente deserunt, magni
-        officiis culpa non temporibus aperiam, dolore dolorem debitis vitae
-        repellendus animi sit. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Laudantium assumenda eveniet, fuga facere earum
-        tempore sapiente deserunt, magni officiis culpa non temporibus aperiam,
-        dolore dolorem debitis vitae repellendus animi sit. Lorem ipsum dolor
-        sit amet consectetur adipisicing elit. Laudantium assumenda eveniet,
-        fuga facere earum tempore sapiente deserunt, magni officiis culpa non
-        temporibus aperiam, dolore dolorem debitis vitae repellendus animi sit.
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
-        assumenda eveniet, fuga facere earum tempore sapiente deserunt, magni
-        officiis culpa non temporibus aperiam, dolore dolorem debitis vitae
-        repellendus animi sit. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Laudantium assumenda eveniet, fuga facere earum
-        tempore sapiente deserunt, magni officiis culpa non temporibus aperiam,
-        dolore dolorem debitis vitae repellendus animi sit. Lorem ipsum dolor
-        sit amet consectetur adipisicing elit. Laudantium assumenda eveniet,
-        fuga facere earum tempore sapiente deserunt, magni officiis culpa non
-        temporibus aperiam, dolore dolorem debitis vitae repellendus animi sit.
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
-        assumenda eveniet, fuga facere earum tempore sapiente deserunt, magni
-        officiis culpa non temporibus aperiam, dolore dolorem debitis vitae
-        repellendus animi sit. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Laudantium assumenda eveniet, fuga facere earum
-        tempore sapiente deserunt, magni officiis culpa non temporibus aperiam,
-        dolore dolorem debitis vitae repellendus animi sit. Lorem ipsum dolor
-        sit amet consectetur adipisicing elit. Laudantium assumenda eveniet,
-        fuga facere earum tempore sapiente deserunt, magni officiis culpa non
-        temporibus aperiam, dolore dolorem debitis vitae repellendus animi sit.
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
-        assumenda eveniet, fuga facere earum tempore sapiente deserunt, magni
-        officiis culpa non temporibus aperiam, dolore dolorem debitis vitae
-        repellendus animi sit. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Laudantium assumenda eveniet, fuga facere earum
-        tempore sapiente deserunt, magni officiis culpa non temporibus aperiam,
-        dolore dolorem debitis vitae repellendus animi sit. Lorem ipsum dolor
-        sit amet consectetur adipisicing elit. Laudantium assumenda eveniet,
-        fuga facere earum tempore sapiente deserunt, magni officiis culpa non
-        temporibus aperiam, dolore dolorem debitis vitae repellendus animi sit.
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
-        assumenda eveniet, fuga facere earum tempore sapiente deserunt, magni
-        officiis culpa non temporibus aperiam, dolore dolorem debitis vitae
-        repellendus animi sit. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Laudantium assumenda eveniet, fuga facere earum
-        tempore sapiente deserunt, magni officiis culpa non temporibus aperiam,
-        dolore dolorem debitis vitae repellendus animi sit. Lorem ipsum dolor
-        sit amet consectetur adipisicing elit. Laudantium assumenda eveniet,
-        fuga facere earum tempore sapiente deserunt, magni officiis culpa non
-        temporibus aperiam, dolore dolorem debitis vitae repellendus animi sit.
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
-        assumenda eveniet, fuga facere earum tempore sapiente deserunt, magni
-        officiis culpa non temporibus aperiam, dolore dolorem debitis vitae
-        repellendus animi sit. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Laudantium assumenda eveniet, fuga facere earum
-        tempore sapiente deserunt, magni officiis culpa non temporibus aperiam,
-        dolore dolorem debitis vitae repellendus animi sit. Lorem ipsum dolor
-        sit amet consectetur adipisicing elit. Laudantium assumenda eveniet,
-        fuga facere earum tempore sapiente deserunt, magni officiis culpa non
-        temporibus aperiam, dolore dolorem debitis vitae repellendus animi sit.
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
-        assumenda eveniet, fuga facere earum tempore sapiente deserunt, magni
-        officiis culpa non temporibus aperiam, dolore dolorem debitis vitae
-        repellendus animi sit. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Laudantium assumenda eveniet, fuga facere earum
-        tempore sapiente deserunt, magni officiis culpa non temporibus aperiam,
-        dolore dolorem debitis vitae repellendus animi sit. Lorem ipsum dolor
-        sit amet consectetur adipisicing elit. Laudantium assumenda eveniet,
-        fuga facere earum tempore sapiente deserunt, magni officiis culpa non
-        temporibus aperiam, dolore dolorem debitis vitae repellendus animi sit.
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
-        assumenda eveniet, fuga facere earum tempore sapiente deserunt, magni
-        officiis culpa non temporibus aperiam, dolore dolorem debitis vitae
-        repellendus animi sit. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Laudantium assumenda eveniet, fuga facere earum
-        tempore sapiente deserunt, magni officiis culpa non temporibus aperiam,
-        dolore dolorem debitis vitae repellendus animi sit. Lorem ipsum dolor
-        sit amet consectetur adipisicing elit. Laudantium assumenda eveniet,
-        fuga facere earum tempore sapiente deserunt, magni officiis culpa non
-        temporibus aperiam, dolore dolorem debitis vitae repellendus animi sit.
+        <div class="sermon-post-wrapper">
+            <template v-for="count in [1, 2, 3, 4, 5, 6]" :key="count">
+                <PostItem />
+            </template>
+        </div>
     </div>
 </template>
 <script lang="ts">
+import PostItem from "./PostItem/PostItem.vue";
 export default {
     name: "SermonPageMiddle",
+    components: { PostItem },
 };
 </script>
 <style lang="scss">
@@ -132,5 +19,10 @@ export default {
     border: 1px solid green;
     max-width: 700px;
     width: 100%;
+
+    .sermon-post-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
 }
 </style>
