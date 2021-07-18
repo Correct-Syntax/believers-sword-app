@@ -1,5 +1,6 @@
 import { NRate } from "naive-ui";
-export default {
+import { defineComponent } from "vue";
+export default defineComponent({
     name: "PostItem",
     components: { NRate },
-};
+});

@@ -1,7 +1,13 @@
 <template>
     <div class="sermon-page-middle-side-bar">
         <div class="sermon-post-wrapper">
-            <template v-for="count in [1, 2, 3, 4, 5, 6]" :key="count">
+            <template
+                v-for="count in [
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18,
+                    18, 23, 34, 35, 36, 227, 234,
+                ]"
+                :key="count"
+            >
                 <PostItem />
             </template>
         </div>
@@ -19,6 +25,7 @@ export default {
     border: 1px solid green;
     max-width: 700px;
     width: 100%;
+    min-width: 300px;
 
     .sermon-post-wrapper {
         display: flex;

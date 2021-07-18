@@ -3,7 +3,7 @@
         <div>Title Right Here</div>
         <div>Contributed by Brian Bill on Apr 3, 2005</div>
         <div>
-            <NRate readonly :value="4" />
+            <NRate allow-half size="small" readonly :value="3.5" />
         </div>
     </div>
 </template>
