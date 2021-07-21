@@ -3,7 +3,7 @@ import { createStore } from "vuex";
 export default createStore({
     state: {
         number: 1,
-        isWeb: false,
+        isWeb: process.env.VUE_APP_WEB == "true" ? true : false,
     },
     mutations: {},
     actions: {},

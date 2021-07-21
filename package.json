@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "cross-env VUE_APP_WEB=false vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
-    "build:web": "cross-env WEB=1 vue-cli-service build --dest ./../believers-sword-web/public/front"
+    "build:web": "cross-env VUE_APP_WEB=true vue-cli-service build --dest ./../believers-sword-web/public/front"
   },
   "main": "background.js",
   "dependencies": {
@@ -47,7 +47,6 @@
     "sass": "^1.35.2",
     "sass-loader": "^10.1.0",
     "typescript": "~4.1.5",
-    "vfonts": "^0.1.0",
     "vue-cli-plugin-electron-builder": "~2.1.1"
   }
 }

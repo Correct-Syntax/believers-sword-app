@@ -6,22 +6,22 @@
         @select="handleSelect"
     >
         <NButton circle>
-            <NIcon size="25">
-                <MoreVertical32Filled />
+            <NIcon size="30">
+                <MoreVertical20Regular />
             </NIcon>
         </NButton>
     </NDropdown>
 </template>
 <script lang="ts">
 import { NIcon, NButton, NDropdown } from "naive-ui";
-import { MoreVertical32Filled, ReceiptMoney20Regular } from "@vicons/fluent";
+import { MoreVertical20Regular, AddCircle20Regular } from "@vicons/fluent";
 import { h, defineComponent } from "vue";
 export default defineComponent({
     name: "MoreButton",
     components: {
         NIcon,
-        MoreVertical32Filled,
         NButton,
+        MoreVertical20Regular,
         NDropdown,
     },
     setup() {
@@ -33,9 +33,13 @@ export default defineComponent({
             {
                 label: "Daisy Buchanan",
                 icon() {
-                    return h(NIcon, null, {
-                        default: () => h(ReceiptMoney20Regular),
-                    });
+                    return h(
+                        NIcon,
+                        { size: "20" },
+                        {
+                            default: () => h(AddCircle20Regular),
+                        }
+                    );
                 },
                 key: "daisy buchanan",
             },

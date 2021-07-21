@@ -1,6 +1,8 @@
 <template>
     <div class="navigation-header">
-        <div class="nav-logo">Logo</div>
+        <div class="nav-logo">
+            <img src="./../../assets/images/logo.png" alt="logo" height="80" />
+        </div>
         <div class="navigation">
             <ul>
                 <li>
@@ -21,8 +23,10 @@
             </ul>
         </div>
         <div class="nav-account">
-            <div>Account</div>
-            <MoreButton />
+            <NSpace align="center">
+                <div>Account</div>
+                <MoreButton />
+            </NSpace>
         </div>
     </div>
 </template>

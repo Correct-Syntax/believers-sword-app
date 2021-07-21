@@ -6,5 +6,5 @@ module.exports = {
         }
     },
 
-    publicPath: process.env.WEB ? "front" : "",
+    publicPath: process.env.VUE_APP_WEB == 'true' ? "front" : "",
 };

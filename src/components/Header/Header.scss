@@ -4,11 +4,15 @@
     width: 100%;
     position: fixed;
     align-items: center;
-    // padding: 10px 0;
-    border: 1px solid red;
-    background-color: #fff;
+    background-color: rgba(255,255,255,0.5);
     z-index: 99;
     height: var(--nav-height);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+
+    .nav-logo {
+        padding-left: 30px;
+    }
 
     .navigation {
         ul {
@@ -26,5 +30,6 @@
     .nav-account {
         display: flex;
         align-items: center;
+        padding-right: 30px;
     }
 }
