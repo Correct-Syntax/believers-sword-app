@@ -20,7 +20,10 @@
                 </li>
             </ul>
         </div>
-        <div class="nav-account">Account</div>
+        <div class="nav-account">
+            <div>Account</div>
+            <MoreButton />
+        </div>
     </div>
 </template>
 <script lang="ts" src="./Header.ts" />

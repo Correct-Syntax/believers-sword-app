@@ -12,7 +12,7 @@ export default {
 .sermon-page-right-side-bar {
     max-width: 300px;
     width: 100%;
-    border: 1px solid red;
+    // border: 1px solid red;
     padding: 0 20px;
 
     .page-right-bar-content {
