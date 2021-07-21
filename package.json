@@ -9,7 +9,8 @@
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps"
+    "postuninstall": "electron-builder install-app-deps",
+    "build:web": "cross-env WEB=1 vue-cli-service build --dest ./../believers-sword-web/public/front"
   },
   "main": "background.js",
   "dependencies": {
@@ -34,6 +35,7 @@
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^7.0.0",
+    "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "electron": "^13.0.0",
     "electron-devtools-installer": "^3.1.0",

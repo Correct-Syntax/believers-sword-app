@@ -20,7 +20,9 @@
                 what we don’t have. The disciples saw the crowds and realized
                 their inadequacy.</i
             >
-            <NButton text> ...Read More</NButton>
+            <NButton text @click="$router.push('/view/2')">
+                ...Read More</NButton
+            >
         </div>
         <div>Scripture: Mark 6:37</div>
         <div>
