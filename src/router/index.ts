@@ -4,7 +4,6 @@ import {
     createWebHistory,
     RouteRecordRaw,
 } from "vue-router";
-import Bible from "../views/Bible/Bible.vue";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -16,7 +15,8 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/bible",
         name: "Bible",
-        component: Bible,
+        component: () =>
+            import(/* webpackChunkName: "Bible" */ "../views/Bible/Bible.vue"),
     },
     {
         path: "/sermons",
@@ -27,7 +27,7 @@ const routes: Array<RouteRecordRaw> = [
             ),
     },
     {
-        path: "/view",
+        path: "/view/:id",
         name: "ViewSermon",
         component: () =>
             import(
@@ -53,6 +53,13 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition;
+        } else {
+            return { top: 0 };
+        }
+    },
     history: process.env.ELECTRON
         ? process.env.ELECTRON == "true"
             ? createWebHashHistory()

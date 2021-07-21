@@ -26,8 +26,8 @@ export default {
 <style lang="scss">
 .sermon-page-left-side-bar {
     max-width: 300px;
-    // border: 1px solid grey;
     width: 100%;
+    margin-top: var(--nav-content-gap);
 
     .left-side-content {
         position: fixed;

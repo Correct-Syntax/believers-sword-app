@@ -4,10 +4,11 @@
     width: 100%;
     position: fixed;
     align-items: center;
-    padding: 10px 0;
+    // padding: 10px 0;
     border: 1px solid red;
     background-color: #fff;
     z-index: 99;
+    height: var(--nav-height);
 
     .navigation {
         ul {

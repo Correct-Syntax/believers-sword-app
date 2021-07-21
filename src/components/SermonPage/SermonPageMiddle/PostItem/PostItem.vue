@@ -20,7 +20,10 @@
                 what we don’t have. The disciples saw the crowds and realized
                 their inadequacy.</i
             >
-            <NButton text @click="$router.push('/view/2')">
+            <a v-if="isWeb" href="/posts/view/3">
+                <NButton text> ...Read More</NButton>
+            </a>
+            <NButton v-else text @click="$router.push('/view/2')">
                 ...Read More</NButton
             >
         </div>
