@@ -4,24 +4,40 @@
         placement="bottom-start"
         trigger="click"
         @select="handleSelect"
+        class="h-full"
     >
-        <NButton circle type="info" ghost>
+        <NButton
+            circle
+            text
+            color="black"
+            class="
+                h-full
+                flex
+                justify-center
+                items-center
+                w-[70px]
+                hover:bg-gray-200
+                rounded-lg
+                duration-300
+                cursor-pointer
+            "
+        >
             <NIcon size="30">
-                <MoreVertical20Regular />
+                <OfficeApps20Filled />
             </NIcon>
         </NButton>
     </NDropdown>
 </template>
 <script lang="ts">
 import { NIcon, NButton, NDropdown } from "naive-ui";
-import { MoreVertical20Regular, AddCircle20Regular } from "@vicons/fluent";
+import { OfficeApps20Filled, AddCircle20Regular } from "@vicons/fluent";
 import { h, defineComponent } from "vue";
 export default defineComponent({
     name: "MoreButton",
     components: {
         NIcon,
         NButton,
-        MoreVertical20Regular,
+        OfficeApps20Filled,
         NDropdown,
     },
     setup() {
