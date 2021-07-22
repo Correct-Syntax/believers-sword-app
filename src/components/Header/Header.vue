@@ -1,7 +1,11 @@
 <template>
     <div class="navigation-header">
         <div class="nav-logo">
-            <img src="./../../assets/images/logo.png" alt="logo" height="80" />
+            <img
+                src="./../../assets/images/logo.png"
+                alt="logo"
+                class="h-[90px]"
+            />
         </div>
         <div class="navigation">
             <ul>

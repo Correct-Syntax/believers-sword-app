@@ -6,11 +6,11 @@
     "serve": "cross-env VUE_APP_WEB=false vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "build:web": "cross-env VUE_APP_WEB=true vue-cli-service build --dest ./../believers-sword-web/public/front",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps",
-    "build:web": "cross-env VUE_APP_WEB=true vue-cli-service build --dest ./../believers-sword-web/public/front"
+    "postuninstall": "electron-builder install-app-deps"
   },
   "main": "background.js",
   "dependencies": {
@@ -35,6 +35,7 @@
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^7.0.0",
+    "autoprefixer": "^9",
     "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "electron": "^13.0.0",
@@ -43,9 +44,11 @@
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^7.0.0",
     "naive-ui": "^2.15.4",
+    "postcss": "^7",
     "prettier": "^2.2.1",
     "sass": "^1.35.2",
     "sass-loader": "^10.1.0",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "typescript": "~4.1.5",
     "vue-cli-plugin-electron-builder": "~2.1.1"
   }

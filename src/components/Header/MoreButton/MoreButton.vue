@@ -5,7 +5,7 @@
         trigger="click"
         @select="handleSelect"
     >
-        <NButton circle>
+        <NButton circle type="info" ghost>
             <NIcon size="30">
                 <MoreVertical20Regular />
             </NIcon>
