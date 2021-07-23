@@ -4,6 +4,7 @@ export default createStore({
     state: {
         number: 1,
         isWeb: process.env.VUE_APP_WEB == "true" ? true : false,
+        theme: "dark",
     },
     mutations: {},
     actions: {},

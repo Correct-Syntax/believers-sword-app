@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import MoreButton from "./MoreButton/MoreButton.vue";
-import { NButton, NIcon, NSpace, NPopover } from "naive-ui";
+import { NButton, NIcon, NSpace, NPopover, NLayoutHeader } from "naive-ui";
 export default defineComponent({
     name: "HeaderNav",
     components: {
@@ -9,6 +9,7 @@ export default defineComponent({
         NIcon,
         NSpace,
         NPopover,
+        NLayoutHeader,
     },
     setup() {
         const navigates = [

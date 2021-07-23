@@ -1,14 +1,14 @@
 <template>
-    <div
+    <NLayoutHeader
         class="
             flex
             justify-between
             w-full
             fixed
             items-center
-            bg-gray-50 bg-opacity-70
             z-[90]
             h-[var(--nav-height)]
+            bg-opacity-70
             shadow-md
             backdrop-filter backdrop-blur-sm
         "
@@ -35,8 +35,9 @@
                                 flex
                                 justify-center
                                 items-center
-                                w-[70px]
+                                w-[var(--nav-icon-width)]
                                 hover:bg-gray-200
+                                dark:hover:bg-gray-600
                                 rounded-lg
                                 duration-300
                                 cursor-pointer
@@ -64,8 +65,9 @@
                                 flex
                                 justify-center
                                 items-center
-                                w-[70px]
+                                w-[var(--nav-icon-width)]
                                 hover:bg-gray-200
+                                dark:hover:bg-gray-600
                                 rounded-lg
                                 duration-300
                                 cursor-pointer
@@ -96,6 +98,6 @@
                 <MoreButton class="h-full" />
             </div>
         </div>
-    </div>
+    </NLayoutHeader>
 </template>
 <script lang="ts" src="./Header.ts" />
