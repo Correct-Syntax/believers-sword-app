@@ -23,7 +23,7 @@
             <a v-if="isWeb" href="/posts/view/3">
                 <NButton text> ...Read More</NButton>
             </a>
-            <NButton v-else text @click="$router.push('/view/2')">
+            <NButton v-else text @click="$router.push('/sermons/view/2')">
                 ...Read More</NButton
             >
         </div>
@@ -38,4 +38,3 @@
     </NCard>
 </template>
 <script src="./PostItem.ts" lang="ts" />
-<style lang="scss" src="./PostItem.scss" />

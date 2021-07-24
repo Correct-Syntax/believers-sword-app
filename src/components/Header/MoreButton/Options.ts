@@ -42,34 +42,38 @@ export const options = [
         key: "nick carraway",
     },
     {
-        label: "Others",
-        key: "others1",
-        children: [
-            {
-                label: "Jordan Baker",
-                key: "jordan baker",
-            },
-            {
-                label: "Tom Buchanan",
-                key: "tom buchanan",
-            },
-            {
-                label: "Others",
-                key: "others2",
-                disabled: true,
-                children: [
-                    {
-                        label: "Chicken",
-                        key: "chicken",
-                    },
-                    {
-                        label: "Beef",
-                        key: "beef",
-                    },
-                ],
-            },
-        ],
+        label: "About",
+        key: "about",
     },
+    // {
+    //     label: "Others",
+    //     key: "others1",
+    //     children: [
+    //         {
+    //             label: "Jordan Baker",
+    //             key: "jordan baker",
+    //         },
+    //         {
+    //             label: "Tom Buchanan",
+    //             key: "tom buchanan",
+    //         },
+    //         {
+    //             label: "Others",
+    //             key: "others2",
+    //             disabled: true,
+    //             children: [
+    //                 {
+    //                     label: "Chicken",
+    //                     key: "chicken",
+    //                 },
+    //                 {
+    //                     label: "Beef",
+    //                     key: "beef",
+    //                 },
+    //             ],
+    //         },
+    //     ],
+    // },
     {
         label: "Logout",
         key: "logout",

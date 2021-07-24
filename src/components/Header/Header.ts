@@ -1,6 +1,7 @@
 import { defineComponent } from "vue";
 import MoreButton from "./MoreButton/MoreButton.vue";
 import { NButton, NIcon, NSpace, NPopover, NLayoutHeader } from "naive-ui";
+import { useRoute } from "vue-router";
 export default defineComponent({
     name: "HeaderNav",
     components: {
@@ -12,6 +13,7 @@ export default defineComponent({
         NLayoutHeader,
     },
     setup() {
+        const route = useRoute();
         const navigates = [
             {
                 title: "Read Bible",
@@ -32,6 +34,7 @@ export default defineComponent({
 
         return {
             navigates,
+            route,
         };
     },
 });

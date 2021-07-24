@@ -11,9 +11,10 @@
             bg-opacity-70
             shadow-md
             backdrop-filter backdrop-blur-sm
+            lmobile:justify-center
         "
     >
-        <div class="nav-logo">
+        <div class="nav-logo lmobile:hidden">
             <img
                 src="./../../assets/images/logo.png"
                 alt="logo"
@@ -21,7 +22,7 @@
             />
         </div>
         <div class="h-full">
-            <ul class="flex h-full p-[5px] gap-[10px]">
+            <ul class="flex h-full gap-[10px] py-[5px]">
                 <NPopover
                     v-for="nav in navigates"
                     :key="nav.title"
@@ -29,30 +30,36 @@
                     trigger="hover"
                 >
                     <template #trigger>
-                        <li
-                            class="
-                                h-full
-                                flex
-                                justify-center
-                                items-center
-                                w-[var(--nav-icon-width)]
-                                hover:bg-gray-200
-                                dark:hover:bg-gray-600
-                                rounded-lg
-                                duration-300
-                                cursor-pointer
-                            "
-                        >
-                            <router-link :to="nav.route">
+                        <router-link :to="nav.route">
+                            <li
+                                class="
+                                    h-full
+                                    flex
+                                    justify-center
+                                    items-center
+                                    w-[var(--nav-icon-width)]
+                                    lmobile:w-[45px]
+                                    hover:bg-gray-200
+                                    dark:hover:bg-gray-600
+                                    rounded-lg
+                                    duration-300
+                                    cursor-pointer
+                                "
+                                :class="{
+                                    'text-blue-500': route.path.includes(
+                                        nav.route
+                                    ),
+                                }"
+                            >
                                 <NIcon size="30" v-html="nav.icon"></NIcon>
-                            </router-link>
-                        </li>
+                            </li>
+                        </router-link>
                     </template>
                     <span> {{ nav.title }} </span>
                 </NPopover>
             </ul>
         </div>
-        <div class="pr-[20px] h-full">
+        <div class="pr-[20px] lmobile:pr-0 h-full">
             <div
                 align="center"
                 class="h-full m-0 flex p-[5px] items-center gap-[10px]"
@@ -66,6 +73,7 @@
                                 justify-center
                                 items-center
                                 w-[var(--nav-icon-width)]
+                                lmobile:w-[45px]
                                 hover:bg-gray-200
                                 dark:hover:bg-gray-600
                                 rounded-lg

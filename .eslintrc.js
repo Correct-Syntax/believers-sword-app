@@ -18,5 +18,6 @@ module.exports = {
         "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
         "@typescript-eslint/explicit-module-boundary-types":
             process.env.NODE_ENV === "production" ? "warn" : "off",
+        'prettier/prettier': ['off'],
     },
 };

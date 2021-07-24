@@ -28,6 +28,7 @@ export default {
     max-width: 300px;
     width: 100%;
     margin-top: var(--nav-content-gap);
+    padding: 0 20px;
 
     .left-side-content {
         position: fixed;

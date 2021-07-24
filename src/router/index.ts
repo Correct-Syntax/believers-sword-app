@@ -17,22 +17,40 @@ const routes: Array<RouteRecordRaw> = [
         name: "Bible",
         component: () =>
             import(/* webpackChunkName: "Bible" */ "../views/Bible/Bible.vue"),
+        children: [
+            {
+                path: "",
+                component: () =>
+                    import(
+                        /* webpackChunkName: "BibleMain" */ "../views/Bible/Main/Main.vue"
+                    ),
+            },
+        ],
     },
     {
         path: "/sermons",
         name: "Sermons",
         component: () =>
             import(
-                /* webpackChunkName: "Sermons" */ "../views/Sermon/Sermon.vue"
+                /* webpackChunkName: "SermonsIndex" */ "../views/Sermon/Index.vue"
             ),
-    },
-    {
-        path: "/view/:id",
-        name: "ViewSermon",
-        component: () =>
-            import(
-                /* webpackChunkName: "ViewSermon" */ "./../views/Sermon/View/ViewSermon.vue"
-            ),
+        children: [
+            {
+                path: "",
+                component: () =>
+                    import(
+                        /* webpackChunkName: "Sermons" */ "../views/Sermon/Sermon.vue"
+                    ),
+            },
+            {
+                path: "/view/:id",
+                name: "ViewSermon",
+                component: () =>
+                    import(
+                        /* webpackChunkName: "ViewSermon" */ "./../views/Sermon/View/ViewSermon.vue"
+                    ),
+            },
+        ],
     },
     {
         path: "/store",
