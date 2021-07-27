@@ -4,14 +4,8 @@ import {
     createWebHistory,
     RouteRecordRaw,
 } from "vue-router";
-import dotenv from "dotenv";
-dotenv.config();
 
 const routes: Array<RouteRecordRaw> = [
-    {
-        path: "/",
-        redirect: "/bible",
-    },
     {
         path: "/bible",
         name: "Bible",
@@ -43,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
                     ),
             },
             {
-                path: "/view/:id",
+                path: "view/:id",
                 name: "ViewSermon",
                 component: () =>
                     import(
@@ -67,6 +61,10 @@ const routes: Array<RouteRecordRaw> = [
             import(
                 /* webpackChunkName: "PageNotFound" */ "./../views/PageNotFound/PageNotFound.vue"
             ),
+    },
+    {
+        path: "/",
+        redirect: "/bible",
     },
 ];
 
