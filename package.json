@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "cross-env VUE_APP_WEB=false vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "cross-env ELECTRON=false vue-cli-service build",
     "lint": "vue-cli-service lint",
     "build:web": "cross-env VUE_APP_WEB=true vue-cli-service build --dest ./../believers-sword-web/public/front",
     "electron:build": "cross-env ELECTRON=true vue-cli-service electron:build",

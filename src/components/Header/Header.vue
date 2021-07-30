@@ -8,9 +8,11 @@
             items-center
             z-[90]
             h-[var(--nav-height)]
+            bg-gray-50
+            dark:bg-[rgba(24,24,28,0.8)]
             bg-opacity-70
             shadow-md
-            backdrop-filter backdrop-blur-sm
+            backdrop-filter backdrop-blur-[5px]
             lmobile:justify-center
         "
     >
