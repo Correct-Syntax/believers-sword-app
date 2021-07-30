@@ -1,5 +1,5 @@
 <template>
-    <NConfigProvider :theme="store.state.theme == 'dark' ? darkTheme : null">
+    <NConfigProvider :theme="store.state.theme == 'dark' ? darkTheme : null" :theme-overrides="themeOverrides">
         <NLayout
             class="min-h-screen"
             :class="{ dark: store.state.theme == 'dark' }"
@@ -15,6 +15,22 @@
 import Header from "./components/Header/Header.vue";
 import { NConfigProvider, darkTheme, NLayout } from "naive-ui";
 import { useStore } from "vuex";
+const themeOverrides = {
+    common: {
+        primaryColor: "rgba(59, 130, 246, 1)",
+        primaryColorHover: "rgba(59, 130, 246, 0.6)",
+    },
+    // Button: {
+    //     textColor: "#FF0000",
+    // },
+    // Select: {
+    //     peers: {
+    //         InternalSelection: {
+    //             textColor: "#FF0000",
+    //         },
+    //     },
+    // },
+};
 export default {
     components: {
         Header,
@@ -30,6 +46,7 @@ export default {
         return {
             darkTheme,
             store,
+            themeOverrides
         };
     },
 };
