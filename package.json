@@ -1,10 +1,18 @@
 {
   "name": "believers-sword-app-new",
   "version": "0.0.1",
+  "author": "BroJenuel",
+  "main": "electron/electron.js",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "electron": "wait-on tcp:3000 && cross-env IS_DEV=true electron .",
+    "electron:pack": "electron-builder --dir",
+    "electron:dev": "concurrently -k \"cross-env BROWSER=none yarn dev\" \"yarn electron\"",
+    "electron:builder": "electron-builder",
+    "build:for:electron": "vue-tsc --noEmit && cross-env ELECTRON=true vite build",
+    "app:build": "yarn build:for:electron && yarn electron:builder"
   },
   "dependencies": {
     "vue": "^3.0.5"
@@ -12,10 +20,36 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.3.0",
     "@vue/compiler-sfc": "^3.0.5",
+    "concurrently": "^6.2.0",
+    "cross-env": "^7.0.3",
+    "electron": "^13.1.7",
+    "electron-builder": "^22.11.7",
+    "sass": "^1.37.0",
     "typescript": "^4.3.2",
     "vite": "^2.4.4",
     "vite-plugin-windicss": "^1.2.7",
     "vue-tsc": "^0.2.2",
+    "wait-on": "^6.0.0",
     "windicss": "^3.1.6"
+  },
+  "build": {
+    "appId": "com.jenuelganawed.believers-sword",
+    "productName": "Believers Sword",
+    "copyright": "Copyright © 2019 ${author}",
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets",
+      "output": "dist_electron"
+    }
   }
 }
