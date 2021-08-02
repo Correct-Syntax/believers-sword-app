@@ -1,55 +1,21 @@
 {
-  "name": "believers-sword",
-  "version": "0.1.0",
-  "private": true,
+  "name": "believers-sword-app-new",
+  "version": "0.0.1",
   "scripts": {
-    "serve": "cross-env VUE_APP_WEB=false vue-cli-service serve",
-    "build": "cross-env ELECTRON=false vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "build:web": "cross-env VUE_APP_WEB=true vue-cli-service build --dest ./../believers-sword-web/public/front",
-    "electron:build": "cross-env ELECTRON=true vue-cli-service electron:build",
-    "electron:serve": "cross-env ELECTRON=true vue-cli-service electron:serve",
-    "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps"
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "serve": "vite preview"
   },
-  "main": "background.js",
   "dependencies": {
-    "core-js": "^3.6.5",
-    "register-service-worker": "^1.7.1",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0"
+    "vue": "^3.0.5"
   },
   "devDependencies": {
-    "@types/electron-devtools-installer": "^2.2.0",
-    "@typescript-eslint/eslint-plugin": "^4.18.0",
-    "@typescript-eslint/parser": "^4.18.0",
-    "@vicons/fluent": "^0.10.0",
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-pwa": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-typescript": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
-    "@vue/eslint-config-prettier": "^6.0.0",
-    "@vue/eslint-config-typescript": "^7.0.0",
-    "autoprefixer": "^9",
-    "cross-env": "^7.0.3",
-    "dotenv": "^10.0.0",
-    "electron": "^13.0.0",
-    "electron-devtools-installer": "^3.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-vue": "^7.0.0",
-    "naive-ui": "^2.15.4",
-    "postcss": "^7",
-    "prettier": "^2.2.1",
-    "sass": "^1.35.2",
-    "sass-loader": "^10.1.0",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
-    "typescript": "~4.1.5",
-    "vue-cli-plugin-electron-builder": "~2.1.1"
+    "@vitejs/plugin-vue": "^1.3.0",
+    "@vue/compiler-sfc": "^3.0.5",
+    "typescript": "^4.3.2",
+    "vite": "^2.4.4",
+    "vite-plugin-windicss": "^1.2.7",
+    "vue-tsc": "^0.2.2",
+    "windicss": "^3.1.6"
   }
 }
