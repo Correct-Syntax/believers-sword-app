@@ -1,7 +1,7 @@
 <template>
     <div class="dark h-[100vh]">
         <TitleBar />
-        <div class="dark:bg-gray-800 dark:text-gray-100 h-[calc(100%-30px)]">
+        <div class="dark:bg-gray-800 dark:text-gray-100 h-[calc(100%-30px)] overflow-y-auto">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
             excepturi temporibus nam non ad incidunt recusandae veniam
             perspiciatis eius suscipit, quibusdam alias. Voluptate, alias?
