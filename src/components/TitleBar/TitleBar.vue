@@ -59,25 +59,20 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
+import { ipcRenderer } from "electron"; 
 
 
 export default defineComponent({
     setup() {
-        
         return {
             minimize: () => {
-                // ipcRender
-                console.log('minimuze')
+                ipcRenderer.send('minimizeWindow');
             },
             maximize: () => {
-                // var window = remote.getCurrentWindow();
-                console.log('maximize')
-                // window.maximize();
+                ipcRenderer.send('maximizeWindow');
             },
             close: () => {
-                // var window = remote.getCurrentWindow();
-                // window.close();
-                console.log('close')
+                ipcRenderer.send('closeWindow');
             },
         };
     },
