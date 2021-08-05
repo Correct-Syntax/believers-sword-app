@@ -61,7 +61,6 @@
 import { defineComponent } from "vue";
 import { ipcRenderer } from "electron"; 
 
-
 export default defineComponent({
     setup() {
         return {
