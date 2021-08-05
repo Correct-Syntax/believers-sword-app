@@ -5,8 +5,10 @@
         </div>
         <div class="flex h-[100%]">
             <LeftSideBar />
-            <div class="w-[100%]">content</div>
-            <div class="w-[100%]">right side bar</div>
+            <div class="w-[100%] border border-blue-500">
+                <router-view></router-view>
+            </div>
+            <div class="w-[600px] border border-green-400">right side bar</div>
         </div>
     </div>
 </template>
