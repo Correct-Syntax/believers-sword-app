@@ -3,19 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "cross-env ELECTRON=false vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "build:web": "cross-env FOR_WEB=true vue-cli-service build --dest ./../believers-sword-web/public/app",
-    "electron:build": "cross-env ELECTRON=true vue-cli-service electron:build",
-    "electron:serve": "cross-env ELECTRON=true vue-cli-service electron:serve",
+    "build": "cross-env vue-cli-service electron:build",
+    "serve": "cross-env vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps"
+    "postuninstall": "electron-builder install-app-deps",
+    "rebuild": "electron-rebuild -f -w sqlite3"
   },
   "main": "background.js",
   "dependencies": {
     "core-js": "^3.6.5",
+    "electron-log": "^4.4.1",
+    "knex": "^0.21.21",
     "register-service-worker": "^1.7.1",
+    "sqlite3": "^5.0.2",
+    "upath": "^2.0.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
@@ -26,7 +27,6 @@
     "@typescript-eslint/parser": "^4.18.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-pwa": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",

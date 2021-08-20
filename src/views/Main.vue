@@ -1,8 +1,5 @@
 <template>
-    <div class="flex h-[100%] flex-col">
-        <div class="text-[14px]">
-            Menu Items here
-        </div>
+    <div class="flex h-[100%] flex-col px-10px pb-10px">
         <div class="flex h-[100%]">
             <LeftSideBar />
             <div class="w-[100%] border border-blue-500">

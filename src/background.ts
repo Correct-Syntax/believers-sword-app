@@ -4,6 +4,19 @@ import { app, protocol, BrowserWindow, ipcMain } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
+const config = require("./db.config");
+const knex = require("knex")(
+    isDevelopment ? config.development : config.production
+);
+const log = require("electron-log");
+log.info(
+    "database location=" +
+        (isDevelopment
+            ? config.development.connection.filename
+            : config.production.connection.filename) +
+        ", Development:" +
+        isDevelopment
+);
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -18,10 +31,9 @@ async function createWindow() {
         frame: false,
         minWidth: 1000,
         minHeight: 600,
-        backgroundColor: '#000',
+        backgroundColor: "#000",
         titleBarStyle: "hidden",
         webPreferences: {
-            enableRemoteModule: true,
             nodeIntegration: true,
             contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
         }
@@ -39,22 +51,36 @@ async function createWindow() {
 
     win.maximize();
 
-    ipcMain.on('minimizeWindow', () => {
-        win.minimize()
-    })
-    ipcMain.on('maximizeWindow', () => {
+    ipcMain.on("minimizeWindow", () => {
+        win.minimize();
+    });
+    ipcMain.on("maximizeWindow", () => {
         if (win.isMaximized()) {
-            win.restore()
-            return
+            win.restore();
+            return;
         } else {
-            win.maximize()
+            win.maximize();
         }
-        
-    })
-    ipcMain.on('closeWindow', () => {
-        console.log('close')
-        win.close()
-    })
+    });
+    ipcMain.on("closeWindow", () => {
+        win.destroy();
+    });
+
+    ipcMain.on("mainWindowLoad", () => {
+        console.log("went to electron");
+
+        try {
+            log.info("checking log");
+            let result = knex.select().from("bible_version_key");
+            result
+                .then((rows: any) => {
+                    win.webContents.send("resultSent", rows);
+                })
+                .catch((e: any) => log.error(e));
+        } catch (e) {
+            log.info(e.message);
+        }
+    });
 }
 
 // Quit when all windows are closed.

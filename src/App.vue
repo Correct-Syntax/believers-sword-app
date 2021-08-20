@@ -1,5 +1,6 @@
 <template>
     <div class="dark h-[100vh]">
+        <TitleBar />
         <div
             class="
                 dark:bg-gray-800
@@ -15,10 +16,11 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import TitleBar from "./components/TitleBar/TitleBar.vue";
 import MainView from "./views/Main.vue"
 
 export default defineComponent({
     name: "App",
-    components: { MainView },
+    components: { TitleBar, MainView },
 });
 </script>

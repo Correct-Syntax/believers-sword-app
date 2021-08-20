@@ -1,15 +1,14 @@
 module.exports = {
     publicPath: process.env.FOR_WEB === 'true'
-    ? 'app'
-    : '',
+        ? 'app'
+        : '',
     pluginOptions: {
         electronBuilder: {
+            builderOptions: {
+                extraResources: ['database/'],
+            },
+            externals: ['knex', 'sqlite3'],
             nodeIntegration: true
         }
     },
-    pages: {
-        index: {
-            entry: process.env.ELECTRON== 'false' ? 'src/main.ts' : 'src/electronEntryPoint.ts'
-        }
-    }
 }
