@@ -1,27 +1,42 @@
 "use strict";
 
-import { app, protocol, BrowserWindow } from "electron";
+import { app, protocol, BrowserWindow, ipcMain } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
+const config = require("./db.config");
+const knex = require("knex")(
+    isDevelopment ? config.development : config.production
+);
+const log = require("electron-log");
+log.info(
+    "database location=" +
+        (isDevelopment
+            ? config.development.connection.filename
+            : config.production.connection.filename) +
+        ", Development:" +
+        isDevelopment
+);
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
-    { scheme: "app", privileges: { secure: true, standard: true } },
+    { scheme: "app", privileges: { secure: true, standard: true } }
 ]);
 
 async function createWindow() {
     // Create the browser window.
     const win = new BrowserWindow({
-        width: 800,
+        width: 1000,
         height: 600,
+        frame: false,
+        minWidth: 1000,
+        minHeight: 600,
+        backgroundColor: "#000",
+        titleBarStyle: "hidden",
         webPreferences: {
-            // Use pluginOptions.nodeIntegration, leave this alone
-            // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-            nodeIntegration: process.env
-                .ELECTRON_NODE_INTEGRATION as unknown as boolean,
-            contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
-        },
+            nodeIntegration: true,
+            contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
+        }
     });
 
     if (process.env.WEBPACK_DEV_SERVER_URL) {
@@ -33,6 +48,39 @@ async function createWindow() {
         // Load the index.html when not in development
         win.loadURL("app://./index.html");
     }
+
+    win.maximize();
+
+    ipcMain.on("minimizeWindow", () => {
+        win.minimize();
+    });
+    ipcMain.on("maximizeWindow", () => {
+        if (win.isMaximized()) {
+            win.restore();
+            return;
+        } else {
+            win.maximize();
+        }
+    });
+    ipcMain.on("closeWindow", () => {
+        win.destroy();
+    });
+
+    ipcMain.on("mainWindowLoad", () => {
+        console.log("went to electron");
+
+        try {
+            log.info("checking log");
+            let result = knex.select().from("bible_version_key");
+            result
+                .then((rows: any) => {
+                    win.webContents.send("resultSent", rows);
+                })
+                .catch((e: any) => log.error(e));
+        } catch (e) {
+            log.info(e.message);
+        }
+    });
 }
 
 // Quit when all windows are closed.
@@ -68,7 +116,7 @@ app.on("ready", async () => {
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {
     if (process.platform === "win32") {
-        process.on("message", (data) => {
+        process.on("message", data => {
             if (data === "graceful-exit") {
                 app.quit();
             }

@@ -1,4 +1,4 @@
-# believers-sword
+# believers-sword-app-new
 
 ## Project setup
 ```
