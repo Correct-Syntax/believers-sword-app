@@ -22,10 +22,6 @@ module.exports = {
                     oneClick: false,
                     allowToChangeInstallationDirectory: true,
                 },
-                msi: {
-                    oneClick: false,
-                    allowToChangeInstallationDirectory: true,
-                },
                 directories: {
                     buildResources: "resources"
                 },
