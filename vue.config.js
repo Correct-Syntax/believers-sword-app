@@ -5,6 +5,7 @@ module.exports = {
     pluginOptions: {
         electronBuilder: {
             builderOptions: {
+                productName: "Believers Sword",
                 appId: "com.believers-sword.app",
                 win: {
                     target: [
@@ -14,20 +15,16 @@ module.exports = {
                                 "x64",
                                 "ia32"
                             ]
-                        },
-                        "msi"
-                    ]
+                        }
+                    ],
+                    icon: "resources/icons/icon.ico"
                 },
                 nsis: {
                     oneClick: false,
                     allowToChangeInstallationDirectory: true,
                 },
-                directories: {
-                    buildResources: "resources"
-                },
-                // files: ['resources/**/*',"dist_electron/bundled/**/*"],
+                extraResources: ['database/'],
             },
-            extraResources: ['database/'],
             externals: ['knex', 'sqlite3'],
             nodeIntegration: true
         }
