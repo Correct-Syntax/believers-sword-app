@@ -28,8 +28,6 @@ export const dragElementHorizontally: any = (el: string, direction: string, left
         };
 
         if (direction === "H") {
-            // Horizontal
-            // Prevent negative-sized elements
             delta.x = Math.min(Math.max(delta.x, -md.firstWidth), md.secondWidth);
 
             if (element) element.style.left = md.offsetLeft + delta.x + "px";
@@ -40,7 +38,6 @@ export const dragElementHorizontally: any = (el: string, direction: string, left
 };
 
 export const reSizeElementHorizontally: any = (el: string, direction: string, leftSideElement: string, rightSideElement: string) => {
-    // eslint-disable-next-line
     let md: any;
     const first = document.getElementById(leftSideElement);
     const second = document.getElementById(rightSideElement);
@@ -78,7 +75,7 @@ export const reSizeElementHorizontally: any = (el: string, direction: string, le
     }
 };
 
-export const dragSide = (mainContainerWrapper: string, dragBar: string): void => {
+export const dragSide = (mainContainerWrapper: string, dragBar: string, leftSideVarWidth: string): void => {
     let dragging = 0,
         body = document.getElementById(mainContainerWrapper),
         target = document.getElementById(dragBar);
@@ -93,7 +90,7 @@ export const dragSide = (mainContainerWrapper: string, dragBar: string): void =>
         if (e.pageX > 500 || e.pageX < 50) {
             return;
         }
-        if (body) body.style.setProperty("--left-width", e.pageX + "px");
+        if (body) body.style.setProperty(leftSideVarWidth, e.pageX + "px");
     }
     if (target)
         target.onmousedown = function(e) {
