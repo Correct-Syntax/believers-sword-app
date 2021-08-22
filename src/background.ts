@@ -33,6 +33,10 @@ async function createWindow() {
         minHeight: 600,
         backgroundColor: "#000",
         titleBarStyle: "hidden",
+        trafficLightPosition: {
+            x: 10,
+            y: 15
+        },
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
