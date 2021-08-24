@@ -42,6 +42,7 @@ async function createWindow() {
             contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
         }
     });
+    win.maximize();
 
     if (process.env.WEBPACK_DEV_SERVER_URL) {
         // Load the url of the dev server if in development mode
@@ -52,8 +53,6 @@ async function createWindow() {
         // Load the index.html when not in development
         win.loadURL("app://./index.html");
     }
-
-    win.maximize();
 
     ipcMain.on("minimizeWindow", () => {
         win.minimize();
