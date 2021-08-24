@@ -1,7 +1,31 @@
 <template>
-    <header id="titlebar" class="dark:bg-gray-800 dark:text-gray-100 text-size-[12px] flex w-[100%] justify-between whitespace-nowrap h-[var(--header-height)]">
-        <div class="p-[10px]">Believers Sword</div>
+    <header id="titlebar" class="dark:bg-gray-800 dark:text-gray-100 flex w-[100%] justify-between whitespace-nowrap h-[var(--header-height)] items-center">
+        <div class="flex items-center gap-9px w-400px h-[100%]">
+            <div class="pl-[10px] w-30px">
+                <img src="@/assets/logo54x54.png" class="h-10px w-30px" alt="Icon Logo">
+            </div>
+            <div class="text-size-[12px] font-700">
+                Believers Sword
+            </div>
+            <div class="text-size-12px flex gap-8px h-[100%]">
+                <div class="flex justify-center items-center px-5px cursor-default bg-opacity-0 hover:bg-light-50 hover:bg-opacity-10 h-[100%]">
+                    <span>
+                        Preferences
+                    </span>
+                </div>
+                <div class="flex justify-center items-center px-5px cursor-default bg-opacity-0 hover:bg-light-50 hover:bg-opacity-10 h-[100%]">
+                    <span>
+                        Help
+                    </span>
+                </div>
+            </div>
+        </div>
         <div id="drag-region" class="w-[100%] p-[10px]" style="cursor: move"></div>
+        <div class="text-size-12px mr-20px">
+            <div class="cursor-pointer">
+                light
+            </div>
+        </div>
         <div class="flex">
             <div id="minimizeButton" class="p-[10px] hover:bg-gray-600" @click="minimize()">
                 <svg class="fill-gray-50" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">

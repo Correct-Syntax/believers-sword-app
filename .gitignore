@@ -25,3 +25,4 @@ database
 
 #Electron-builder output
 /dist_electron
+/**/*.psd
