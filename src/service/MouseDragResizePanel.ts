@@ -75,7 +75,7 @@ export const reSizeElementHorizontally: any = (el: string, direction: string, le
     }
 };
 
-export const dragSide = (mainContainerWrapper: string, dragBar: string, leftSideVarWidth: string): void => {
+export const dragSide = (mainContainerWrapper: string, dragBar: string, leftSideVarWidth: string, maxWidth: number = 500, minWidth: number = 50): void => {
     let dragging = 0,
         body = document.getElementById(mainContainerWrapper),
         target = document.getElementById(dragBar);
@@ -87,7 +87,7 @@ export const dragSide = (mainContainerWrapper: string, dragBar: string, leftSide
     }
 
     function resize(e: any) {
-        if (e.pageX > 500 || e.pageX < 50) {
+        if (e.pageX > maxWidth || e.pageX < minWidth) {
             return;
         }
         if (body) body.style.setProperty(leftSideVarWidth, e.pageX + "px");
