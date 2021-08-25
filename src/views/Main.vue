@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        <div class="bg-gray-900">This will be the bottom of the window to show, internet connection status, notification etc.</div>
+        <div class="dark:bg-gray-900 bg-gray-400 px-[7px] py-[2px]">This will be the bottom of the window to show, internet connection status, notification etc.</div>
     </div>
 </template>
 <script lang="ts">
