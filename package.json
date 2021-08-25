@@ -12,6 +12,7 @@
   },
   "main": "background.js",
   "dependencies": {
+    "boxicons": "^2.0.9",
     "core-js": "^3.6.5",
     "electron-log": "^4.4.1",
     "knex": "^0.21.21",
