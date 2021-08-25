@@ -1,5 +1,8 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import ReadBible from "@/views/pages/ReadBible.vue";
+import Sermon from "@/views/pages/Sermons.vue"
+import DirectionPage from "@/views/pages/Directions.vue"
+import Account from "@/views/pages/Account.vue"
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -10,17 +13,17 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/sermon",
         name: "SermonPage",
-        component: () => import("./../views/pages/Sermons.vue")
+        component: Sermon
     },
     {
         path: "/directions",
         name: "DirectionPage",
-        component: () => import("./../views/pages/Directions.vue")
+        component: DirectionPage
     },
     {
         path: "/account",
         name: "AccountPage",
-        component: () => import("./../views/pages/Account.vue")
+        component: Account
     }
 ];
 

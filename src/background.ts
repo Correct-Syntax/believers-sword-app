@@ -41,10 +41,15 @@ async function createWindow() {
         createProtocol("app");
         win.loadURL("app://./index.html");
     }
-    
+    // in electron
+
+    win.setAlwaysOnTop(true);
+    setTimeout(() => {
+        win.setAlwaysOnTop(false);
+    }, 1000);
+
     ipcMainEvents(win);
     win.maximize();
-    
 }
 
 // Quit when all windows are closed.

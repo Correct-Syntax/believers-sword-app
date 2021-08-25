@@ -9,12 +9,15 @@
 import { defineComponent, onMounted } from "vue";
 import LeftSideBar from "@/components/leftSideBar/leftSideBar.vue";
 import { dragSide } from "@/service/MouseDragResizePanel";
+import { readBibleLeftSideBarWidth } from "@/service/widthSizeConstantVariables"
+import session from "@/helper/session";
 export default defineComponent({
     components: { LeftSideBar },
     setup() {
         onMounted(() => {
-            dragSide("main-container-wrapper", "dragbar", "--left-width", 600, 100);
-            document.getElementById("main-container-wrapper")?.style.setProperty("--left-width", "280px");
+            const leftSideWidth = session.get(readBibleLeftSideBarWidth)
+            document.getElementById("main-container-wrapper")?.style.setProperty("--left-width", `${leftSideWidth ? leftSideWidth : 300}px`);
+            dragSide("main-container-wrapper", "dragbar", "--left-width", 600, 100, readBibleLeftSideBarWidth);
         });
     },
 });

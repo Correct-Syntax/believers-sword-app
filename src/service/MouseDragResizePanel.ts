@@ -1,3 +1,5 @@
+import session from "@/helper/session";
+
 /* eslint-disable */
 export const dragElementHorizontally: any = (el: string, direction: string, leftSideElement: string, rightSideElement: string) => {
     let md: any;
@@ -75,7 +77,7 @@ export const reSizeElementHorizontally: any = (el: string, direction: string, le
     }
 };
 
-export const dragSide = (mainContainerWrapper: string, dragBar: string, leftSideVarWidth: string, maxWidth: number = 500, minWidth: number = 50): void => {
+export const dragSide = (mainContainerWrapper: string, dragBar: string, leftSideVarWidth: string, maxWidth: number = 500, minWidth: number = 50, keyToSaveData: string = ''): void => {
     let dragging = 0,
         body = document.getElementById(mainContainerWrapper),
         target = document.getElementById(dragBar);
@@ -90,6 +92,9 @@ export const dragSide = (mainContainerWrapper: string, dragBar: string, leftSide
         if (e.pageX > maxWidth || e.pageX < minWidth) {
             return;
         }
+
+        if (keyToSaveData !== '') session.set(keyToSaveData, e.pageX);
+
         if (body) body.style.setProperty(leftSideVarWidth, e.pageX + "px");
     }
     if (target)
