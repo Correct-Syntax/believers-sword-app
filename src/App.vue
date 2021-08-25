@@ -1,7 +1,7 @@
 <template>
     <div class="h-[100vh]" :class="{ dark: dark }">
         <TitleBar />
-        <div class="dark:bg-gray-800 dark:text-gray-100 bg-gray-50 h-[calc(100%-30px)] overflow-y-auto">
+        <div class="dark:bg-gray-800 dark:text-gray-300 text-gray-800 bg-gray-50 h-[calc(100%-30px)] overflow-y-auto">
             <MainView />
         </div>
     </div>

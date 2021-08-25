@@ -5,23 +5,12 @@ import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
 const config = require("./db.config");
-const knex = require("knex")(
-    isDevelopment ? config.development : config.production
-);
+const knex = require("knex")(isDevelopment ? config.development : config.production);
 const log = require("electron-log");
-log.info(
-    "database location=" +
-        (isDevelopment
-            ? config.development.connection.filename
-            : config.production.connection.filename) +
-        ", Development:" +
-        isDevelopment
-);
+log.info("database location=" + (isDevelopment ? config.development.connection.filename : config.production.connection.filename) + ", Development:" + isDevelopment);
 
 // Scheme must be registered before the app is ready
-protocol.registerSchemesAsPrivileged([
-    { scheme: "app", privileges: { secure: true, standard: true } }
-]);
+protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
 
 async function createWindow() {
     // Create the browser window.
@@ -39,7 +28,8 @@ async function createWindow() {
         },
         webPreferences: {
             nodeIntegration: true,
-            contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
+            contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
+            devTools: isDevelopment
         }
     });
     win.maximize();

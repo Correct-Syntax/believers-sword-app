@@ -1,24 +1,3 @@
 # believers-sword-app-new
-
-## Project setup
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Hi! This is a personal project that I made.  
+The goal of this project is to create a good desktop app for studying bible.

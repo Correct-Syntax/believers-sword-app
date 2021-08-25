@@ -1,13 +1,20 @@
 <template>
-    <div class="menu-bar-icons flex flex-col h-[100%] gap-10px py-10px mr-7px z-50">
-        <div class="icon-item">
-            <i class='bx bx-book' ></i>
+    <div class="menu-bar-icons flex flex-col h-[100%] gap-10px pb-10px mr-7px z-50">
+        <div class="icon-item" @click="$router.push('/')">
+            <i class="bx bx-book"></i>
+            <div class="tooltip">Read Bible</div>
         </div>
-        <div class="icon-item">
-            <i class='bx bx-message-square-detail' ></i>
+        <div class="icon-item" @click="$router.push('/sermon')">
+            <i class="bx bx-message-square-detail"></i>
+            <div class="tooltip">Go To Sermons</div>
         </div>
-        <div class="icon-item">
-            <i class='bx bx-user' ></i>
+        <div class="icon-item" @click="$router.push('/directions')">
+            <i class='bx bx-directions' ></i>
+            <div class="tooltip">Get Directions</div>
+        </div>
+        <div class="icon-item" @click="$router.push('/account')">
+            <i class="bx bx-user"></i>
+            <div class="tooltip">Check You Account</div>
         </div>
     </div>
 </template>
@@ -18,10 +25,28 @@ export default defineComponent({});
 <style lang="scss">
 .menu-bar-icons {
     .icon-item {
-        @apply flex justify-center items-center h-[30px] cursor-pointer text-size-18px transform scale-110 duration-100 text-gray-500 relative;
+        @apply flex justify-center items-center h-[30px] cursor-pointer text-size-18px dark:text-gray-400 text-gray-600;
+        .bx {
+            @apply transform scale-110 duration-100  relative;
+        }
+
+        .tooltip {
+            @apply invisible absolute left-30px dark:text-cool-gray-300 text-gray-700 px-[5px] py-[3px] rounded-md text-size-[13px] whitespace-nowrap opacity-0 duration-150;
+            box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.481);
+        }
 
         &:hover {
-            @apply scale-125 text-gray-200;
+            @apply dark:text-gray-300 text-gray-800;
+
+            .bx {
+                @apply scale-125;
+            }
+
+            .tooltip {
+                @apply dark:bg-gray-800 bg-gray-100 dark:opacity-100 opacity-90;
+                visibility: visible;
+                z-index: 99999;
+            }
         }
     }
 }
