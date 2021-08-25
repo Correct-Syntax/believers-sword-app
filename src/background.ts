@@ -1,11 +1,11 @@
 "use strict";
 
-import { app, protocol, BrowserWindow, ipcMain } from "electron";
+import { app, protocol, BrowserWindow } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
+import { ipcMainEvents } from "./service/ipcMAIN/ipcMainEvents";
 const isDevelopment = process.env.NODE_ENV !== "production";
 const config = require("./db.config");
-const knex = require("knex")(isDevelopment ? config.development : config.production);
 const log = require("electron-log");
 log.info("database location=" + (isDevelopment ? config.development.connection.filename : config.production.connection.filename) + ", Development:" + isDevelopment);
 
@@ -30,50 +30,21 @@ async function createWindow() {
             nodeIntegration: true,
             contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
             devTools: isDevelopment
-        }
+        },
+        show: false
     });
-    win.maximize();
 
     if (process.env.WEBPACK_DEV_SERVER_URL) {
-        // Load the url of the dev server if in development mode
         await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string);
         if (!process.env.IS_TEST) win.webContents.openDevTools();
     } else {
         createProtocol("app");
-        // Load the index.html when not in development
         win.loadURL("app://./index.html");
     }
-
-    ipcMain.on("minimizeWindow", () => {
-        win.minimize();
-    });
-    ipcMain.on("maximizeWindow", () => {
-        if (win.isMaximized()) {
-            win.restore();
-            return;
-        } else {
-            win.maximize();
-        }
-    });
-    ipcMain.on("closeWindow", () => {
-        win.destroy();
-    });
-
-    ipcMain.on("mainWindowLoad", () => {
-        console.log("went to electron");
-
-        try {
-            log.info("checking log");
-            let result = knex.select().from("bible_version_key");
-            result
-                .then((rows: any) => {
-                    win.webContents.send("resultSent", rows);
-                })
-                .catch((e: any) => log.error(e));
-        } catch (e) {
-            log.info(e.message);
-        }
-    });
+    
+    ipcMainEvents(win);
+    win.maximize();
+    
 }
 
 // Quit when all windows are closed.
