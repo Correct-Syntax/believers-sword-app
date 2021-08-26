@@ -1,6 +1,6 @@
 "use strict";
 
-import { app, protocol, BrowserWindow, Menu } from "electron";
+import { app, protocol, BrowserWindow, Menu, webFrame } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 import { ipcMainEvents } from "./service/ipcMAIN/ipcMainEvents";
@@ -53,6 +53,7 @@ async function createWindow() {
     }
     
     win.maximize();
+
     setTimeout(() => {
         win.setAlwaysOnTop(false);
     }, 1000);

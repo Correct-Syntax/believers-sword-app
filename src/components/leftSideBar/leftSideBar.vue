@@ -1,14 +1,14 @@
 <template>
     <div class="h-[100%] flex">
         <div class="book-selection w-[100%]">
-            <div v-for="book in bibleBooks" :key="book.b" class="book-selection-item" :class="{ 'selected-active': book.b == bookSelected }" @click="selectBook(book.b)">{{ book.n }}</div>
+            <div v-for="book in storeBible.bibleBooks" :key="book.b" class="book-selection-item py-5px" :class="{ 'selected-active': book.b == storeBible.bookSelected }" @click="selectBook(book.b)">{{ book.n }}</div>
         </div>
         <div class="chapter-selection w-80px">
             <div
-                v-for="chapter in bookSelectedChapterCount"
+                v-for="chapter in storeBible.bookSelectedChapterCount"
                 :key="chapter"
                 class="chapter-selection-item text-center ml-7px py-5px"
-                :class="{ 'selected-active': chapter == chapterSelected }"
+                :class="{ 'selected-active': chapter == storeBible.chapterSelected }"
                 @click="selectChapter(chapter)"
             >
                 {{ chapter }}
@@ -24,21 +24,19 @@ import { getBookChaptersCount, getBookInChapter } from "@/helper/ipcRendererSend
 export default defineComponent({
     setup() {
         const store = useStore();
-        const bookSelected = computed(() => store.state.bible.bookSelected);
-        const bookSelectedChapterCount = computed(() => store.state.bible.bookSelectedChapterCount);
+        const storeBible = computed(() => store.state.bible)
 
         return {
-            bibleBooks: computed(() => store.state.bible.bibleBooks),
-            bookSelected,
-            bookSelectedChapterCount,
-            chapterSelected: computed(() => store.state.bible.chapterSelected),
+            storeBible,
             selectBook: (number: number) => {
                 store.state.bible.bookSelected = number;
-                getBookChaptersCount(store.state.bible.bible, store.state.bible.bookSelected);
+                store.state.bible.chapterSelected = 1;
+                getBookChaptersCount(storeBible.value.bible, storeBible.value.bookSelected);
+                getBookInChapter(storeBible.value.bible, storeBible.value.bookSelected, 1);
             },
             selectChapter: (number: number) => {
-                store.state.bible.chapterSelected = number;
-                getBookInChapter(store.state.bible.bible, store.state.bible.bookSelected, store.state.bible.chapterSelected);
+                storeBible.value.chapterSelected = number;
+                getBookInChapter(storeBible.value.bible, storeBible.value.bookSelected, storeBible.value.chapterSelected);
             },
         };
     },
