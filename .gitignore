@@ -31,3 +31,4 @@ pnpm-debug.log*
 # databases
 database
 /database-dev
+ser-aside

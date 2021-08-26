@@ -1,31 +1,19 @@
 import { ipcMain } from 'electron';
+import { closeWindow, maximizeWindow, minimizeWindow } from './common/BrowserWindowEvents';
 const log = require("electron-log");
 const isDevelopment = process.env.NODE_ENV !== "production";
 const config = require("./../../db.config");
 const knex = require("knex")(isDevelopment ? config.development : config.production);
 
 export const ipcMainEvents = (win: any) => {
-    ipcMain.on("minimizeWindow", () => {
-        win.minimize();
-    });
-    ipcMain.on("maximizeWindow", () => {
-        if (win.isMaximized()) {
-            win.restore();
-            return;
-        } else {
-            win.maximize();
-        }
-    });
-    ipcMain.on("closeWindow", () => {
-        win.destroy();
-    });
+    ipcMain.on("minimizeWindow", () => minimizeWindow(win));
+    ipcMain.on("maximizeWindow", () => maximizeWindow(win));
+    ipcMain.on("closeWindow", () => closeWindow(win));
 
     ipcMain.on("mainWindowLoad", () => {
-        console.log("went to electron");
-
         try {
             log.info("checking log");
-            let result = knex.select().from("bible_version_key");
+            let result = knex.select().from("t_kjv").where({b: 1, c: 1});
             result
                 .then((rows: any) => {
                     win.webContents.send("resultSent", rows);

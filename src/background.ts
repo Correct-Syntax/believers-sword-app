@@ -1,12 +1,13 @@
 "use strict";
 
-import { app, protocol, BrowserWindow } from "electron";
+import { app, protocol, BrowserWindow, Menu } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 import { ipcMainEvents } from "./service/ipcMAIN/ipcMainEvents";
 const isDevelopment = process.env.NODE_ENV !== "production";
 const config = require("./db.config");
-const log = require("electron-log");
+import log from "electron-log";
+import { ipcMainBibleEvents } from "./service/ipcMAIN/common/BibleEvents";
 log.info("database location=" + (isDevelopment ? config.development.connection.filename : config.production.connection.filename) + ", Development:" + isDevelopment);
 
 // Scheme must be registered before the app is ready
@@ -31,25 +32,30 @@ async function createWindow() {
             contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
             devTools: isDevelopment
         },
-        show: false
+        show: false,
+        alwaysOnTop: true
     });
+
+    ipcMainEvents(win);
+    ipcMainBibleEvents(win);
 
     if (process.env.WEBPACK_DEV_SERVER_URL) {
         await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string);
         if (!process.env.IS_TEST) win.webContents.openDevTools();
     } else {
         createProtocol("app");
-        win.loadURL("app://./index.html");
+        await win.loadURL("app://./index.html");
     }
-    // in electron
 
-    win.setAlwaysOnTop(true);
+    if (!isDevelopment) {
+        win.removeMenu();
+        Menu.setApplicationMenu(Menu.buildFromTemplate([]))
+    }
+    
+    win.maximize();
     setTimeout(() => {
         win.setAlwaysOnTop(false);
     }, 1000);
-
-    ipcMainEvents(win);
-    win.maximize();
 }
 
 // Quit when all windows are closed.

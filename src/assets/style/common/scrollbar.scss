@@ -8,17 +8,24 @@
 }
 *::-webkit-scrollbar {
     width: 5px;
-    height: 2px;
+    height: 5px;
     // background-color: var(--lightestPrimary);
-    width: 7px;
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: darkgrey;
+    background-color: rgba(104, 104, 104, 0.501);
     // border-radius: 10px;
     margin: 10px;
     // background-color: var(--primary);
 }
+
+.dark *::-webkit-scrollbar-thumb {
+    background-color: rgba(169, 169, 169, 0.501);
+    // border-radius: 10px;
+    margin: 10px;
+    // background-color: var(--primary);
+}
+
 
 * {
     scrollbar-width: thin;

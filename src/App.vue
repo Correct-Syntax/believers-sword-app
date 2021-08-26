@@ -14,6 +14,8 @@ import MainView from "./views/Main.vue";
 import { localStorageThemeKey } from "@/service/ThemeChangeService";
 import { useStore } from "vuex";
 import session from '@/helper/session'
+import { setReadBiblePage } from '@/helper/onMountedEvents'
+import { getBookInChapter } from "./helper/ipcRendererSender/ipcRendererBibleSendEvent";
 
 export default defineComponent({
     name: "App",
@@ -26,6 +28,8 @@ export default defineComponent({
             if (theme) {
                 store.state.dark = theme === "light" ? false : true;
             }
+            setReadBiblePage(store);
+            getBookInChapter(store.state.bible.bible, store.state.bible.bookSelected, store.state.bible.chapterSelected);
         });
 
         return {
