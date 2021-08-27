@@ -1,18 +1,13 @@
+import { bibleModule } from "./modules/bible";
 import { createStore } from "vuex";
 
 export default createStore({
     state: {
-        dark: true,
-        bible: {
-            bible: 't_kjv',
-            bibleBooks: [],
-            bookSelected: 1,
-            chapterSelected: 1,
-            bookSelectedChapterCount: 50,
-            viewBookChapter: []
-        }
+        dark: true
     },
     mutations: {},
     actions: {},
-    modules: {}
+    modules: {
+        bible: bibleModule
+    }
 });

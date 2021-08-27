@@ -16,11 +16,11 @@ protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: tru
 async function createWindow() {
     // Create the browser window.
     const win = new BrowserWindow({
-        width: 1000,
-        height: 600,
+        width: 1180,
+        height: 650,
         frame: false,
-        minWidth: 1000,
-        minHeight: 600,
+        minWidth: 1180,
+        minHeight: 650,
         backgroundColor: "#000",
         titleBarStyle: "hidden",
         trafficLightPosition: {

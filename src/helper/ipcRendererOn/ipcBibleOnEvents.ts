@@ -1,13 +1,13 @@
 import store from "@/store";
-/* eslint-disable */
-export const resultBibleBooks = (event: any, result: any) => {
-    store.state.bible.bibleBooks = result;
+
+export const resultBibleBooks = (event: Electron.IpcRendererEvent, result: Array<string|number|Record<string, unknown>>) :void => {
+    store.dispatch("setBibleBooks", result);
 };
 
-export const getBookChaptersCountResult = (event: any, result = []) => {
-    if (result && result.length > 0) store.state.bible.bookSelectedChapterCount = result.length;
+export const getBookChaptersCountResult = (event: Electron.IpcRendererEvent, result = []): void => {
+    store.dispatch("setBookSelectedChapterCount", result.length);
 };
 
-export const getBookInChapterResult = (event: any, result: any) => {
-    if (result && result.length > 0) store.state.bible.viewBookChapter = result;
+export const getBookInChapterResult = (event: Electron.IpcRendererEvent, result = []): void => {
+    store.dispatch('setViewBookChapter', result);
 };
