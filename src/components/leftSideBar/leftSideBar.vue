@@ -35,7 +35,7 @@ export default defineComponent({
             }
         };
 
-        const setScrollTopState = (className: string, sessionKey: string ,setScrollTopValue = 0): void => {
+        const setScrollTopState = (className: string, sessionKey: string, setScrollTopValue = 0): void => {
             let el2 = document.getElementsByClassName(className)[0];
             if (el2 instanceof HTMLElement) {
                 if (setScrollTopValue > 0) session.set(sessionKey, setScrollTopValue);
