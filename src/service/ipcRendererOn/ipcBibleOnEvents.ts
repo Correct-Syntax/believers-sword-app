@@ -11,3 +11,8 @@ export const getBookChaptersCountResult = (event: Electron.IpcRendererEvent, res
 export const getBookInChapterResult = (event: Electron.IpcRendererEvent, result = []): void => {
     store.dispatch('setViewBookChapter', result);
 };
+
+
+export const getBibleVersionsResult = (event: Electron.IpcRendererEvent, result = []): void => {
+    store.dispatch('getBibleVersions', {getInStore: true, data: result});
+} 

@@ -8,5 +8,8 @@ export default {
     },
     setViewBookChapter(state:any, payload: any): void {
         state.viewBookChapter = payload;
+    },
+    setBibleVersions(state:any, payload: any): void {
+        state.bibleVersions = payload;
     }
 }

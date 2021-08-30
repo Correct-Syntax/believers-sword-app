@@ -3,7 +3,7 @@
         <LeftSideBar />
         <div id="dragbar" class="drag-bar" style="cursor: col-resize"></div>
     </div>
-    <div id="mainWindow" class="min-w-300px absolute h-[100%] right-0 pl-5px">
+    <div id="mainWindow" class="min-w-300px absolute h-[100%] right-0">
         <ViewChapter />
     </div>
 </template>
@@ -12,7 +12,7 @@ import { defineComponent, onMounted } from "vue";
 import LeftSideBar from "@/components/leftSideBar/leftSideBar.vue";
 import { dragSide } from "@/service/MouseDragResizePanel";
 import { readBibleLeftSideBarWidth } from "@/service/widthSizeConstantVariables"
-import session from "@/helper/session";
+import session from "@/service/session";
 import ViewChapter from "@/components/ReadBiblePageComponents/ViewChapter/ViewChapter.vue"
 export default defineComponent({
     components: { LeftSideBar, ViewChapter },
@@ -20,7 +20,7 @@ export default defineComponent({
         onMounted(async () => {
             const leftSideWidth = session.get(readBibleLeftSideBarWidth)
             document.getElementById("main-container-wrapper")?.style.setProperty("--left-width", `${leftSideWidth ? leftSideWidth : 300}px`);
-            dragSide("main-container-wrapper", "dragbar", "--left-width", 600, 250, readBibleLeftSideBarWidth);
+            dragSide("main-container-wrapper", "dragbar", "--left-width", 400, 250, readBibleLeftSideBarWidth);
         });
     },
 });

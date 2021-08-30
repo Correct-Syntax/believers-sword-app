@@ -1,4 +1,4 @@
-import session from '@/helper/session';
+import session from '@/service/session';
 import { ipcRenderer } from "electron";
 /* eslint-disable */
 export default {
@@ -20,10 +20,19 @@ export default {
     },
     getBookInChapter(context: any, {bible, book, chapter}: any): void {
         session.set('chapterSelected', chapter);
+        const versionsSelected = session.get("storedSelectedVersions")
         ipcRenderer.send("getBookInChapter", {
             book,
             bible,
-            chapter
+            chapter,
+            versions: versionsSelected ? versionsSelected : ["t_kjv"]
         });
-    }
+    },
+    getBibleVersions(context: any, {getInStore, data}: {getInStore: false, data: []}): void {
+        if (!getInStore) {
+            ipcRenderer.send("getBibleVersions");
+            return
+        }
+        context.commit("setBibleVersions", data)
+    },
 };

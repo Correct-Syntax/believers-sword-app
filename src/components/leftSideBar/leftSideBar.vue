@@ -21,7 +21,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted } from "vue";
 import { useStore } from "vuex";
-import session from "@/helper/session";
+import session from "@/service/session";
 
 export default defineComponent({
     setup() {

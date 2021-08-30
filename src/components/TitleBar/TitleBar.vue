@@ -5,14 +5,6 @@
                 <img src="@/assets/logo54x54.png" class="h-10px w-30px" alt="Icon Logo" />
             </div>
             <div class="text-size-[12px] font-700">Believers Sword</div>
-            <div class="text-size-12px flex gap-8px h-[100%]">
-                <div class="title-bar-menu-item">
-                    <span> Preferences </span>
-                </div>
-                <div class="title-bar-menu-item">
-                    <span> Help </span>
-                </div>
-            </div>
         </div>
         <div id="drag-region" class="w-[100%] p-[10px]" style="cursor: move"></div>
         <div class="text-size-12px mr-10px h-[100%]">
@@ -39,7 +31,7 @@ import { computed, defineComponent } from "vue";
 import { ipcRenderer } from "electron";
 import { useStore } from "vuex";
 import { localStorageThemeKey } from "@/service/ThemeChangeService";
-import session from "@/helper/session";
+import session from "@/service/session";
 
 export default defineComponent({
     setup() {
@@ -76,9 +68,5 @@ export default defineComponent({
 #closeButton {
     -webkit-app-region: no-drag;
     cursor: pointer !important;
-}
-
-.title-bar-menu-item {
-    @apply flex justify-center items-center px-5px cursor-default bg-opacity-0 dark:hover:bg-light-50 hover:bg-gray-900  hover:bg-opacity-10 dark:hover:bg-opacity-10 h-[100%] cursor-pointer;
 }
 </style>

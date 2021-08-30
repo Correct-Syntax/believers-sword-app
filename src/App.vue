@@ -12,7 +12,7 @@ import { computed, defineComponent, onBeforeMount } from "vue";
 import TitleBar from "./components/TitleBar/TitleBar.vue";
 import MainView from "./views/Main.vue";
 import { useStore } from "vuex";
-import { setReadBiblePage } from '@/helper/onMountedEvents'
+import { setReadBiblePage } from '@/service/onMountedEvents'
 
 export default defineComponent({
     name: "App",

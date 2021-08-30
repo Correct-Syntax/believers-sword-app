@@ -1,5 +1,4 @@
 "use strict";
-
 import { app, protocol, BrowserWindow, Menu, webFrame } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
@@ -7,7 +6,7 @@ import { ipcMainEvents } from "./service/ipcMAIN/ipcMainEvents";
 const isDevelopment = process.env.NODE_ENV !== "production";
 const config = require("./db.config");
 import log from "electron-log";
-import { ipcMainBibleEvents } from "./service/ipcMAIN/common/BibleEvents";
+if (isDevelopment)
 log.info("database location=" + (isDevelopment ? config.development.connection.filename : config.production.connection.filename) + ", Development:" + isDevelopment);
 
 // Scheme must be registered before the app is ready
@@ -37,7 +36,6 @@ async function createWindow() {
     });
 
     ipcMainEvents(win);
-    ipcMainBibleEvents(win);
 
     if (process.env.WEBPACK_DEV_SERVER_URL) {
         await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string);
@@ -49,11 +47,10 @@ async function createWindow() {
 
     if (!isDevelopment) {
         win.removeMenu();
-        Menu.setApplicationMenu(Menu.buildFromTemplate([]))
+        Menu.setApplicationMenu(Menu.buildFromTemplate([]));
     }
-    
-    win.maximize();
 
+    win.maximize();
     setTimeout(() => {
         win.setAlwaysOnTop(false);
     }, 1000);

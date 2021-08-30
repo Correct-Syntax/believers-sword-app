@@ -1,5 +1,5 @@
-import { localStorageThemeKey } from "./../../service/ThemeChangeService";
-import session from "@/helper/session";
+import { localStorageThemeKey } from "../ThemeChangeService";
+import session from "@/service/session";
 /* eslint-disable */
 export const setStore = (store: any): void => {
     if (session.get(localStorageThemeKey)) store.state.dark = session.get(localStorageThemeKey) === "light" ? false : true;

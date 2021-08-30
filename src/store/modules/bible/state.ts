@@ -4,5 +4,7 @@ export default {
     bookSelected: 1,
     chapterSelected: 1,
     bookSelectedChapterCount: 50,
-    viewBookChapter: []
+    viewBookChapter: [],
+    bibleVersions: [],
+    bibleVersionsSelected: ["t_kjv"]
 };
