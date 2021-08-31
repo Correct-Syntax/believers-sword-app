@@ -1,5 +1,6 @@
 import { bibleModule } from "./modules/bible";
 import { createStore } from "vuex";
+import { frameState } from "./modules/frameState";
 
 export default createStore({
     state: {
@@ -8,6 +9,7 @@ export default createStore({
     mutations: {},
     actions: {},
     modules: {
-        bible: bibleModule
+        bible: bibleModule,
+        frame: frameState
     }
 });

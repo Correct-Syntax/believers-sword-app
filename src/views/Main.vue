@@ -9,41 +9,17 @@
             </div>
         </div>
         <div class="dark:bg-gray-900 bg-gray-300 px-[7px] py-[2px]">
-            <div>
-                <div class="flex justify-between whitespace-nowrap">
-                    <div>
-                        left side
-                    </div>
-                    <div class="flex justify-center items-center gap-10px">
-                        <div>{{bibleBook(bibleStore.bookSelected)}}</div>
-                        <div>{{bibleStore.chapterSelected}}</div>
-                    </div>
-                    <div>
-                        right side
-                    </div>
-                </div>
-            </div>
+            <Footer />
         </div>
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { defineComponent } from "vue";
 import LeftSideMenuBar from "@/components/leftSideMenuBar/leftSideMenuBar.vue";
-import { useStore } from "vuex";
+import Footer from "@/components/footer/Footer.vue"
 export default defineComponent({
     name: "MainView",
-    components: { LeftSideMenuBar },
-    setup() {
-        const store = useStore()
-        const bibleStore = computed(() => store.state.bible)
-        return {
-            bibleStore,
-            bibleBook: (number: number) => {
-                let books = bibleStore.value.bibleBooks
-                return books.filter((item: null | { b: number; }) => item?.b == number)[0]?.n
-            }
-        }
-    }
+    components: { LeftSideMenuBar, Footer },
 });
 </script>
 <style lang="scss">

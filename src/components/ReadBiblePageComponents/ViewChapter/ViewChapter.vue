@@ -2,19 +2,19 @@
     <div id="view-chapter-component" class="h-[100%] w-[100%]">
         <div id="view-chapter-component-wrapper" class="h-[100%] flex relative">
             <div id="view-chapter-left-side-bar" class="h-[100%] w-[100%] min-w-460px absolute">
-                <div class="h-[100%] w-[100%] min-w-460px relative pr-10px">
+                <div class="h-[100%] w-[100%] min-w-460px relative">
                     <div class="h-[var(--view-chapter-top-width)] shadow-md">
                         <div class="flex justify-center items-center">
                             <div class="flex items-center gap-20px text-size-13px items-center">
-                                <div>
-                                    <NSlider v-model:value="fontSize" :step="1" :min="13" :max="40" />
-                                    <NInputNumber size="small" v-model:value="fontSize" />
+                                <div class="flex items-center whitespace-nowrap gap-[10px]">
+                                    <span>Font Size: <span class="dark:bg-gray-200 bg-gray-600 dark:bg-opacity-10 bg-opacity-10 p-3px rounded-md">{{fontSize}}px</span></span>
+                                    <NSlider class="w-130px" v-model:value="fontSize" :step="1" :min="13" :max="40" />
                                 </div>
                                 <div>
                                     <div>
-                                        <NTooltip trigger="hover">
+                                        <NTooltip trigger="hover" size="small">
                                             <template #trigger>
-                                                <div class="text-size-30px opacity-50 hover:opacity-95 cursor-pointer">
+                                                <div class="text-size-20px opacity-50 hover:opacity-95 cursor-pointer">
                                                     <i class="bx bx-bookmark"></i>
                                                 </div>
                                             </template>
@@ -97,10 +97,10 @@ import session from "@/service/session";
 import { viewChapterComponentLeftSideWidth } from "@/service/widthSizeConstantVariables";
 import { dragSide } from "@/service/MouseDragResizePanel";
 import RightSide from "@/components/ReadBiblePageComponents/RightSide/RightSide.vue";
-import { NPopover, NSlider, NInputNumber, NTooltip } from "naive-ui";
+import { NPopover, NSlider, NTooltip } from "naive-ui";
 
 export default defineComponent({
-    components: { RightSide, NPopover, NSlider, NInputNumber, NTooltip },
+    components: { RightSide, NPopover, NSlider, NTooltip },
     setup() {
         const store = useStore();
         const bibleStore = computed(() => store.state.bible);
@@ -174,7 +174,7 @@ export default defineComponent({
 </script>
 <style lang="scss">
 #view-chapter-component {
-    --view-chapter-top-width: 60px;
+    --view-chapter-top-width: 30px;
 }
 
 #view-chapter-component-wrapper {
