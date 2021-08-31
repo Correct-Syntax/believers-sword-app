@@ -7,7 +7,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [
-    require('windicss/plugin/forms')
-  ],
+  plugins: [],
 }

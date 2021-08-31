@@ -67,7 +67,7 @@ export default defineComponent({});
     }
 
     .active-menu-bar-item {
-        @apply dark:text-gray-300 text-gray-800 border-l-[1px];
+        @apply dark:text-gray-300 text-gray-800 border-l-[1px] dark:border-gray-300 border-gray-[var(--primaryColor)];
         .bx {
             @apply scale-125;
         }

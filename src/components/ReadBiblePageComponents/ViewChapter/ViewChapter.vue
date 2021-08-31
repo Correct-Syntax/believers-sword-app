@@ -5,9 +5,23 @@
                 <div class="h-[100%] w-[100%] min-w-460px relative pr-10px">
                     <div class="h-[var(--view-chapter-top-width)] shadow-md">
                         <div class="flex justify-center items-center">
-                            <div class="flex gap-20px text-size-13px items-center">
-                                <div>book</div>
-                                <div>chapter</div>
+                            <div class="flex items-center gap-20px text-size-13px items-center">
+                                <div>
+                                    <NSlider v-model:value="fontSize" :step="1" :min="13" :max="40" />
+                                    <NInputNumber size="small" v-model:value="fontSize" />
+                                </div>
+                                <div>
+                                    <div>
+                                        <NTooltip trigger="hover">
+                                            <template #trigger>
+                                                <div class="text-size-30px opacity-50 hover:opacity-95 cursor-pointer">
+                                                    <i class="bx bx-bookmark"></i>
+                                                </div>
+                                            </template>
+                                            <span>Bookmark</span>
+                                        </NTooltip>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -22,12 +36,12 @@
                                 <div class="flex justify-center">
                                     <div class="m-20px">
                                         <div v-for="verse in bibleStore.viewBookChapter" :key="verse.v" class="verse-item">
-                                            <div class="w-[100%] max-w-[80px] flex justify-center items-center text-size-30px font-700">
+                                            <div class="read-chapter-verse-number">
                                                 {{ verse.v }}
                                             </div>
-                                            <div v-if="verse.versions" class="max-w-500px text-justify flex flex-col gap-10px">
+                                            <div v-if="verse.versions" class="w-[100%] max-w-700px text-justify flex flex-col gap-15px">
                                                 <div v-for="version in verse.versions" :key="version.version">
-                                                    <div class="">
+                                                    <div class="leading-relaxed" :style="`font-size: ${fontSize}px`">
                                                         <span class="opacity-50 font-500">
                                                             <i> {{ getVersion(version.version) }}</i>
                                                         </span>
@@ -36,9 +50,25 @@
                                                 </div>
                                             </div>
                                             <div class="verse-item-more-options">
-                                                <div class="text-size-30px p-10px bg-gray-600 rounded-[100%] cursor-pointer">
-                                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                                </div>
+                                                <n-popover trigger="hover" :show-arrow="false">
+                                                    <template #trigger>
+                                                        <div class="text-size-30px p-10px bg-gray-600 dark:text-gray-300 text-gray-100 rounded-[100%] cursor-pointer">
+                                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                                        </div>
+                                                    </template>
+                                                    <div>
+                                                        <div class="text-size-18px flex flex-col gap-[10px]">
+                                                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100">
+                                                                <i class="bx bx-bookmark"></i>
+                                                                <span>Bookmark</span>
+                                                            </div>
+                                                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100">
+                                                                <i class="bx bx-share-alt"></i>
+                                                                <span>Share Verse</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </n-popover>
                                             </div>
                                         </div>
                                     </div>
@@ -61,18 +91,20 @@
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, onMounted } from "vue";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
 import session from "@/service/session";
 import { viewChapterComponentLeftSideWidth } from "@/service/widthSizeConstantVariables";
 import { dragSide } from "@/service/MouseDragResizePanel";
 import RightSide from "@/components/ReadBiblePageComponents/RightSide/RightSide.vue";
+import { NPopover, NSlider, NInputNumber, NTooltip } from "naive-ui";
 
 export default defineComponent({
-    components: { RightSide },
+    components: { RightSide, NPopover, NSlider, NInputNumber, NTooltip },
     setup() {
         const store = useStore();
         const bibleStore = computed(() => store.state.bible);
+        const fontSize = ref(14);
         const getVersion = (table: string) => {
             // eslint-disable-next-line
             let version = bibleStore.value.bibleVersions.filter((item: any) => item.table === table);
@@ -84,10 +116,21 @@ export default defineComponent({
             const leftSideWidth = session.get(viewChapterComponentLeftSideWidth);
             document.getElementById("view-chapter-component-wrapper")?.style.setProperty("--view-chapter-left-width", `${leftSideWidth ? leftSideWidth : 1050}px`);
             dragSide("view-chapter-component-wrapper", "view-chapter-dragbar", "--view-chapter-left-width", 1800, 1050, viewChapterComponentLeftSideWidth);
+
+            let viewReadChapterFontSize = session.get("viewReadChapterFontSize");
+            if (viewReadChapterFontSize) {
+                fontSize.value = viewReadChapterFontSize;
+            }
+
             setTimeout(() => {
                 const scrollTop = session.get("viewChapterVerseScrollTop");
                 if (viewChapterVerseElement) viewChapterVerseElement.scrollTop = scrollTop ? scrollTop : 0;
             }, 100);
+        });
+
+        watch(fontSize, () => {
+            fontSize.value = fontSize.value < 14 ? 14 : fontSize.value;
+            session.set("viewReadChapterFontSize", fontSize.value);
         });
 
         return {
@@ -102,13 +145,36 @@ export default defineComponent({
                 session.set("viewChapterVerseScrollTop", viewScrollTop);
             },
             getVersion,
+            handleUpdateShow() {
+                console.log("clicked");
+            },
+            fontSize,
+            popSelectOptions: [
+                {
+                    label: "<b>sdf</b>Go Let It Out",
+                    value: "Go Let It Out",
+                },
+                {
+                    label: "Who Feels Love?",
+                    value: "Who Feels Love?",
+                },
+                {
+                    label: "Sunday Morning Call",
+                    value: "Sunday Morning Call",
+                    disabled: true,
+                },
+                {
+                    label: "Roll It Over",
+                    value: "Roll It Over",
+                },
+            ],
         };
     },
 });
 </script>
 <style lang="scss">
 #view-chapter-component {
-    --view-chapter-top-width: 35px;
+    --view-chapter-top-width: 60px;
 }
 
 #view-chapter-component-wrapper {
@@ -129,7 +195,11 @@ export default defineComponent({
 }
 
 .verse-item {
-    @apply flex items-center gap-10px mb-20px cursor-default p-20px dark:bg-gray-100 bg-gray-800 dark:bg-opacity-0 bg-opacity-0 dark:hover:bg-opacity-5 hover:bg-opacity-10;
+    @apply flex items-center justify-between w-[100%] gap-20px mb-20px cursor-default p-20px dark:bg-gray-100 bg-gray-800 dark:bg-opacity-0 bg-opacity-0 dark:hover:bg-opacity-3 hover:bg-opacity-5;
+
+    .read-chapter-verse-number {
+        @apply w-[100%] max-w-[60px] flex justify-center items-center text-size-30px font-700 opacity-30 duration-150;
+    }
 
     .verse-item-more-options {
         @apply opacity-0 invisible duration-150;
@@ -139,8 +209,12 @@ export default defineComponent({
         .verse-item-more-options {
             @apply opacity-30 visible;
             &:hover {
-                @apply opacity-90;
+                @apply dark:opacity-90 opacity-70;
             }
+        }
+
+        .read-chapter-verse-number {
+            @apply opacity-100;
         }
     }
 }
@@ -165,7 +239,7 @@ export default defineComponent({
         --view-chapter-left-width: 1200px !important;
     }
     .verse-item {
-        max-width: 500px;
+        max-width: 600px;
     }
 }
 
@@ -174,7 +248,7 @@ export default defineComponent({
         --view-chapter-left-width: 1190px !important;
     }
     .verse-item {
-        max-width: 500px;
+        max-width: 600px;
     }
 }
 
@@ -183,7 +257,7 @@ export default defineComponent({
         --view-chapter-left-width: 1100px !important;
     }
     .verse-item {
-        max-width: 500px;
+        max-width: 600px;
     }
 }
 
@@ -192,7 +266,7 @@ export default defineComponent({
         --view-chapter-left-width: 1000px !important;
     }
     .verse-item {
-        max-width: 500px;
+        max-width: 600px;
     }
 }
 
@@ -201,7 +275,7 @@ export default defineComponent({
         --view-chapter-left-width: 900px !important;
     }
     .verse-item {
-        max-width: 500px;
+        max-width: 600px;
     }
 }
 </style>
