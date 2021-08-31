@@ -1,6 +1,6 @@
 <template>
     <div id="main-container" class="main-container flex h-[100%] flex-col">
-        <div class="h-[100%] w-[100%] relative px-7px relative">
+        <div class="h-[100%] w-[100%] relative pr-7px">
             <div class="absolute h-[100%] w-[var(--left-bar-width)]">
                 <LeftSideMenuBar />
             </div>
@@ -8,15 +8,18 @@
                 <router-view></router-view>
             </div>
         </div>
-        <div class="dark:bg-gray-900 bg-gray-300 px-[7px] py-[2px]">This will be the bottom of the window to show, internet connection status, notification etc.</div>
+        <div class="dark:bg-gray-900 bg-gray-300 px-[7px] py-[2px]">
+            <Footer />
+        </div>
     </div>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
 import LeftSideMenuBar from "@/components/leftSideMenuBar/leftSideMenuBar.vue";
+import Footer from "@/components/footer/Footer.vue"
 export default defineComponent({
     name: "MainView",
-    components: { LeftSideMenuBar },
+    components: { LeftSideMenuBar, Footer },
 });
 </script>
 <style lang="scss">

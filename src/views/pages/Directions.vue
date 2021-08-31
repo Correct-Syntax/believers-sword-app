@@ -1,5 +1,1 @@
-<template>
-    <div>
-        This is direction page
-    </div>
-</template>
+<template>This is direction page</template>

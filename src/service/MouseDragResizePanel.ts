@@ -1,4 +1,4 @@
-import session from "@/helper/session";
+import session from "@/service/session";
 
 /* eslint-disable */
 export const dragElementHorizontally: any = (el: string, direction: string, leftSideElement: string, rightSideElement: string) => {
@@ -77,35 +77,33 @@ export const reSizeElementHorizontally: any = (el: string, direction: string, le
     }
 };
 
-export const dragSide = (mainContainerWrapper: string, dragBar: string, leftSideVarWidth: string, maxWidth: number = 500, minWidth: number = 50, keyToSaveData: string = ''): void => {
-    let dragging = 0,
-        body = document.getElementById(mainContainerWrapper),
-        target = document.getElementById(dragBar);
+export const dragSide = (mainContainerWrapper: string, dragBar: string, leftSideVarWidth: string, maxWidth: number = 500, minWidth: number = 50, keyToSaveData: string = ""): void => {
+    let target = document.getElementById(dragBar);
+    let b = document.getElementById(mainContainerWrapper);
 
-    function clearJSEvents() {
-        dragging = 0;
+    const resize = (e: any) => {
+        const body = document.getElementById(session.get("draggingWrapperContainer"));
+        if (e.pageX > maxWidth || e.pageX < minWidth) return;
+        if (keyToSaveData !== "") session.set(keyToSaveData, e.pageX);
+        if (body) body.style.setProperty(leftSideVarWidth, e.pageX + "px");
+    };
+
+    const clearEvent = () => {
+        const body = document.getElementById(session.get("draggingWrapperContainer"));
         if (body) body.removeEventListener("mousemove", resize);
         if (body) body.classList.remove("resizing");
-    }
+    };
 
-    function resize(e: any) {
-        if (e.pageX > maxWidth || e.pageX < minWidth) {
-            return;
-        }
-
-        if (keyToSaveData !== '') session.set(keyToSaveData, e.pageX);
-
-        if (body) body.style.setProperty(leftSideVarWidth, e.pageX + "px");
-    }
     if (target)
-        target.onmousedown = function(e) {
+        target.onmousedown = e => {
             e.preventDefault();
-            dragging = 1;
+            session.set("draggingWrapperContainer", mainContainerWrapper);
+            const body = document.getElementById(session.get("draggingWrapperContainer"));
+
             if (body) body.addEventListener("mousemove", resize);
             if (body) body.classList.add("resizing");
         };
-
-    document.onmouseup = function() {
-        dragging ? clearJSEvents() : "";
-    };
+    
+    
+    if (b) b.onmouseup = () => clearEvent();
 };

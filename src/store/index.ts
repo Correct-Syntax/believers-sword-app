@@ -1,13 +1,15 @@
-import { createStore } from 'vuex'
+import { bibleModule } from "./modules/bible";
+import { createStore } from "vuex";
+import { frameState } from "./modules/frameState";
 
 export default createStore({
-  state: {
-    dark: true
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+    state: {
+        dark: true
+    },
+    mutations: {},
+    actions: {},
+    modules: {
+        bible: bibleModule,
+        frame: frameState
+    }
+});
