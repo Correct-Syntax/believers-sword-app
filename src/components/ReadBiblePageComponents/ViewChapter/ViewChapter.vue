@@ -106,6 +106,7 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const bibleStore = computed(() => store.state.bible);
+        const frameZoomLevel = computed(() => store.state.frame.zoomLevel)
         const fontSize = ref(14);
         const getVersion = (table: string) => {
             // eslint-disable-next-line
@@ -117,7 +118,7 @@ export default defineComponent({
             let viewChapterVerseElement = document.getElementById("view-chapter-verse");
             const leftSideWidth = session.get(viewChapterComponentLeftSideWidth);
             document.getElementById("view-chapter-component-wrapper")?.style.setProperty("--view-chapter-left-width", `${leftSideWidth ? leftSideWidth : 1050}px`);
-            dragSide("view-chapter-component-wrapper", "view-chapter-dragbar", "--view-chapter-left-width", 1800, 1050, viewChapterComponentLeftSideWidth);
+            dragSide("view-chapter-component-wrapper", "view-chapter-dragbar", "--view-chapter-left-width", frameZoomLevel.value < 1 ? 1800 : 1800 - (frameZoomLevel.value * 190), 1050, viewChapterComponentLeftSideWidth);
 
             let viewReadChapterFontSize = session.get("viewReadChapterFontSize");
             if (viewReadChapterFontSize) {
@@ -222,7 +223,7 @@ export default defineComponent({
 }
 
 .view-chapter-arrow-pointer {
-    @apply dark:bg-gray-100 dark:bg-opacity-0 dark:hover:bg-opacity-30 hover:bg-gray-300 cursor-pointer p-10px rounded-[100%] duration-150;
+    @apply opacity-30 hover:opacity-95 cursor-pointer p-10px duration-150;
 }
 
 .view-chapter-verse {

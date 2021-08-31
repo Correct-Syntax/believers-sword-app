@@ -20,6 +20,7 @@ export const setReadBiblePage = async (store: any = null): Promise<void> => {
     ipcRenderer.on("getBibleVersionsResult", (event, result) => getBibleVersionsResult(event, result));
 
     ipcRenderer.send("getBibleBooks");
+    await store.dispatch("getBookChaptersCount", { bible: store.state.bible.bible, book: store.state.bible.bookSelected });
     await store.dispatch("getBookInChapter", { bible: store.state.bible.bible, book: store.state.bible.bookSelected, chapter: store.state.bible.chapterSelected });
     await store.dispatch("getBibleVersions", { getInStore: false });
 };

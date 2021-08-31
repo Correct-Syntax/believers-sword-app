@@ -16,7 +16,7 @@
         </div>
         <div class="flex flex-col gap-10px">
             <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/donate' }" @click="$router.push('/donate')">
-                <i class="bx bx-donate-heart text-yellow-400"></i>
+                <i class="bx bx-donate-heart hover:text-yellow-400"></i>
                 <div class="tooltip">Donate</div>
             </div>
             <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/help' }" @click="$router.push('/help')">
@@ -25,12 +25,12 @@
             </div>
             <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/account' }" @click="$router.push('/account')">
                 <i class="bx bx-user"></i>
-                <div class="tooltip">Check You Account</div>
+                <div class="tooltip">You Account</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/settings' }" @click="$router.push('/settings')">
+            <!-- <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/settings' }" @click="$router.push('/settings')">
                 <i class="bx bx-cog"></i>
                 <div class="tooltip">Settings</div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>

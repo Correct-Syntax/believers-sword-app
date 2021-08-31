@@ -30,9 +30,10 @@
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from "vue";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
 import { NInputNumber, NTooltip } from "naive-ui";
+import session from "@/service/session";
 export default defineComponent({
     name: "MainView",
     components: { NInputNumber, NTooltip },
@@ -44,7 +45,13 @@ export default defineComponent({
         watch(slideValue, () => {
             slideValue.value = slideValue.value < 80 ? 80 : (slideValue.value > 110 ? 110 : slideValue.value)
             store.state.frame.zoomLevel = slideValue.value * 0.01;
+            session.set("webFrameZoom", store.state.frame.zoomLevel)
         });
+
+        onMounted(() => {
+            let zoomLevel = session.get("webFrameZoom");
+            if (zoomLevel) slideValue.value = zoomLevel * 100
+        })
 
         return {
             bibleStore,
