@@ -10,8 +10,8 @@
                 <div>
                     <div class="flex items-center gap-10px mr-15px">
                         <div>Zoom:</div>
-                        <div class="w-200px">
-                            <NSlider v-model:value="slideValue" :max="110" :min="80" :step="0.1" />
+                        <div class="w-90px">
+                            <NInputNumber v-model:value="slideValue" :max="110" :min="80" size="small" :step="2" />
                         </div>
                         <div>
                             <NTooltip trigger="hover" placement="top-start">
@@ -32,16 +32,17 @@
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from "vue";
 import { useStore } from "vuex";
-import { NSlider, NTooltip } from "naive-ui";
+import { NInputNumber, NTooltip } from "naive-ui";
 export default defineComponent({
     name: "MainView",
-    components: { NSlider, NTooltip },
+    components: { NInputNumber, NTooltip },
     setup() {
         const store = useStore();
         const bibleStore = computed(() => store.state.bible);
         const slideValue = ref(100);
 
         watch(slideValue, () => {
+            slideValue.value = slideValue.value < 80 ? 80 : (slideValue.value > 110 ? 110 : slideValue.value)
             store.state.frame.zoomLevel = slideValue.value * 0.01;
         });
 
