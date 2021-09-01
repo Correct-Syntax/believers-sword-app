@@ -4,7 +4,8 @@
             <div id="view-chapter-left-side-bar" class="h-[100%] w-[100%] min-w-460px absolute">
                 <div class="h-[100%] w-[100%] min-w-460px relative">
                     <div class="h-[var(--view-chapter-top-width)] shadow-md">
-                        <div class="flex justify-center items-center">
+                        <TopOptionsBar />
+                        <!-- <div class="flex justify-center items-center">
                             <div class="flex items-center gap-20px text-size-13px items-center">
                                 <div class="flex items-center whitespace-nowrap gap-[10px]">
                                     <span>Font Size: <span class="dark:bg-gray-200 bg-gray-600 dark:bg-opacity-10 bg-opacity-10 p-3px rounded-md">{{fontSize}}px</span></span>
@@ -25,7 +26,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div id="view-chapter-verse" class="view-chapter-verse overflowing-div scroll-bar-md" @scroll="scrollViewChapterVerse">
                         <div class="view-chapter-verse-wrapper w-[100%]">
@@ -56,24 +57,23 @@
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, watch } from "vue";
+import { computed, defineComponent, onMounted } from "vue";
 import { useStore } from "vuex";
 import session from "@/service/session";
 import { viewChapterComponentLeftSideWidth } from "@/service/widthSizeConstantVariables";
 import { dragSide } from "@/service/MouseDragResizePanel";
 import RightSide from "@/components/ReadBiblePageComponents/RightSide/RightSide.vue";
-import { NSlider, NTooltip } from "naive-ui";
 import VersesRender from "@/components/ReadBiblePageComponents/ViewChapter/Verses/Verses.vue"
+import TopOptionsBar from "@/components/ReadBiblePageComponents/ViewChapter/TopOptions/TopOptions.vue"
 
 export default defineComponent({
-    components: { RightSide, NSlider, NTooltip, VersesRender },
+    components: { RightSide, VersesRender, TopOptionsBar },
     setup() {
         const store = useStore();
         const bibleStore = computed(() => store.state.bible);
         const frameZoomLevel = computed(() => store.state.frame.zoomLevel)
-        const fontSize = ref(14);
+        const fontSize = computed(() => store.state.bible.viewChapterVersesFontSize);
         const getVersion = (table: string) => {
-            // eslint-disable-next-line
             let version = bibleStore.value.bibleVersions.filter((item: any) => item.table === table);
             return version ? version[0]?.abbreviation : "NONE";
         };
@@ -84,20 +84,10 @@ export default defineComponent({
             document.getElementById("view-chapter-component-wrapper")?.style.setProperty("--view-chapter-left-width", `${leftSideWidth ? leftSideWidth : 1050}px`);
             dragSide("view-chapter-component-wrapper", "view-chapter-dragbar", "--view-chapter-left-width", frameZoomLevel.value < 1 ? 1800 : 1800 - (frameZoomLevel.value * 190), 1050, viewChapterComponentLeftSideWidth);
 
-            let viewReadChapterFontSize = session.get("viewReadChapterFontSize");
-            if (viewReadChapterFontSize) {
-                fontSize.value = viewReadChapterFontSize;
-            }
-
             setTimeout(() => {
                 const scrollTop = session.get("viewChapterVerseScrollTop");
                 if (viewChapterVerseElement) viewChapterVerseElement.scrollTop = scrollTop ? scrollTop : 0;
             }, 100);
-        });
-
-        watch(fontSize, () => {
-            fontSize.value = fontSize.value < 14 ? 14 : fontSize.value;
-            session.set("viewReadChapterFontSize", fontSize.value);
         });
 
         return {
@@ -141,7 +131,7 @@ export default defineComponent({
 </script>
 <style lang="scss">
 #view-chapter-component {
-    --view-chapter-top-width: 30px;
+    --view-chapter-top-width: 35px;
 }
 
 #view-chapter-component-wrapper {

@@ -1,3 +1,4 @@
+import { verseBookmarkState } from './modules/verseBookMarkState/index';
 import { bibleModule } from "./modules/bible";
 import { createStore } from "vuex";
 import { frameState } from "./modules/frameState";
@@ -10,6 +11,7 @@ export default createStore({
     actions: {},
     modules: {
         bible: bibleModule,
-        frame: frameState
+        frame: frameState,
+        verseBookmark: verseBookmarkState
     }
 });

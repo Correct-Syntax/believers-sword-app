@@ -1,5 +1,5 @@
 <template>
-    <div class="h-[100%] w-[100%] overflow-y-auto overflowing-div">
+    <div class="h-[100%] w-[100%] overflow-y-auto overflowing-div select-none">
         <div class="px-10px">
             <form>
                 <template v-for="version in bibleStore.bibleVersions" :key="version.table">

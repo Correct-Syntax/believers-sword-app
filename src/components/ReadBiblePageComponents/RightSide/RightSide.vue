@@ -4,7 +4,7 @@
             <n-tabs type="line" size="small">
                 <n-tab-pane name="oasis">
                     <template #tab>
-                        <span class="pl-5px flex items-center gap-5px">
+                        <span class="pl-5px flex items-center gap-5px select-none">
                             <div>
                                 <i class="bx bx-book-open"></i>
                             </div>
@@ -15,7 +15,7 @@
                 </n-tab-pane>
                 <n-tab-pane name="the beatles">
                     <template #tab>
-                        <span class="flex items-center gap-5px">
+                        <span class="flex items-center gap-5px select-none">
                             <div>
                                 <i class='bx bx-bookmarks' ></i>
                             </div>
@@ -26,7 +26,7 @@
                 </n-tab-pane>
                 <n-tab-pane name="jay chou">
                     <template #tab>
-                        <span class="flex items-center gap-5px">
+                        <span class="flex items-center gap-5px select-none">
                             <div>
                                 <i class='bx bx-search' ></i>
                             </div>

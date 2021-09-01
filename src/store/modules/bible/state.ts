@@ -6,5 +6,6 @@ export default {
     bookSelectedChapterCount: 50,
     viewBookChapter: [],
     bibleVersions: [],
-    bibleVersionsSelected: ["t_kjv"]
+    bibleVersionsSelected: ["t_kjv"],
+    viewChapterVersesFontSize: 14
 };

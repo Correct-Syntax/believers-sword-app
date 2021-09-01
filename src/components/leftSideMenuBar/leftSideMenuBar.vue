@@ -50,7 +50,7 @@ export default defineComponent({
         }
 
         .tooltip {
-            @apply invisible absolute left-40px dark:text-cool-gray-300 text-gray-700 px-[7px] py-[5px] rounded-md text-size-[15px] whitespace-nowrap opacity-0 duration-150;
+            @apply invisible absolute left-40px dark:text-cool-gray-300 text-gray-700 px-[7px] py-[5px] rounded-md text-size-[15px] whitespace-nowrap opacity-0 duration-150 select-none;
             box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.481);
         }
 
