@@ -36,44 +36,7 @@
                             </div>
                             <div class="h-[100%] flex justify-center relative">
                                 <div class="flex justify-center">
-                                    <div class="m-20px">
-                                        <div v-for="verse in bibleStore.viewBookChapter" :key="verse.v" class="verse-item">
-                                            <div class="read-chapter-verse-number">
-                                                {{ verse.v }}
-                                            </div>
-                                            <div v-if="verse.versions" class="w-[100%] max-w-700px text-justify flex flex-col gap-15px">
-                                                <div v-for="version in verse.versions" :key="version.version">
-                                                    <div class="leading-relaxed" :style="`font-size: ${fontSize}px`">
-                                                        <span class="opacity-50 font-500">
-                                                            <i> {{ getVersion(version.version) }}</i>
-                                                        </span>
-                                                        {{ version.text }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="verse-item-more-options">
-                                                <n-popover trigger="hover" :show-arrow="false">
-                                                    <template #trigger>
-                                                        <div class="text-size-30px p-10px bg-gray-600 dark:text-gray-300 text-gray-100 rounded-[100%] cursor-pointer">
-                                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                                        </div>
-                                                    </template>
-                                                    <div>
-                                                        <div class="text-size-18px flex flex-col gap-[10px]">
-                                                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100">
-                                                                <i class="bx bx-bookmark"></i>
-                                                                <span>Bookmark</span>
-                                                            </div>
-                                                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100">
-                                                                <i class="bx bx-share-alt"></i>
-                                                                <span>Share Verse</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </n-popover>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <VersesRender :viewBookChapter="bibleStore.viewBookChapter" :fontSize="fontSize" />
                                 </div>
                             </div>
                             <div class="absolute right-30px top-[50%] text-size-30px z-50">
@@ -99,10 +62,11 @@ import session from "@/service/session";
 import { viewChapterComponentLeftSideWidth } from "@/service/widthSizeConstantVariables";
 import { dragSide } from "@/service/MouseDragResizePanel";
 import RightSide from "@/components/ReadBiblePageComponents/RightSide/RightSide.vue";
-import { NPopover, NSlider, NTooltip } from "naive-ui";
+import { NSlider, NTooltip } from "naive-ui";
+import VersesRender from "@/components/ReadBiblePageComponents/ViewChapter/Verses/Verses.vue"
 
 export default defineComponent({
-    components: { RightSide, NPopover, NSlider, NTooltip },
+    components: { RightSide, NSlider, NTooltip, VersesRender },
     setup() {
         const store = useStore();
         const bibleStore = computed(() => store.state.bible);
@@ -197,31 +161,6 @@ export default defineComponent({
     @apply right-0 w-5px dark:opacity-0 opacity-0 dark:bg-light-50 bg-gray-600 h-[100%] dark:bg-opacity-30 bg-opacity-30 active:opacity-100 dark:active:opacity-100 duration-300 absolute top-0;
 }
 
-.verse-item {
-    @apply flex items-center justify-between w-[100%] gap-20px mb-20px cursor-default p-20px dark:bg-gray-100 bg-gray-800 dark:bg-opacity-0 bg-opacity-0 dark:hover:bg-opacity-3 hover:bg-opacity-5;
-
-    .read-chapter-verse-number {
-        @apply w-[100%] max-w-[60px] flex justify-center items-center text-size-30px font-700 opacity-30 duration-150;
-    }
-
-    .verse-item-more-options {
-        @apply opacity-0 invisible duration-150;
-    }
-
-    &:hover {
-        .verse-item-more-options {
-            @apply opacity-30 visible;
-            &:hover {
-                @apply dark:opacity-90 opacity-70;
-            }
-        }
-
-        .read-chapter-verse-number {
-            @apply opacity-100;
-        }
-    }
-}
-
 .view-chapter-arrow-pointer {
     @apply opacity-30 hover:opacity-95 cursor-pointer p-10px duration-150;
 }
@@ -241,17 +180,11 @@ export default defineComponent({
     #view-chapter-component-wrapper {
         --view-chapter-left-width: 1200px !important;
     }
-    .verse-item {
-        max-width: 600px;
-    }
 }
 
 @media only screen and (max-width: 1401px) {
     #view-chapter-component-wrapper {
         --view-chapter-left-width: 1190px !important;
-    }
-    .verse-item {
-        max-width: 600px;
     }
 }
 
@@ -259,26 +192,17 @@ export default defineComponent({
     #view-chapter-component-wrapper {
         --view-chapter-left-width: 1100px !important;
     }
-    .verse-item {
-        max-width: 600px;
-    }
 }
 
 @media only screen and (max-width: 1277px) {
     #view-chapter-component-wrapper {
         --view-chapter-left-width: 1000px !important;
     }
-    .verse-item {
-        max-width: 600px;
-    }
 }
 
 @media only screen and (max-width: 1182px) {
     #view-chapter-component-wrapper {
         --view-chapter-left-width: 900px !important;
-    }
-    .verse-item {
-        max-width: 600px;
     }
 }
 </style>

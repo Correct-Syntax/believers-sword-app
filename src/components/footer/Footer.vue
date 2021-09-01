@@ -2,7 +2,7 @@
     <div>
         <div class="flex justify-between whitespace-nowrap">
             <div>left side</div>
-            <div class="flex justify-center items-center gap-10px">
+            <div class="flex justify-center items-center gap-10px dark:text-[var(--darkPrimaryColor)] text-[var(--lightPrimaryColor)]">
                 <div>{{ bibleBook(bibleStore.bookSelected) }}</div>
                 <div>{{ bibleStore.chapterSelected }}</div>
             </div>
