@@ -1,5 +1,3 @@
-import { version } from "vue";
-
 const log = require("electron-log");
 const isDevelopment = process.env.NODE_ENV !== "production";
 const config = require("./../../../db.config");

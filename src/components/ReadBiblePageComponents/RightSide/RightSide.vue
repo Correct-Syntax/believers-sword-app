@@ -1,8 +1,8 @@
 <template>
-    <div class="h-[100%] w-[100%]">
+    <div id="right-side-bar" class="h-[100%] w-[100%]">
         <div class="h-[100%] w-[100%]">
-            <n-tabs type="line" size="small">
-                <n-tab-pane name="oasis">
+            <n-tabs class=" w-[100%]" style="height: calc(100% - var(--right-side-tab-height))" type="line" size="small">
+                <n-tab-pane class="h-[100%]" name="oasis">
                     <template #tab>
                         <span class="pl-5px flex items-center gap-5px select-none">
                             <div>
@@ -13,7 +13,7 @@
                     </template>
                     <SelectBibleVersions />
                 </n-tab-pane>
-                <n-tab-pane name="the beatles">
+                <n-tab-pane class="h-[100%]" name="the beatles">
                     <template #tab>
                         <span class="flex items-center gap-5px select-none">
                             <div>
@@ -22,9 +22,9 @@
                             <span> Bookmarks</span>
                         </span>
                     </template>
-                    Hey Jude
+                    <Bookmarks />
                 </n-tab-pane>
-                <n-tab-pane name="jay chou">
+                <n-tab-pane class="h-[100%]" name="jay chou">
                     <template #tab>
                         <span class="flex items-center gap-5px select-none">
                             <div>
@@ -40,10 +40,16 @@
     </div>
 </template>
 <script>
-import SelectBibleVersions from "@/components/ReadBiblePageComponents/SelectBibleVersions/SelectBibleVersions.vue";
+import SelectBibleVersions from "./SelectBibleVersions/SelectBibleVersions.vue";
+import Bookmarks from "./Bookmarks/Bookmarks.vue"
 import { NTabs, NTabPane } from "naive-ui";
 export default {
     name: "ReadBibleChapterRightSide",
-    components: { SelectBibleVersions, NTabs, NTabPane },
+    components: { SelectBibleVersions, NTabs, NTabPane, Bookmarks },
 };
 </script>
+<style lang="scss">
+    #right-side-bar {
+        --right-side-tab-height: 40px;
+    }
+</style>

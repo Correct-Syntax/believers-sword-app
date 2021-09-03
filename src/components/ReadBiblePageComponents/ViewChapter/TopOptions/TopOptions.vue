@@ -11,14 +11,7 @@
             </div>
             <div>
                 <div>
-                    <NTooltip trigger="hover" size="small">
-                        <template #trigger>
-                            <div class="text-size-20px opacity-50 hover:opacity-95 cursor-pointer">
-                                <i class="bx bx-bookmark"></i>
-                            </div>
-                        </template>
-                        <span>Bookmark</span>
-                    </NTooltip>
+                    <BookMarkOption />
                 </div>
             </div>
         </div>
@@ -26,15 +19,16 @@
 </template>
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from "vue";
-import { NSlider, NTooltip } from "naive-ui";
+import { NSlider } from "naive-ui";
 import session from "@/service/session";
 import { useStore } from "vuex";
+import BookMarkOption from "@/components/ReadBiblePageComponents/ViewChapter/TopOptions/BookmarkOption/BookmarkOption.vue";
 
 export default defineComponent({
     name: "ViewVerseTopOptions",
     components: {
         NSlider,
-        NTooltip,
+        BookMarkOption,
     },
     setup() {
         const store = useStore();

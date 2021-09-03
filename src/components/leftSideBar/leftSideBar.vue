@@ -2,7 +2,7 @@
     <div class="h-[100%] flex">
         <div class="book-selection w-[100%] overflowing-div" @scroll="scrollBookSelection">
             <div v-for="book in storeBible.bibleBooks" :key="book.b" class="book-selection-item py-5px" :class="{ 'selected-active': book.b == storeBible.bookSelected }" @click="selectBook(book.b)">
-                {{ book.n }}
+                <span class="opacity-50">{{ setBookNumber(book.b) }}.</span> <span>{{ book.n }}</span>
             </div>
         </div>
         <div class="chapter-selection w-80px overflowing-div">
@@ -65,6 +65,9 @@ export default defineComponent({
                 storeBible.value.chapterSelected = number;
                 await store.dispatch("getBookInChapter", { bible: storeBible.value.bible, book: storeBible.value.bookSelected, chapter: storeBible.value.chapterSelected });
                 saveScrollTopState("selected-active", 1, "chapterSelectionScrollTop");
+            },
+            setBookNumber(number: any) {
+                return number < 9 ? "0" + number : number + "";
             },
         };
     },

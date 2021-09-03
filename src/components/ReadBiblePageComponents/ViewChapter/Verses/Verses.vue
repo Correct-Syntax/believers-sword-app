@@ -1,13 +1,29 @@
 <template>
     <div class="m-20px">
-        <div v-for="verse in viewBookChapter" :key="verse.v" class="verse-item relative" :class="{ 'item-bookmarked': checkIfVerseExistInBookmarkState(verse) }" @click="clickVerse(verse)">
+        <div
+            v-for="verse in viewBookChapter"
+            :key="verse.v"
+            class="verse-item relative"
+            :class="{ 'item-bookmarked': checkIfVerseExistInBookmarkState(verse), 'item-saved-in-bookmark': checkIfVerseExistInSavedBookmarks(verse) }"
+            @click="clickVerse(verse)"
+        >
             <div class="item-bookmarked-dot invisible opacity-0 absolute right-[10px] top-[10px]">
                 <div class="text-[var(--darkPrimaryColor)]">
                     <i class="bx bxs-circle"></i>
                 </div>
             </div>
             <div class="read-chapter-verse-number">
-                {{ verse.v }}
+                <span>{{ verse.v }}</span>
+                <span class="item-saved-in-bookmark-mark">
+                    <n-tooltip trigger="hover" placement="bottom-start">
+                        <template #trigger>
+                            <div>
+                                <i class="bx bx-bookmarks"></i>
+                            </div>
+                        </template>
+                        <div>This Verse is <b> Bookmarked</b></div>
+                    </n-tooltip>
+                </span>
             </div>
             <div v-if="verse.versions" class="w-[100%] max-w-700px text-justify flex flex-col gap-15px">
                 <div v-for="version in verse.versions" :key="version.version">
@@ -46,22 +62,28 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
-import { NPopover } from "naive-ui";
+import { NPopover, NTooltip } from "naive-ui";
 
 export default defineComponent({
     name: "VersesRender",
     props: ["viewBookChapter", "fontSize"],
-    components: { NPopover },
+    components: { NPopover, NTooltip },
     setup() {
         const store = useStore();
         const bibleBookMarkStore = computed(() => store.state.verseBookmark);
         const bibleStore = computed(() => store.state.bible);
+        const savedBookmarks = computed(() => store.state.verseBookmark.savedBookmarks);
+
         const getVersion = (table: string) => {
             let version = bibleStore.value.bibleVersions.filter((item: any) => item.table === table);
             return version ? version[0]?.abbreviation : "NONE";
         };
         const checkIfVerseExistInBookmarkState = (verse: any) => {
             return bibleBookMarkStore.value.bookmarks.filter((item: any) => item.b === verse.b && item.c === verse.c && item.v === verse.v).length > 0;
+        };
+
+        const checkIfVerseExistInSavedBookmarks = (verse: any) => {
+            return savedBookmarks.value.filter((item: any) => item.b === verse.b && item.c === verse.c && item.v === verse.v).length > 0;
         };
 
         return {
@@ -75,6 +97,7 @@ export default defineComponent({
                 }
             },
             checkIfVerseExistInBookmarkState,
+            checkIfVerseExistInSavedBookmarks,
         };
     },
 });
@@ -97,8 +120,18 @@ export default defineComponent({
         }
     }
 
+    .item-saved-in-bookmark-mark {
+        @apply hidden;
+    }
+
+    &.item-saved-in-bookmark {
+        .item-saved-in-bookmark-mark {
+            @apply block;
+        }
+    }
+
     .read-chapter-verse-number {
-        @apply w-[100%] max-w-[60px] flex justify-center items-center text-size-30px font-700 opacity-30 duration-150;
+        @apply w-[100%] max-w-[60px] flex flex-col gap-10px justify-center items-center text-size-30px font-700 opacity-30 duration-150;
     }
 
     .verse-item-more-options {
