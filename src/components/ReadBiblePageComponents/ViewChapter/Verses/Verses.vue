@@ -12,7 +12,7 @@
             @click="clickVerse(verse)"
         >
             <div class="item-bookmarked-dot invisible opacity-0 absolute right-[10px] top-[10px]">
-                <div class="text-[var(--darkPrimaryColor)]">
+                <div class="text-[var(--primaryColor)]">
                     <i class="bx bxs-circle"></i>
                 </div>
             </div>
@@ -114,16 +114,16 @@ export default defineComponent({
     @apply flex items-center justify-between w-[100%] gap-20px mb-20px cursor-default p-20px dark:bg-gray-100 bg-gray-800 dark:bg-opacity-0 bg-opacity-0 dark:hover:bg-opacity-3 hover:bg-opacity-5;
 
     &.item-bookmarked {
-        @apply border rounded-xl border-[var(--darkPrimaryColor)];
+        @apply border rounded-xl border-[var(--primaryColor)];
 
         .item-bookmarked-dot {
             @apply opacity-100 visible;
         }
         .read-chapter-verse-number {
-            @apply text-[var(--darkPrimaryColor)] opacity-70;
+            @apply text-[var(--primaryColor)] opacity-70;
         }
         .verse-item-bible-version {
-            @apply text-[var(--darkPrimaryColor)];
+            @apply text-[var(--primaryColor)];
         }
     }
 

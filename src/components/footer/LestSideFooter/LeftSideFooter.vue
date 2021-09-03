@@ -2,12 +2,17 @@
     <div>
         <div class="flex items-center">
             <template v-if="verseBookmarkState.bookmarks.length > 0">
-                <div v-for="bookmark in verseBookmarkState.bookmarks" :key="bookmark.v">
-                    <span class="dark:text-[var(--darkPrimaryColor)] text-[var(--lightPrimaryColor)]">(</span>
+                <div v-for="bookmark in verseBookmarkState.bookmarks" :key="bookmark.v" class="italic">
+                    <span class="dark:text-[var(--primaryColor)] text-[var(--primaryColor)]">(</span>
                     {{ bookmark.b }}:{{ bookmark.c }}:{{ bookmark.v }}
-                    <span class="text-[var(--darkPrimaryColor)]">)</span>
+                    <span class="text-[var(--primaryColor)]">)</span>
                 </div>
-                <NButton class="ml-10px flex items-center justify-center" size="tiny" @click="clearBookmarkOnSelect()"> <i class="bx bx-x"></i> Clear </NButton>
+                <NButton class="ml-10px flex items-center justify-center" size="tiny" @click="clearBookmarkOnSelect()">
+                    <div class="text-size-16px">
+                        <i class="bx bx-x"></i>
+                    </div>
+                    Clear
+                </NButton>
             </template>
             <div v-else>😍</div>
         </div>

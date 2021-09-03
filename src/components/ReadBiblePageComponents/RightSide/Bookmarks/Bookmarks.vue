@@ -66,14 +66,14 @@ export default defineComponent({
 </script>
 <style lang="scss">
 .right-side-bookmark-saved-items {
-    @apply flex flex-row gap-10px justify-between px-20px text-size-17px py-15px bg-gray-800 bg-opacity-30 border dark:border-gray-300 border-gray-700 dark:border-opacity-0 border-opacity-0;
+    @apply flex items-center flex-row gap-10px justify-between px-10px text-size-15px py-3px border  border-opacity-0 border-light-50;
 
     &.right-side-bookmark-selected {
-        @apply dark:border-opacity-100 border-opacity-100;
+        @apply border-[var(--primaryColor)];
     }
 
     &:hover {
-        @apply bg-gray-100 bg-opacity-5 cursor-pointer;
+        @apply dark:bg-gray-100 dark:bg-opacity-5 bg-gray-700 bg-opacity-5 cursor-pointer;
     }
 }
 </style>

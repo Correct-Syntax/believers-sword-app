@@ -89,16 +89,16 @@ export default defineComponent({
                 z-index: 99999;
             }
         }
-    }
 
-    .active-menu-bar-item {
-        @apply dark:text-[var(--darkPrimaryColor)]  text-gray-800 text-[var(--lightPrimaryColor)] border-l-[1px] dark:border-[var(--darkPrimaryColor)] border-[var(--lightPrimaryColor)];
-        .bx {
-            @apply scale-125;
-        }
+        &.active-menu-bar-item {
+            @apply text-[var(--primaryColor)] border-l-[1px] border-[var(--primaryColor)];
+            .bx {
+                @apply scale-125;
+            }
 
-        &:hover {
-            @apply dark:text-[var(--darkPrimaryColor)] text-gray-800;
+            &:hover {
+                @apply text-[var(--primaryColor)];
+            }
         }
     }
 }

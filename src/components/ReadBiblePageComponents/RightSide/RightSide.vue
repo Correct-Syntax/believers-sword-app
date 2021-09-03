@@ -33,7 +33,7 @@
                             <span> Search</span>
                         </span>
                     </template>
-                    this
+                    <SearchTab />
                 </n-tab-pane>
             </n-tabs>
         </div>
@@ -42,12 +42,13 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
 import SelectBibleVersions from "./SelectBibleVersions/SelectBibleVersions.vue";
+import SearchTab from "./Search/Search.vue"
 import Bookmarks from "./Bookmarks/Bookmarks.vue"
 import { NTabs, NTabPane } from "naive-ui";
 import session from '@/service/session';
 export default defineComponent({
     name: "ReadBibleChapterRightSide",
-    components: { SelectBibleVersions, NTabs, NTabPane, Bookmarks },
+    components: { SelectBibleVersions, NTabs, NTabPane, Bookmarks, SearchTab },
     setup() {
         const tabValue = ref("versionsTab")
 

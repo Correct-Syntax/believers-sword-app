@@ -28,7 +28,7 @@
                 </div>
                 <div id="view-chapter-dragbar" class="drag-bar" style="cursor: col-resize"></div>
             </div>
-            <div id="view-chapter-right-side-bar" class="h-[100%] w-[100%] min-w-100px dark:bg-black dark:bg-opacity-20 bg-gray-300 absolute right-0">
+            <div id="view-chapter-right-side-bar" class="h-[100%] w-[100%] min-w-100px dark:bg-black dark:bg-opacity-20 bg-gray-200 absolute right-0">
                 <RightSide />
             </div>
         </div>

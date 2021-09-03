@@ -4,7 +4,7 @@
             <div class="select-none w-350px">
                 <LeftSideFooter />
             </div>
-            <div class="w-350px flex justify-center items-center gap-10px dark:text-[var(--darkPrimaryColor)] text-[var(--lightPrimaryColor)]">
+            <div class="w-350px flex justify-center items-center gap-10px dark:text-[var(--primaryColor)] text-[var(--primaryColor)]">
                 <div>{{ bibleBook(bibleStore.bookSelected) }}</div>
                 <div>{{ bibleStore.chapterSelected }}</div>
             </div>

@@ -1,6 +1,6 @@
 <template>
     <n-config-provider :theme-overrides="themeOverrides" :theme="dark ? darkTheme : null">
-        <div class="h-[100vh]" :class="{ dark: dark }">
+        <div class="h-[100vh]" :class="{ dark: dark, light: !dark }">
             <TitleBar />
             <div class="dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 h-[calc(100%-30px)] overflow-y-auto">
                 <MainView />
@@ -41,9 +41,11 @@ export default defineComponent({
         const zoomLevel = computed(() => store.state.frame.zoomLevel);
 
         const changeTheme = () => {
-            themeOverrides.common.primaryColor = dark.value ? "#3cb1ff" : "#2672a5";
-            themeOverrides.common.primaryColorHover = dark.value ? "#3cb1ff" : "#2672a5";
+            themeOverrides.common.primaryColor = dark.value ? "#3cb1ff" : "#0084dc";
+            themeOverrides.common.primaryColorHover = dark.value ? "#3cb1ff" : "#0084dc";
             themeOverrides.common.popoverColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
+            let themeProperty = dark.value ? 'dark' : 'light';
+            document.documentElement.setAttribute("theme", themeProperty);
         };
 
         onBeforeMount(async () => {
@@ -74,6 +76,6 @@ export default defineComponent({
 
 <style lang="scss">
 .none-just-testing {
-    color: #2672a5;
+    color: rgba(255, 255, 255, 1);
 }
 </style>
