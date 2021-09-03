@@ -34,7 +34,7 @@ export const saveVersesInBookmark = (win: any, payload: Array<any>) => {
         add.sort((a, b) => (a.b_text < b.b_text ? -1 : a.b_text > b.b_text ? 1 : 0));
         electronStore.set(electronStoreBookMarkObjPath, add);
         win.webContents.send("getVersesInBookmarkResult", add);
-    } catch (e) {
+    } catch (e: any) {
         console.log(e.message);
     }
 };
@@ -43,7 +43,19 @@ export const getVersesSavedBookmarks = (win: any) => {
     try {
         let getCurrentBookmarks = electronStore.get(electronStoreBookMarkObjPath);
         win.webContents.send("getVersesInBookmarkResult", getCurrentBookmarks);
-    } catch (e) {
+    } catch (e: any) {
+        console.log(e.message);
+    }
+};
+
+export const deleteVerseInSavedBookmarks = (win: any, payload: any) => {
+    try {
+        let getCurrentBookmarks = electronStore.get(electronStoreBookMarkObjPath);
+        let index = getCurrentBookmarks.findIndex((x: any) => x.b == payload.b && x.c == payload.c && x.v == payload.v);
+        getCurrentBookmarks.splice(index, 1);
+        electronStore.set(electronStoreBookMarkObjPath, getCurrentBookmarks);
+        win.webContents.send("getVersesInBookmarkResult", getCurrentBookmarks);
+    } catch (e: any) {
         console.log(e.message);
     }
 };

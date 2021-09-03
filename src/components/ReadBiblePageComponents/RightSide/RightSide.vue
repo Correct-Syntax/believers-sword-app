@@ -26,7 +26,7 @@
                 </n-tab-pane>
                 <n-tab-pane class="h-[100%]" name="searchTab">
                     <template #tab>
-                        <span class="flex items-center gap-5px select-none">
+                        <span class="pr-5px flex items-center gap-5px select-none">
                             <div>
                                 <i class='bx bx-search' ></i>
                             </div>

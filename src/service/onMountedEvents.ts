@@ -12,7 +12,7 @@ export const setReadBiblePage = async (store: any = null): Promise<void> => {
     }
 
     session.set("viewChapterComponentLeftSideWidth", 1600);
-    session.set("readBibleLeftSideBarWidth", 400);
+    session.set("readBibleLeftSideBarWidth", 260);
 
     // ON EVENTS
     ipcRenderer.on("resultBibleBooks", (event, result) => resultBibleBooks(event, result));

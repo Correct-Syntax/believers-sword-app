@@ -38,7 +38,8 @@ export default defineComponent({
                     });
                 }
                 ipcRenderer.send("saveVersesInBookmark", newBookMark);
-                message.info("I don't know why nobody told you how to unfold your love")
+                store.state.verseBookmark.bookmarks = [];
+                message.info("Bookmark Saved")
             }
         };
 
