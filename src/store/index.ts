@@ -5,7 +5,8 @@ import { frameState } from "./modules/frameState";
 
 export default createStore({
     state: {
-        dark: true
+        dark: true,
+        readBibleMenuSelected: true,
     },
     mutations: {},
     actions: {},

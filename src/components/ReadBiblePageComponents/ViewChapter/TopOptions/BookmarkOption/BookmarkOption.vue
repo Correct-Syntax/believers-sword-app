@@ -13,6 +13,8 @@ import { computed, defineComponent } from "vue";
 import { NTooltip } from "naive-ui";
 import { ipcRenderer } from "electron";
 import { useStore } from "vuex";
+import { useMessage } from 'naive-ui'
+
 export default defineComponent({
     name: "TopBookmarkOption",
     components: { NTooltip },
@@ -20,6 +22,7 @@ export default defineComponent({
         const store = useStore();
         const bookMarkState = computed(() => store.state.verseBookmark.bookmarks);
         const bibleBooks = computed(() => store.state.bible.bibleBooks);
+        const message = useMessage()
 
         const saveSelectedBookmark = () => {
             if (bookMarkState.value.length > 0) {
@@ -35,6 +38,7 @@ export default defineComponent({
                     });
                 }
                 ipcRenderer.send("saveVersesInBookmark", newBookMark);
+                message.info("I don't know why nobody told you how to unfold your love")
             }
         };
 

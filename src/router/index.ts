@@ -1,5 +1,4 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
-import ReadBible from "@/views/pages/ReadBible.vue";
 import Sermon from "@/views/pages/Sermons.vue"
 import DirectionPage from "@/views/pages/Directions.vue"
 import Account from "@/views/pages/Account.vue"
@@ -10,8 +9,7 @@ import SettingPage from "@/views/pages/Settings.vue"
 export const routes: Array<RouteRecordRaw> = [
     {
         path: "/",
-        name: "ReadBiblePage",
-        component: ReadBible
+        redirect: "/sermon",
     },
     {
         path: "/sermon",

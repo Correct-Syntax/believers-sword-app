@@ -4,7 +4,6 @@ import { setStore } from "./onMountedEvents/SetStore";
 import { getBibleVersionsResult, getBookChaptersCountResult, getBookInChapterResult, resultBibleBooks } from "./ipcRendererOn/ipcBibleOnEvents";
 import { ipcRenderer } from "electron";
 
-// eslint-disable-next-line
 export const setReadBiblePage = async (store: any = null): Promise<void> => {
     setStore(store);
     const storedSelectedVersions = session.get("storedSelectedVersions");

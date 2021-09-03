@@ -1,29 +1,29 @@
 <template>
     <div class="menu-bar-icons h-[100%] flex flex-col justify-between pb-10px mr-7px z-50">
         <div class="flex flex-col gap-10px">
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/' }" @click="$router.push('/')">
+            <div class="icon-item" :class="{ 'active-menu-bar-item': readBibleIsSelected }" @click="selectReadBibleMenu()">
                 <Icon :size="20" />
                 <div class="tooltip">Read Bible</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/sermon' }" @click="$router.push('/sermon')">
+            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/sermon' && readBibleIsSelected == false }" @click="selectRoute('/sermon')">
                 <Icon name="anchor" :size="20" />
                 <div class="tooltip">Go To Sermons</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/directions' }" @click="$router.push('/directions')">
+            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/directions' && readBibleIsSelected == false }" @click="selectRoute('/directions')">
                 <Icon name="direction" :size="20" />
                 <div class="tooltip">Get Directions</div>
             </div>
         </div>
         <div class="flex flex-col gap-10px">
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/donate' }" @click="$router.push('/donate')">
+            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/donate' && readBibleIsSelected == false }" @click="selectRoute('/donate')">
                 <Icon class="hover:text-yellow-400" name="heart" :size="22" />
                 <div class="tooltip">Donate</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/help' }" @click="$router.push('/help')">
+            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/help' && readBibleIsSelected == false }" @click="selectRoute('/help')">
                 <Icon name="question" :size="22" />
                 <div class="tooltip">Help</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/account' }" @click="$router.push('/account')">
+            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/account' && readBibleIsSelected == false }" @click="selectRoute('/account')">
                 <Icon name="user" :size="20" />
                 <div class="tooltip">You Account</div>
             </div>
@@ -31,10 +31,28 @@
     </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import Icon from "@/components/Icon/Icon.vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 export default defineComponent({
     components: { Icon },
+    setup() {
+        const store = useStore();
+        const router = useRouter();
+        const readBibleIsSelected = computed(() => store.state.readBibleMenuSelected);
+
+        return {
+            readBibleIsSelected,
+            selectReadBibleMenu() {
+                store.state.readBibleMenuSelected = true;
+            },
+            selectRoute(path: string) {
+                store.state.readBibleMenuSelected = false;
+                router.push(path);
+            },
+        };
+    },
 });
 </script>
 <style lang="scss">

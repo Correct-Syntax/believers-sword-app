@@ -42,6 +42,7 @@ export default defineComponent({
 
         const changeTheme = () => {
             themeOverrides.common.primaryColor = dark.value ? "#3cb1ff" : "#2672a5";
+            themeOverrides.common.primaryColorHover = dark.value ? "#3cb1ff" : "#2672a5";
             themeOverrides.common.popoverColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
         };
 

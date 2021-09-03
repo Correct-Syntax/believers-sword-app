@@ -4,7 +4,11 @@
             v-for="verse in viewBookChapter"
             :key="verse.v"
             class="verse-item relative"
-            :class="{ 'item-bookmarked': checkIfVerseExistInBookmarkState(verse), 'item-saved-in-bookmark': checkIfVerseExistInSavedBookmarks(verse) }"
+            :class="{
+                'item-bookmarked': checkIfVerseExistInBookmarkState(verse),
+                'item-saved-in-bookmark': checkIfVerseExistInSavedBookmarks(verse),
+                'saved-bookmark-selected': verse.b === selectedBookmark.b && verse.c === selectedBookmark.c && verse.v === selectedBookmark.v,
+            }"
             @click="clickVerse(verse)"
         >
             <div class="item-bookmarked-dot invisible opacity-0 absolute right-[10px] top-[10px]">
@@ -74,6 +78,8 @@ export default defineComponent({
         const bibleStore = computed(() => store.state.bible);
         const savedBookmarks = computed(() => store.state.verseBookmark.savedBookmarks);
 
+        const selectedBookmark = computed(() => store.state.verseBookmark.selectedBookmark);
+
         const getVersion = (table: string) => {
             let version = bibleStore.value.bibleVersions.filter((item: any) => item.table === table);
             return version ? version[0]?.abbreviation : "NONE";
@@ -98,6 +104,7 @@ export default defineComponent({
             },
             checkIfVerseExistInBookmarkState,
             checkIfVerseExistInSavedBookmarks,
+            selectedBookmark,
         };
     },
 });
@@ -122,6 +129,12 @@ export default defineComponent({
 
     .item-saved-in-bookmark-mark {
         @apply hidden;
+    }
+
+    &.saved-bookmark-selected {
+        .item-bookmarked-dot {
+            @apply opacity-100 visible;
+        }
     }
 
     &.item-saved-in-bookmark {

@@ -1,5 +1,4 @@
-/* eslint-disable */
-let STORAGE: any = localStorage;
+const STORAGE: any = localStorage;
 const VueSession: any = {
     key: "believers-bible-session",
     setAll: function(all: any) {

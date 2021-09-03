@@ -35,37 +35,56 @@
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, onMounted } from "vue";
+import { computed, defineComponent, onMounted, watch } from "vue";
 import { useStore } from "vuex";
 import session from "@/service/session";
 import { viewChapterComponentLeftSideWidth } from "@/service/widthSizeConstantVariables";
 import { dragSide } from "@/service/MouseDragResizePanel";
 import RightSide from "@/components/ReadBiblePageComponents/RightSide/RightSide.vue";
-import VersesRender from "@/components/ReadBiblePageComponents/ViewChapter/Verses/Verses.vue"
-import TopOptionsBar from "@/components/ReadBiblePageComponents/ViewChapter/TopOptions/TopOptions.vue"
+import VersesRender from "@/components/ReadBiblePageComponents/ViewChapter/Verses/Verses.vue";
+import TopOptionsBar from "@/components/ReadBiblePageComponents/ViewChapter/TopOptions/TopOptions.vue";
 
 export default defineComponent({
     components: { RightSide, VersesRender, TopOptionsBar },
     setup() {
         const store = useStore();
         const bibleStore = computed(() => store.state.bible);
-        const frameZoomLevel = computed(() => store.state.frame.zoomLevel)
+        const frameZoomLevel = computed(() => store.state.frame.zoomLevel);
         const fontSize = computed(() => store.state.bible.viewChapterVersesFontSize);
+        const selectedBookmark = computed(() => store.state.verseBookmark.selectedBookmark);
+
         const getVersion = (table: string) => {
             let version = bibleStore.value.bibleVersions.filter((item: any) => item.table === table);
             return version ? version[0]?.abbreviation : "NONE";
         };
 
+        watch(selectedBookmark, async () => {
+            let viewChapterVerseElement = document.getElementById("view-chapter-verse");
+            setTimeout(() => {
+                let el = document.getElementsByClassName("saved-bookmark-selected")[0];
+                if (el instanceof HTMLElement) {
+                    if (viewChapterVerseElement) viewChapterVerseElement.scrollTop = el.offsetTop ? el.offsetTop : 0;
+                }
+            }, 100);
+        });
+
         onMounted(() => {
             let viewChapterVerseElement = document.getElementById("view-chapter-verse");
             const leftSideWidth = session.get(viewChapterComponentLeftSideWidth);
             document.getElementById("view-chapter-component-wrapper")?.style.setProperty("--view-chapter-left-width", `${leftSideWidth ? leftSideWidth : 1050}px`);
-            dragSide("view-chapter-component-wrapper", "view-chapter-dragbar", "--view-chapter-left-width", frameZoomLevel.value < 1 ? 1800 : 1800 - (frameZoomLevel.value * 190), 1050, viewChapterComponentLeftSideWidth);
+            dragSide(
+                "view-chapter-component-wrapper",
+                "view-chapter-dragbar",
+                "--view-chapter-left-width",
+                frameZoomLevel.value < 1 ? 1800 : 1800 - frameZoomLevel.value * 190,
+                1050,
+                viewChapterComponentLeftSideWidth
+            );
 
             setTimeout(() => {
                 const scrollTop = session.get("viewChapterVerseScrollTop");
                 if (viewChapterVerseElement) viewChapterVerseElement.scrollTop = scrollTop ? scrollTop : 0;
-            }, 100);
+            }, 300);
         });
 
         return {

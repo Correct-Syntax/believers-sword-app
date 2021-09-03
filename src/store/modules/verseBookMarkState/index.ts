@@ -1,7 +1,8 @@
 export const verseBookmarkState = {
     state: {
         bookmarks: [],
-        savedBookmarks: []
+        savedBookmarks: [],
+        selectedBookmark: {}
     },
     mutations: {
         setBookmarks(state: any, payload: any): void {
