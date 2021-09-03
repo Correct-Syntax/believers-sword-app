@@ -1,53 +1,74 @@
 <template>
     <div class="menu-bar-icons h-[100%] flex flex-col justify-between pb-10px mr-7px z-50">
         <div class="flex flex-col gap-10px">
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/' }" @click="$router.push('/')">
-                <i class="bx bx-book"></i>
+            <div class="icon-item" :class="{ 'active-menu-bar-item': readBibleIsSelected }" @click="selectReadBibleMenu()">
+                <Icon :size="20" />
                 <div class="tooltip">Read Bible</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/sermon' }" @click="$router.push('/sermon')">
-                <i class="bx bx-message-square-detail"></i>
+            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/sermon' && readBibleIsSelected == false }" @click="selectRoute('/sermon')">
+                <Icon name="anchor" :size="20" />
                 <div class="tooltip">Go To Sermons</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/directions' }" @click="$router.push('/directions')">
-                <i class="bx bx-directions"></i>
+            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/directions' && readBibleIsSelected == false }" @click="selectRoute('/directions')">
+                <Icon name="direction" :size="20" />
                 <div class="tooltip">Get Directions</div>
             </div>
         </div>
         <div class="flex flex-col gap-10px">
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/donate' }" @click="$router.push('/donate')">
-                <i class="bx bx-donate-heart text-yellow-400"></i>
+            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/donate' && readBibleIsSelected == false }" @click="selectRoute('/donate')">
+                <Icon class="hover:text-yellow-400" name="heart" :size="22" />
                 <div class="tooltip">Donate</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/help' }" @click="$router.push('/help')">
-                <i class="bx bx-help-circle"></i>
+            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/help' && readBibleIsSelected == false }" @click="selectRoute('/help')">
+                <Icon name="question" :size="22" />
                 <div class="tooltip">Help</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/account' }" @click="$router.push('/account')">
-                <i class="bx bx-user"></i>
-                <div class="tooltip">Check You Account</div>
-            </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/settings' }" @click="$router.push('/settings')">
-                <i class="bx bx-cog"></i>
-                <div class="tooltip">Settings</div>
+            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/account' && readBibleIsSelected == false }" @click="selectRoute('/account')">
+                <Icon name="user" :size="20" />
+                <div class="tooltip">You Account</div>
             </div>
         </div>
     </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
-export default defineComponent({});
+import { computed, defineComponent } from "vue";
+import Icon from "@/components/Icon/Icon.vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+export default defineComponent({
+    components: { Icon },
+    setup() {
+        const store = useStore();
+        const router = useRouter();
+        const readBibleIsSelected = computed(() => store.state.readBibleMenuSelected);
+
+        return {
+            readBibleIsSelected,
+            selectReadBibleMenu() {
+                store.state.readBibleMenuSelected = true;
+            },
+            selectRoute(path: string) {
+                store.state.readBibleMenuSelected = false;
+                router.push(path);
+            },
+        };
+    },
+});
 </script>
 <style lang="scss">
 .menu-bar-icons {
     .icon-item {
-        @apply flex justify-center items-center h-[30px] cursor-pointer text-size-18px dark:text-gray-400 text-gray-600 pl-6px;
+        @apply flex justify-center items-center h-[30px] cursor-pointer text-size-18px dark:text-gray-400 text-gray-600 pl-5px border-l-[1px] dark:border-gray-800 border-[#fff];
         .bx {
             @apply transform scale-110 duration-100  relative;
         }
 
+        svg {
+            @apply transform scale-100;
+        }
+
         .tooltip {
-            @apply invisible absolute left-30px dark:text-cool-gray-300 text-gray-700 px-[5px] py-[3px] rounded-md text-size-[13px] whitespace-nowrap opacity-0 duration-150;
+            @apply invisible absolute left-40px dark:text-cool-gray-300 text-gray-700 px-[7px] py-[5px] rounded-md text-size-[15px] whitespace-nowrap opacity-0 duration-150 select-none;
             box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.481);
         }
 
@@ -56,6 +77,10 @@ export default defineComponent({});
 
             .bx {
                 @apply scale-125;
+            }
+
+            svg {
+                @apply transform scale-110;
             }
 
             .tooltip {
@@ -67,9 +92,13 @@ export default defineComponent({});
     }
 
     .active-menu-bar-item {
-        @apply dark:text-gray-300 text-gray-800 border-l-[1px] dark:border-gray-300 border-gray-[var(--primaryColor)];
+        @apply dark:text-[var(--darkPrimaryColor)]  text-gray-800 text-[var(--lightPrimaryColor)] border-l-[1px] dark:border-[var(--darkPrimaryColor)] border-[var(--lightPrimaryColor)];
         .bx {
             @apply scale-125;
+        }
+
+        &:hover {
+            @apply dark:text-[var(--darkPrimaryColor)] text-gray-800;
         }
     }
 }

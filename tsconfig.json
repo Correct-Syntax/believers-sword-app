@@ -26,6 +26,10 @@
       "scripthost"
     ]
   },
+
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "off"
+  },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",

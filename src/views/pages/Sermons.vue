@@ -17,7 +17,6 @@ export default defineComponent({
         });
         return {
             tryLang: () => {
-                console.log("yow");
                 ipcRenderer.send("mainWindowLoad");
             },
         };

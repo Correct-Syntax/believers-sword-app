@@ -1,8 +1,8 @@
 <template>
     <div class="h-[100%] flex">
         <div class="book-selection w-[100%] overflowing-div" @scroll="scrollBookSelection">
-            <div v-for="book in storeBible.bibleBooks" :key="book.b" class="book-selection-item py-5px" :class="{ 'selected-active': book.b == storeBible.bookSelected }" @click="selectBook(book.b)">
-                {{ book.n }}
+            <div v-for="book in storeBible.bibleBooks" :key="book.b" class="book-selection-item py-5px" :class="{ 'selected-active': book.b == storeBible.bookSelected}" @click="selectBook(book.b)">
+                <span class="opacity-50">{{ setBookNumber(book.b) }}.</span> <span>{{ book.n }}</span>
             </div>
         </div>
         <div class="chapter-selection w-80px overflowing-div">
@@ -19,29 +19,28 @@
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, onMounted } from "vue";
+import { computed, defineComponent, onMounted, watch } from "vue";
 import { useStore } from "vuex";
-import session from "@/service/session";
+import { saveScrollTopState, setScrollTopState } from "@/service/scrollService/scrollService";
 
 export default defineComponent({
     setup() {
         const store = useStore();
         const storeBible = computed(() => store.state.bible);
+        const selectedBookmark = computed(() => store.state.verseBookmark.selectedBookmark);
 
-        const saveScrollTopState = (className: string, inArray = 0, sessionKey: string, scrollTopSubtract = 0): void => {
-            let el = document.getElementsByClassName(className)[inArray];
-            if (el instanceof HTMLElement) {
-                session.set(sessionKey, el.offsetTop - scrollTopSubtract);
-            }
-        };
+        watch(selectedBookmark, async () => {
+            await store.dispatch("getBookChaptersCount", { bible: storeBible.value.bible, book: storeBible.value.bookSelected });
+            await store.dispatch("getBookInChapter", { bible: storeBible.value.bible, book: storeBible.value.bookSelected, chapter: storeBible.value.chapterSelected });
 
-        const setScrollTopState = (className: string, sessionKey: string, setScrollTopValue = 0): void => {
-            let el2 = document.getElementsByClassName(className)[0];
-            if (el2 instanceof HTMLElement) {
-                if (setScrollTopValue > 0) session.set(sessionKey, setScrollTopValue);
-                el2.scrollTop = session.get(sessionKey) ? session.get(sessionKey) : 0;
-            }
-        };
+            setTimeout(() => {
+                saveScrollTopState("selected-active", 0, "bookSelectionScrollTop");
+                setScrollTopState("book-selection", "bookSelectionScrollTop");
+
+                saveScrollTopState("selected-active", 1, "chapterSelectionScrollTop");
+                setScrollTopState("chapter-selection", "chapterSelectionScrollTop");
+            }, 100);
+        });
 
         onMounted(() => {
             setTimeout(() => {
@@ -65,6 +64,9 @@ export default defineComponent({
                 storeBible.value.chapterSelected = number;
                 await store.dispatch("getBookInChapter", { bible: storeBible.value.bible, book: storeBible.value.bookSelected, chapter: storeBible.value.chapterSelected });
                 saveScrollTopState("selected-active", 1, "chapterSelectionScrollTop");
+            },
+            setBookNumber(number: any) {
+                return number < 9 ? "0" + number : number + "";
             },
         };
     },

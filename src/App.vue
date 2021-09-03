@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { NConfigProvider } from "naive-ui";
-import { computed, defineComponent, onBeforeMount, reactive, watch } from "vue";
+import { computed, defineComponent, onBeforeMount, onMounted, reactive, watch } from "vue";
 import TitleBar from "./components/TitleBar/TitleBar.vue";
 import MainView from "./views/Main.vue";
 import { useStore } from "vuex";
@@ -38,29 +38,30 @@ export default defineComponent({
                 primaryColor: "#22577A",
             },
         });
-        const zoomLevel = computed(() => store.state.frame.zoomLevel)
+        const zoomLevel = computed(() => store.state.frame.zoomLevel);
 
         const changeTheme = () => {
             themeOverrides.common.primaryColor = dark.value ? "#3cb1ff" : "#2672a5";
+            themeOverrides.common.primaryColorHover = dark.value ? "#3cb1ff" : "#2672a5";
             themeOverrides.common.popoverColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
         };
 
         onBeforeMount(async () => {
             await setReadBiblePage(store);
 
+            changeTheme();
+        });
+
+        onMounted(() => {
             let sessionZoom = session.get("webFrameZoom");
-            if (!sessionZoom) session.set("webFrameZoom", 1);
             webFrame.setZoomFactor(sessionZoom ? sessionZoom : 1);
             store.state.frame.zoomLevel = sessionZoom ? sessionZoom : 1;
-
-            changeTheme();
         });
 
         watch(dark, () => changeTheme());
         watch(zoomLevel, () => {
-            session.set("webFrameZoom", zoomLevel.value)
             webFrame.setZoomFactor(zoomLevel.value);
-        })
+        });
 
         return {
             dark,
