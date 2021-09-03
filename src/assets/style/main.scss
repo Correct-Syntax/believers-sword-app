@@ -1,5 +1,7 @@
-:root {
-    --header-height: 30px;
-}
+@import "./common/themes.scss";
+@import "./common/scrollbar.scss";
 
-@import './common/scrollbar.scss';
+
+button:focus {
+    outline: none !important;
+}

@@ -1,86 +1,59 @@
 "use strict";
-
-import { app, protocol, BrowserWindow, ipcMain } from "electron";
+import { app, protocol, BrowserWindow, Menu, webFrame } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
+import { ipcMainEvents } from "./service/ipcMAIN/ipcMainEvents";
 const isDevelopment = process.env.NODE_ENV !== "production";
 const config = require("./db.config");
-const knex = require("knex")(
-    isDevelopment ? config.development : config.production
-);
-const log = require("electron-log");
-log.info(
-    "database location=" +
-        (isDevelopment
-            ? config.development.connection.filename
-            : config.production.connection.filename) +
-        ", Development:" +
-        isDevelopment
-);
+import log from "electron-log";
+if (isDevelopment)
+log.info("database location=" + (isDevelopment ? config.development.connection.filename : config.production.connection.filename) + ", Development:" + isDevelopment);
 
 // Scheme must be registered before the app is ready
-protocol.registerSchemesAsPrivileged([
-    { scheme: "app", privileges: { secure: true, standard: true } }
-]);
+protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
 
 async function createWindow() {
     // Create the browser window.
     const win = new BrowserWindow({
-        width: 1000,
-        height: 600,
+        width: 1180,
+        height: 650,
         frame: false,
-        minWidth: 1000,
-        minHeight: 600,
+        minWidth: 1180,
+        minHeight: 650,
         backgroundColor: "#000",
         titleBarStyle: "hidden",
+        trafficLightPosition: {
+            x: 10,
+            y: 15
+        },
         webPreferences: {
             nodeIntegration: true,
-            contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
-        }
+            contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
+            devTools: isDevelopment
+        },
+        show: false,
+        alwaysOnTop: true
     });
 
+    ipcMainEvents(win);
+
     if (process.env.WEBPACK_DEV_SERVER_URL) {
-        // Load the url of the dev server if in development mode
         await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string);
         if (!process.env.IS_TEST) win.webContents.openDevTools();
     } else {
         createProtocol("app");
-        // Load the index.html when not in development
-        win.loadURL("app://./index.html");
+        await win.loadURL("app://./index.html");
+    }
+
+    if (!isDevelopment) {
+        win.removeMenu();
+        Menu.setApplicationMenu(Menu.buildFromTemplate([]));
     }
 
     win.maximize();
-
-    ipcMain.on("minimizeWindow", () => {
-        win.minimize();
-    });
-    ipcMain.on("maximizeWindow", () => {
-        if (win.isMaximized()) {
-            win.restore();
-            return;
-        } else {
-            win.maximize();
-        }
-    });
-    ipcMain.on("closeWindow", () => {
-        win.destroy();
-    });
-
-    ipcMain.on("mainWindowLoad", () => {
-        console.log("went to electron");
-
-        try {
-            log.info("checking log");
-            let result = knex.select().from("bible_version_key");
-            result
-                .then((rows: any) => {
-                    win.webContents.send("resultSent", rows);
-                })
-                .catch((e: any) => log.error(e));
-        } catch (e) {
-            log.info(e.message);
-        }
-    });
+    setTimeout(() => {
+        win.setAlwaysOnTop(false);
+    }, 1000);
 }
 
 // Quit when all windows are closed.
@@ -106,7 +79,7 @@ app.on("ready", async () => {
         // Install Vue Devtools
         try {
             await installExtension(VUEJS3_DEVTOOLS);
-        } catch (e) {
+        } catch (e: any) {
             console.error("Vue Devtools failed to install:", e.toString());
         }
     }
