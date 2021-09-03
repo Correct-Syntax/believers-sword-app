@@ -1,6 +1,6 @@
 <template>
     <div id="main-container" class="main-container flex h-[100%] flex-col">
-        <NMessageProvider placement="bottom">
+        <NMessageProvider placement="bottom-right">
             <div class="h-[100%] w-[100%] relative pr-7px">
                 <div class="absolute h-[100%] w-[var(--left-bar-width)]">
                     <LeftSideMenuBar />
@@ -15,7 +15,7 @@
                 </div>
             </div>
         </NMessageProvider>
-        <div class="dark:bg-gray-900 bg-gray-300 px-[7px] py-[2px]">
+        <div class="dark:bg-gray-900 bg-gray-50 px-[7px] py-[2px]">
             <Footer />
         </div>
     </div>

@@ -40,7 +40,9 @@ export default defineComponent({
                 ipcRenderer.send("saveVersesInBookmark", newBookMark);
                 store.state.verseBookmark.bookmarks = [];
                 message.info("Bookmark Saved")
+                return
             }
+            message.warning("Please Select Verses To Bookmark.")
         };
 
         return {

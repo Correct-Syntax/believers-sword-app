@@ -1,5 +1,5 @@
 <template>
-    <div id="leftSide" class="h-[100%] dark:bg-black dark:bg-opacity-30 bg-gray-300 resize-x absolute top-0 p-5px z-30">
+    <div id="leftSide" class="h-[100%] dark:bg-black dark:bg-opacity-30 bg-gray-200 resize-x absolute top-0 p-5px z-30">
         <LeftSideBar />
         <div id="dragbar" class="drag-bar" style="cursor: col-resize"></div>
     </div>
