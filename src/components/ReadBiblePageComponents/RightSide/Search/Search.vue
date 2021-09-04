@@ -4,7 +4,8 @@
             <div class="flex flex-col gap-7px">
                 <NInput v-model:value="searchValue" type="text" placeholder="Type To Search" />
                 <NSelect v-model:value="searchBibleVersion" :options="bibleVersionsOptions" placeholder="Select The Bible Version" />
-                <NButton type="primary">
+                <NSelect v-model:value="searchBibleBook" :options="bibleBookOptions" placeholder="Select Bible Book" />
+                <NButton type="primary" @click="clickSubmitSearch()">
                     <div class="flex items-center gap-[10px]">
                         <i class="bx bx-search"></i>
                         <span>Search</span>
@@ -25,6 +26,8 @@ export default defineComponent({
         const store = useStore();
         const searchValue = ref(null);
         const searchBibleVersion = ref("t_kjv");
+        const searchBibleBook = ref("all");
+
         const bibleVersionsOptions = computed(() => {
             let bibleVersions = store.state.bible.bibleVersions;
             let newData: any = [];
@@ -37,10 +40,37 @@ export default defineComponent({
             return newData;
         });
 
+        const bibleBookOptions = computed(() => {
+            let bibleBooks = store.state.bible.bibleBooks;
+            let newData: any = [{
+                label: "All",
+                value: "all"
+            }];
+            bibleBooks.forEach((item: any) =>
+                newData.push({
+                    label: item.n,
+                    value: item.b,
+                })
+            );
+            return newData;
+        });
+
+        const clickSubmitSearch = () => {
+            let params = {
+                q: searchValue.value,
+                bibleVersion: searchBibleVersion.value,
+                bibleBook: searchBibleBook.value
+            };
+            console.log(params)
+        }
+
         return {
             searchValue,
             searchBibleVersion,
             bibleVersionsOptions,
+            searchBibleBook,
+            bibleBookOptions,
+            clickSubmitSearch
         };
     },
 });

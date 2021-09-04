@@ -13,6 +13,10 @@
                 <Icon name="direction" :size="20" />
                 <div class="tooltip">Get Directions</div>
             </div>
+            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/prayer_list' && readBibleIsSelected == false }" @click="selectRoute('/prayer_list')">
+                <Icon name="list" :size="20" />
+                <div class="tooltip">Prayer List</div>
+            </div>
         </div>
         <div class="flex flex-col gap-10px">
             <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/donate' && readBibleIsSelected == false }" @click="selectRoute('/donate')">
@@ -26,6 +30,10 @@
             <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/account' && readBibleIsSelected == false }" @click="selectRoute('/account')">
                 <Icon name="user" :size="20" />
                 <div class="tooltip">You Account</div>
+            </div>
+            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/settings' && readBibleIsSelected == false }" @click="selectRoute('/settings')">
+                <Icon name="cog" :size="20" />
+                <div class="tooltip">Settings</div>
             </div>
         </div>
     </div>
