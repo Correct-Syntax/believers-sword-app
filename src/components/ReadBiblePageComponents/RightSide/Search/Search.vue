@@ -1,8 +1,8 @@
 <template>
     <div class="h-[100%]">
-        <div class="h-[100%] px-7px flex flex-col gap-7px">
+        <div class="h-[100%] p-7px flex flex-col gap-7px">
             <div class="flex flex-col gap-7px">
-                <NInput v-model:value="searchValue" type="text" size="small" placeholder="Type To Search" />
+                <NInput v-model:value="searchValue" type="text" size="small" placeholder="Type To Search" @keyup.enter="clickSubmitSearch(true)" />
                 <NSelect v-model:value="searchBibleVersion" size="small" :options="bibleVersionsOptions" placeholder="Select The Bible Version" />
                 <NSelect v-model:value="searchBibleBook" size="small" :options="bibleBookOptions" placeholder="Select Bible Book" />
                 <NButton type="primary" size="small" @click="clickSubmitSearch(true)">
@@ -16,7 +16,7 @@
                 <div class="cursor-pointer opacity-70 hover:opacity-100" v-for="result in searchResults" :key="result.id" @click="goToVerse(result)">
                     <div>
                         <span class="font-700 italic">{{ getBookNameByNumber(result.b) }} {{ result.c }}:{{ result.v }}</span>
-                        {{ result.t }}
+                        <span v-html="result.t"></span>
                     </div>
                 </div>
             </div>

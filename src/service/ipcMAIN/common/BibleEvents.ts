@@ -16,7 +16,7 @@ export const mainWindowLoad = (win: any) => {
             })
             .catch((e: any) => log.error(e));
     } catch (e) {
-        log.info(e.message);
+        log.info(e);
     }
 };
 
@@ -29,7 +29,7 @@ export const getBibleBooks = (win: any) => {
             })
             .catch((e: any) => log.error(e));
     } catch (e) {
-        log.info(e.message);
+        log.info(e);
     }
 };
 
@@ -45,7 +45,7 @@ export const getBookChaptersCount = (win: any, { book, bible }: any) => {
             if (rows.length > 0) win.webContents.send("getBookChaptersCountResult", sendData);
         });
     } catch (e) {
-        log.info(e.message);
+        log.info(e);
     }
 };
 
@@ -84,7 +84,7 @@ export const getBookInChapter = async (win: any, { book, bible, chapter, version
 
         win.webContents.send("getBookInChapterResult", finalResult);
     } catch (e) {
-        log.info(e.message);
+        log.info(e);
     }
 };
 
@@ -96,6 +96,6 @@ export const getBibleVersions = (win: any) => {
             if (rows.length > 0) win.webContents.send("getBibleVersionsResult", rows);
         });
     } catch (e) {
-        log.info(e.message);
+        log.info(e);
     }
 };
