@@ -1,7 +1,7 @@
 <template>
     <div id="main-container" class="main-container flex h-[100%] flex-col">
         <NMessageProvider placement="bottom-right">
-            <div class="h-[100%] w-[100%] relative pr-7px">
+            <div class="h-[100%] w-[100%] relative pr-40px">
                 <div class="absolute h-[100%] w-[var(--left-bar-width)]">
                     <LeftSideMenuBar />
                 </div>

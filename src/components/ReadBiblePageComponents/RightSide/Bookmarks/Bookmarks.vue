@@ -1,33 +1,30 @@
 <template>
-    <div class="px-7px h-[100%] w-[100%] overflow-y-auto overflowing-div select-none">
-        <div class="flex flex-col gap-10px">
-            <div v-if="savedBookmarks.length > 0">
-                <div
-                    v-for="bookmark in savedBookmarks"
-                    :key="bookmark.b_text + bookmark.b + bookmark.c + bookmark.v"
-                    class="right-side-bookmark-saved-items"
-                    :class="{ 'right-side-bookmark-selected': bookmark.b === selectedBookmark.b && bookmark.c === selectedBookmark.c && bookmark.v === selectedBookmark.v }"
-                    @click="goToVerse(bookmark)"
-                >
-                    <div>{{ bookmark.b_text }} {{ bookmark.c }}:{{ bookmark.v }}</div>
-                    <div class="flex gap-20px cursor-pointer text-size-20px">
-                        <div class="opacity-50 hover:opacity-100">
-                            <i class="bx bx-share-alt"></i>
-                        </div>
-                        <NPopconfirm :show-icon="false" placement="top-start" :on-positive-click="removeBookmark">
-                            <template #activator>
-                                <div class="opacity-50 hover:opacity-100 dark:text-red-400 text-red-600">
-                                    <i class="bx bx-trash"></i>
-                                </div>
-                            </template>
-                            As is
-                        </NPopconfirm>
+    <div class="flex flex-col gap-10px p-7px h-[100%] w-[100%] overflow-y-auto overflowing-div select-none">
+        <div v-if="savedBookmarks.length > 0">
+            <div
+                v-for="bookmark in savedBookmarks"
+                :key="bookmark.b_text + bookmark.b + bookmark.c + bookmark.v"
+                class="right-side-bookmark-saved-items"
+                :class="{ 'right-side-bookmark-selected': bookmark.b === selectedBookmark.b && bookmark.c === selectedBookmark.c && bookmark.v === selectedBookmark.v }"
+            >
+                <div class="w-[100%] px-5px py-5px" @click="goToVerse(bookmark)">{{ bookmark.b_text }} {{ bookmark.c }}:{{ bookmark.v }}</div>
+                <div class="flex gap-10px cursor-pointer text-size-18px px-10px">
+                    <div class="opacity-50 hover:opacity-100">
+                        <i class="bx bx-share-alt"></i>
                     </div>
+                    <NPopconfirm :show-icon="false" placement="top-start" :on-positive-click="removeBookmark">
+                        <template #activator>
+                            <div class="opacity-50 hover:opacity-100 dark:text-red-400 text-red-600">
+                                <i class="bx bx-trash"></i>
+                            </div>
+                        </template>
+                        As is
+                    </NPopconfirm>
                 </div>
             </div>
-            <div v-else class="mt-30px">
-                <n-empty description="Add Bookmarks Here" />
-            </div>
+        </div>
+        <div v-else class="mt-30px">
+            <n-empty description="Add Bookmarks Here" />
         </div>
     </div>
 </template>
@@ -66,7 +63,7 @@ export default defineComponent({
 </script>
 <style lang="scss">
 .right-side-bookmark-saved-items {
-    @apply flex items-center flex-row gap-10px justify-between px-10px text-size-15px py-3px border  border-opacity-0 border-light-50;
+    @apply flex items-center flex-row gap-10px justify-between text-size-15px border  border-opacity-0 border-light-50;
 
     &.right-side-bookmark-selected {
         @apply border-[var(--primaryColor)];

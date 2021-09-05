@@ -1,23 +1,19 @@
 <template>
-    <div class="h-[100%] w-[100%] overflow-y-auto overflowing-div select-none">
-        <div class="px-10px">
-            <form>
-                <template v-for="version in bibleStore.bibleVersions" :key="version.table">
-                    <div class="select-none whitespace-nowrap">
-                        <NCheckboxGroup v-model:value="selectVersion">
-                            <NCheckbox class="cursor-pointer" :value="version.table">
-                                <span class="cursor-pointer dark:text-gray-200" :for="version.table">
-                                    <span> ({{ version.abbreviation }}) </span>
-                                    <span>
-                                        {{ version.version }}
-                                    </span>
-                                </span>
-                            </NCheckbox>
-                        </NCheckboxGroup>
-                    </div>
-                </template>
-            </form>
-        </div>
+    <div class="h-[100%] w-[100%] overflow-y-auto overflowing-div select-none p-7px">
+        <template v-for="version in bibleStore.bibleVersions" :key="version.table">
+            <div class="select-none whitespace-nowrap">
+                <NCheckboxGroup v-model:value="selectVersion">
+                    <NCheckbox class="cursor-pointer" :value="version.table">
+                        <span class="cursor-pointer dark:text-gray-200" :for="version.table">
+                            <span> ({{ version.abbreviation }}) </span>
+                            <span>
+                                {{ version.version }}
+                            </span>
+                        </span>
+                    </NCheckbox>
+                </NCheckboxGroup>
+            </div>
+        </template>
     </div>
 </template>
 <script lang="ts">
