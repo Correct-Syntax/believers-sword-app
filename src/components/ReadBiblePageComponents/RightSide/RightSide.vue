@@ -1,7 +1,7 @@
 <template>
     <div id="right-side-bar" class="h-[100%] w-[100%]">
         <div class="h-[100%] w-[100%]">
-            <n-tabs class=" w-[100%]" style="height: calc(100% - var(--right-side-tab-height))" type="line" size="small" :value="tabValue" :on-update:value="selectTab">
+            <NTabs class=" w-[100%]" style="height: calc(100% - var(--right-side-tab-height))" type="line" size="small" :value="tabValue" :on-update:value="selectTab">
                 <n-tab-pane class="h-[100%]" name="versionsTab">
                     <template #tab>
                         <span class="pl-5px flex items-center gap-5px select-none">
@@ -35,7 +35,7 @@
                     </template>
                     <SearchTab />
                 </n-tab-pane>
-            </n-tabs>
+            </NTabs>
         </div>
     </div>
 </template>

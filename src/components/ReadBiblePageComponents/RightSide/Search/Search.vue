@@ -1,32 +1,58 @@
 <template>
-    <div>
-        <div class="px-7px">
+    <div class="h-[100%]">
+        <div class="h-[100%] px-7px flex flex-col gap-7px">
             <div class="flex flex-col gap-7px">
-                <NInput v-model:value="searchValue" type="text" placeholder="Type To Search" />
-                <NSelect v-model:value="searchBibleVersion" :options="bibleVersionsOptions" placeholder="Select The Bible Version" />
-                <NSelect v-model:value="searchBibleBook" :options="bibleBookOptions" placeholder="Select Bible Book" />
-                <NButton type="primary" @click="clickSubmitSearch()">
+                <NInput v-model:value="searchValue" type="text" size="small" placeholder="Type To Search" />
+                <NSelect v-model:value="searchBibleVersion" size="small" :options="bibleVersionsOptions" placeholder="Select The Bible Version" />
+                <NSelect v-model:value="searchBibleBook" size="small" :options="bibleBookOptions" placeholder="Select Bible Book" />
+                <NButton type="primary" size="small" @click="clickSubmitSearch(true)">
                     <div class="flex items-center gap-[10px]">
                         <i class="bx bx-search"></i>
                         <span>Search</span>
                     </div>
                 </NButton>
             </div>
+            <div id="search-result-view" class="h-[100%] overflow-y-auto flex flex-col gap-7px">
+                <div class="cursor-pointer opacity-70 hover:opacity-100" v-for="result in searchResults" :key="result.id" @click="goToVerse(result)">
+                    <div>
+                        <span class="font-700 italic">{{ getBookNameByNumber(result.b) }} {{ result.c }}:{{ result.v }}</span>
+                        {{ result.t }}
+                    </div>
+                </div>
+            </div>
+            <div v-show="parseInt(searchResultCount / searchResultLimit) > 1" class="w-[100%] flex flex-col items-end gap-7px">
+                <div>Total Verse Result: {{ searchResultCount }}</div>
+                <n-pagination v-model:page="searchBiblePage" :page-count="parseInt(searchResultCount / searchResultLimit)" :page-slot="5" />
+            </div>
         </div>
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
-import { NInput, NSelect, NButton } from "naive-ui";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
+import { NInput, NSelect, NButton, NPagination } from "naive-ui";
 import { useStore } from "vuex";
+import { ipcRenderer } from "electron";
 
 export default defineComponent({
-    components: { NInput, NSelect, NButton },
+    components: { NInput, NSelect, NButton, NPagination },
     setup() {
         const store = useStore();
-        const searchValue = ref(null);
+        const searchValue = ref("");
         const searchBibleVersion = ref("t_kjv");
         const searchBibleBook = ref("all");
+        const searchBiblePage = ref(1);
+        const searchResultLimit = ref(50);
+        const searchResults = ref([]);
+        const searchResultCount = ref(0);
+
+        const bibleState = computed(() => store.state.bible);
+        const verseBookmark = computed(() => store.state.verseBookmark);
+
+        const goToVerse = (verse: any) => {
+            bibleState.value.bookSelected = verse.b;
+            bibleState.value.chapterSelected = verse.c;
+            verseBookmark.value.selectedBookmark = verse;
+        };
 
         const bibleVersionsOptions = computed(() => {
             let bibleVersions = store.state.bible.bibleVersions;
@@ -40,12 +66,19 @@ export default defineComponent({
             return newData;
         });
 
+        const getBookNameByNumber = (BookNumber: number) => {
+            let bookName = store.state.bible.bibleBooks.filter((item: any) => item.b === BookNumber)?.[0]?.n;
+            return bookName;
+        };
+
         const bibleBookOptions = computed(() => {
             let bibleBooks = store.state.bible.bibleBooks;
-            let newData: any = [{
-                label: "All",
-                value: "all"
-            }];
+            let newData: any = [
+                {
+                    label: "All",
+                    value: "all",
+                },
+            ];
             bibleBooks.forEach((item: any) =>
                 newData.push({
                     label: item.n,
@@ -55,14 +88,33 @@ export default defineComponent({
             return newData;
         });
 
-        const clickSubmitSearch = () => {
+        const clickSubmitSearch = (reset = false) => {
+            if (reset) {
+                searchBiblePage.value = 1;
+                searchResultCount.value = 0;
+            }
             let params = {
                 q: searchValue.value,
                 bibleVersion: searchBibleVersion.value,
-                bibleBook: searchBibleBook.value
+                bibleBook: searchBibleBook.value,
+                page: searchBiblePage.value,
+                limit: searchResultLimit.value,
             };
-            console.log(params)
-        }
+            ipcRenderer.send("searchBibleSubmitButton", params);
+        };
+
+        watch(searchBiblePage, () => {
+            clickSubmitSearch();
+        });
+
+        onMounted(() => {
+            ipcRenderer.on("searchBibleSubmitButtonResult", (event, payload) => {
+                searchResults.value = payload.result;
+                searchResultCount.value = payload.count;
+                let searchResultView = document.getElementById("search-result-view");
+                if (searchResultView) searchResultView.scrollTop = 0;
+            });
+        });
 
         return {
             searchValue,
@@ -70,7 +122,13 @@ export default defineComponent({
             bibleVersionsOptions,
             searchBibleBook,
             bibleBookOptions,
-            clickSubmitSearch
+            clickSubmitSearch,
+            searchResults,
+            getBookNameByNumber,
+            goToVerse,
+            searchBiblePage,
+            searchResultCount,
+            searchResultLimit,
         };
     },
 });
