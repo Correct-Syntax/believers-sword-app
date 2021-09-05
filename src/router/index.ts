@@ -5,6 +5,7 @@ import Account from "@/views/pages/Account.vue"
 import Donate from "@/views/pages/Donate.vue"
 import HelpPage from "@/views/pages/Help.vue"
 import SettingPage from "@/views/pages/Settings.vue"
+import PrayerListPage from "@/views/pages/PrayerList.vue"
 
 export const routes: Array<RouteRecordRaw> = [
     {
@@ -40,6 +41,11 @@ export const routes: Array<RouteRecordRaw> = [
         path: "/settings",
         name: "SettingPage",
         component: SettingPage
+    },
+    {
+        path: "/prayer_list",
+        name: "PrayerList",
+        component: PrayerListPage
     },
 ];
 
