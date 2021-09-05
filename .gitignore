@@ -28,8 +28,6 @@ pnpm-debug.log*
 /**/*.psd
 
 
-# databases
 database
-/database-dev
 ser-aside
 BiblesToBeAddedOrEdited

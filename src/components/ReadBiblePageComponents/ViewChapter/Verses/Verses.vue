@@ -32,10 +32,10 @@
             <div v-if="verse.versions" class="w-[100%] max-w-700px text-justify flex flex-col gap-15px">
                 <div v-for="version in verse.versions" :key="version.version">
                     <div class="leading-relaxed" :style="`font-size: ${fontSize}px`">
-                        <span class="verse-item-bible-version opacity-50 font-500">
+                        <span class="verse-item-bible-version opacity-50 font-500 mr-7px">
                             <i> {{ getVersion(version.version) }}</i>
                         </span>
-                        {{ version.text }}
+                        <span v-html="version.text"></span>
                     </div>
                 </div>
             </div>
@@ -111,7 +111,7 @@ export default defineComponent({
 </script>
 <style lang="scss">
 .verse-item {
-    @apply flex items-center justify-between w-[100%] gap-20px mb-20px cursor-default p-20px dark:bg-gray-100 bg-gray-800 dark:bg-opacity-0 bg-opacity-0 dark:hover:bg-opacity-3 hover:bg-opacity-5;
+    @apply flex items-center justify-between w-[100%] gap-20px mb-20px cursor-default p-20px dark:bg-gray-100 bg-gray-800 dark:bg-opacity-0 bg-opacity-0 dark:hover:bg-opacity-3 hover:bg-opacity-5 border dark:border-gray-800 border-gray-100;
 
     &.item-bookmarked {
         @apply border rounded-xl border-[var(--primaryColor)];

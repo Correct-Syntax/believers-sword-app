@@ -16,7 +16,7 @@
                 <div class="cursor-pointer opacity-70 hover:opacity-100" v-for="result in searchResults" :key="result.id" @click="goToVerse(result)">
                     <div>
                         <span class="font-700 italic">{{ getBookNameByNumber(result.b) }} {{ result.c }}:{{ result.v }}</span>
-                        {{ result.t }}
+                        <span v-html="result.t"></span>
                     </div>
                 </div>
             </div>
