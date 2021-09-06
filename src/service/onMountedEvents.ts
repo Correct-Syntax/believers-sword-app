@@ -11,6 +11,10 @@ export const setReadBiblePage = async (store: any = null): Promise<void> => {
         session.set("storedSelectedVersions", ["t_kjv", "t_asv"]);
     }
 
+    if (!session.get("webFrameZoom")) {
+        session.set("webFrameZoom", 0.95);
+    }
+
     session.set("viewChapterComponentLeftSideWidth", 1600);
     session.set("readBibleLeftSideBarWidth", 260);
 
