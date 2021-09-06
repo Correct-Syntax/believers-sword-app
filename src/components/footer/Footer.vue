@@ -13,7 +13,7 @@
                     <div class="flex items-center gap-10px mr-15px">
                         <div>Zoom:</div>
                         <div class="w-90px">
-                            <NInputNumber v-model:value="slideValue" :max="110" :min="80" size="small" :step="2" />
+                            <NInputNumber v-model:value="slideValue" :max="105" :min="95" size="small" :step="1" />
                         </div>
                         <div>
                             <NTooltip trigger="hover" placement="top-start">
@@ -46,7 +46,7 @@ export default defineComponent({
         const slideValue = ref(100);
 
         watch(slideValue, () => {
-            slideValue.value = slideValue.value < 80 ? 80 : slideValue.value > 110 ? 110 : slideValue.value;
+            slideValue.value = slideValue.value < 95 ? 95 : slideValue.value > 105 ? 105 : slideValue.value;
             store.state.frame.zoomLevel = slideValue.value * 0.01;
             session.set("webFrameZoom", store.state.frame.zoomLevel);
         });

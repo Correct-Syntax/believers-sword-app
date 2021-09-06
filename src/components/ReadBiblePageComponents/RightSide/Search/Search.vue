@@ -13,7 +13,15 @@
                 </NButton>
             </div>
             <div id="search-result-view" class="h-[100%] overflow-y-auto flex flex-col gap-7px">
-                <div class="cursor-pointer opacity-70 hover:opacity-100" v-for="result in searchResults" :key="result.id" @click="goToVerse(result)">
+                <div
+                    class="cursor-pointer opacity-70 hover:opacity-100 p-7px"
+                    v-for="result in searchResults"
+                    :key="result.id"
+                    :class="{
+                        'selected-view-result': selectedResult != null && selectedResult.b === result.b && selectedResult.c === result.c && selectedResult.v === result.v,
+                    }"
+                    @click="goToVerse(result)"
+                >
                     <div>
                         <span class="font-700 italic">{{ getBookNameByNumber(result.b) }} {{ result.c }}:{{ result.v }}</span>
                         <span v-html="result.t"></span>
@@ -44,6 +52,7 @@ export default defineComponent({
         const searchResultLimit = ref(50);
         const searchResults = ref([]);
         const searchResultCount = ref(0);
+        const selectedResult = ref(null);
 
         const bibleState = computed(() => store.state.bible);
         const verseBookmark = computed(() => store.state.verseBookmark);
@@ -52,6 +61,7 @@ export default defineComponent({
             bibleState.value.bookSelected = verse.b;
             bibleState.value.chapterSelected = verse.c;
             verseBookmark.value.selectedBookmark = verse;
+            selectedResult.value = verse;
         };
 
         const bibleVersionsOptions = computed(() => {
@@ -129,7 +139,14 @@ export default defineComponent({
             searchBiblePage,
             searchResultCount,
             searchResultLimit,
+            selectedResult,
         };
     },
 });
 </script>
+<style lang="scss" scoped>
+.selected-view-result {
+    @apply border-l border-b-[var(--primaryColor)];
+    opacity: 1 !important;
+}
+</style>

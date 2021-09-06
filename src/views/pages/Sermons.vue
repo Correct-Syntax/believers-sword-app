@@ -1,6 +1,6 @@
 <template>
     <div class="h-[100%] flex justify-center items-center">
-        <NEmpty description="Custom your icon" size="huge">
+        <NEmpty description="Sermons Page" size="huge">
             <template #icon>
                 <i class='bx bx-traffic-cone'></i>
             </template>
