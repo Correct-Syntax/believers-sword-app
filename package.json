@@ -1,6 +1,6 @@
 {
   "name": "believers-sword-app",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
   "scripts": {
     "build": "vue-cli-service electron:build",
@@ -9,7 +9,7 @@
     "postuninstall": "electron-builder install-app-deps",
     "rebuild": "electron-rebuild -f -w sqlite3",
     "release": "cross-env RELEASE=YES vue-cli-service electron:build",
-    "up":"yarn build -p always"
+    "up": "yarn build -p always"
   },
   "main": "background.js",
   "dependencies": {
