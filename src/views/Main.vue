@@ -1,12 +1,12 @@
 <template>
     <div id="main-container" class="main-container flex h-[100%] flex-col">
         <NMessageProvider placement="bottom-right">
-            <div class="h-[100%] w-[100%] relative px-40px">
-                <div  class="h-[100%] relative">
-                    <div id="main-container-wrapper" class="h-[100%]" v-show="readBibleIsSelected">
+            <div class="h-[100%] w-[100%] px-40px">
+                <div class="h-[100%] w-[100%]">
+                    <div id="main-container-wrapper" class="h-[100%] w-[100%] relative" v-show="readBibleIsSelected">
                         <ReadBible />
                     </div>
-                    <div v-if="!readBibleIsSelected" class="h-[100%] relative">
+                    <div v-if="!readBibleIsSelected" class="h-[100%] w-[100%] relative">
                         <router-view></router-view>
                     </div>
                 </div>
@@ -37,11 +37,9 @@ export default defineComponent({
 </script>
 <style lang="scss">
 #main-container {
-    --left-bar-width: 37px;
+    --left-bar-width: 36px;
 }
 #main-container-wrapper {
     --left-width: 300px;
-    // left: var(--left-bar-width);
-    width: calc(100% - var(--left-bar-width));
 }
 </style>

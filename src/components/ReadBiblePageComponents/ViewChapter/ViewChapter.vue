@@ -89,14 +89,7 @@ export default defineComponent({
 
         const zoomFrameLevel = computed(() => store.state.frame.zoomLevel);
         watch(zoomFrameLevel, (e) => {
-            dragSide(
-                "view-chapter-component-wrapper",
-                "view-chapter-dragbar",
-                "--view-chapter-left-width",
-                e < 1 ? 1700 : 1800 - frameZoomLevel.value * 190,
-                1050,
-                viewChapterComponentLeftSideWidth
-            );
+            dragSide("view-chapter-component-wrapper", "view-chapter-dragbar", "--view-chapter-left-width", e < 1 ? 1700 : 1800 - frameZoomLevel.value * 190, 1050, viewChapterComponentLeftSideWidth);
         });
 
         return {
