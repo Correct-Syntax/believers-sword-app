@@ -3,7 +3,9 @@
         <div class="h-[100vh]" :class="{ dark: dark, light: !dark }">
             <TitleBar />
             <div class="dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 h-[calc(100%-30px)] overflow-y-auto">
+                <LeftSideMenuBar />
                 <MainView />
+                <rightSideMenuBar />
             </div>
         </div>
     </n-config-provider>
@@ -19,10 +21,12 @@ import { setReadBiblePage } from "@/service/onMountedEvents";
 import { darkTheme } from "naive-ui";
 import { webFrame } from "electron";
 import session from "./service/session";
+import LeftSideMenuBar from "@/components/leftSideMenuBar/leftSideMenuBar.vue";
+import RightSideMenuBar from "@/components/rightSideMenuBar/rightSideMenuBar.vue"
 
 export default defineComponent({
     name: "App",
-    components: { TitleBar, MainView, NConfigProvider },
+    components: { TitleBar, MainView, NConfigProvider, LeftSideMenuBar, RightSideMenuBar },
     setup() {
         const store = useStore();
         const dark = computed(() => store.state.dark);

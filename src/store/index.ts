@@ -7,6 +7,7 @@ export default createStore({
     state: {
         dark: true,
         readBibleMenuSelected: true,
+        rightMenuTab: "versionsTab"
     },
     mutations: {},
     actions: {},
