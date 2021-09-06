@@ -76,7 +76,7 @@ export default defineComponent({
                 "view-chapter-component-wrapper",
                 "view-chapter-dragbar",
                 "--view-chapter-left-width",
-                frameZoomLevel.value < 1 ? 1800 : 1800 - frameZoomLevel.value * 190,
+                frameZoomLevel.value < 1 ? 1700 : 1800 - frameZoomLevel.value * 190,
                 1050,
                 viewChapterComponentLeftSideWidth
             );
@@ -85,6 +85,18 @@ export default defineComponent({
                 const scrollTop = session.get("viewChapterVerseScrollTop");
                 if (viewChapterVerseElement) viewChapterVerseElement.scrollTop = scrollTop ? scrollTop : 0;
             }, 300);
+        });
+
+        const zoomFrameLevel = computed(() => store.state.frame.zoomLevel);
+        watch(zoomFrameLevel, (e) => {
+            dragSide(
+                "view-chapter-component-wrapper",
+                "view-chapter-dragbar",
+                "--view-chapter-left-width",
+                e < 1 ? 1700 : 1800 - frameZoomLevel.value * 190,
+                1050,
+                viewChapterComponentLeftSideWidth
+            );
         });
 
         return {
