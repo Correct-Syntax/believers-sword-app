@@ -24,6 +24,7 @@ module.exports = {
                     allowToChangeInstallationDirectory: true,
                 },
                 extraResources: ['database/'],
+                publish: ['github']
             },
             externals: ['knex', 'sqlite3'],
             nodeIntegration: true

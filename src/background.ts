@@ -4,6 +4,7 @@ import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 import { ipcMainEvents } from "./service/ipcMAIN/ipcMainEvents";
 const isDevelopment = process.env.NODE_ENV !== "production";
+import { autoUpdater }  from "electron-updater"
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
@@ -39,6 +40,7 @@ async function createWindow() {
     } else {
         createProtocol("app");
         await win.loadURL("app://./index.html");
+        autoUpdater.checkForUpdatesAndNotify()
     }
 
     if (!isDevelopment) {
