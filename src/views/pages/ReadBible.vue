@@ -11,21 +11,21 @@
 import { defineComponent, onMounted } from "vue";
 import LeftSideBar from "@/components/leftSideBar/leftSideBar.vue";
 import { dragSide } from "@/service/MouseDragResizePanel";
-import { readBibleLeftSideBarWidth } from "@/service/widthSizeConstantVariables"
+import { readBibleLeftSideBarWidth } from "@/service/widthSizeConstantVariables";
 import session from "@/service/session";
-import ViewChapter from "@/components/ReadBiblePageComponents/ViewChapter/ViewChapter.vue"
+import ViewChapter from "@/components/ReadBiblePageComponents/ViewChapter/ViewChapter.vue";
 export default defineComponent({
     components: { LeftSideBar, ViewChapter },
     setup() {
         onMounted(async () => {
-            const leftSideWidth = session.get(readBibleLeftSideBarWidth)
+            const leftSideWidth = session.get(readBibleLeftSideBarWidth);
             document.getElementById("main-container-wrapper")?.style.setProperty("--left-width", `${leftSideWidth ? leftSideWidth : 300}px`);
             dragSide("main-container-wrapper", "dragbar", "--left-width", 400, 250, readBibleLeftSideBarWidth);
         });
     },
 });
 </script>
-<style lang="scss">
+<style lang="postcss">
 #leftSide {
     width: calc(var(--left-width) - var(--left-bar-width));
 }
