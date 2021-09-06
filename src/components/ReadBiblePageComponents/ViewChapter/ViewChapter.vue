@@ -131,7 +131,7 @@ export default defineComponent({
     },
 });
 </script>
-<style lang="scss">
+<style lang="postcss">
 #view-chapter-component {
     --view-chapter-top-width: 35px;
 }
