@@ -23,6 +23,9 @@ module.exports = {
                     oneClick: false,
                     allowToChangeInstallationDirectory: true,
                 },
+                // mac: {
+                //     category: "public.app-category.utilities"
+                // },
                 extraResources: ['database/'],
                 publish: ['github']
             },
