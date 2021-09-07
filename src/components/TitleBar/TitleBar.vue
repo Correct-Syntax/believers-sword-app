@@ -7,6 +7,9 @@
             <div class="text-size-[12px] font-700">Believers Sword</div>
         </div>
         <div id="drag-region" class="w-[100%] p-[10px]" style="cursor: move"></div>
+        <div class="mx-10px h-[100%]">
+            <AutoUpdaterConfirmation />
+        </div>
         <div class="text-size-12px mr-10px h-[100%]">
             <div class="cursor-pointer h-[100%] px-10px flex justify-center items-center text-size-18px" @click="changeTheme()">
                 <i v-show="dark" class="bx bx-sun"></i>
@@ -32,8 +35,10 @@ import { ipcRenderer } from "electron";
 import { useStore } from "vuex";
 import { localStorageThemeKey } from "@/service/ThemeChangeService";
 import session from "@/service/session";
+import AutoUpdaterConfirmation from "./AutoUpdateConfirmation/AutoUpdateConfirmation.vue";
 
 export default defineComponent({
+    components: { AutoUpdaterConfirmation },
     setup() {
         const store = useStore();
 

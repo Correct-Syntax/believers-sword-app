@@ -1,5 +1,5 @@
 <template>
-    <div class="menu-bar-icons h-[100%] flex flex-col justify-between pb-10px mr-7px z-50">
+    <div class="menu-bar-icons h-[100%] flex flex-col justify-between z-50">
         <div class="flex flex-col gap-10px">
             <div class="icon-item" :class="{ 'active-menu-bar-item': readBibleIsSelected }" @click="selectReadBibleMenu()">
                 <Icon :size="20" />
@@ -63,8 +63,10 @@ export default defineComponent({
     },
 });
 </script>
-<style lang="scss">
+<style lang="postcss">
 .menu-bar-icons {
+    @apply fixed h-[100%] top-0 left-0 py-35px;
+
     .icon-item {
         @apply flex justify-center items-center h-[30px] cursor-pointer text-size-18px dark:text-gray-400 text-gray-600 pl-5px border-l-[1px] dark:border-gray-800 border-[#fff];
         .bx {

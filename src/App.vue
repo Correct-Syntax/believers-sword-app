@@ -1,11 +1,15 @@
 <template>
     <n-config-provider :theme-overrides="themeOverrides" :theme="dark ? darkTheme : null">
-        <div class="h-[100vh]" :class="{ dark: dark, light: !dark }">
-            <TitleBar />
-            <div class="dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 h-[calc(100%-30px)] overflow-y-auto">
-                <MainView />
+        <NMessageProvider placement="bottom-right">
+            <div class="h-[100vh]" :class="{ dark: dark, light: !dark }">
+                <TitleBar />
+                <div class="dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 h-[calc(100%-30px)] overflow-y-auto">
+                    <LeftSideMenuBar />
+                    <MainView />
+                    <rightSideMenuBar />
+                </div>
             </div>
-        </div>
+        </NMessageProvider>
     </n-config-provider>
 </template>
 
@@ -19,10 +23,14 @@ import { setReadBiblePage } from "@/service/onMountedEvents";
 import { darkTheme } from "naive-ui";
 import { webFrame } from "electron";
 import session from "./service/session";
+import LeftSideMenuBar from "@/components/leftSideMenuBar/leftSideMenuBar.vue";
+import RightSideMenuBar from "@/components/rightSideMenuBar/rightSideMenuBar.vue";
+import { NMessageProvider } from "naive-ui";
+import { AutoUpdateRendererEvents } from "@/service/AutoUpdater/AutoUpdaterRendererProcessEvents"
 
 export default defineComponent({
     name: "App",
-    components: { TitleBar, MainView, NConfigProvider },
+    components: { TitleBar, MainView, NConfigProvider, LeftSideMenuBar, RightSideMenuBar, NMessageProvider },
     setup() {
         const store = useStore();
         const dark = computed(() => store.state.dark);
@@ -44,14 +52,14 @@ export default defineComponent({
             themeOverrides.common.primaryColor = dark.value ? "#3cb1ff" : "#0084dc";
             themeOverrides.common.primaryColorHover = dark.value ? "#3cb1ff" : "#0084dc";
             themeOverrides.common.popoverColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
-            let themeProperty = dark.value ? 'dark' : 'light';
+            let themeProperty = dark.value ? "dark" : "light";
             document.documentElement.setAttribute("theme", themeProperty);
         };
 
         onBeforeMount(async () => {
             await setReadBiblePage(store);
-
             changeTheme();
+            AutoUpdateRendererEvents();
         });
 
         onMounted(() => {
