@@ -17,4 +17,11 @@ export const ipcMainEvents = (win: any) => {
     ipcMain.on("getVersesSavedBookmarks", () => getVersesSavedBookmarks(win));
     ipcMain.on("deleteVerseInSavedBookmarks", (event, payload) => deleteVerseInSavedBookmarks(win, payload));
     ipcMain.on("searchBibleSubmitButton", (event, payload) => searchBibleSubmitButton(win, payload));
+    
+    win.on("maximize", () => {
+        win.webContents.send("isMaximized")
+    })
+    win.on("unmaximize", () => {
+        win.webContents.send("windowUnmaximized")
+    })
 };

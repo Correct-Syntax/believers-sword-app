@@ -1,6 +1,6 @@
 {
   "name": "believers-sword-app",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "scripts": {
     "build": "vue-cli-service electron:build",

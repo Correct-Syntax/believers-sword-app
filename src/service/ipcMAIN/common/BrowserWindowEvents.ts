@@ -5,7 +5,6 @@ export const minimizeWindow = (win: any) => {
 export const maximizeWindow = (win: any): void => {
     if (win.isMaximized()) {
         win.restore();
-        return;
     } else {
         win.maximize();
     }

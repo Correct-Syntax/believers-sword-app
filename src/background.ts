@@ -1,5 +1,5 @@
-import { AutoUpdaterEvents } from './service/AutoUpdater/AutoUpdaterMainProcessEvent';
 "use strict";
+import { AutoUpdaterEvents } from './service/AutoUpdater/AutoUpdaterMainProcessEvent';
 import { app, protocol, BrowserWindow, Menu } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
@@ -10,10 +10,9 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
 
 async function createWindow() {
-    // Create the browser window.
     const win = new BrowserWindow({
-        width: 1180,
-        height: 650,
+        width: 1190,
+        height: 660,
         frame: false,
         minWidth: 1180,
         minHeight: 650,
@@ -40,7 +39,6 @@ async function createWindow() {
     } else {
         createProtocol("app");
         await win.loadURL("app://./index.html");
-        
     }
 
     if (!isDevelopment) {
