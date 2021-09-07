@@ -1,7 +1,11 @@
 <template>
     <div id="view-chapter-component" class="h-[100%] w-[100%]">
         <div id="view-chapter-component-wrapper" class="h-[100%] flex relative">
-            <div id="view-chapter-left-side-bar" class="h-[100%] w-[100%] min-w-460px absolute">
+            <div
+                id="view-chapter-left-side-bar"
+                class="h-[100%] w-[100%] min-w-460px relative"
+                style="width: calc(var(--view-chapter-left-width) - calc(var(--left-width) - var(--left-bar-width)) - var(--minus-left-width) - 4px)"
+            >
                 <div class="h-[100%] w-[100%] min-w-460px relative">
                     <div class="h-[var(--view-chapter-top-width)] shadow-md">
                         <TopOptionsBar />
@@ -28,7 +32,7 @@
                 </div>
                 <div id="view-chapter-dragbar" class="drag-bar" style="cursor: col-resize"></div>
             </div>
-            <div id="view-chapter-right-side-bar" class="h-[100%] w-[100%] min-w-100px dark:bg-black dark:bg-opacity-20 bg-gray-200 absolute right-0">
+            <div id="view-chapter-right-side-bar" class="h-[100%] w-[100%] min-w-300px dark:bg-black dark:bg-opacity-20 bg-gray-200">
                 <RightSide />
             </div>
         </div>
@@ -38,8 +42,6 @@
 import { computed, defineComponent, onMounted, watch } from "vue";
 import { useStore } from "vuex";
 import session from "@/service/session";
-import { viewChapterComponentLeftSideWidth } from "@/service/widthSizeConstantVariables";
-import { dragSide } from "@/service/MouseDragResizePanel";
 import RightSide from "@/components/ReadBiblePageComponents/RightSide/RightSide.vue";
 import VersesRender from "@/components/ReadBiblePageComponents/ViewChapter/Verses/Verses.vue";
 import TopOptionsBar from "@/components/ReadBiblePageComponents/ViewChapter/TopOptions/TopOptions.vue";
@@ -49,7 +51,6 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const bibleStore = computed(() => store.state.bible);
-        const frameZoomLevel = computed(() => store.state.frame.zoomLevel);
         const fontSize = computed(() => store.state.bible.viewChapterVersesFontSize);
         const selectedBookmark = computed(() => store.state.verseBookmark.selectedBookmark);
 
@@ -70,26 +71,41 @@ export default defineComponent({
 
         onMounted(() => {
             let viewChapterVerseElement = document.getElementById("view-chapter-verse");
-            const leftSideWidth = session.get(viewChapterComponentLeftSideWidth);
-            document.getElementById("view-chapter-component-wrapper")?.style.setProperty("--view-chapter-left-width", `${leftSideWidth ? leftSideWidth : 1050}px`);
-            dragSide(
-                "view-chapter-component-wrapper",
-                "view-chapter-dragbar",
-                "--view-chapter-left-width",
-                frameZoomLevel.value < 1 ? 1700 : 1800 - frameZoomLevel.value * 190,
-                1050,
-                viewChapterComponentLeftSideWidth
-            );
+            const target = document.getElementById("view-chapter-dragbar");
+            const wrapper = document.getElementById("view-chapter-component-wrapper");
+            const sideLeftBar = document.getElementById("view-chapter-left-side-bar");
+            let savedRightSideWidth = session.get("viewChapterRightSideBarWidth");
+            if (!savedRightSideWidth) {
+                session.set("viewChapterRightSideBarWidth", 300);
+                savedRightSideWidth = session.get("viewChapterRightSideBarWidth");
+            }
+            let leftSideBarInitialWidth = savedRightSideWidth && wrapper && sideLeftBar ? wrapper?.clientWidth - savedRightSideWidth : 1000;
+            document.getElementById("view-chapter-component-wrapper")?.style.setProperty("--view-chapter-left-width", `${leftSideBarInitialWidth + 260 + 36 + 33}px`);
+
+            const resizeViewChapterArea = (e: any) => {
+                if (wrapper && sideLeftBar) session.set("viewChapterRightSideBarWidth", wrapper?.clientWidth - sideLeftBar?.clientWidth);
+                if (wrapper) wrapper.style.setProperty("--view-chapter-left-width", e.pageX + "px");
+            };
+
+            const clearEvent = () => {
+                if (wrapper) wrapper.removeEventListener("mousemove", resizeViewChapterArea);
+                if (wrapper) wrapper.classList.remove("resizing");
+            };
+
+            if (target)
+                target.onmousedown = (e) => {
+                    e.preventDefault();
+
+                    if (wrapper) wrapper.addEventListener("mousemove", resizeViewChapterArea);
+                    if (wrapper) wrapper.classList.add("resizing");
+                };
+
+            if (wrapper) wrapper.onmouseup = () => clearEvent();
 
             setTimeout(() => {
                 const scrollTop = session.get("viewChapterVerseScrollTop");
                 if (viewChapterVerseElement) viewChapterVerseElement.scrollTop = scrollTop ? scrollTop : 0;
             }, 300);
-        });
-
-        const zoomFrameLevel = computed(() => store.state.frame.zoomLevel);
-        watch(zoomFrameLevel, (e) => {
-            dragSide("view-chapter-component-wrapper", "view-chapter-dragbar", "--view-chapter-left-width", e < 1 ? 1700 : 1800 - frameZoomLevel.value * 190, 1050, viewChapterComponentLeftSideWidth);
         });
 
         return {
@@ -104,10 +120,6 @@ export default defineComponent({
                 session.set("viewChapterVerseScrollTop", viewScrollTop);
             },
             getVersion,
-            handleUpdateShow() {
-                // eslint-disable-next-line
-                console.log("clicked");
-            },
             fontSize,
             popSelectOptions: [
                 {
@@ -142,10 +154,6 @@ export default defineComponent({
     --minus-left-width: 33px;
 }
 
-#view-chapter-left-side-bar {
-    width: calc(var(--view-chapter-left-width) - calc(var(--left-width) - var(--left-bar-width)) - var(--minus-left-width));
-}
-
 #view-chapter-right-side-bar {
     width: calc((100% - var(--view-chapter-left-width)) + calc(var(--left-width) - var(--left-bar-width)) + var(--minus-left-width));
 }
@@ -161,41 +169,5 @@ export default defineComponent({
 .view-chapter-verse {
     @apply overflow-y-auto  h-[100%];
     height: calc(100% - var(--view-chapter-top-width));
-}
-
-@media only screen and (max-width: 1623px) {
-    #view-chapter-component-wrapper {
-        --view-chapter-left-width: 1300px !important;
-    }
-}
-
-@media only screen and (max-width: 1505px) {
-    #view-chapter-component-wrapper {
-        --view-chapter-left-width: 1200px !important;
-    }
-}
-
-@media only screen and (max-width: 1401px) {
-    #view-chapter-component-wrapper {
-        --view-chapter-left-width: 1190px !important;
-    }
-}
-
-@media only screen and (max-width: 1382px) {
-    #view-chapter-component-wrapper {
-        --view-chapter-left-width: 1100px !important;
-    }
-}
-
-@media only screen and (max-width: 1277px) {
-    #view-chapter-component-wrapper {
-        --view-chapter-left-width: 1000px !important;
-    }
-}
-
-@media only screen and (max-width: 1182px) {
-    #view-chapter-component-wrapper {
-        --view-chapter-left-width: 900px !important;
-    }
 }
 </style>
