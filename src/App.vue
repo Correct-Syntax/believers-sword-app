@@ -6,7 +6,6 @@
                 <div class="dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 h-[calc(100%-30px)] w-[100%] overflow-y-auto">
                     <LeftSideMenuBar />
                     <MainView />
-                    <rightSideMenuBar />
                 </div>
             </div>
         </NMessageProvider>
@@ -24,13 +23,12 @@ import { darkTheme } from "naive-ui";
 import { webFrame } from "electron";
 import session from "./service/session";
 import LeftSideMenuBar from "@/components/leftSideMenuBar/leftSideMenuBar.vue";
-import RightSideMenuBar from "@/components/rightSideMenuBar/rightSideMenuBar.vue";
 import { NMessageProvider } from "naive-ui";
 import { AutoUpdateRendererEvents } from "@/service/AutoUpdater/AutoUpdaterRendererProcessEvents";
 
 export default defineComponent({
     name: "App",
-    components: { TitleBar, MainView, NConfigProvider, LeftSideMenuBar, RightSideMenuBar, NMessageProvider },
+    components: { TitleBar, MainView, NConfigProvider, LeftSideMenuBar, NMessageProvider },
     setup() {
         const store = useStore();
         const dark = computed(() => store.state.dark);

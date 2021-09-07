@@ -1,10 +1,13 @@
 <template>
     <div class="flex flex-col gap-10px p-7px h-[100%] w-[100%] overflow-y-auto overflowing-div select-none">
-        <div v-if="savedBookmarks.length > 0">
+        <div class="text-size-[18px] mb-7px">
+            <h3>Your Bookmarks:</h3>
+        </div>
+        <div v-if="savedBookmarks.length > 0" class="bookmarks-view-wrapper">
             <div
                 v-for="bookmark in savedBookmarks"
                 :key="bookmark.b_text + bookmark.b + bookmark.c + bookmark.v"
-                class="right-side-bookmark-saved-items"
+                class="right-side-bookmark-saved-items "
                 :class="{ 'right-side-bookmark-selected': bookmark.b === selectedBookmark.b && bookmark.c === selectedBookmark.c && bookmark.v === selectedBookmark.v }"
             >
                 <div class="w-[100%] px-5px py-5px" @click="goToVerse(bookmark)">{{ bookmark.b_text }} {{ bookmark.c }}:{{ bookmark.v }}</div>
@@ -18,7 +21,7 @@
                                 <i class="bx bx-trash"></i>
                             </div>
                         </template>
-                        As is
+                        Delete Bookmark?
                     </NPopconfirm>
                 </div>
             </div>
@@ -61,12 +64,20 @@ export default defineComponent({
     },
 });
 </script>
-<style lang="scss">
+<style lang="postcss">
+.bookmarks-view-wrapper {
+    @apply flex flex-wrap gap-10px;
+
+    & > * {
+        flex: 1 0 200px;
+        min-width: 200px;
+    }
+}
 .right-side-bookmark-saved-items {
-    @apply flex items-center flex-row gap-10px justify-between text-size-15px border  border-opacity-0 border-light-50;
+    @apply flex items-center flex-row gap-10px justify-between text-size-15px border  border-opacity-0 border-light-50 duration-200;
 
     &.right-side-bookmark-selected {
-        @apply border-[var(--primaryColor)];
+        @apply border-[var(--primaryColor)] rounded-md;
     }
 
     &:hover {
