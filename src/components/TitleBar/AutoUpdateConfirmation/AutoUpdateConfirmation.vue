@@ -1,10 +1,8 @@
 <template>
-    <div class="h-[100%] flex items-center" v-show="updateAvailable">
+    <div class="h-[100%] flex items-center" v-show="!updateAvailable">
         <div v-if="downloadingProgress" class="flex mx-10px">
-            Downloading:
-            <span>
-                {{ downloadingProgress.percent }}
-            </span>
+            <span class="mr-7px">Downloading: </span>
+            <span> {{ parseInt(downloadingProgress.percent) }}% </span>
         </div>
         <div class="px-10px bg-[var(--primaryColor)] flex items-center dark:text-dark-800 text-light-200 cursor-pointer h-[100%]">
             <div v-if="!updateDownloaded" class="h-[100%]">

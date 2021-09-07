@@ -1,6 +1,6 @@
 <template>
     <div id="view-chapter-component" class="h-[100%] w-[100%]">
-        <div id="view-chapter-component-wrapper" class="h-[100%] w-[100%] flex relative">
+        <div id="view-chapter-component-wrapper" class="h-[100%] w-[100%] flex pr-35px">
             <div
                 id="view-chapter-left-side-bar"
                 class="h-[100%] w-[100%] min-w-460px relative"
@@ -66,7 +66,7 @@ export default defineComponent({
                 if (el instanceof HTMLElement) {
                     if (viewChapterVerseElement) viewChapterVerseElement.scrollTop = el.offsetTop ? el.offsetTop : 0;
                 }
-            }, 100);
+            }, 200);
         });
 
         const delayTime = (ms: number) => {
@@ -74,13 +74,13 @@ export default defineComponent({
         };
 
         const setReadBookBars = async (): Promise<void> => {
-            await delayTime(500);
+            await delayTime(400);
             const target = document.getElementById("view-chapter-dragbar");
             const wrapper: any = document.getElementById("view-chapter-component-wrapper");
             const sideLeftBar = document.getElementById("view-chapter-left-side-bar");
 
             let savedRightSideWidth = await session.get("viewChapterRightSideBarWidth");
-            let leftSideBarInitialWidth = window.innerWidth - savedRightSideWidth - 303;
+            let leftSideBarInitialWidth = window.innerWidth - savedRightSideWidth - 267;
             document.getElementById("view-chapter-component-wrapper")?.style.setProperty("--view-chapter-left-width", `${leftSideBarInitialWidth + 260}px`);
 
             const resizeViewChapterArea = (e: any) => {
@@ -160,7 +160,7 @@ export default defineComponent({
 }
 
 #view-chapter-right-side-bar {
-    width: calc((100% - var(--view-chapter-left-width)) + calc(var(--left-width) - var(--left-bar-width)) + var(--minus-left-width));
+    width: calc((100% - var(--view-chapter-left-width)) + calc(var(--left-width) - var(--left-bar-width)) + var(--minus-left-width) + 4px);
 }
 
 #view-chapter-dragbar.drag-bar {
