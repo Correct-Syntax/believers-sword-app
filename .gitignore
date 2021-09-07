@@ -26,7 +26,7 @@ pnpm-debug.log*
 #Electron-builder output
 /dist_electron
 /**/*.psd
-
+release.bat
 
 database
 ser-aside
