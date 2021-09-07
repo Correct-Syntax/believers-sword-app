@@ -1,8 +1,10 @@
 import store from "@/store";
 import { ipcRenderer } from "electron";
+import log from "electron-log";
+
 export const AutoUpdateRendererEvents = (): void => {
     ipcRenderer.on("checking-for-update", () => {
-        console.log("checking for Updates");
+        log.info("checking for updates");
     });
 
     ipcRenderer.on("update-available", () => {

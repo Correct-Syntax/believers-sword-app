@@ -8,8 +8,8 @@
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
     "rebuild": "electron-rebuild -f -w sqlite3",
-    "release": "cross-env RELEASE=YES vue-cli-service electron:build",
-    "up": "set GH_TOKEN=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 && yarn build -p always"
+    "release": "RELEASE=YES vue-cli-service electron:build",
+    "up": "release.bat"
   },
   "main": "background.js",
   "dependencies": {

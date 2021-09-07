@@ -35,6 +35,7 @@ export const saveVersesInBookmark = (win: any, payload: Array<any>) => {
         electronStore.set(electronStoreBookMarkObjPath, add);
         win.webContents.send("getVersesInBookmarkResult", add);
     } catch (e: any) {
+        // eslint-disable-next-line
         console.log(e.message);
     }
 };
@@ -44,6 +45,7 @@ export const getVersesSavedBookmarks = (win: any) => {
         let getCurrentBookmarks = electronStore.get(electronStoreBookMarkObjPath);
         win.webContents.send("getVersesInBookmarkResult", getCurrentBookmarks);
     } catch (e: any) {
+        // eslint-disable-next-line
         console.log(e.message);
     }
 };
@@ -56,6 +58,7 @@ export const deleteVerseInSavedBookmarks = (win: any, payload: any) => {
         electronStore.set(electronStoreBookMarkObjPath, getCurrentBookmarks);
         win.webContents.send("getVersesInBookmarkResult", getCurrentBookmarks);
     } catch (e: any) {
+        // eslint-disable-next-line
         console.log(e.message);
     }
 };
