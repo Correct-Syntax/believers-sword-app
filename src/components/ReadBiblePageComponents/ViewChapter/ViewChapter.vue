@@ -1,6 +1,6 @@
 <template>
     <div id="view-chapter-component" class="h-[100%] w-[100%]">
-        <div id="view-chapter-component-wrapper" class="h-[100%] flex relative">
+        <div id="view-chapter-component-wrapper" class="h-[100%] w-[100%] flex relative">
             <div
                 id="view-chapter-left-side-bar"
                 class="h-[100%] w-[100%] min-w-460px relative"
@@ -69,18 +69,19 @@ export default defineComponent({
             }, 100);
         });
 
-        onMounted(() => {
-            let viewChapterVerseElement = document.getElementById("view-chapter-verse");
+        const delayTime = (ms: number) => {
+            return new Promise((resolve) => setTimeout(resolve, ms));
+        };
+
+        const setReadBookBars = async (): Promise<void> => {
+            await delayTime(500);
             const target = document.getElementById("view-chapter-dragbar");
-            const wrapper = document.getElementById("view-chapter-component-wrapper");
+            const wrapper: any = document.getElementById("view-chapter-component-wrapper");
             const sideLeftBar = document.getElementById("view-chapter-left-side-bar");
-            let savedRightSideWidth = session.get("viewChapterRightSideBarWidth");
-            if (!savedRightSideWidth) {
-                session.set("viewChapterRightSideBarWidth", 300);
-                savedRightSideWidth = session.get("viewChapterRightSideBarWidth");
-            }
-            let leftSideBarInitialWidth = savedRightSideWidth && wrapper && sideLeftBar ? wrapper?.clientWidth - savedRightSideWidth : 1000;
-            document.getElementById("view-chapter-component-wrapper")?.style.setProperty("--view-chapter-left-width", `${leftSideBarInitialWidth + 260 + 36 + 33}px`);
+
+            let savedRightSideWidth = await session.get("viewChapterRightSideBarWidth");
+            let leftSideBarInitialWidth = window.innerWidth - savedRightSideWidth - 303;
+            document.getElementById("view-chapter-component-wrapper")?.style.setProperty("--view-chapter-left-width", `${leftSideBarInitialWidth + 260}px`);
 
             const resizeViewChapterArea = (e: any) => {
                 if (wrapper && sideLeftBar) session.set("viewChapterRightSideBarWidth", wrapper?.clientWidth - sideLeftBar?.clientWidth);
@@ -101,7 +102,11 @@ export default defineComponent({
                 };
 
             if (wrapper) wrapper.onmouseup = () => clearEvent();
+        };
 
+        onMounted(async () => {
+            await setReadBookBars();
+            let viewChapterVerseElement = document.getElementById("view-chapter-verse");
             setTimeout(() => {
                 const scrollTop = session.get("viewChapterVerseScrollTop");
                 if (viewChapterVerseElement) viewChapterVerseElement.scrollTop = scrollTop ? scrollTop : 0;

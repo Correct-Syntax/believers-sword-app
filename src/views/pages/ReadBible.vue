@@ -3,7 +3,7 @@
         <LeftSideBar />
         <div id="dragbar" class="drag-bar" style="cursor: col-resize"></div>
     </div>
-    <div id="mainWindow" class="min-w-300px absolute h-[100%] right-0">
+    <div id="mainWindow" class="min-w-300px absolute h-[100%] w-[100%] right-0">
         <ViewChapter />
     </div>
 </template>

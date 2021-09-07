@@ -1,9 +1,9 @@
 <template>
     <n-config-provider :theme-overrides="themeOverrides" :theme="dark ? darkTheme : null">
         <NMessageProvider placement="bottom-right">
-            <div class="h-[100vh]" :class="{ dark: dark, light: !dark }">
+            <div class="h-[100vh] w-[100%]" :class="{ dark: dark, light: !dark }">
                 <TitleBar />
-                <div class="dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 h-[calc(100%-30px)] overflow-y-auto">
+                <div class="dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 h-[calc(100%-30px)] w-[100%] overflow-y-auto">
                     <LeftSideMenuBar />
                     <MainView />
                     <rightSideMenuBar />
@@ -26,7 +26,7 @@ import session from "./service/session";
 import LeftSideMenuBar from "@/components/leftSideMenuBar/leftSideMenuBar.vue";
 import RightSideMenuBar from "@/components/rightSideMenuBar/rightSideMenuBar.vue";
 import { NMessageProvider } from "naive-ui";
-import { AutoUpdateRendererEvents } from "@/service/AutoUpdater/AutoUpdaterRendererProcessEvents"
+import { AutoUpdateRendererEvents } from "@/service/AutoUpdater/AutoUpdaterRendererProcessEvents";
 
 export default defineComponent({
     name: "App",
@@ -48,7 +48,7 @@ export default defineComponent({
         });
         const zoomLevel = computed(() => store.state.frame.zoomLevel);
 
-        const changeTheme = () => {
+        const changeTheme = async () => {
             themeOverrides.common.primaryColor = dark.value ? "#3cb1ff" : "#0084dc";
             themeOverrides.common.primaryColorHover = dark.value ? "#3cb1ff" : "#0084dc";
             themeOverrides.common.popoverColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
@@ -62,7 +62,12 @@ export default defineComponent({
             AutoUpdateRendererEvents();
         });
 
-        onMounted(() => {
+        onMounted(async () => {
+            const savedRightSideWidth = await session.get("viewChapterRightSideBarWidth");
+            if (!savedRightSideWidth) {
+                session.set("viewChapterRightSideBarWidth", 300);
+            }
+
             let sessionZoom = session.get("webFrameZoom");
             webFrame.setZoomFactor(sessionZoom ? sessionZoom : 1);
             store.state.frame.zoomLevel = sessionZoom ? sessionZoom : 1;
