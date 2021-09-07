@@ -78,6 +78,7 @@ export default defineComponent({
                         duration: 5000,
                     });
                 } catch (e: any) {
+                    // eslint-disable-next-line
                     console.log(e.message);
                 }
             },
@@ -85,6 +86,7 @@ export default defineComponent({
                 try {
                     ipcRenderer.send("confirm-install-update");
                 } catch (e) {
+                    // eslint-disable-next-line
                     console.log(e.message);
                 }
             },

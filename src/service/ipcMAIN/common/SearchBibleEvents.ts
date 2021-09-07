@@ -31,6 +31,7 @@ export const searchBibleSubmitButton = async (win: any, payload: any) => {
         });
         win.webContents.send("searchBibleSubmitButtonResult", response);
     } catch (e) {
+        // eslint-disable-next-line
         console.log(e);
     }
 };
