@@ -1,5 +1,5 @@
 <template>
-    <div class="h-[100%] flex items-center" v-show="!updateAvailable">
+    <div class="h-[100%] flex items-center" v-show="updateAvailable">
         <div v-if="downloadingProgress" class="flex mx-10px">
             <span class="mr-7px">Downloading: </span>
             <span> {{ parseInt(downloadingProgress.percent) }}% </span>
