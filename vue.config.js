@@ -9,23 +9,18 @@ module.exports = {
                 appId: "com.believers-sword.app",
                 win: {
                     target: [
-                        {
-                            target: "nsis",
-                            arch: [
-                                "x64",
-                                "ia32"
-                            ]
-                        }
+                        "nsis",
+                        "msi",
+                        "portable",
+                        "zip",
                     ],
+                    certificateFile: process.env.CERT_PATH,
                     icon: "resources/icons/icon.ico"
                 },
                 nsis: {
                     oneClick: false,
                     allowToChangeInstallationDirectory: true,
                 },
-                // mac: {
-                //     category: "public.app-category.utilities"
-                // },
                 extraResources: ['database/'],
                 publish: ['github']
             },
