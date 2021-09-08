@@ -48,7 +48,7 @@
                     </template>
                     <div>
                         <div class="text-size-18px flex flex-col gap-[10px]">
-                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100">
+                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100" @click="saveToBookmark(verse)">
                                 <i class="bx bx-bookmark"></i>
                                 <span>Bookmark</span>
                             </div>
@@ -66,7 +66,8 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
-import { NPopover, NTooltip } from "naive-ui";
+import { NPopover, NTooltip, useMessage } from "naive-ui";
+import { ipcRenderer } from "electron";
 
 export default defineComponent({
     name: "VersesRender",
@@ -77,7 +78,6 @@ export default defineComponent({
         const bibleBookMarkStore = computed(() => store.state.verseBookmark);
         const bibleStore = computed(() => store.state.bible);
         const savedBookmarks = computed(() => store.state.verseBookmark.savedBookmarks);
-
         const selectedBookmark = computed(() => store.state.verseBookmark.selectedBookmark);
 
         const getVersion = (table: string) => {
@@ -92,6 +92,23 @@ export default defineComponent({
             return savedBookmarks.value.filter((item: any) => item.b === verse.b && item.c === verse.c && item.v === verse.v).length > 0;
         };
 
+        const bibleBooks = computed(() => store.state.bible.bibleBooks);
+        const message = useMessage();
+        const saveToBookmark = (verse: any) => {
+            console.log(verse);
+
+            let newBookMark = [];
+            let getBook = bibleBooks.value.filter((book: any) => book.b === verse.b)?.[0]?.n;
+            newBookMark.push({
+                b_text: getBook,
+                b: verse.b,
+                c: verse.c,
+                v: verse.v,
+            });
+
+            ipcRenderer.send("saveVersesInBookmark", newBookMark);
+            message.info("Bookmarked! Saved");
+        };
         return {
             getVersion,
             clickVerse(verse: any) {
@@ -105,6 +122,7 @@ export default defineComponent({
             checkIfVerseExistInBookmarkState,
             checkIfVerseExistInSavedBookmarks,
             selectedBookmark,
+            saveToBookmark,
         };
     },
 });
