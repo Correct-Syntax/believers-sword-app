@@ -16,7 +16,7 @@
                     <i class="bx bxs-circle"></i>
                 </div>
             </div>
-            <div class="read-chapter-verse-number">
+            <div class="read-chapter-verse-number select-none">
                 <span>{{ verse.v }}</span>
                 <span class="item-saved-in-bookmark-mark">
                     <n-tooltip trigger="hover" placement="bottom-start">
@@ -32,14 +32,14 @@
             <div v-if="verse.versions" class="w-[100%] max-w-1000px text-justify flex flex-col gap-15px">
                 <div v-for="version in verse.versions" :key="version.version">
                     <div class="leading-relaxed" :style="`font-size: ${fontSize}px`">
-                        <span class="verse-item-bible-version opacity-50 font-500 mr-7px">
+                        <span class="verse-item-bible-version opacity-50 font-500 mr-7px select-none">
                             <i> {{ getVersion(version.version) }}</i>
                         </span>
                         <span v-html="version.text"></span>
                     </div>
                 </div>
             </div>
-            <div class="verse-item-more-options">
+            <div class="verse-item-more-options select-none">
                 <NPopover trigger="hover" :show-arrow="false">
                     <template #trigger>
                         <div class="text-size-30px p-10px bg-gray-600 dark:text-gray-300 text-gray-100 rounded-[100%] cursor-pointer">
@@ -48,11 +48,11 @@
                     </template>
                     <div>
                         <div class="text-size-18px flex flex-col gap-[10px]">
-                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100" @click="saveToBookmark(verse)">
+                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100 select-none" @click="saveToBookmark(verse)">
                                 <i class="bx bx-bookmark"></i>
                                 <span>Bookmark</span>
                             </div>
-                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100">
+                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100 select-none">
                                 <i class="bx bx-share-alt"></i>
                                 <span>Share Verse</span>
                             </div>
@@ -95,8 +95,6 @@ export default defineComponent({
         const bibleBooks = computed(() => store.state.bible.bibleBooks);
         const message = useMessage();
         const saveToBookmark = (verse: any) => {
-            console.log(verse);
-
             let newBookMark = [];
             let getBook = bibleBooks.value.filter((book: any) => book.b === verse.b)?.[0]?.n;
             newBookMark.push({
@@ -109,6 +107,7 @@ export default defineComponent({
             ipcRenderer.send("saveVersesInBookmark", newBookMark);
             message.info("Bookmarked! Saved");
         };
+
         return {
             getVersion,
             clickVerse(verse: any) {

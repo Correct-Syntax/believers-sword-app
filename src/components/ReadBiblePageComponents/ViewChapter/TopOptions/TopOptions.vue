@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center items-center select-none pt-5px">
-        <div class="flex items-center gap-20px text-size-13px items-center">
+        <div class="flex items-center gap-10px text-size-13px items-center">
             <div class="flex items-center whitespace-nowrap gap-[10px]">
                 <span
                     >Font Size: <span class="dark:bg-gray-200 bg-gray-600 dark:bg-opacity-10 bg-opacity-10 p-3px rounded-md">{{ fontSize }}px</span></span
@@ -14,6 +14,9 @@
                     <BookMarkOption />
                 </div>
             </div>
+            <div>
+                <HighlightOption />
+            </div>
         </div>
     </div>
 </template>
@@ -23,12 +26,14 @@ import { NSlider } from "naive-ui";
 import session from "@/service/session";
 import { useStore } from "vuex";
 import BookMarkOption from "@/components/ReadBiblePageComponents/ViewChapter/TopOptions/BookmarkOption/BookmarkOption.vue";
+import HighlightOption from "./Highlighter/Highlighter.vue"
 
 export default defineComponent({
     name: "ViewVerseTopOptions",
     components: {
         NSlider,
         BookMarkOption,
+        HighlightOption
     },
     setup() {
         const store = useStore();

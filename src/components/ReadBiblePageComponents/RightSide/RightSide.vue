@@ -1,5 +1,5 @@
 <template>
-    <div id="right-side-bar" class="h-[100%] w-[100%]">
+    <div id="right-side-bar" class="h-[100%] w-[100%] select-none">
         <RightSideMenuBar />
         <div class="h-[100%] w-[100%]">
             <SearchTab v-show="tabValue === 'searchTab'" />

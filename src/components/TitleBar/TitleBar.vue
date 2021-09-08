@@ -1,5 +1,8 @@
 <template>
-    <header id="titlebar" class="dark:bg-gray-900 dark:text-gray-300 text-gray-800 bg-gray-300 flex w-[100%] justify-between whitespace-nowrap h-[var(--header-height)] items-center">
+    <header
+        id="titlebar"
+        class="dark:bg-gray-900 dark:text-gray-300 text-gray-800 bg-gray-300 flex w-[100%] justify-between whitespace-nowrap h-[var(--header-height)] items-center select-none"
+    >
         <div class="flex items-center gap-9px w-400px h-[100%]">
             <div class="pl-[10px] w-30px">
                 <img src="@/assets/logo54x54.png" class="h-10px w-30px" alt="Icon Logo" />
@@ -25,7 +28,7 @@ import { useStore } from "vuex";
 import { localStorageThemeKey } from "@/service/ThemeChangeService";
 import session from "@/service/session";
 import AutoUpdaterConfirmation from "./AutoUpdateConfirmation/AutoUpdateConfirmation.vue";
-import WindowResizeOptions from "./WindowResizeOptions/WindowResizeOptions.vue"
+import WindowResizeOptions from "./WindowResizeOptions/WindowResizeOptions.vue";
 
 export default defineComponent({
     components: { AutoUpdaterConfirmation, WindowResizeOptions },
