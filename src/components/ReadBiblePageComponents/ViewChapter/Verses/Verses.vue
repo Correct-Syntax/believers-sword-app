@@ -155,7 +155,7 @@ export default defineComponent({
 
 
     .verse-select-text {
-        span {
+        .imOnlyOne {
             @apply rounded-md px-3px;
         }
     }

@@ -59,7 +59,7 @@
         <div>
             <NTooltip trigger="hover" size="small">
                 <template #trigger>
-                    <div class="text-size-20px opacity-50 hover:opacity-95 cursor-pointer">
+                    <div class="text-size-20px opacity-50 hover:opacity-95 cursor-pointer" @click="highlightSelection('remove')">
                         <i class="bx bxs-x-square"></i>
                     </div>
                 </template>
@@ -78,64 +78,54 @@ export default defineComponent({
         const showPopover = ref(false);
         const message = useMessage();
 
-        function getSelectionParentElement() {
-            var parentEl = null,
-                sel;
-            if (window.getSelection) {
-                sel = window.getSelection();
-                if (sel?.rangeCount) {
-                    parentEl = sel.getRangeAt(0).commonAncestorContainer;
-                    if (parentEl.nodeType != 1) {
-                        parentEl = parentEl.parentNode;
-                    }
-                }
-            }
-            // else if ((sel = document.selection) && sel.type != "Control") {
-            //     parentEl = sel.createRange().parentElement();
-            // }
-            return parentEl;
-        }
+        // function getSelectionParentElement() {
+        //     var parentEl = null,
+        //         sel;
+        //     if (window.getSelection) {
+        //         sel = window.getSelection();
+        //         if (sel?.rangeCount) {
+        //             parentEl = sel.getRangeAt(0).commonAncestorContainer;
+        //             if (parentEl.nodeType != 1) {
+        //                 parentEl = parentEl.parentNode;
+        //             }
+        //         }
+        //     }
+        //     // else if ((sel = document.selection) && sel.type != "Control") {
+        //     //     parentEl = sel.createRange().parentElement();
+        //     // }
+        //     return parentEl;
+        // }
 
         return {
             showPopover,
             highlightSelection(color: string) {
                 try {
-                    let set: any = getSelectionParentElement();
                     let selected = window.getSelection();
                     // console.log(selected?.toString())
 
                     let selection = selected?.getRangeAt(0);
-                    let selectedContent = selection?.extractContents();
+                    let selectedContent = selection?.extractContents().textContent;
                     var span = document.createElement("span");
                     span.style.backgroundColor = color;
-                    span.style.color = "#111827";
-                    span.className = "imOnlyOne";
-                    if (selectedContent) span.appendChild(selectedContent);
+                    if (color != 'remove') span.style.color = "#111827";
+                    if (color != 'remove') span.className = "imOnlyOne";
+                    if (selectedContent) span.textContent = selectedContent;
                     if (selection) selection.insertNode(span);
 
-                    document.querySelectorAll(".imOnlyOne").forEach(function (c) {
-                        // c?.parentNode?.removeChild(c);
-                        // c?.parentNode?.removeProperty('zoom');
-                        // console.log(c?.hasChildNodes())
-                        // console.log(c.textContent)
-                        const newContent = c.textContent
-                        c.textContent = newContent
-
-                    });
-
                     // before remove selection save it in store, and set it in state
-                    let selectiond: any = window.getSelection();
-                    let indexStart = selectiond.anchorOffset;
-                    let indexEnd = selectiond.focusOffset;
+                    // let set: any = getSelectionParentElement();
+                    // let selectiond: any = window.getSelection();
+                    // let indexStart = selectiond.anchorOffset;
+                    // let indexEnd = selectiond.focusOffset;
 
-                    // console.log(indexStart, indexEnd);
+                    // // console.log(indexStart, indexEnd);
 
-                    let key = set.getAttribute("data-key");
-                    let bibleVersion = set.getAttribute("data-bible-version");
-                    let bookNumber = set.getAttribute("data-book");
-                    let chapterNumber = set.getAttribute("data-chapter");
-                    let verseNumber = set.getAttribute("data-verse");
-                    let verseText = set.getAttribute("data-text");
+                    // let key = set.getAttribute("data-key");
+                    // let bibleVersion = set.getAttribute("data-bible-version");
+                    // let bookNumber = set.getAttribute("data-book");
+                    // let chapterNumber = set.getAttribute("data-chapter");
+                    // let verseNumber = set.getAttribute("data-verse");
+                    // let verseText = set.getAttribute("data-text");
 
                     // remove all selections
                     window.getSelection()?.empty();
