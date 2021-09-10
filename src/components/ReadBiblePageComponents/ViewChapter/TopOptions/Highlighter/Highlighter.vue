@@ -10,7 +10,7 @@
                 <span class="flex whitespace-nowrap text-size-30px gap-7px">
                     <button
                         @click="
-                            highlightSelection('yellow');
+                            highlightSelection('#FFD26A');
                             showPopover = false;
                         "
                         style="color: yellow"
@@ -101,21 +101,34 @@ export default defineComponent({
             highlightSelection(color: string) {
                 try {
                     let set: any = getSelectionParentElement();
-                    let selected = window.getSelection()
+                    let selected = window.getSelection();
+                    // console.log(selected?.toString())
+
                     let selection = selected?.getRangeAt(0);
                     let selectedContent = selection?.extractContents();
                     var span = document.createElement("span");
                     span.style.backgroundColor = color;
                     span.style.color = "#111827";
+                    span.className = "imOnlyOne";
                     if (selectedContent) span.appendChild(selectedContent);
                     if (selection) selection.insertNode(span);
+
+                    document.querySelectorAll(".imOnlyOne").forEach(function (c) {
+                        // c?.parentNode?.removeChild(c);
+                        // c?.parentNode?.removeProperty('zoom');
+                        // console.log(c?.hasChildNodes())
+                        // console.log(c.textContent)
+                        const newContent = c.textContent
+                        c.textContent = newContent
+
+                    });
 
                     // before remove selection save it in store, and set it in state
                     let selectiond: any = window.getSelection();
                     let indexStart = selectiond.anchorOffset;
                     let indexEnd = selectiond.focusOffset;
 
-                    console.log(indexStart, indexEnd);
+                    // console.log(indexStart, indexEnd);
 
                     let key = set.getAttribute("data-key");
                     let bibleVersion = set.getAttribute("data-bible-version");
