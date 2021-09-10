@@ -1,5 +1,5 @@
 <template>
-    <div class="my-20px mx-50px">
+    <div class="my-20px mx-50px select-none">
         <div
             v-for="verse in viewBookChapter"
             :key="verse.v"
@@ -16,7 +16,7 @@
                     <i class="bx bxs-circle"></i>
                 </div>
             </div>
-            <div class="read-chapter-verse-number select-none">
+            <div class="read-chapter-verse-number">
                 <span>{{ verse.v }}</span>
                 <span class="item-saved-in-bookmark-mark">
                     <n-tooltip trigger="hover" placement="bottom-start">
@@ -32,14 +32,23 @@
             <div v-if="verse.versions" class="w-[100%] max-w-1000px text-justify flex flex-col gap-15px">
                 <div v-for="version in verse.versions" :key="version.version">
                     <div class="leading-relaxed" :style="`font-size: ${fontSize}px`">
-                        <span class="verse-item-bible-version opacity-50 font-500 mr-7px select-none">
+                        <span class="verse-item-bible-version opacity-50 font-500 mr-7px">
                             <i> {{ getVersion(version.version) }}</i>
                         </span>
-                        <span v-html="version.text"></span>
+                        <span
+                            class="select-text"
+                            :data-key="`${version.version}:${verse.b}:${verse.c}:${verse.v}`"
+                            :data-bible-version="version.version"
+                            :data-book="verse.b"
+                            :data-chapter="verse.c"
+                            :data-verse="verse.v"
+                            :data-text="version.text"
+                            v-html="version.text"
+                        ></span>
                     </div>
                 </div>
             </div>
-            <div class="verse-item-more-options select-none">
+            <div class="verse-item-more-options">
                 <NPopover trigger="hover" :show-arrow="false">
                     <template #trigger>
                         <div class="text-size-30px p-10px bg-gray-600 dark:text-gray-300 text-gray-100 rounded-[100%] cursor-pointer">
@@ -48,11 +57,11 @@
                     </template>
                     <div>
                         <div class="text-size-18px flex flex-col gap-[10px]">
-                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100 select-none" @click="saveToBookmark(verse)">
+                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100" @click="saveToBookmark(verse)">
                                 <i class="bx bx-bookmark"></i>
                                 <span>Bookmark</span>
                             </div>
-                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100 select-none">
+                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100">
                                 <i class="bx bx-share-alt"></i>
                                 <span>Share Verse</span>
                             </div>
