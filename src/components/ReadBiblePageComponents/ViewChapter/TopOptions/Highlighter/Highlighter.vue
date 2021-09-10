@@ -101,13 +101,9 @@ export default defineComponent({
             highlightSelection(color: string) {
                 try {
                     let set: any = getSelectionParentElement();
-
-                    // :data-bible-version="version.version" :data-book="verse.b" :data-chapter="verse.c" :data-verse="verse.v" :data-text="version.text"
-                    console.log(set.getAttribute("data-bible-version"));
-
-                    let selection = window.getSelection()?.getRangeAt(0);
+                    let selected = window.getSelection()
+                    let selection = selected?.getRangeAt(0);
                     let selectedContent = selection?.extractContents();
-                    console.log(selectedContent)
                     var span = document.createElement("span");
                     span.style.backgroundColor = color;
                     span.style.color = "#111827";
@@ -119,7 +115,9 @@ export default defineComponent({
                     let indexStart = selectiond.anchorOffset;
                     let indexEnd = selectiond.focusOffset;
 
-                    let key = set.getAttribute("data-key")
+                    console.log(indexStart, indexEnd);
+
+                    let key = set.getAttribute("data-key");
                     let bibleVersion = set.getAttribute("data-bible-version");
                     let bookNumber = set.getAttribute("data-book");
                     let chapterNumber = set.getAttribute("data-chapter");

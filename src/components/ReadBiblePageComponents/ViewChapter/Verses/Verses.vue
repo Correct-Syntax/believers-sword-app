@@ -35,16 +35,19 @@
                         <span class="verse-item-bible-version opacity-50 font-500 mr-7px">
                             <i> {{ getVersion(version.version) }}</i>
                         </span>
-                        <span
-                            class="select-text"
-                            :data-key="`${version.version}:${verse.b}:${verse.c}:${verse.v}`"
-                            :data-bible-version="version.version"
-                            :data-book="verse.b"
-                            :data-chapter="verse.c"
-                            :data-verse="verse.v"
-                            :data-text="version.text"
-                            v-html="version.text"
-                        ></span>
+                        <span>
+                            <span
+                                class="select-text"
+                                :data-key="`${version.version}:${verse.b}:${verse.c}:${verse.v}`"
+                                :data-bible-version="version.version"
+                                :data-book="verse.b"
+                                :data-chapter="verse.c"
+                                :data-verse="verse.v"
+                                :data-text="version.text"
+                                v-html="version.text"
+                                contenteditable="true"
+                            ></span>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -73,7 +76,7 @@
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, onMounted } from "vue";
 import { useStore } from "vuex";
 import { NPopover, NTooltip, useMessage } from "naive-ui";
 import { ipcRenderer } from "electron";
@@ -116,6 +119,16 @@ export default defineComponent({
             ipcRenderer.send("saveVersesInBookmark", newBookMark);
             message.info("Bookmarked! Saved");
         };
+
+        onMounted(() => {
+            setTimeout(() => {
+                document.querySelectorAll("[contenteditable]").forEach((el) =>
+                    el.addEventListener("keydown", function (evt: any) {
+                        evt.preventDefault();
+                    })
+                );
+            }, 1000);
+        });
 
         return {
             getVersion,

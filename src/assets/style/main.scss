@@ -1,6 +1,9 @@
 @import "./common/themes.scss";
 @import "./common/scrollbar.scss";
 
+* {
+    outline: none;
+}
 
 button:focus {
     outline: none !important;
