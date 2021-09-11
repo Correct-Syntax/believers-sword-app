@@ -3,7 +3,7 @@
         <div
             v-for="verse in viewBookChapter"
             :key="verse.v"
-            class="verse-item relative"
+            class="verse-item relative cursor-pointer"
             :class="{
                 'item-bookmarked': checkIfVerseExistInBookmarkState(verse),
                 'item-saved-in-bookmark': checkIfVerseExistInSavedBookmarks(verse),
@@ -31,24 +31,22 @@
             </div>
             <div v-if="verse.versions" class="w-[100%] max-w-1000px text-justify flex flex-col gap-15px">
                 <div v-for="version in verse.versions" :key="version.version">
-                    <div class="leading-relaxed" :style="`font-size: ${fontSize}px`">
+                    <div class="leading-relaxed" :style="`font-size: ${fontSize}px; `">
                         <span class="verse-item-bible-version opacity-50 font-500 mr-7px">
                             <i> {{ getVersion(version.version) }}</i>
                         </span>
-                        <span>
-                            <span
-                                class="verse-select-text"
-                                :data-key="`${version.version}:${verse.b}:${verse.c}:${verse.v}`"
-                                :data-bible-version="version.version"
-                                :data-book="verse.b"
-                                :data-chapter="verse.c"
-                                :data-verse="verse.v"
-                                :data-text="version.text"
-                                v-html="version.text"
-                                contenteditable="true"
-                                spellcheck="false"
-                            ></span>
-                        </span>
+                        <span
+                            class="verse-select-text cursor-text"
+                            :data-key="`${version.version}_${verse.b}_${verse.c}_${verse.v}`"
+                            :data-bible-version="version.version"
+                            :data-book="verse.b"
+                            :data-chapter="verse.c"
+                            :data-verse="verse.v"
+                            v-html="checkHighlight({ key: `${version.version}_${verse.b}_${verse.c}_${verse.v}`, orig: version.text })"
+                            contenteditable="true"
+                            spellcheck="false"
+                            @click.stop.prevent
+                        ></span>
                     </div>
                 </div>
             </div>
@@ -92,6 +90,7 @@ export default defineComponent({
         const bibleStore = computed(() => store.state.bible);
         const savedBookmarks = computed(() => store.state.verseBookmark.savedBookmarks);
         const selectedBookmark = computed(() => store.state.verseBookmark.selectedBookmark);
+        const MarkerHighlights = computed(() => store.state.marker);
 
         const getVersion = (table: string) => {
             let version = bibleStore.value.bibleVersions.filter((item: any) => item.table === table);
@@ -132,6 +131,12 @@ export default defineComponent({
             }, 1000);
         });
 
+        const checkHighlight = ({ key, orig }: any) => {
+            let marked = MarkerHighlights.value.highlights[key];
+            if (!marked) return String(orig).replace("<pb>", "").replace("<pb/>", "");
+            return marked.content;
+        };
+
         return {
             getVersion,
             clickVerse(verse: any) {
@@ -146,6 +151,7 @@ export default defineComponent({
             checkIfVerseExistInSavedBookmarks,
             selectedBookmark,
             saveToBookmark,
+            checkHighlight,
         };
     },
 });

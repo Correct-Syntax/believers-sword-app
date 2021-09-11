@@ -4,7 +4,7 @@
             <NPopover placement="bottom" trigger="hover">
                 <template #trigger>
                     <div class="text-size-20px opacity-50 hover:opacity-95 cursor-pointer">
-                        <i class="bx bx-square-rounded"></i>
+                        <i class='bx bx-highlight'></i>
                     </div>
                 </template>
                 <span class="flex whitespace-nowrap text-size-30px gap-7px">
@@ -53,10 +53,18 @@
                     >
                         <i class="bx bxs-square-rounded"></i>
                     </button>
+                    <button
+                        @click="
+                            highlightSelection('remove');
+                            showPopover = false;
+                        "
+                    >
+                        <i class="bx bxs-x-square"></i>
+                    </button>
                 </span>
             </NPopover>
         </div>
-        <div>
+        <!-- <div>
             <NTooltip trigger="hover" size="small">
                 <template #trigger>
                     <div class="text-size-20px opacity-50 hover:opacity-95 cursor-pointer" @click="highlightSelection('remove')">
@@ -65,67 +73,63 @@
                 </template>
                 <span>Remove Mark</span>
             </NTooltip>
-        </div>
+        </div> -->
     </div>
 </template>
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { NPopover, useMessage, NTooltip } from "naive-ui";
+import { NPopover, useMessage } from "naive-ui";
+import { ipcRenderer } from "electron";
 
 export default defineComponent({
-    components: { NPopover, NTooltip },
+    components: { NPopover },
     setup() {
         const showPopover = ref(false);
         const message = useMessage();
 
-        // function getSelectionParentElement() {
-        //     var parentEl = null,
-        //         sel;
-        //     if (window.getSelection) {
-        //         sel = window.getSelection();
-        //         if (sel?.rangeCount) {
-        //             parentEl = sel.getRangeAt(0).commonAncestorContainer;
-        //             if (parentEl.nodeType != 1) {
-        //                 parentEl = parentEl.parentNode;
-        //             }
-        //         }
-        //     }
-        //     // else if ((sel = document.selection) && sel.type != "Control") {
-        //     //     parentEl = sel.createRange().parentElement();
-        //     // }
-        //     return parentEl;
-        // }
+        function getSelectionParentElement() {
+            var parentEl = null,
+                sel;
+            if (window.getSelection) {
+                sel = window.getSelection();
+                if (sel?.rangeCount) {
+                    parentEl = sel.getRangeAt(0).commonAncestorContainer;
+                    if (parentEl.nodeType != 1) {
+                        parentEl = parentEl.parentNode;
+                    }
+                }
+            }
+
+            return parentEl;
+        }
 
         return {
             showPopover,
             highlightSelection(color: string) {
                 try {
                     let selected = window.getSelection();
-                    // console.log(selected?.toString())
-
                     let selection = selected?.getRangeAt(0);
                     let selectedContent = selection?.extractContents().textContent;
-                    var span = document.createElement("span");
+                    let span = document.createElement("span");
                     span.style.backgroundColor = color;
-                    if (color != 'remove') span.style.color = "#111827";
-                    if (color != 'remove') span.className = "imOnlyOne";
+                    if (color != "remove") span.style.color = "#111827";
+                    if (color != "remove") span.className = "imOnlyOne HasHighlightSpan";
                     if (selectedContent) span.textContent = selectedContent;
                     if (selection) selection.insertNode(span);
 
-                    // before remove selection save it in store, and set it in state
-                    // let set: any = getSelectionParentElement();
-                    // let selectiond: any = window.getSelection();
-                    // let indexStart = selectiond.anchorOffset;
-                    // let indexEnd = selectiond.focusOffset;
+                    let set: any = getSelectionParentElement();
+                    set.children.forEach((elem: any) => {
+                        if (elem.textContent === "") elem.remove();
+                    });
 
-                    // // console.log(indexStart, indexEnd);
+                    let key = set.getAttribute("data-key");
+                    let bibleVersion = set.getAttribute("data-bible-version");
+                    let bookNumber = set.getAttribute("data-book");
+                    let chapterNumber = set.getAttribute("data-chapter");
+                    let verseNumber = set.getAttribute("data-verse");
+                    let content = set.innerHTML;
 
-                    // let key = set.getAttribute("data-key");
-                    // let bibleVersion = set.getAttribute("data-bible-version");
-                    // let bookNumber = set.getAttribute("data-book");
-                    // let chapterNumber = set.getAttribute("data-chapter");
-                    // let verseNumber = set.getAttribute("data-verse");
-                    // let verseText = set.getAttribute("data-text");
+                    ipcRenderer.send("saveBibleVerseHighlight", { key, bibleVersion, bookNumber, chapterNumber, verseNumber, content });
 
                     // remove all selections
                     window.getSelection()?.empty();

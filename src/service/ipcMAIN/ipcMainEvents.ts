@@ -1,3 +1,4 @@
+import { HighlightMarker } from './common/HighlightMarker';
 import { searchBibleSubmitButton } from "./common/SearchBibleEvents";
 import { deleteVerseInSavedBookmarks, getVersesSavedBookmarks, saveVersesInBookmark } from "./common/BookMarkEvents";
 import { mainWindowLoad, getBibleBooks, getBookChaptersCount, getBookInChapter, getBibleVersions } from "./common/BibleEvents";
@@ -17,6 +18,9 @@ export const ipcMainEvents = (win: any) => {
     ipcMain.on("getVersesSavedBookmarks", () => getVersesSavedBookmarks(win));
     ipcMain.on("deleteVerseInSavedBookmarks", (event, payload) => deleteVerseInSavedBookmarks(win, payload));
     ipcMain.on("searchBibleSubmitButton", (event, payload) => searchBibleSubmitButton(win, payload));
+
+    // highlight Events
+    HighlightMarker(win);
     
     win.on("maximize", () => {
         win.webContents.send("isMaximized")
