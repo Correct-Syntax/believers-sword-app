@@ -1,6 +1,7 @@
 export const markerHighLights = {
     state: {
-        highlights: {}
+        highlights: {},
+        selectedHighlights: ""
     },
     mutations: {
         setHighlights(s: any, payload: any) {
