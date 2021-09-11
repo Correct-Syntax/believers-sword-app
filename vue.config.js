@@ -10,9 +10,6 @@ module.exports = {
                 win: {
                     target: [
                         "nsis",
-                        "msi",
-                        "portable",
-                        "zip",
                     ],
                     certificateFile: process.env.CERT_PATH,
                     icon: "resources/icons/icon.ico"
