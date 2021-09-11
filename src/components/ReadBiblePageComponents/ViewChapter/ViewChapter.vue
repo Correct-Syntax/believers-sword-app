@@ -4,7 +4,7 @@
             <div
                 id="view-chapter-left-side-bar"
                 class="h-[100%] w-[100%] min-w-460px relative"
-                style="width: calc(var(--view-chapter-left-width) - calc(var(--left-width) - var(--left-bar-width)) - var(--minus-left-width) - 4px)"
+                style="width: calc(var(--view-chapter-left-width) - calc(var(--left-width) - var(--left-bar-width)) - var(--minus-left-width) - 4px); min-width: 2000px"
             >
                 <div class="h-[100%] w-[100%] min-w-460px relative">
                     <div class="h-[var(--view-chapter-top-width)] shadow-md">
@@ -74,10 +74,11 @@ export default defineComponent({
         };
 
         const setReadBookBars = async (): Promise<void> => {
-            await delayTime(400);
+            await delayTime(450);
             const target = document.getElementById("view-chapter-dragbar");
             const wrapper: any = document.getElementById("view-chapter-component-wrapper");
             const sideLeftBar = document.getElementById("view-chapter-left-side-bar");
+            sideLeftBar?.style.removeProperty("min-width");
 
             let savedRightSideWidth = await session.get("viewChapterRightSideBarWidth");
             let leftSideBarInitialWidth = window.innerWidth - savedRightSideWidth - 267;
@@ -117,7 +118,8 @@ export default defineComponent({
             bibleStore,
             async clickPointer(action: string) {
                 let chapterCount = action === "next" ? bibleStore.value.chapterSelected + 1 : bibleStore.value.chapterSelected - 1;
-                bibleStore.value.chapterSelected = chapterCount < 1 ? 1 : chapterCount > bibleStore.value.bookSelectedChapterCount ? bibleStore.value.bookSelectedChapterCount : chapterCount;
+                bibleStore.value.chapterSelected =
+                    chapterCount < 1 ? 1 : chapterCount > bibleStore.value.bookSelectedChapterCount ? bibleStore.value.bookSelectedChapterCount : chapterCount;
                 await store.dispatch("getBookInChapter", { bible: bibleStore.value.bible, book: bibleStore.value.bookSelected, chapter: bibleStore.value.chapterSelected });
             },
             scrollViewChapterVerse() {

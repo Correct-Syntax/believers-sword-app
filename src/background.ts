@@ -1,5 +1,5 @@
 "use strict";
-import { AutoUpdaterEvents } from './service/AutoUpdater/AutoUpdaterMainProcessEvent';
+import { AutoUpdaterEvents } from "./service/AutoUpdater/AutoUpdaterMainProcessEvent";
 import { app, protocol, BrowserWindow, Menu } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
@@ -79,9 +79,9 @@ app.on("ready", async () => {
         // Install Vue Devtools
         try {
             await installExtension(VUEJS3_DEVTOOLS);
-        } catch (e: any) {
+        } catch (e) {
             // eslint-disable-next-line
-            console.error("Vue Devtools failed to install:", e.toString());
+            console.error(e);
         }
     }
     createWindow();
