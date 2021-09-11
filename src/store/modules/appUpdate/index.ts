@@ -2,7 +2,7 @@ export const appUpdate = {
     state: {
         updateAvailable: false,
         error: {},
-        downloadProgress: null,
+        downloadProgress: false,
         updatedDownloaded: false
     },
     mutations: {
