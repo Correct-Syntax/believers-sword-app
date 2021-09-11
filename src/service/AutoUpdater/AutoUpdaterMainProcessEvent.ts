@@ -1,8 +1,9 @@
+import { BrowserWindow } from "electron/main";
 import { ipcMain } from "electron";
 const logger = require("electron-log");
 import { autoUpdater } from "electron-updater";
 
-export const AutoUpdaterEvents = (win: any): void => {
+export const AutoUpdaterEvents = (win: BrowserWindow): void => {
     autoUpdater.autoDownload = false;
     autoUpdater.logger = logger;
     autoUpdater.checkForUpdates();
