@@ -11,7 +11,6 @@ module.exports = {
                     target: [
                         "nsis",
                     ],
-                    certificateFile: process.env.CERT_PATH,
                     icon: "resources/icons/icon.ico"
                 },
                 nsis: {
