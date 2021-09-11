@@ -125,6 +125,7 @@ export default defineComponent({
             setTimeout(() => {
                 document.querySelectorAll("[contenteditable]").forEach((el) =>
                     el.addEventListener("keydown", function (evt: any) {
+                        if (evt.code === "KeyC") return true;
                         evt.preventDefault();
                     })
                 );
@@ -152,7 +153,6 @@ export default defineComponent({
 <style lang="postcss">
 .verse-item {
     @apply flex items-center justify-between w-[100%] gap-20px mb-20px cursor-default p-20px dark:bg-gray-100 bg-gray-800 dark:bg-opacity-0 bg-opacity-0 dark:hover:bg-opacity-3 hover:bg-opacity-5 border dark:border-gray-800 border-gray-50;
-
 
     .verse-select-text {
         .imOnlyOne {
