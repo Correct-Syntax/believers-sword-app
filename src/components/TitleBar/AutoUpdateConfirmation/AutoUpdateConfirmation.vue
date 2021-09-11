@@ -2,7 +2,7 @@
     <div class="h-[100%] flex items-center" v-show="updateAvailable">
         <div v-show="downloadingProgress" class="flex mx-10px">
             <span class="mr-7px">Downloading Update: </span>
-            <span class="text-[var(--primaryColor)] font-600"> {{ parseInt(downloadingProgress.percent) }}% </span>
+            <span class="text-[var(--primaryColor)] font-600"> {{ parseInt(downloadingProgress?.percent) }}% </span>
         </div>
         <div class="px-10px bg-[var(--primaryColor)] flex items-center dark:text-dark-800 text-light-200 cursor-pointer h-[100%]">
             <div v-show="!updateState.updatedDownloaded" class="h-[100%]">
