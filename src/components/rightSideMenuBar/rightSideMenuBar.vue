@@ -22,6 +22,13 @@
                 <Icon v-else name="bookmark" :size="22" />
                 <div class="tooltip">Bookmarks</div>
             </div>
+            <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'MarkedHighlights' }" @click="selectTab('MarkedHighlights')">
+                <div v-if="true" class="text-size-22px">
+                    <i class='bx bx-highlight'></i>
+                </div>
+                <Icon v-else name="bucket" :size="24" />
+                <div class="tooltip">Highlights</div>
+            </div>
         </div>
     </div>
 </template>

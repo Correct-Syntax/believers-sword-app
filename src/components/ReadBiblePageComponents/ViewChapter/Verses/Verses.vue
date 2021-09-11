@@ -1,9 +1,9 @@
 <template>
-    <div class="my-20px mx-50px">
+    <div class="my-20px mx-50px select-none">
         <div
             v-for="verse in viewBookChapter"
             :key="verse.v"
-            class="verse-item relative"
+            class="verse-item relative cursor-pointer"
             :class="{
                 'item-bookmarked': checkIfVerseExistInBookmarkState(verse),
                 'item-saved-in-bookmark': checkIfVerseExistInSavedBookmarks(verse),
@@ -16,7 +16,7 @@
                     <i class="bx bxs-circle"></i>
                 </div>
             </div>
-            <div class="read-chapter-verse-number select-none">
+            <div class="read-chapter-verse-number">
                 <span>{{ verse.v }}</span>
                 <span class="item-saved-in-bookmark-mark">
                     <n-tooltip trigger="hover" placement="bottom-start">
@@ -31,15 +31,26 @@
             </div>
             <div v-if="verse.versions" class="w-[100%] max-w-1000px text-justify flex flex-col gap-15px">
                 <div v-for="version in verse.versions" :key="version.version">
-                    <div class="leading-relaxed" :style="`font-size: ${fontSize}px`">
-                        <span class="verse-item-bible-version opacity-50 font-500 mr-7px select-none">
+                    <div class="leading-relaxed" :style="`font-size: ${fontSize}px; `">
+                        <span class="verse-item-bible-version opacity-50 font-500 mr-7px">
                             <i> {{ getVersion(version.version) }}</i>
                         </span>
-                        <span v-html="version.text"></span>
+                        <span
+                            class="verse-select-text cursor-text"
+                            :data-key="`${version.version}_${verse.b}_${verse.c}_${verse.v}`"
+                            :data-bible-version="version.version"
+                            :data-book="verse.b"
+                            :data-chapter="verse.c"
+                            :data-verse="verse.v"
+                            v-html="checkHighlight({ key: `${version.version}_${verse.b}_${verse.c}_${verse.v}`, orig: version.text })"
+                            contenteditable="true"
+                            spellcheck="false"
+                            @click.stop.prevent
+                        ></span>
                     </div>
                 </div>
             </div>
-            <div class="verse-item-more-options select-none">
+            <div class="verse-item-more-options">
                 <NPopover trigger="hover" :show-arrow="false">
                     <template #trigger>
                         <div class="text-size-30px p-10px bg-gray-600 dark:text-gray-300 text-gray-100 rounded-[100%] cursor-pointer">
@@ -48,11 +59,11 @@
                     </template>
                     <div>
                         <div class="text-size-18px flex flex-col gap-[10px]">
-                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100 select-none" @click="saveToBookmark(verse)">
+                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100" @click="saveToBookmark(verse)">
                                 <i class="bx bx-bookmark"></i>
                                 <span>Bookmark</span>
                             </div>
-                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100 select-none">
+                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100">
                                 <i class="bx bx-share-alt"></i>
                                 <span>Share Verse</span>
                             </div>
@@ -64,7 +75,7 @@
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, onMounted } from "vue";
 import { useStore } from "vuex";
 import { NPopover, NTooltip, useMessage } from "naive-ui";
 import { ipcRenderer } from "electron";
@@ -79,6 +90,7 @@ export default defineComponent({
         const bibleStore = computed(() => store.state.bible);
         const savedBookmarks = computed(() => store.state.verseBookmark.savedBookmarks);
         const selectedBookmark = computed(() => store.state.verseBookmark.selectedBookmark);
+        const MarkerHighlights = computed(() => store.state.marker);
 
         const getVersion = (table: string) => {
             let version = bibleStore.value.bibleVersions.filter((item: any) => item.table === table);
@@ -108,6 +120,23 @@ export default defineComponent({
             message.info("Bookmarked! Saved");
         };
 
+        onMounted(() => {
+            setTimeout(() => {
+                document.querySelectorAll("[contenteditable]").forEach((el) =>
+                    el.addEventListener("keydown", function (evt: any) {
+                        if (evt.code === "KeyC") return true;
+                        evt.preventDefault();
+                    })
+                );
+            }, 1000);
+        });
+
+        const checkHighlight = ({ key, orig }: any) => {
+            let marked = MarkerHighlights.value.highlights[key];
+            if (!marked) return String(orig).replace("<pb>", "").replace("<pb/>", "");
+            return marked.content;
+        };
+
         return {
             getVersion,
             clickVerse(verse: any) {
@@ -122,6 +151,7 @@ export default defineComponent({
             checkIfVerseExistInSavedBookmarks,
             selectedBookmark,
             saveToBookmark,
+            checkHighlight,
         };
     },
 });
@@ -129,6 +159,12 @@ export default defineComponent({
 <style lang="postcss">
 .verse-item {
     @apply flex items-center justify-between w-[100%] gap-20px mb-20px cursor-default p-20px dark:bg-gray-100 bg-gray-800 dark:bg-opacity-0 bg-opacity-0 dark:hover:bg-opacity-3 hover:bg-opacity-5 border dark:border-gray-800 border-gray-50;
+
+    .verse-select-text {
+        .imOnlyOne {
+            @apply rounded-md px-3px;
+        }
+    }
 
     &.item-bookmarked {
         @apply border rounded-xl border-[var(--primaryColor)];

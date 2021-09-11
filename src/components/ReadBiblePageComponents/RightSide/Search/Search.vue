@@ -144,9 +144,9 @@ export default defineComponent({
     },
 });
 </script>
-<style lang="scss" scoped>
+<style lang="postcss" scoped>
 .selected-view-result {
-    @apply border-l border-b-[var(--primaryColor)];
+    @apply border-l-[5px] border-b-[var(--primaryColor)];
     opacity: 1 !important;
 }
 </style>
