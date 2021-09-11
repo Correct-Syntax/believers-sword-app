@@ -24,8 +24,7 @@ async function createWindow() {
         },
         webPreferences: {
             nodeIntegration: true,
-            contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
-            devTools: isDevelopment
+            contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
         },
         show: false,
         alwaysOnTop: true
