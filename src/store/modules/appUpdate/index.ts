@@ -2,7 +2,8 @@ export const appUpdate = {
     state: {
         updateAvailable: false,
         error: {},
-        downloadProgress: null
+        downloadProgress: null,
+        updatedDownloaded: false
     },
     mutations: {
         setUpdateAvailable(s: any, payload: boolean) {
@@ -13,6 +14,9 @@ export const appUpdate = {
         },
         setDownloadProgress(s: any, payload: any): void {
             s.downloadProgress = payload;
+        },
+        setUpdatedDownloaded(s: any, payload: any): void {
+            s.updatedDownloaded = payload
         }
     },
     actions: {
@@ -24,6 +28,9 @@ export const appUpdate = {
         },
         setDownloadProgress(context: any, payload: any): void {
             context.commit("setDownloadProgress", payload);
+        },
+        setUpdatedDownloaded(context: any, payload: boolean): void {
+            context.commit("setUpdatedDownloaded", payload);
         }
     }
 };

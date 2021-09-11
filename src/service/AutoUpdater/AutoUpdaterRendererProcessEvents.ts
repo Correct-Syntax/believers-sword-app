@@ -22,4 +22,8 @@ export const AutoUpdateRendererEvents = (): void => {
     ipcRenderer.on("update-download-progress", (event, payload) => {
         store.dispatch("setDownloadProgress", payload);
     });
+
+    ipcRenderer.on("update-downloaded", () => {
+        store.dispatch("setDownloadProgress", true);
+    });
 };
