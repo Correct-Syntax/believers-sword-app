@@ -1,9 +1,9 @@
 <template>
-    <div class="my-20px mx-50px">
+    <div class="my-20px mx-50px select-none">
         <div
             v-for="verse in viewBookChapter"
             :key="verse.v"
-            class="verse-item relative"
+            class="verse-item relative cursor-pointer"
             :class="{
                 'item-bookmarked': checkIfVerseExistInBookmarkState(verse),
                 'item-saved-in-bookmark': checkIfVerseExistInSavedBookmarks(verse),
@@ -31,11 +31,22 @@
             </div>
             <div v-if="verse.versions" class="w-[100%] max-w-1000px text-justify flex flex-col gap-15px">
                 <div v-for="version in verse.versions" :key="version.version">
-                    <div class="leading-relaxed" :style="`font-size: ${fontSize}px`">
+                    <div class="leading-relaxed" :style="`font-size: ${fontSize}px; `">
                         <span class="verse-item-bible-version opacity-50 font-500 mr-7px">
                             <i> {{ getVersion(version.version) }}</i>
                         </span>
-                        <span v-html="version.text"></span>
+                        <span
+                            class="verse-select-text cursor-text"
+                            :data-key="`${version.version}_${verse.b}_${verse.c}_${verse.v}`"
+                            :data-bible-version="version.version"
+                            :data-book="verse.b"
+                            :data-chapter="verse.c"
+                            :data-verse="verse.v"
+                            v-html="checkHighlight({ key: `${version.version}_${verse.b}_${verse.c}_${verse.v}`, orig: version.text })"
+                            contenteditable="true"
+                            spellcheck="false"
+                            @click.stop.prevent
+                        ></span>
                     </div>
                 </div>
             </div>
@@ -48,7 +59,7 @@
                     </template>
                     <div>
                         <div class="text-size-18px flex flex-col gap-[10px]">
-                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100">
+                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100" @click="saveToBookmark(verse)">
                                 <i class="bx bx-bookmark"></i>
                                 <span>Bookmark</span>
                             </div>
@@ -64,9 +75,10 @@
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, onMounted } from "vue";
 import { useStore } from "vuex";
-import { NPopover, NTooltip } from "naive-ui";
+import { NPopover, NTooltip, useMessage } from "naive-ui";
+import { ipcRenderer } from "electron";
 
 export default defineComponent({
     name: "VersesRender",
@@ -77,8 +89,8 @@ export default defineComponent({
         const bibleBookMarkStore = computed(() => store.state.verseBookmark);
         const bibleStore = computed(() => store.state.bible);
         const savedBookmarks = computed(() => store.state.verseBookmark.savedBookmarks);
-
         const selectedBookmark = computed(() => store.state.verseBookmark.selectedBookmark);
+        const MarkerHighlights = computed(() => store.state.marker);
 
         const getVersion = (table: string) => {
             let version = bibleStore.value.bibleVersions.filter((item: any) => item.table === table);
@@ -90,6 +102,39 @@ export default defineComponent({
 
         const checkIfVerseExistInSavedBookmarks = (verse: any) => {
             return savedBookmarks.value.filter((item: any) => item.b === verse.b && item.c === verse.c && item.v === verse.v).length > 0;
+        };
+
+        const bibleBooks = computed(() => store.state.bible.bibleBooks);
+        const message = useMessage();
+        const saveToBookmark = (verse: any) => {
+            let newBookMark = [];
+            let getBook = bibleBooks.value.filter((book: any) => book.b === verse.b)?.[0]?.n;
+            newBookMark.push({
+                b_text: getBook,
+                b: verse.b,
+                c: verse.c,
+                v: verse.v,
+            });
+
+            ipcRenderer.send("saveVersesInBookmark", newBookMark);
+            message.info("Bookmarked! Saved");
+        };
+
+        onMounted(() => {
+            setTimeout(() => {
+                document.querySelectorAll("[contenteditable]").forEach((el) =>
+                    el.addEventListener("keydown", function (evt: any) {
+                        if (evt.code === "KeyC") return true;
+                        evt.preventDefault();
+                    })
+                );
+            }, 1000);
+        });
+
+        const checkHighlight = ({ key, orig }: any) => {
+            let marked = MarkerHighlights.value.highlights[key];
+            if (!marked) return String(orig).replace("<pb>", "").replace("<pb/>", "");
+            return marked.content;
         };
 
         return {
@@ -105,6 +150,8 @@ export default defineComponent({
             checkIfVerseExistInBookmarkState,
             checkIfVerseExistInSavedBookmarks,
             selectedBookmark,
+            saveToBookmark,
+            checkHighlight,
         };
     },
 });
@@ -112,6 +159,12 @@ export default defineComponent({
 <style lang="postcss">
 .verse-item {
     @apply flex items-center justify-between w-[100%] gap-20px mb-20px cursor-default p-20px dark:bg-gray-100 bg-gray-800 dark:bg-opacity-0 bg-opacity-0 dark:hover:bg-opacity-3 hover:bg-opacity-5 border dark:border-gray-800 border-gray-50;
+
+    .verse-select-text {
+        .imOnlyOne {
+            @apply rounded-md px-3px;
+        }
+    }
 
     &.item-bookmarked {
         @apply border rounded-xl border-[var(--primaryColor)];

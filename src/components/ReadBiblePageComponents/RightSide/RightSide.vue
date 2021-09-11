@@ -1,10 +1,11 @@
 <template>
-    <div id="right-side-bar" class="h-[100%] w-[100%]">
+    <div id="right-side-bar" class="h-[100%] w-[100%] select-none">
         <RightSideMenuBar />
         <div class="h-[100%] w-[100%]">
             <SearchTab v-show="tabValue === 'searchTab'" />
             <SelectBibleVersions v-show="tabValue === 'versionsTab'" />
             <Bookmarks v-show="tabValue === 'bookmarksTab'" />
+            <MarkedHighlights v-show="tabValue === 'MarkedHighlights'" />
         </div>
     </div>
 </template>
@@ -15,9 +16,10 @@ import SearchTab from "./Search/Search.vue";
 import Bookmarks from "./Bookmarks/Bookmarks.vue";
 import { useStore } from "vuex";
 import RightSideMenuBar from "@/components/rightSideMenuBar/rightSideMenuBar.vue";
+import MarkedHighlights from "./MarkedHighlights/MarkedHighlights.vue"
 export default defineComponent({
     name: "ReadBibleChapterRightSide",
-    components: { SelectBibleVersions, Bookmarks, SearchTab, RightSideMenuBar },
+    components: { SelectBibleVersions, Bookmarks, SearchTab, RightSideMenuBar, MarkedHighlights },
     setup() {
         const store = useStore();
         const tabValue = computed(() => store.state.rightMenuTab);

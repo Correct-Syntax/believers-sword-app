@@ -69,8 +69,8 @@ export default defineComponent({
     @apply flex flex-wrap gap-10px;
 
     & > * {
-        flex: 1 0 200px;
-        min-width: 200px;
+        flex: 1 0 250px;
+        min-width: 250px;
     }
 }
 .right-side-bookmark-saved-items {

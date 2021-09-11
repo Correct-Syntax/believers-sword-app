@@ -1,3 +1,4 @@
+import { markerHighLights } from './modules/markerHighlights/markerHighlights';
 import { appUpdate } from './modules/appUpdate/index';
 import { verseBookmarkState } from './modules/verseBookMarkState/index';
 import { bibleModule } from "./modules/bible";
@@ -16,6 +17,7 @@ export default createStore({
         bible: bibleModule,
         frame: frameState,
         verseBookmark: verseBookmarkState,
-        appUpdate: appUpdate
+        appUpdate: appUpdate,
+        marker: markerHighLights
     }
 });

@@ -1,3 +1,4 @@
+import { HighlightMarkerEvent } from './ipcRendererOn/HighlightMarkerEvents';
 import { getVersesInBookmarkResult } from "./ipcRendererOn/ipcRendererBookmarkEvents";
 import session from "@/service/session";
 import { setStore } from "./onMountedEvents/SetStore";
@@ -24,10 +25,12 @@ export const setReadBiblePage = async (store: any = null): Promise<void> => {
     ipcRenderer.on("getBookInChapterResult", (event, result) => getBookInChapterResult(event, result));
     ipcRenderer.on("getBibleVersionsResult", (event, result) => getBibleVersionsResult(event, result));
     ipcRenderer.on("getVersesInBookmarkResult", (event, result) => getVersesInBookmarkResult(event, result));
+    HighlightMarkerEvent();
 
     // SEND EVENTS
     ipcRenderer.send("getBibleBooks");
     ipcRenderer.send("getVersesSavedBookmarks");
+    
 
     // DISPATCH EVENTS
     await store.dispatch("getBookChaptersCount", { bible: store.state.bible.bible, book: store.state.bible.bookSelected });
