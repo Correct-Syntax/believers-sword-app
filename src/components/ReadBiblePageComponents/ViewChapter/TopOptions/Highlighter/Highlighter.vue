@@ -4,7 +4,7 @@
             <NPopover placement="bottom" trigger="hover">
                 <template #trigger>
                     <div class="text-size-20px opacity-50 hover:opacity-95 cursor-pointer">
-                        <i class='bx bx-highlight'></i>
+                        <i class="bx bx-highlight"></i>
                     </div>
                 </template>
                 <span class="flex whitespace-nowrap text-size-30px gap-7px">
@@ -118,9 +118,12 @@ export default defineComponent({
                     if (selection) selection.insertNode(span);
 
                     let set: any = getSelectionParentElement();
-                    set.children.forEach((elem: any) => {
-                        if (elem.textContent === "") elem.remove();
-                    });
+                    let Children = set.children;
+                    if (Children.length > 0) {
+                        for (let elem of Children) {
+                            if (elem.textContent === "") elem.remove();
+                        }
+                    }
 
                     let key = set.getAttribute("data-key");
                     let bibleVersion = set.getAttribute("data-bible-version");
