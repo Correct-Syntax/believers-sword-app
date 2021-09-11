@@ -4,39 +4,40 @@
             <span class="mr-7px">Downloading Update: </span>
             <span class="text-[var(--primaryColor)] font-600"> {{ parseInt(downloadingProgress?.percent) }}% </span>
         </div>
-        <div class="px-10px bg-[var(--primaryColor)] flex items-center dark:text-dark-800 text-light-200 cursor-pointer h-[100%]">
-            <div v-show="!updateState.updatedDownloaded && !downloadingProgress" class="h-[100%]">
-                <n-popconfirm @positive-click="handlePositiveClick" @negative-click="handleNegativeClick" positive-text="Download">
-                    <template #icon>
-                        <i class="bx bx-download"></i>
-                    </template>
-                    <template #trigger>
-                        <div class="flex justify-center items-center gap-7px h-[100%] hover:underline">
-                            <div class="text-size-24px">
-                                <i class="bx bx-cloud-download"></i>
-                            </div>
-                            New Update Available
+        <div
+            class="px-10px bg-[var(--primaryColor)] flex items-center dark:text-dark-800 text-light-200 cursor-pointer h-[100%]"
+            v-show="!updateState.updatedDownloaded && !downloadingProgress"
+        >
+            <n-popconfirm @positive-click="handlePositiveClick" @negative-click="handleNegativeClick" positive-text="Download">
+                <template #icon>
+                    <i class="bx bx-download"></i>
+                </template>
+                <template #trigger>
+                    <div class="flex justify-center items-center gap-7px h-[100%] hover:underline">
+                        <div class="text-size-24px">
+                            <i class="bx bx-cloud-download"></i>
                         </div>
-                    </template>
-                    <span> Download New Update ? </span>
-                </n-popconfirm>
-            </div>
-            <div v-show="updateState.updatedDownloaded">
-                <n-popconfirm @positive-click="installUpdateNow()" positive-text="Install">
-                    <template #icon>
-                        <i class="bx bx-download"></i>
-                    </template>
-                    <template #trigger>
-                        <div class="flex justify-center items-center gap-7px h-[100%] hover:underline">
-                            <div class="text-size-24px">
-                                <i class="bx bx-cloud-download"></i>
-                            </div>
-                            Update Downloaded! Install Now
+                        New Update Available
+                    </div>
+                </template>
+                <span> Download New Update ? </span>
+            </n-popconfirm>
+        </div>
+        <div class="px-10px bg-[var(--primaryColor)] flex items-center dark:text-dark-800 text-light-200 cursor-pointer h-[100%]" v-show="updateState.updatedDownloaded">
+            <n-popconfirm @positive-click="installUpdateNow()" positive-text="Install">
+                <template #icon>
+                    <i class="bx bx-download"></i>
+                </template>
+                <template #trigger>
+                    <div class="flex justify-center items-center gap-7px h-[100%] hover:underline">
+                        <div class="text-size-24px">
+                            <i class="bx bx-cloud-download"></i>
                         </div>
-                    </template>
-                    <span> Install Now ? </span>
-                </n-popconfirm>
-            </div>
+                        Install Now
+                    </div>
+                </template>
+                <span> Install Now ? </span>
+            </n-popconfirm>
         </div>
     </div>
 </template>
