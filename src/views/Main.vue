@@ -1,11 +1,11 @@
 <template>
     <div id="main-container" class="main-container flex h-[100%] flex-col">
-        <div class="h-[100%] w-[100%] pl-40px pr-5px">
+        <div class="w-[100%] pl-40px pr-5px" style="height: calc(100% - var(--header-height) + 4px)">
             <div class="h-[100%] w-[100%]">
-                <div id="main-container-wrapper" class="h-[100%] w-[100%] relative" v-show="readBibleIsSelected">
+                <div id="main-container-wrapper" class="h-[100%] w-[100%] relative pr-35px" v-show="readBibleIsSelected">
                     <ReadBible />
                 </div>
-                <div v-if="!readBibleIsSelected" class="h-[100%] w-[100%] relative">
+                <div v-if="!readBibleIsSelected" class="h-[100%] w-[100%] relative dark:bg-black dark:bg-opacity-20 bg-gray-200">
                     <router-view></router-view>
                 </div>
             </div>

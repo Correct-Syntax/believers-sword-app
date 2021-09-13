@@ -16,9 +16,6 @@ export const setReadBiblePage = async (store: any = null): Promise<void> => {
         session.set("webFrameZoom", 0.95);
     }
 
-    session.set("viewChapterComponentLeftSideWidth", 1600);
-    session.set("readBibleLeftSideBarWidth", 260);
-
     // ON EVENTS
     ipcRenderer.on("resultBibleBooks", (event, result) => resultBibleBooks(event, result));
     ipcRenderer.on("getBookChaptersCountResult", (event, result) => getBookChaptersCountResult(event, result));

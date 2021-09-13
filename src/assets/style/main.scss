@@ -8,3 +8,50 @@
 button:focus {
     outline: none !important;
 }
+
+.gutter {
+    background-color: rgb(49, 49, 49);
+
+    &.gutter-horizontal {
+        cursor: col-resize;
+        width: 0 !important;
+        position: relative;
+        &::before {
+            content: "";
+            position: absolute;
+            height: 100%;
+            width: 5px;
+            background-color: rgb(49, 49, 49);
+            z-index: 60;
+            opacity: 0;
+            transition: 0.3s;
+            transition-delay: 0.1s;
+            left: -2.5px;
+            cursor: col-resize;
+        }
+
+        &:hover {
+            &::before {
+                opacity: 0.3;
+            }
+        }
+
+        &:active {
+            &::before {
+                opacity: 0.5;
+            }
+        }
+    }
+}
+
+.dark {
+    .gutter {
+        background-color: #eee;
+
+        &.gutter-horizontal {
+            &::before {
+                background-color: rgb(255, 255, 255);
+            }
+        }
+    }
+}
