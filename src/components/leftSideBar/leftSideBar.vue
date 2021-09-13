@@ -1,7 +1,13 @@
 <template>
     <div class="h-[100%] flex select-none">
         <div class="book-selection w-[100%] overflowing-div" @scroll="scrollBookSelection">
-            <div v-for="book in storeBible.bibleBooks" :key="book.b" class="book-selection-item py-5px" :class="{ 'selected-active': book.b == storeBible.bookSelected}" @click="selectBook(book.b)">
+            <div
+                v-for="book in storeBible.bibleBooks"
+                :key="book.b"
+                class="book-selection-item py-5px"
+                :class="{ 'selected-active': book.b == storeBible.bookSelected }"
+                @click="selectBook(book.b)"
+            >
                 <span class="book-selection-item-number opacity-50">{{ setBookNumber(book.b) }}.</span> <span>{{ book.n }}</span>
             </div>
         </div>
@@ -72,7 +78,7 @@ export default defineComponent({
     },
 });
 </script>
-<style lang="scss">
+<style lang="postcss">
 .book-selection,
 .chapter-selection {
     @apply h-[100%] overflow-y-auto pl-1px pr-10px flex flex-col gap-2px;
