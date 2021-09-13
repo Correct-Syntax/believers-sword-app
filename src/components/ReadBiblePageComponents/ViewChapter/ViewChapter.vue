@@ -4,7 +4,7 @@
             <div
                 id="view-chapter-left-side-bar"
                 class="h-[100%] w-[100%] min-w-460px relative"
-                style="width: calc(var(--view-chapter-left-width) - calc(var(--left-width) - var(--left-bar-width)) - var(--minus-left-width) - 4px); min-width: 2000px"
+                style="width: calc(var(--view-chapter-left-width) - calc(var(--left-width) - var(--left-bar-width)) - var(--minus-left-width) - 4px); min-width: 1500px"
             >
                 <div class="h-[100%] w-[100%] min-w-460px relative">
                     <div class="h-[var(--view-chapter-top-width)] shadow-md">

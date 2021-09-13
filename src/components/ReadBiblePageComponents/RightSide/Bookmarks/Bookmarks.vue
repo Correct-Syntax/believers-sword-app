@@ -7,10 +7,10 @@
             <div
                 v-for="bookmark in savedBookmarks"
                 :key="bookmark.b_text + bookmark.b + bookmark.c + bookmark.v"
-                class="right-side-bookmark-saved-items "
+                class="right-side-bookmark-saved-items"
                 :class="{ 'right-side-bookmark-selected': bookmark.b === selectedBookmark.b && bookmark.c === selectedBookmark.c && bookmark.v === selectedBookmark.v }"
             >
-                <div class="w-[100%] px-5px py-5px" @click="goToVerse(bookmark)">{{ bookmark.b_text }} {{ bookmark.c }}:{{ bookmark.v }}</div>
+                <div class="w-[100%] px-5px py-10px text-size-20px" @click="goToVerse(bookmark)">{{ bookmark.b_text }} {{ bookmark.c }}:{{ bookmark.v }}</div>
                 <div class="flex gap-10px cursor-pointer text-size-18px px-10px">
                     <div class="opacity-50 hover:opacity-100">
                         <i class="bx bx-share-alt"></i>
@@ -27,7 +27,7 @@
             </div>
         </div>
         <div v-else class="mt-30px">
-            <n-empty description="Add Bookmarks Here" />
+            <NEmpty description="Add Bookmarks Here" />
         </div>
     </div>
 </template>
@@ -66,18 +66,19 @@ export default defineComponent({
 </script>
 <style lang="postcss">
 .bookmarks-view-wrapper {
-    @apply flex flex-wrap gap-10px;
+    @apply flex flex-wrap gap-10px justify-center;
 
     & > * {
         flex: 1 0 250px;
         min-width: 250px;
+        max-width: 300px;
     }
 }
 .right-side-bookmark-saved-items {
-    @apply flex items-center flex-row gap-10px justify-between text-size-15px border  border-opacity-0 border-light-50 duration-200;
+    @apply flex items-center flex-row gap-10px justify-between text-size-15px border-l-[5px]  border-opacity-0 border-light-50 duration-200;
 
     &.right-side-bookmark-selected {
-        @apply border-[var(--primaryColor)] rounded-md;
+        @apply border-[var(--primaryColor)];
     }
 
     &:hover {

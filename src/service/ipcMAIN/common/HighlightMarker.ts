@@ -22,6 +22,7 @@ export const HighlightMarker = (win: BrowserWindow): void => {
     ipcMain.on("saveBibleVerseHighlight", (event, payload) => {
         try {
             let hasHighlight = payload.content.includes("HasHighlightSpan");
+            console.log(hasHighlight, payload);
 
             if (hasHighlight) {
                 electronStore.set(`highlights.${payload.key}`, payload);
