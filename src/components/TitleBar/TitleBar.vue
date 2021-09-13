@@ -26,7 +26,7 @@
 import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
 import { localStorageThemeKey } from "@/service/ThemeChangeService";
-import session from "@/service/session";
+import session from "@/service/session/session";
 import AutoUpdaterConfirmation from "./AutoUpdateConfirmation/AutoUpdateConfirmation.vue";
 import WindowResizeOptions from "./WindowResizeOptions/WindowResizeOptions.vue";
 

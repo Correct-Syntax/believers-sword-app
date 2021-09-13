@@ -39,7 +39,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
-import session from "@/service/session";
+import session from "@/service/session/session";
 import { NCheckboxGroup, NCheckbox, NGrid, NGi } from "naive-ui";
 
 export default defineComponent({

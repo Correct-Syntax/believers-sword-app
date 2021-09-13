@@ -23,7 +23,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from "vue";
 import { NSlider } from "naive-ui";
-import session from "@/service/session";
+import session from "@/service/session/session";
 import { useStore } from "vuex";
 import BookMarkOption from "@/components/ReadBiblePageComponents/ViewChapter/TopOptions/BookmarkOption/BookmarkOption.vue";
 import HighlightOption from "./Highlighter/Highlighter.vue"

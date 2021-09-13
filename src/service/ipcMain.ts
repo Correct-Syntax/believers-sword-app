@@ -1,11 +1,11 @@
-import { HighlightMarker } from './common/HighlightMarker';
-import { searchBibleSubmitButton } from "./common/SearchBibleEvents";
-import { deleteVerseInSavedBookmarks, getVersesSavedBookmarks, saveVersesInBookmark } from "./common/BookMarkEvents";
-import { mainWindowLoad, getBibleBooks, getBookChaptersCount, getBookInChapter, getBibleVersions } from "./common/BibleEvents";
-import { ipcMain } from "electron";
-import { closeWindow, maximizeWindow, minimizeWindow } from "./common/BrowserWindowEvents";
+import { ipcMainHighlightMarker } from './ipcMainEvents/ipcMainHighlightMarker';
+import { searchBibleSubmitButton } from "./ipcMainEvents/SearchBibleEvents";
+import { deleteVerseInSavedBookmarks, getVersesSavedBookmarks, saveVersesInBookmark } from "./ipcMainEvents/BookMarkEvents";
+import { mainWindowLoad, getBibleBooks, getBookChaptersCount, getBookInChapter, getBibleVersions } from "./ipcMainEvents/BibleEvents";
+import { BrowserWindow, ipcMain } from "electron";
+import { closeWindow, maximizeWindow, minimizeWindow } from "./ipcMainEvents/BrowserWindowEvents";
 
-export const ipcMainEvents = (win: any) => {
+export const ipcMainEvents = (win: BrowserWindow) => {
     ipcMain.on("minimizeWindow", () => minimizeWindow(win));
     ipcMain.on("maximizeWindow", () => maximizeWindow(win));
     ipcMain.on("closeWindow", () => closeWindow(win));
@@ -20,7 +20,7 @@ export const ipcMainEvents = (win: any) => {
     ipcMain.on("searchBibleSubmitButton", (event, payload) => searchBibleSubmitButton(win, payload));
 
     // highlight Events
-    HighlightMarker(win);
+    ipcMainHighlightMarker(win);
     
     win.on("maximize", () => {
         win.webContents.send("isMaximized")

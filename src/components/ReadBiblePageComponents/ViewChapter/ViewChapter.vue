@@ -36,7 +36,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, watch } from "vue";
 import { useStore } from "vuex";
-import session from "@/service/session";
+import session from "@/service/session/session";
 import VersesRender from "@/components/ReadBiblePageComponents/ViewChapter/Verses/Verses.vue";
 import TopOptionsBar from "@/components/ReadBiblePageComponents/ViewChapter/TopOptions/TopOptions.vue";
 

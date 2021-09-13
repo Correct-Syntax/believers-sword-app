@@ -14,7 +14,7 @@ const electronStore = new ElectronStore({
     }
 });
 
-export const HighlightMarker = (win: BrowserWindow): void => {
+export const ipcMainHighlightMarker = (win: BrowserWindow): void => {
     ipcMain.on("getBibleVerseHighlight", () => {
         win.webContents.send("getBibleVerseHighlightResult", electronStore.get("highlights"));
     });
@@ -22,7 +22,6 @@ export const HighlightMarker = (win: BrowserWindow): void => {
     ipcMain.on("saveBibleVerseHighlight", (event, payload) => {
         try {
             let hasHighlight = payload.content.includes("HasHighlightSpan");
-            console.log(hasHighlight, payload);
 
             if (hasHighlight) {
                 electronStore.set(`highlights.${payload.key}`, payload);

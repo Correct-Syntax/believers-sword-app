@@ -18,10 +18,10 @@ import { computed, defineComponent, onBeforeMount, onMounted, reactive, watch } 
 import TitleBar from "./components/TitleBar/TitleBar.vue";
 import MainView from "./views/Main.vue";
 import { useStore } from "vuex";
-import { setReadBiblePage } from "@/service/onMountedEvents";
+import { onMountedRendererEvents } from "@/service/ipcRenderer";
 import { darkTheme } from "naive-ui";
 import { webFrame } from "electron";
-import session from "./service/session";
+import session from "./service/session/session";
 import LeftSideMenuBar from "@/components/leftSideMenuBar/leftSideMenuBar.vue";
 import { NMessageProvider } from "naive-ui";
 import { AutoUpdateRendererEvents } from "@/service/AutoUpdater/AutoUpdaterRendererProcessEvents";
@@ -55,7 +55,7 @@ export default defineComponent({
         };
 
         onBeforeMount(async () => {
-            await setReadBiblePage(store);
+            await onMountedRendererEvents(store);
             changeTheme();
             AutoUpdateRendererEvents();
         });

@@ -1,6 +1,6 @@
 const log = require("electron-log");
 const isDevelopment = process.env.NODE_ENV !== "production";
-const config = require("./../../../db.config");
+const config = require("./../../db.config");
 const knex = require("knex")(isDevelopment ? config.development : config.production);
 
 export const mainWindowLoad = (win: any) => {

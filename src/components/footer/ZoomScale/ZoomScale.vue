@@ -30,7 +30,7 @@
 import { defineComponent, onMounted, ref, watch } from "vue";
 import {  NTooltip, NButtonGroup, NButton } from "naive-ui";
 import { useStore } from "vuex";
-import session from "@/service/session";
+import session from "@/service/session/session";
 
 export default defineComponent({
     components: {  NTooltip, NButtonGroup, NButton },

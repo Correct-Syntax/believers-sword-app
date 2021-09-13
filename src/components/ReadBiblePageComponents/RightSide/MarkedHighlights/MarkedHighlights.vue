@@ -1,9 +1,9 @@
 <template>
-    <div class="mark-highlight-sidebar p-7px h-[100%] w-[100%] overflow-y-auto overflowing-div">
+    <div class="mark-highlight-sidebar p-7px h-[100%] w-[100%] overflow-auto overflowing-div">
         <div class="text-size-[18px] mb-7px">
-            <h3>Your Highlights:</h3>
+            <h3>Your Highlights: </h3>
         </div>
-        <div v-if="Highlights.highlights.length > 0" class="flex flex-col gap-10px">
+        <div v-if="Highlights.highlights" class="flex flex-col gap-10px">
             <template v-for="highlight in Highlights.highlights" :key="highlight.key">
                 <div
                     v-if="highlight.key && isVerseVersionChecked(highlight.bibleVersion)"
@@ -21,7 +21,7 @@
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, watch } from "vue";
 import { useStore } from "vuex";
 import { NEmpty } from "naive-ui";
 
@@ -32,6 +32,10 @@ export default defineComponent({
         const Highlights = computed(() => store.state.marker);
         const bibleState = computed(() => store.state.bible);
         const verseBookmark = computed(() => store.state.verseBookmark);
+
+        watch(Highlights, (e) => {
+            console.log(e)
+        })
 
         const goToVerse = (verse: any) => {
             bibleState.value.bookSelected = verse.b;

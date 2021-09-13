@@ -144,8 +144,7 @@ export default defineComponent({
                             content = rootParent.innerHTML;
                         }
                     }
-
-                    console.log(content);
+                    
                     ipcRenderer.send("saveBibleVerseHighlight", { key, bibleVersion, bookNumber, chapterNumber, verseNumber, content });
 
                     // remove all selections

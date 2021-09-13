@@ -17,7 +17,7 @@ module.exports = {
                     oneClick: false,
                     allowToChangeInstallationDirectory: true,
                 },
-                extraResources: ['database/'],
+                extraResources: ['database/', process.env.DEVELOPMENT_MODE === 'true' ? 'store/' : 'store_dev'],
                 publish: ['github']
             },
             externals: ['knex', 'sqlite3'],
