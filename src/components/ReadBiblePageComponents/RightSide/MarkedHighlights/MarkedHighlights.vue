@@ -3,10 +3,10 @@
         <div class="text-size-[18px] mb-7px">
             <h3>Your Highlights:</h3>
         </div>
-        <div class="flex flex-col gap-10px">
+        <div v-if="Highlights.highlights.length > 0" class="flex flex-col gap-10px">
             <template v-for="highlight in Highlights.highlights" :key="highlight.key">
                 <div
-                    v-if="highlight.key"
+                    v-if="highlight.key && isVerseVersionChecked(highlight.bibleVersion)"
                     class="mark-highlight-sidebar-item"
                     :class="{ 'mark-highlight-sidebar-item-active': Highlights.selectedHighlights === highlight.key }"
                     @click="clickHighlight(highlight)"
@@ -15,13 +15,18 @@
                 </div>
             </template>
         </div>
+        <div v-else class="mt-30px">
+            <NEmpty description="Add Highlights" />
+        </div>
     </div>
 </template>
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
+import { NEmpty } from "naive-ui";
 
 export default defineComponent({
+    components: { NEmpty },
     setup() {
         const store = useStore();
         const Highlights = computed(() => store.state.marker);
@@ -34,14 +39,19 @@ export default defineComponent({
             verseBookmark.value.selectedBookmark = verse;
         };
 
+        const isVerseVersionChecked = (version: string): boolean => {
+            return bibleState.value.bibleVersionsSelected.includes(version);
+        };
+
         return {
             Highlights,
+            isVerseVersionChecked,
             clickHighlight: (verse: any): void => {
                 Highlights.value.selectedHighlights = verse.key;
                 goToVerse({
-                    b:  parseInt(verse.bookNumber),
-                    c:  parseInt(verse.chapterNumber),
-                    v:  parseInt(verse.verseNumber)
+                    b: parseInt(verse.bookNumber),
+                    c: parseInt(verse.chapterNumber),
+                    v: parseInt(verse.verseNumber),
                 });
             },
         };
@@ -54,7 +64,7 @@ export default defineComponent({
         @apply text-size-14px cursor-pointer dark:bg-gray-200 dark:bg-opacity-0 hover:dark:bg-opacity-5 p-10px leading-loose;
 
         &.mark-highlight-sidebar-item-active {
-            @apply border-l-[5px] border-[var(--primaryColor)]
+            @apply border-l-[5px] border-[var(--primaryColor)];
         }
 
         .HasHighlightSpan {

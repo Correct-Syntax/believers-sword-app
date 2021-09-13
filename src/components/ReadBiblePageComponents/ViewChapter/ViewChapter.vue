@@ -1,12 +1,11 @@
 <template>
     <div id="view-chapter-component" class="h-[100%] w-[100%]">
-        <div id="view-chapter-component-wrapper" class="h-[100%] w-[100%] flex pr-35px">
+        <div id="view-chapter-component-wrapper" class="h-[100%] w-[100%] flex">
             <div
                 id="view-chapter-left-side-bar"
-                class="h-[100%] w-[100%] min-w-460px relative"
-                style="width: calc(var(--view-chapter-left-width) - calc(var(--left-width) - var(--left-bar-width)) - var(--minus-left-width) - 4px); min-width: 2000px"
+                class="h-[100%] w-[100%] relative"
             >
-                <div class="h-[100%] w-[100%] min-w-460px relative">
+                <div class="h-[100%] w-[100%] relative">
                     <div class="h-[var(--view-chapter-top-width)] shadow-md">
                         <TopOptionsBar />
                     </div>
@@ -30,10 +29,6 @@
                         </div>
                     </div>
                 </div>
-                <div id="view-chapter-dragbar" class="drag-bar" style="cursor: col-resize"></div>
-            </div>
-            <div id="view-chapter-right-side-bar" class="h-[100%] w-[100%] min-w-300px dark:bg-black dark:bg-opacity-20 bg-gray-200">
-                <RightSide />
             </div>
         </div>
     </div>
@@ -42,12 +37,11 @@
 import { computed, defineComponent, onMounted, watch } from "vue";
 import { useStore } from "vuex";
 import session from "@/service/session";
-import RightSide from "@/components/ReadBiblePageComponents/RightSide/RightSide.vue";
 import VersesRender from "@/components/ReadBiblePageComponents/ViewChapter/Verses/Verses.vue";
 import TopOptionsBar from "@/components/ReadBiblePageComponents/ViewChapter/TopOptions/TopOptions.vue";
 
 export default defineComponent({
-    components: { RightSide, VersesRender, TopOptionsBar },
+    components: { VersesRender, TopOptionsBar },
     setup() {
         const store = useStore();
         const bibleStore = computed(() => store.state.bible);
@@ -69,44 +63,7 @@ export default defineComponent({
             }, 200);
         });
 
-        const delayTime = (ms: number) => {
-            return new Promise((resolve) => setTimeout(resolve, ms));
-        };
-
-        const setReadBookBars = async (): Promise<void> => {
-            await delayTime(450);
-            const target = document.getElementById("view-chapter-dragbar");
-            const wrapper: any = document.getElementById("view-chapter-component-wrapper");
-            const sideLeftBar = document.getElementById("view-chapter-left-side-bar");
-            sideLeftBar?.style.removeProperty("min-width");
-
-            let savedRightSideWidth = await session.get("viewChapterRightSideBarWidth");
-            let leftSideBarInitialWidth = window.innerWidth - savedRightSideWidth - 267;
-            document.getElementById("view-chapter-component-wrapper")?.style.setProperty("--view-chapter-left-width", `${leftSideBarInitialWidth + 260}px`);
-
-            const resizeViewChapterArea = (e: any) => {
-                if (wrapper && sideLeftBar) session.set("viewChapterRightSideBarWidth", wrapper?.clientWidth - sideLeftBar?.clientWidth);
-                if (wrapper) wrapper.style.setProperty("--view-chapter-left-width", e.pageX + "px");
-            };
-
-            const clearEvent = () => {
-                if (wrapper) wrapper.removeEventListener("mousemove", resizeViewChapterArea);
-                if (wrapper) wrapper.classList.remove("resizing");
-            };
-
-            if (target)
-                target.onmousedown = (e) => {
-                    e.preventDefault();
-
-                    if (wrapper) wrapper.addEventListener("mousemove", resizeViewChapterArea);
-                    if (wrapper) wrapper.classList.add("resizing");
-                };
-
-            if (wrapper) wrapper.onmouseup = () => clearEvent();
-        };
-
         onMounted(async () => {
-            await setReadBookBars();
             let viewChapterVerseElement = document.getElementById("view-chapter-verse");
             setTimeout(() => {
                 const scrollTop = session.get("viewChapterVerseScrollTop");
@@ -161,20 +118,12 @@ export default defineComponent({
     --minus-left-width: 33px;
 }
 
-#view-chapter-right-side-bar {
-    width: calc((100% - var(--view-chapter-left-width)) + calc(var(--left-width) - var(--left-bar-width)) + var(--minus-left-width) + 4px);
-}
-
-#view-chapter-dragbar.drag-bar {
-    @apply right-0 w-5px dark:opacity-0 opacity-0 dark:bg-light-50 bg-gray-600 h-[100%] dark:bg-opacity-30 bg-opacity-30 active:opacity-100 dark:active:opacity-100 duration-300 absolute top-0;
-}
-
 .view-chapter-arrow-pointer {
     @apply opacity-30 hover:opacity-95 cursor-pointer p-10px duration-150;
 }
 
 .view-chapter-verse {
-    @apply overflow-y-auto  h-[100%];
+    @apply overflow-y-auto;
     height: calc(100% - var(--view-chapter-top-width));
 }
 </style>

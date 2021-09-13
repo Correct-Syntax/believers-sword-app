@@ -64,16 +64,6 @@
                 </span>
             </NPopover>
         </div>
-        <!-- <div>
-            <NTooltip trigger="hover" size="small">
-                <template #trigger>
-                    <div class="text-size-20px opacity-50 hover:opacity-95 cursor-pointer" @click="highlightSelection('remove')">
-                        <i class="bx bxs-x-square"></i>
-                    </div>
-                </template>
-                <span>Remove Mark</span>
-            </NTooltip>
-        </div> -->
     </div>
 </template>
 <script lang="ts">
@@ -117,21 +107,45 @@ export default defineComponent({
                     if (selectedContent) span.textContent = selectedContent;
                     if (selection) selection.insertNode(span);
 
-                    let set: any = getSelectionParentElement();
-                    let Children = set.children;
+                    const selectedParentElement: any = getSelectionParentElement();
+
+                    let Children = selectedParentElement.children;
                     if (Children.length > 0) {
                         for (let elem of Children) {
                             if (elem.textContent === "") elem.remove();
                         }
                     }
 
-                    let key = set.getAttribute("data-key");
-                    let bibleVersion = set.getAttribute("data-bible-version");
-                    let bookNumber = set.getAttribute("data-book");
-                    let chapterNumber = set.getAttribute("data-chapter");
-                    let verseNumber = set.getAttribute("data-verse");
-                    let content = set.innerHTML;
+                    let key = selectedParentElement.getAttribute("data-key");
+                    let bibleVersion = selectedParentElement.getAttribute("data-bible-version");
+                    let bookNumber = selectedParentElement.getAttribute("data-book");
+                    let chapterNumber = selectedParentElement.getAttribute("data-chapter");
+                    let verseNumber = selectedParentElement.getAttribute("data-verse");
+                    let content = selectedParentElement.innerHTML;
 
+                    if (color === "remove") {
+                        let parentElem = selectedParentElement;
+                        let classList = parentElem.classList.value;
+
+                        if (classList.includes("HasHighlightSpan")) {
+                            parentElem.className = "";
+                            parentElem.style.removeProperty("background-color");
+                            parentElem.style.removeProperty("color");
+                        }
+
+                        let rootParent = selectedParentElement.parentElement;
+                        let rootParentClassList = rootParent.classList.value;
+                        if (rootParentClassList.includes("verse-select-text cursor-text")) {
+                            key = rootParent.getAttribute("data-key");
+                            bibleVersion = rootParent.getAttribute("data-bible-version");
+                            bookNumber = rootParent.getAttribute("data-book");
+                            chapterNumber = rootParent.getAttribute("data-chapter");
+                            verseNumber = rootParent.getAttribute("data-verse");
+                            content = rootParent.innerHTML;
+                        }
+                    }
+
+                    console.log(content);
                     ipcRenderer.send("saveBibleVerseHighlight", { key, bibleVersion, bookNumber, chapterNumber, verseNumber, content });
 
                     // remove all selections
