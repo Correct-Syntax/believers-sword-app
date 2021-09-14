@@ -1,16 +1,22 @@
 <template>
-    <div class="flex flex-col gap-10px p-7px h-[100%] w-[100%] overflow-y-auto overflowing-div select-none">
+    <div class="flex flex-col p-7px h-[100%] w-[100%] select-none">
         <div class="text-size-[18px] mb-7px">
             <h3>Your Bookmarks:</h3>
+            <div class="mt-7px">
+                <NSelect v-model:value="BibleBookSelected" size="small" :options="bibleBookOptions" placeholder="Select Bible Book" />
+            </div>
         </div>
-        <div v-if="savedBookmarks.length > 0" class="bookmarks-view-wrapper">
+        <div v-if="savedBookmarks.length > 0" class="bookmarks-view-wrapper overflow-y-auto overflowing-div h-[100%]">
             <div
                 v-for="bookmark in savedBookmarks"
-                :key="bookmark.b_text + bookmark.b + bookmark.c + bookmark.v"
+                :key="bookmark.book_text + bookmark.book + bookmark.chapter + bookmark.verse"
                 class="right-side-bookmark-saved-items"
-                :class="{ 'right-side-bookmark-selected': bookmark.b === selectedBookmark.b && bookmark.c === selectedBookmark.c && bookmark.v === selectedBookmark.v }"
+                :class="{
+                    'right-side-bookmark-selected': bookmark.book === selectedBookmark.b && bookmark.chapter === selectedBookmark.c && bookmark.verse === selectedBookmark.v,
+                }"
+                @click="goToVerse(bookmark)"
             >
-                <div class="w-[100%] px-5px py-10px text-size-20px" @click="goToVerse(bookmark)">{{ bookmark.b_text }} {{ bookmark.c }}:{{ bookmark.v }}</div>
+                <div class="w-[100%] px-5px py-10px text-size-20px">{{ bookmark.book_text }} {{ bookmark.chapter }}:{{ bookmark.verse }}</div>
                 <div class="flex gap-10px cursor-pointer text-size-18px px-10px">
                     <div class="opacity-50 hover:opacity-100">
                         <i class="bx bx-share-alt"></i>
@@ -26,34 +32,76 @@
                 </div>
             </div>
         </div>
-        <div v-else class="mt-30px">
+        <div v-show="bookmarkCount > bookmarkLimit" class="pt-7px flex justify-end">
+            <div>
+                <NPagination v-model:page="bookmarkPage" :page-count="Math.ceil(bookmarkCount / bookmarkLimit)" :page-slot="5" />
+            </div>
+        </div>
+        <div v-show="!savedBookmarks.length > 0" class="mt-30px">
             <NEmpty description="Add Bookmarks Here" />
         </div>
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
-import { NPopconfirm, NEmpty } from "naive-ui";
+import { NPopconfirm, NEmpty, NSelect, NPagination } from "naive-ui";
 import { ipcRenderer } from "electron";
 
 export default defineComponent({
-    components: { NPopconfirm, NEmpty },
+    components: { NPopconfirm, NEmpty, NSelect, NPagination },
     setup() {
         const store = useStore();
         const savedBookmarks = computed(() => store.state.verseBookmark.savedBookmarks);
         const bibleState = computed(() => store.state.bible);
         const verseBookmark = computed(() => store.state.verseBookmark);
         const selectedBookmark = computed(() => store.state.verseBookmark.selectedBookmark);
+        const BibleBookSelected = ref("all");
+        const bookmarkPage = ref(1);
+        const bookmarkCount = computed(() => store.state.verseBookmark.bookmarkTotalCount);
+        const bookmarkLimit = ref(100);
+
+        watch(bookmarkPage, (page) => {
+            ipcRenderer.send("getVersesSavedBookmarks", { page, limit: bookmarkLimit.value });
+        });
+
+        onMounted(() => {
+            ipcRenderer.send("getVersesSavedBookmarks", { page: bookmarkPage.value, limit: bookmarkLimit.value });
+        })
 
         const goToVerse = (verse: any) => {
-            bibleState.value.bookSelected = verse.b;
-            bibleState.value.chapterSelected = verse.c;
-            verseBookmark.value.selectedBookmark = verse;
+            bibleState.value.bookSelected = verse.book;
+            bibleState.value.chapterSelected = verse.chapter;
+            verseBookmark.value.selectedBookmark = {
+                b: verse.book,
+                c: verse.chapter,
+                v: verse.verse,
+            };
         };
+        const bibleBookOptions = computed(() => {
+            let bibleBooks = store.state.bible.bibleBooks;
+            let newData: any = [
+                {
+                    label: "All",
+                    value: "all",
+                },
+            ];
+            bibleBooks.forEach((item: any) =>
+                newData.push({
+                    label: item.n,
+                    value: item.b,
+                })
+            );
+            return newData;
+        });
 
         return {
+            bookmarkPage,
+            BibleBookSelected,
             savedBookmarks,
+            bibleBookOptions,
+            bookmarkCount,
+            bookmarkLimit,
             goToVerse,
             selectedBookmark,
             removeBookmark() {

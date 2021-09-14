@@ -101,7 +101,7 @@ export default defineComponent({
         };
 
         const checkIfVerseExistInSavedBookmarks = (verse: any) => {
-            return savedBookmarks.value.filter((item: any) => item.b === verse.b && item.c === verse.c && item.v === verse.v).length > 0;
+            return savedBookmarks.value.filter((item: any) => item.book === verse.b && item.chapter === verse.c && item.verse === verse.v).length > 0;
         };
 
         const bibleBooks = computed(() => store.state.bible.bibleBooks);
@@ -122,13 +122,16 @@ export default defineComponent({
 
         onMounted(() => {
             setTimeout(() => {
-                document.querySelectorAll("[contenteditable]").forEach((el) =>
+                document.querySelectorAll("[contenteditable]").forEach((el) => {
                     el.addEventListener("keydown", function (evt: any) {
                         if (evt.code === "KeyC") return true;
                         evt.preventDefault();
-                    })
-                );
-            }, 1000);
+                    });
+                    el.addEventListener("drop", (event) => {
+                        event.preventDefault();
+                    });
+                });
+            }, 800);
         });
 
         const checkHighlight = ({ key, orig }: any) => {

@@ -29,7 +29,6 @@ export const onMountedRendererEvents = async (store: any = null): Promise<void> 
 
     // SEND EVENTS
     ipcRenderer.send("getBibleBooks");
-    ipcRenderer.send("getVersesSavedBookmarks");
 
     // DISPATCH EVENTS
     await store.dispatch("getBookChaptersCount", { bible: store.state.bible.bible, book: store.state.bible.bookSelected });
