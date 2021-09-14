@@ -79,6 +79,7 @@ import { computed, defineComponent, onMounted } from "vue";
 import { useStore } from "vuex";
 import { NPopover, NTooltip, useMessage } from "naive-ui";
 import { ipcRenderer } from "electron";
+import _ from "lodash";
 
 export default defineComponent({
     name: "VersesRender",
@@ -101,7 +102,7 @@ export default defineComponent({
         };
 
         const checkIfVerseExistInSavedBookmarks = (verse: any) => {
-            return savedBookmarks.value.filter((item: any) => item.book === verse.b && item.chapter === verse.c && item.verse === verse.v).length > 0;
+            return savedBookmarks.value[`${verse.b}_${verse.c}_${verse.v}`];
         };
 
         const bibleBooks = computed(() => store.state.bible.bibleBooks);
@@ -114,6 +115,7 @@ export default defineComponent({
                 b: verse.b,
                 c: verse.c,
                 v: verse.v,
+                versions: _.cloneDeep(verse.versions)
             });
 
             ipcRenderer.send("saveVersesInBookmark", newBookMark);
@@ -147,7 +149,10 @@ export default defineComponent({
                     let index = bibleBookMarkStore.value.bookmarks.findIndex((item: any) => item.b === verse.b && item.c === verse.c && item.v === verse.v);
                     if (index >= 0) bibleBookMarkStore.value.bookmarks.splice(index, 1);
                 } else {
-                    bibleBookMarkStore.value.bookmarks.push(verse);
+                    let getBook = bibleBooks.value.filter((book: any) => book.b === verse.b)?.[0]?.n;
+                    let toAdd = verse;
+                    toAdd.b_text = getBook;
+                    bibleBookMarkStore.value.bookmarks.push(toAdd);
                 }
             },
             checkIfVerseExistInBookmarkState,

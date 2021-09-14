@@ -2,7 +2,7 @@
     <NTooltip trigger="hover" size="small">
         <template #trigger>
             <div class="text-size-20px opacity-50 hover:opacity-95 cursor-pointer" @click="saveSelectedBookmark()">
-                <i class='bx bx-bookmark-alt-plus' ></i>
+                <i class="bx bx-bookmark-alt-plus"></i>
             </div>
         </template>
         <span>Save to Bookmark</span>
@@ -13,7 +13,8 @@ import { computed, defineComponent } from "vue";
 import { NTooltip } from "naive-ui";
 import { ipcRenderer } from "electron";
 import { useStore } from "vuex";
-import { useMessage } from 'naive-ui'
+import { useMessage } from "naive-ui";
+import _ from "lodash";
 
 export default defineComponent({
     name: "TopBookmarkOption",
@@ -21,28 +22,21 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const bookMarkState = computed(() => store.state.verseBookmark.bookmarks);
-        const bibleBooks = computed(() => store.state.bible.bibleBooks);
-        const message = useMessage()
+        const message = useMessage();
 
         const saveSelectedBookmark = () => {
-            if (bookMarkState.value.length > 0) {
-                let newBookMark = [];
-                for (let bookmark of bookMarkState.value) {
-                    let getBook = bibleBooks.value.filter((book: any) => book.b === bookmark.b)?.[0]?.n;
-
-                    newBookMark.push({
-                        b_text: getBook,
-                        b: bookmark.b,
-                        c: bookmark.c,
-                        v: bookmark.v,
-                    });
+            try {
+                let selectedVerses = _.cloneDeep(bookMarkState.value);
+                if (selectedVerses.length > 0) {
+                    ipcRenderer.send("saveVersesInBookmark", selectedVerses);
+                    store.state.verseBookmark.bookmarks = [];
+                    message.info("Bookmark Saved");
+                    return;
                 }
-                ipcRenderer.send("saveVersesInBookmark", newBookMark);
-                store.state.verseBookmark.bookmarks = [];
-                message.info("Bookmark Saved")
-                return
+            } catch (e) {
+                if (e instanceof Error) console.log(e.message);
             }
-            message.warning("Please Select Verses To Bookmark.")
+            message.warning("Please Select Verses To Bookmark.");
         };
 
         return {

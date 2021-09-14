@@ -2,21 +2,18 @@
     <div class="flex flex-col p-7px h-[100%] w-[100%] select-none">
         <div class="text-size-[18px] mb-7px">
             <h3>Your Bookmarks:</h3>
-            <div class="mt-7px">
-                <NSelect v-model:value="BibleBookSelected" size="small" :options="bibleBookOptions" placeholder="Select Bible Book" />
-            </div>
         </div>
-        <div v-if="savedBookmarks.length > 0" class="bookmarks-view-wrapper overflow-y-auto overflowing-div h-[100%]">
+        <div v-if="Object.keys(savedBookmarks).length > 0" class="bookmarks-view-wrapper overflow-y-auto overflowing-div">
             <div
                 v-for="bookmark in savedBookmarks"
-                :key="bookmark.book_text + bookmark.book + bookmark.chapter + bookmark.verse"
+                :key="bookmark.b_text + bookmark.b + bookmark.c + bookmark.v"
                 class="right-side-bookmark-saved-items"
                 :class="{
-                    'right-side-bookmark-selected': bookmark.book === selectedBookmark.b && bookmark.chapter === selectedBookmark.c && bookmark.verse === selectedBookmark.v,
+                    'right-side-bookmark-selected': bookmark.b === selectedBookmark.b && bookmark.c === selectedBookmark.c && bookmark.v === selectedBookmark.v,
                 }"
                 @click="goToVerse(bookmark)"
             >
-                <div class="w-[100%] px-5px py-10px text-size-20px">{{ bookmark.book_text }} {{ bookmark.chapter }}:{{ bookmark.verse }}</div>
+                <div class="w-[100%] px-5px py-10px text-size-20px">{{ bookmark.b_text }} {{ bookmark.c }}:{{ bookmark.v }}</div>
                 <div class="flex gap-10px cursor-pointer text-size-18px px-10px">
                     <div class="opacity-50 hover:opacity-100" @click.stop.prevent>
                         <i class="bx bx-share-alt"></i>
@@ -32,12 +29,7 @@
                 </div>
             </div>
         </div>
-        <div v-show="bookmarkCount > bookmarkLimit" class="pt-7px flex justify-end">
-            <div>
-                <NPagination v-model:page="bookmarkPage" :page-count="Math.ceil(bookmarkCount / bookmarkLimit)" :page-slot="5" />
-            </div>
-        </div>
-        <div v-show="!savedBookmarks.length > 0" class="mt-30px">
+        <div v-show="!Object.keys(savedBookmarks).length > 0" class="mt-30px">
             <NEmpty description="Add Bookmarks Here" />
         </div>
     </div>
@@ -45,11 +37,11 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
-import { NPopconfirm, NEmpty, NSelect, NPagination } from "naive-ui";
+import { NPopconfirm, NEmpty } from "naive-ui";
 import { ipcRenderer } from "electron";
 
 export default defineComponent({
-    components: { NPopconfirm, NEmpty, NSelect, NPagination },
+    components: { NPopconfirm, NEmpty },
     setup() {
         const store = useStore();
         const savedBookmarks = computed(() => store.state.verseBookmark.savedBookmarks);
@@ -80,12 +72,12 @@ export default defineComponent({
         });
 
         const goToVerse = (verse: any) => {
-            bibleState.value.bookSelected = verse.book;
-            bibleState.value.chapterSelected = verse.chapter;
+            bibleState.value.bookSelected = verse.b;
+            bibleState.value.chapterSelected = verse.c;
             verseBookmark.value.selectedBookmark = {
-                b: verse.book,
-                c: verse.chapter,
-                v: verse.verse,
+                b: verse.b,
+                c: verse.c,
+                v: verse.v,
             };
         };
         const bibleBookOptions = computed(() => {
@@ -115,12 +107,11 @@ export default defineComponent({
             goToVerse,
             selectedBookmark,
             removeBookmark(verse: any) {
-                if (verse.book && verse.chapter && verse.verse)
+                if (verse.b && verse.c && verse.v)
                     ipcRenderer.send("deleteVerseInSavedBookmarks", {
-                        book: verse.book,
-                        chapter: verse.chapter,
-                        verse: verse.verse,
-                        page: bookmarkPage.value,
+                        b: verse.b,
+                        c: verse.c,
+                        v: verse.v,
                     });
             },
         };

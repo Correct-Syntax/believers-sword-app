@@ -1,7 +1,7 @@
 export const verseBookmarkState = {
     state: {
         bookmarks: [],
-        savedBookmarks: [],
+        savedBookmarks: {},
         selectedBookmark: {},
         bookmarkTotalCount: 0
     },
