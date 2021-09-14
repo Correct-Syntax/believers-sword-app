@@ -18,12 +18,12 @@
             >
                 <div class="w-[100%] px-5px py-10px text-size-20px">{{ bookmark.book_text }} {{ bookmark.chapter }}:{{ bookmark.verse }}</div>
                 <div class="flex gap-10px cursor-pointer text-size-18px px-10px">
-                    <div class="opacity-50 hover:opacity-100">
+                    <div class="opacity-50 hover:opacity-100" @click.stop.prevent>
                         <i class="bx bx-share-alt"></i>
                     </div>
-                    <NPopconfirm :show-icon="false" placement="top-start" :on-positive-click="removeBookmark">
+                    <NPopconfirm :show-icon="false" placement="top-start" @positive-click="removeBookmark(bookmark)">
                         <template #activator>
-                            <div class="opacity-50 hover:opacity-100 dark:text-red-400 text-red-600">
+                            <div class="opacity-50 hover:opacity-100 dark:text-red-400 text-red-600" @click.stop.prevent>
                                 <i class="bx bx-trash"></i>
                             </div>
                         </template>
@@ -65,9 +65,19 @@ export default defineComponent({
             ipcRenderer.send("getVersesSavedBookmarks", { page, limit: bookmarkLimit.value });
         });
 
+        watch(savedBookmarks, (saveBookmark) => {
+            if (!saveBookmark.length && bookmarkPage.value > 1) {
+                bookmarkPage.value = bookmarkPage.value - 1;
+            }
+        });
+
+        watch(BibleBookSelected, (BookSelected) => {
+            ipcRenderer.send("getVersesSavedBookmarks", { page: bookmarkPage.value, limit: bookmarkLimit.value, book: BookSelected === "all" ? null : BookSelected });
+        });
+
         onMounted(() => {
             ipcRenderer.send("getVersesSavedBookmarks", { page: bookmarkPage.value, limit: bookmarkLimit.value });
-        })
+        });
 
         const goToVerse = (verse: any) => {
             bibleState.value.bookSelected = verse.book;
@@ -104,9 +114,14 @@ export default defineComponent({
             bookmarkLimit,
             goToVerse,
             selectedBookmark,
-            removeBookmark() {
-                ipcRenderer.send("deleteVerseInSavedBookmarks", { b: selectedBookmark.value.b, c: selectedBookmark.value.c, v: selectedBookmark.value.v });
-                store.state.verseBookmark.selectedBookmark = {};
+            removeBookmark(verse: any) {
+                if (verse.book && verse.chapter && verse.verse)
+                    ipcRenderer.send("deleteVerseInSavedBookmarks", {
+                        book: verse.book,
+                        chapter: verse.chapter,
+                        verse: verse.verse,
+                        page: bookmarkPage.value,
+                    });
             },
         };
     },
@@ -115,15 +130,9 @@ export default defineComponent({
 <style lang="postcss">
 .bookmarks-view-wrapper {
     @apply flex flex-wrap gap-10px justify-center;
-
-    & > * {
-        flex: 1 0 250px;
-        min-width: 250px;
-        max-width: 300px;
-    }
 }
 .right-side-bookmark-saved-items {
-    @apply flex items-center flex-row gap-10px justify-between text-size-15px border-l-[5px]  border-opacity-0 border-light-50 duration-200;
+    @apply flex items-center flex-row gap-10px justify-between text-size-15px border-l-[5px]  border-opacity-0 border-light-50 duration-200 h-[40px] w-[100%] max-w-[320px];
 
     &.right-side-bookmark-selected {
         @apply border-[var(--primaryColor)];

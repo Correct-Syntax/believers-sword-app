@@ -1,3 +1,5 @@
+import { BrowserWindow } from "electron";
+
 const log = require("electron-log");
 const isDevelopment = process.env.NODE_ENV !== "production";
 const config = require("./../../db.config");
@@ -75,13 +77,18 @@ export const getVersesSavedBookmarks = async (win: any, payload = { limit: 100, 
     }
 };
 
-export const deleteVerseInSavedBookmarks = (win: any, payload: any) => {
+export const deleteVerseInSavedBookmarks = async (win: BrowserWindow, payload: any) => {
     try {
-        let getCurrentBookmarks = electronStore.get(electronStoreBookMarkObjPath);
-        let index = getCurrentBookmarks.findIndex((x: any) => x.b == payload.b && x.c == payload.c && x.v == payload.v);
-        getCurrentBookmarks.splice(index, 1);
-        electronStore.set(electronStoreBookMarkObjPath, getCurrentBookmarks);
-        win.webContents.send("getVersesInBookmarkResult", getCurrentBookmarks);
+        await storeDB("bookmarks")
+            .where({
+                book: payload.book,
+                chapter: payload.chapter,
+                verse: payload.verse
+            })
+            .del()
+            .then((raw: any) => {
+                getVersesSavedBookmarks(win, { limit: 100, page: payload.page ? payload.page : 1, book: null, chapter: null });
+            });
     } catch (e) {
         if (e instanceof Error) console.log(e.message);
     }
