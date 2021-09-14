@@ -1,23 +1,26 @@
 <template>
-    <div class="flex flex-col gap-10px p-7px h-[100%] w-[100%] overflow-y-auto overflowing-div select-none">
+    <div class="flex flex-col p-7px h-[100%] w-[100%] select-none">
         <div class="text-size-[18px] mb-7px">
             <h3>Your Bookmarks:</h3>
         </div>
-        <div v-if="savedBookmarks.length > 0" class="bookmarks-view-wrapper">
+        <div v-if="Object.keys(savedBookmarks).length > 0" class="bookmarks-view-wrapper overflow-y-auto overflowing-div">
             <div
                 v-for="bookmark in savedBookmarks"
                 :key="bookmark.b_text + bookmark.b + bookmark.c + bookmark.v"
                 class="right-side-bookmark-saved-items"
-                :class="{ 'right-side-bookmark-selected': bookmark.b === selectedBookmark.b && bookmark.c === selectedBookmark.c && bookmark.v === selectedBookmark.v }"
+                :class="{
+                    'right-side-bookmark-selected': bookmark.b === selectedBookmark.b && bookmark.c === selectedBookmark.c && bookmark.v === selectedBookmark.v,
+                }"
+                @click="goToVerse(bookmark)"
             >
-                <div class="w-[100%] px-5px py-10px text-size-20px" @click="goToVerse(bookmark)">{{ bookmark.b_text }} {{ bookmark.c }}:{{ bookmark.v }}</div>
+                <div class="w-[100%] px-5px py-10px text-size-20px">{{ bookmark.b_text }} {{ bookmark.c }}:{{ bookmark.v }}</div>
                 <div class="flex gap-10px cursor-pointer text-size-18px px-10px">
-                    <div class="opacity-50 hover:opacity-100">
+                    <div class="opacity-50 hover:opacity-100" @click.stop.prevent>
                         <i class="bx bx-share-alt"></i>
                     </div>
-                    <NPopconfirm :show-icon="false" placement="top-start" :on-positive-click="removeBookmark">
+                    <NPopconfirm :show-icon="false" placement="top-start" @positive-click="removeBookmark(bookmark)">
                         <template #activator>
-                            <div class="opacity-50 hover:opacity-100 dark:text-red-400 text-red-600">
+                            <div class="opacity-50 hover:opacity-100 dark:text-red-400 text-red-600" @click.stop.prevent>
                                 <i class="bx bx-trash"></i>
                             </div>
                         </template>
@@ -26,13 +29,13 @@
                 </div>
             </div>
         </div>
-        <div v-else class="mt-30px">
+        <div v-show="!Object.keys(savedBookmarks).length > 0" class="mt-30px">
             <NEmpty description="Add Bookmarks Here" />
         </div>
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
 import { NPopconfirm, NEmpty } from "naive-ui";
 import { ipcRenderer } from "electron";
@@ -45,20 +48,71 @@ export default defineComponent({
         const bibleState = computed(() => store.state.bible);
         const verseBookmark = computed(() => store.state.verseBookmark);
         const selectedBookmark = computed(() => store.state.verseBookmark.selectedBookmark);
+        const BibleBookSelected = ref("all");
+        const bookmarkPage = ref(1);
+        const bookmarkCount = computed(() => store.state.verseBookmark.bookmarkTotalCount);
+        const bookmarkLimit = ref(100);
+
+        watch(bookmarkPage, (page) => {
+            ipcRenderer.send("getVersesSavedBookmarks", { page, limit: bookmarkLimit.value });
+        });
+
+        watch(savedBookmarks, (saveBookmark) => {
+            if (!saveBookmark.length && bookmarkPage.value > 1) {
+                bookmarkPage.value = bookmarkPage.value - 1;
+            }
+        });
+
+        watch(BibleBookSelected, (BookSelected) => {
+            ipcRenderer.send("getVersesSavedBookmarks", { page: bookmarkPage.value, limit: bookmarkLimit.value, book: BookSelected === "all" ? null : BookSelected });
+        });
+
+        onMounted(() => {
+            ipcRenderer.send("getVersesSavedBookmarks", { page: bookmarkPage.value, limit: bookmarkLimit.value });
+        });
 
         const goToVerse = (verse: any) => {
             bibleState.value.bookSelected = verse.b;
             bibleState.value.chapterSelected = verse.c;
-            verseBookmark.value.selectedBookmark = verse;
+            verseBookmark.value.selectedBookmark = {
+                b: verse.b,
+                c: verse.c,
+                v: verse.v,
+            };
         };
+        const bibleBookOptions = computed(() => {
+            let bibleBooks = store.state.bible.bibleBooks;
+            let newData: any = [
+                {
+                    label: "All",
+                    value: "all",
+                },
+            ];
+            bibleBooks.forEach((item: any) =>
+                newData.push({
+                    label: item.n,
+                    value: item.b,
+                })
+            );
+            return newData;
+        });
 
         return {
+            bookmarkPage,
+            BibleBookSelected,
             savedBookmarks,
+            bibleBookOptions,
+            bookmarkCount,
+            bookmarkLimit,
             goToVerse,
             selectedBookmark,
-            removeBookmark() {
-                ipcRenderer.send("deleteVerseInSavedBookmarks", { b: selectedBookmark.value.b, c: selectedBookmark.value.c, v: selectedBookmark.value.v });
-                store.state.verseBookmark.selectedBookmark = {};
+            removeBookmark(verse: any) {
+                if (verse.b && verse.c && verse.v)
+                    ipcRenderer.send("deleteVerseInSavedBookmarks", {
+                        b: verse.b,
+                        c: verse.c,
+                        v: verse.v,
+                    });
             },
         };
     },
@@ -67,15 +121,9 @@ export default defineComponent({
 <style lang="postcss">
 .bookmarks-view-wrapper {
     @apply flex flex-wrap gap-10px justify-center;
-
-    & > * {
-        flex: 1 0 250px;
-        min-width: 250px;
-        max-width: 300px;
-    }
 }
 .right-side-bookmark-saved-items {
-    @apply flex items-center flex-row gap-10px justify-between text-size-15px border-l-[5px]  border-opacity-0 border-light-50 duration-200;
+    @apply flex items-center flex-row gap-10px justify-between text-size-15px border-l-[5px]  border-opacity-0 border-light-50 duration-200 h-[40px] w-[100%] max-w-[320px];
 
     &.right-side-bookmark-selected {
         @apply border-[var(--primaryColor)];

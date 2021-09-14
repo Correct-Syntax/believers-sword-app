@@ -1,4 +1,4 @@
-import session from "../session";
+import session from "../session/session";
 
 export const saveScrollTopState = (className: string, inArray = 0, sessionKey: string, scrollTopSubtract = 0): void => {
     const el = document.getElementsByClassName(className)[inArray];

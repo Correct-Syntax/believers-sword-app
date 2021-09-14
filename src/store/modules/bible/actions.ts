@@ -1,4 +1,4 @@
-import session from '@/service/session';
+import session from '@/service/session/session';
 import { ipcRenderer } from "electron";
 /* eslint-disable */
 export default {

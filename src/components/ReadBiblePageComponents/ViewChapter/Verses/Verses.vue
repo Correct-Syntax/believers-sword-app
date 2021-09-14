@@ -79,6 +79,7 @@ import { computed, defineComponent, onMounted } from "vue";
 import { useStore } from "vuex";
 import { NPopover, NTooltip, useMessage } from "naive-ui";
 import { ipcRenderer } from "electron";
+import _ from "lodash";
 
 export default defineComponent({
     name: "VersesRender",
@@ -101,7 +102,7 @@ export default defineComponent({
         };
 
         const checkIfVerseExistInSavedBookmarks = (verse: any) => {
-            return savedBookmarks.value.filter((item: any) => item.b === verse.b && item.c === verse.c && item.v === verse.v).length > 0;
+            return savedBookmarks.value[`${verse.b}_${verse.c}_${verse.v}`];
         };
 
         const bibleBooks = computed(() => store.state.bible.bibleBooks);
@@ -114,6 +115,7 @@ export default defineComponent({
                 b: verse.b,
                 c: verse.c,
                 v: verse.v,
+                versions: _.cloneDeep(verse.versions)
             });
 
             ipcRenderer.send("saveVersesInBookmark", newBookMark);
@@ -122,13 +124,16 @@ export default defineComponent({
 
         onMounted(() => {
             setTimeout(() => {
-                document.querySelectorAll("[contenteditable]").forEach((el) =>
+                document.querySelectorAll("[contenteditable]").forEach((el) => {
                     el.addEventListener("keydown", function (evt: any) {
                         if (evt.code === "KeyC") return true;
                         evt.preventDefault();
-                    })
-                );
-            }, 1000);
+                    });
+                    el.addEventListener("drop", (event) => {
+                        event.preventDefault();
+                    });
+                });
+            }, 800);
         });
 
         const checkHighlight = ({ key, orig }: any) => {
@@ -144,7 +149,10 @@ export default defineComponent({
                     let index = bibleBookMarkStore.value.bookmarks.findIndex((item: any) => item.b === verse.b && item.c === verse.c && item.v === verse.v);
                     if (index >= 0) bibleBookMarkStore.value.bookmarks.splice(index, 1);
                 } else {
-                    bibleBookMarkStore.value.bookmarks.push(verse);
+                    let getBook = bibleBooks.value.filter((book: any) => book.b === verse.b)?.[0]?.n;
+                    let toAdd = verse;
+                    toAdd.b_text = getBook;
+                    bibleBookMarkStore.value.bookmarks.push(toAdd);
                 }
             },
             checkIfVerseExistInBookmarkState,

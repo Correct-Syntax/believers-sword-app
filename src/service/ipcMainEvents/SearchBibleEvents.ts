@@ -1,5 +1,5 @@
 const isDevelopment = process.env.NODE_ENV !== "production";
-const config = require("./../../../db.config");
+const config = require("./../../db.config");
 const knex = require("knex")(isDevelopment ? config.development : config.production);
 
 export const searchBibleSubmitButton = async (win: any, payload: any) => {

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-center items-center select-none pt-5px">
+    <div class="flex justify-center items-center select-none pt-7px">
         <div class="flex items-center gap-10px text-size-13px items-center">
             <div class="flex items-center whitespace-nowrap gap-[10px]">
                 <span
@@ -23,7 +23,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from "vue";
 import { NSlider } from "naive-ui";
-import session from "@/service/session";
+import session from "@/service/session/session";
 import { useStore } from "vuex";
 import BookMarkOption from "@/components/ReadBiblePageComponents/ViewChapter/TopOptions/BookmarkOption/BookmarkOption.vue";
 import HighlightOption from "./Highlighter/Highlighter.vue"

@@ -14,9 +14,6 @@
 <script lang="ts">
 import Split from "split.js";
 import { defineComponent, onMounted } from "vue";
-import { dragSide } from "@/service/MouseDragResizePanel";
-import { readBibleLeftSideBarWidth } from "@/service/widthSizeConstantVariables";
-import session from "@/service/session";
 import ViewChapter from "@/components/ReadBiblePageComponents/ViewChapter/ViewChapter.vue";
 import RightSide from "@/components/ReadBiblePageComponents/RightSide/RightSide.vue";
 import LeftSideBar from "@/components/leftSideBar/leftSideBar.vue";
@@ -41,9 +38,6 @@ export default defineComponent({
                     localStorage.setItem("read-bible-split-sizes", JSON.stringify(sizes));
                 },
             });
-            const leftSideWidth = session.get(readBibleLeftSideBarWidth);
-            document.getElementById("main-container-wrapper")?.style.setProperty("--left-width", `${leftSideWidth ? leftSideWidth : 300}px`);
-            dragSide("main-container-wrapper", "dragbar", "--left-width", 400, 250, readBibleLeftSideBarWidth);
         });
     },
 });
