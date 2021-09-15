@@ -1,12 +1,19 @@
 <template>
-    <div class="split h-[100%] w-[100%]">
-        <div id="leftSide" class="h-[100%] dark:bg-black dark:bg-opacity-30 bg-gray-200 resize-x p-5px z-20">
+    <div class="split flex flex-row h-[100%] w-[100%]">
+        <div id="leftSide" class="h-[100%] dark:bg-black dark:bg-opacity-20 bg-gray-200 resize-x p-5px z-20">
             <LeftSideBar />
         </div>
-        <div id="mainWindow" class="h-[100%] w-[100%]">
-            <ViewChapter />
+        <div id="mainWindow" class="h-[100%]">
+            <div class="split flex flex-col h-[100%] relative">
+                <div id="read-chapter-area">
+                    <ViewChapter />
+                </div>
+                <div id="make-notes-area" class="create-notes-container overflow-auto bg-black bg-opacity-40 p-7px">
+                    Create Notes here
+                </div>
+            </div>
         </div>
-        <div id="pinakaRightSide" class="h-[100%] w-[100%]">
+        <div id="pinakaRightSide" class="h-[100%]">
             <RightSide />
         </div>
     </div>
@@ -38,16 +45,29 @@ export default defineComponent({
                     localStorage.setItem("read-bible-split-sizes", JSON.stringify(sizes));
                 },
             });
+
+            const VerticalSizes: any = localStorage.getItem("read-chapter-split-sizes-vertical");
+            Split(["#read-chapter-area", "#make-notes-area"], {
+                direction: "vertical",
+                sizes: VerticalSizes ? JSON.parse(VerticalSizes) :[70, 30],
+                minSize: [200, 0],
+                snapOffset: 100,
+                // eslint-disable-next-line
+                elementStyle: (dimension, size, gutterSize) => {
+                    return {
+                        height: size + "%",
+                        "flex-basis": size + "%",
+                    };
+                },
+                onDragEnd: (sizes) => {
+                    localStorage.setItem("read-chapter-split-sizes-vertical", JSON.stringify(sizes));
+                },
+            });
         });
     },
 });
 </script>
 <style lang="postcss">
-.split {
-    display: flex;
-    flex-direction: row;
-}
-
 #leftSide {
     width: calc(var(--left-width) - var(--left-bar-width));
 }

@@ -42,6 +42,38 @@ button:focus {
             }
         }
     }
+
+    &.gutter-vertical {
+        cursor: col-resize;
+        width: 100% !important;
+        position: relative;
+        height: 0 !important;
+        &::before {
+            content: "";
+            position: absolute;
+            height: 5px;
+            width: 100%;
+            background-color: rgb(49, 49, 49);
+            z-index: 60;
+            opacity: 0;
+            transition: 0.3s;
+            transition-delay: 0.1s;
+            top: -2.5px;
+            cursor: row-resize;
+        }
+
+        &:hover {
+            &::before {
+                opacity: 0.3;
+            }
+        }
+
+        &:active {
+            &::before {
+                opacity: 0.5;
+            }
+        }
+    }
 }
 
 .dark {
@@ -49,6 +81,12 @@ button:focus {
         background-color: #eee;
 
         &.gutter-horizontal {
+            &::before {
+                background-color: rgb(255, 255, 255);
+            }
+        }
+
+        &.gutter-vertical {
             &::before {
                 background-color: rgb(255, 255, 255);
             }

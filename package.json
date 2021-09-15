@@ -25,7 +25,6 @@
     "knex": "^0.21.21",
     "register-service-worker": "^1.7.1",
     "split.js": "^1.6.4",
-    "splitpanes": "^3.0.6",
     "sqlite3": "^5.0.2",
     "upath": "^2.0.1",
     "vue": "^3.0.0",
