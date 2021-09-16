@@ -12,27 +12,23 @@ button:focus {
 .gutter {
     background-color: rgb(49, 49, 49);
 
-    &.gutter-horizontal {
-        cursor: col-resize;
-        width: 0 !important;
+    &.gutter-horizontal,
+    &.gutter-vertical {
         position: relative;
+
         &::before {
             content: "";
             position: absolute;
-            height: 100%;
-            width: 5px;
-            background-color: rgb(49, 49, 49);
-            z-index: 60;
+            background-color: rgb(28, 28, 28);
             opacity: 0;
+            z-index: 60;
             transition: 0.3s;
             transition-delay: 0.1s;
-            left: -2.5px;
-            cursor: col-resize;
         }
 
         &:hover {
             &::before {
-                opacity: 0.3;
+                opacity: 0.5;
             }
         }
 
@@ -43,35 +39,27 @@ button:focus {
         }
     }
 
+    &.gutter-horizontal {
+        cursor: col-resize;
+        width: 0 !important;
+
+        &::before {
+            height: 100%;
+            width: 5px;
+            left: -2.5px;
+            cursor: col-resize;
+        }
+    }
+
     &.gutter-vertical {
         cursor: col-resize;
         width: 100% !important;
-        position: relative;
         height: 0 !important;
         &::before {
-            content: "";
-            position: absolute;
             height: 5px;
             width: 100%;
-            background-color: rgb(49, 49, 49);
-            z-index: 60;
-            opacity: 0;
-            transition: 0.3s;
-            transition-delay: 0.1s;
             top: -2.5px;
             cursor: row-resize;
-        }
-
-        &:hover {
-            &::before {
-                opacity: 0.3;
-            }
-        }
-
-        &:active {
-            &::before {
-                opacity: 0.5;
-            }
         }
     }
 }
