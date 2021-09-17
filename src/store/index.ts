@@ -4,6 +4,7 @@ import { verseBookmarkState } from './modules/verseBookMarkState/index';
 import { bibleModule } from "./modules/bible";
 import { createStore } from "vuex";
 import { frameState } from "./modules/frameState";
+import { notes } from './modules/notes/notes';
 
 export default createStore({
     state: {
@@ -18,6 +19,7 @@ export default createStore({
         frame: frameState,
         verseBookmark: verseBookmarkState,
         appUpdate: appUpdate,
-        marker: markerHighLights
+        marker: markerHighLights,
+        notes: notes
     }
 });

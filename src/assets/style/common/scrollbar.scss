@@ -9,13 +9,17 @@
 *::-webkit-scrollbar {
     width: 5px;
     height: 5px;
-    // background-color: var(--lightestPrimary);
+    
 }
 
 *::-webkit-scrollbar-thumb {
     background-color: var(--scrollbar-color);
     border-radius: 10px;
     margin: 10px;
+
+    &:hover {
+        background-color: var(--primaryColor);
+    }
 }
 
 .dark *::-webkit-scrollbar-thumb {

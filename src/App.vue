@@ -39,6 +39,7 @@ export default defineComponent({
                 primaryColorPressed: "#5acea7",
                 primaryColorSuppl: "rgb(42, 148, 125)",
                 popoverColor: "rgba(55, 65, 81, 1)",
+                modalColor: "rgba(55, 65, 81, 1)"
             },
             dark: {
                 primaryColor: "#22577A",
@@ -50,6 +51,7 @@ export default defineComponent({
             themeOverrides.common.primaryColor = dark.value ? "#3cb1ff" : "#0084dc";
             themeOverrides.common.primaryColorHover = dark.value ? "#3cb1ff" : "#0084dc";
             themeOverrides.common.popoverColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
+            themeOverrides.common.modalColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
             let themeProperty = dark.value ? "dark" : "light";
             document.documentElement.setAttribute("theme", themeProperty);
         };

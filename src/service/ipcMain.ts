@@ -4,6 +4,7 @@ import { deleteVerseInSavedBookmarks, getVersesSavedBookmarks, saveVersesInBookm
 import { mainWindowLoad, getBibleBooks, getBookChaptersCount, getBookInChapter, getBibleVersions } from "./ipcMainEvents/BibleEvents";
 import { BrowserWindow, ipcMain } from "electron";
 import { closeWindow, maximizeWindow, minimizeWindow } from "./ipcMainEvents/BrowserWindowEvents";
+import { bibleNotesEvents } from "./Notes/ipcMainNotesEvents";
 
 export const ipcMainEvents = (win: BrowserWindow) => {
     ipcMain.on("minimizeWindow", () => minimizeWindow(win));
@@ -15,12 +16,15 @@ export const ipcMainEvents = (win: BrowserWindow) => {
     ipcMain.on("getBookInChapter", (event, { book, bible, chapter, versions }) => getBookInChapter(win, { book, bible, chapter, versions }));
     ipcMain.on("getBibleVersions", () => getBibleVersions(win));
     ipcMain.on("saveVersesInBookmark", (event, payload) => saveVersesInBookmark(win, payload));
-    ipcMain.on("getVersesSavedBookmarks", (event, payload) => getVersesSavedBookmarks(win, payload));
+    ipcMain.on("getVersesSavedBookmarks", (event, payload) => getVersesSavedBookmarks(win));
     ipcMain.on("deleteVerseInSavedBookmarks", (event, payload) => deleteVerseInSavedBookmarks(win, payload));
     ipcMain.on("searchBibleSubmitButton", (event, payload) => searchBibleSubmitButton(win, payload));
 
     // highlight Events
     ipcMainHighlightMarker(win);
+
+    // notes
+    bibleNotesEvents(win);
 
     win.on("maximize", () => {
         win.webContents.send("isMaximized");

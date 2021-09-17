@@ -1,10 +1,10 @@
 <template>
-    <div class="split h-[100%] flex">
-        <div id="create-note-panel-1" class="h-[100%] dark:bg-gray-800 bg-gray-100 overflow-auto overflowing-div">
-            <div class="p-7px flex flex-col gap-10px">
-                <div>Menu One</div>
-                <div>Menu One</div>
+    <div class="split h-[100%] flex select-none">
+        <div id="create-note-panel-1" class="h-[100%] dark:bg-gray-800 bg-gray-100 overflow-y-auto overflowing-div p-5px flex flex-col justify-between">
+            <div class="w-[100%] overflow-y-auto overflowing-div flex flex-col gap-10px">
+                <NoteList />
             </div>
+            <CreateNoteModal />
         </div>
         <div id="create-note-panel-2" class="h-[100%] flex flex-col">
             <div v-if="editor" class="note-format-buttons">
@@ -15,7 +15,7 @@
                     <i class="bx bx-italic"></i>
                 </button>
                 <button @click="editor.chain().focus().toggleUnderline().run()" :class="{ 'is-active': editor.isActive('underline') }">
-                    <i class='bx bx-underline'></i>
+                    <i class="bx bx-underline"></i>
                 </button>
                 <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
                     <i class="bx bx-strikethrough"></i>
@@ -63,6 +63,12 @@
                     <i class="bx bx-redo"></i>
                 </button>
             </div>
+            <div
+                class="mx-10px pt-30px pb-10px mb-30px min-w-300px text-size-20px border-b-[2px] border-gray-400 whitespace-nowrap"
+                contenteditable="true"
+                placeholder="Write Title Here"
+                v-html="currentNote.title ? `<p>${currentNote.title}</p>` : ''"
+            ></div>
             <editor-content class="h-[100%] overflow-auto overflowing-div" :editor="editor" />
         </div>
     </div>
@@ -71,29 +77,36 @@
 <script lang="ts">
 import { useEditor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
-import { defineComponent, onMounted } from "@vue/runtime-core";
+import { computed, defineComponent, onMounted } from "@vue/runtime-core";
 import Split from "split.js";
-import Underline from '@tiptap/extension-underline'
+import Underline from "@tiptap/extension-underline";
+import CreateNoteModal from "./CreateNoteModal/CreateNoteModal.vue";
+import Placeholder from "@tiptap/extension-placeholder";
+import NoteList from "./NoteLists/NoteList.vue";
+import { useStore } from "vuex";
 
 export default defineComponent({
     components: {
         EditorContent,
+        CreateNoteModal,
+        NoteList,
     },
 
     setup() {
+        const store = useStore();
+        const currentNote = computed(() => store.state.notes.currentNote);
         const editor = useEditor({
-            content: "<p>I’m running tiptap with Vue.js. 🎉</p>",
-            extensions: [StarterKit, Underline],
+            content: "",
+            extensions: [StarterKit, Underline, Placeholder],
         });
 
         onMounted(() => {
             const sizes: any = localStorage.getItem("create-notes-split-sizes");
             Split(["#create-note-panel-1", "#create-note-panel-2"], {
                 sizes: sizes ? JSON.parse(sizes) : [20, 80],
-                minSize: [150, 300],
+                minSize: [180, 300],
                 maxSize: [400, Infinity],
                 snapOffset: 0,
-
                 // eslint-disable-next-line
                 elementStyle: (dimension, size, gutterSize) => {
                     return {
@@ -107,13 +120,16 @@ export default defineComponent({
             });
         });
 
-        return { editor };
+        return {
+            editor,
+            currentNote,
+        };
     },
 });
 </script>
 <style lang="postcss">
 .note-format-buttons {
-    @apply flex flex-wrap gap-10px text-size-20px p-10px dark:bg-gray-600 bg-gray-400;
+    @apply flex flex-wrap gap-10px text-size-20px p-10px dark:bg-gray-900 bg-gray-400;
     button {
         @apply opacity-75;
         &:hover {
@@ -124,17 +140,16 @@ export default defineComponent({
 .ProseMirror {
     @apply h-[100%] p-10px;
     p {
-        @apply text-size-18px;
+        @apply text-size-15px;
     }
+
     ol,
     ul {
         @apply text-size-18px;
     }
+
     pre {
-        @apply text-size-18px dark:bg-dark-900 bg-gray-700 py-10px px-10px dark:text-gray-300;
-        color: #fff;
-        font-family: "JetBrainsMono", monospace;
-        border-radius: 0.5rem;
+        @apply text-size-18px dark:bg-dark-900 bg-gray-700 py-10px px-10px dark:text-gray-300 rounded-md font-mono;
 
         code {
             color: inherit;
@@ -145,6 +160,14 @@ export default defineComponent({
 
     blockquote {
         @apply pl-[30px] py-[20px] border-l-[5px] dark:border-gray-100 border-gray-600 dark:bg-light-50 bg-gray-600 dark:bg-opacity-05 bg-opacity-10;
+    }
+
+    p.is-editor-empty:first-child::before {
+        @apply dark:opacity-30 dark:text-gray-400 text-gray-400;
+        content: attr(data-placeholder);
+        float: left;
+        pointer-events: none;
+        height: 0;
     }
 }
 </style>
