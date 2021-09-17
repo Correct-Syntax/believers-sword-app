@@ -38,3 +38,5 @@ ser-aside
 BiblesToBeAddedOrEdited
 
 store_dev
+/**/*.exe
+/**/*.nupkg
