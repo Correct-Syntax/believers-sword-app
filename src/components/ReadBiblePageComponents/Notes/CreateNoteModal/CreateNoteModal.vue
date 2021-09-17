@@ -31,13 +31,13 @@
             <div>
                 <h1 class="text-size-20px font-600 mb-10px">Create Note</h1>
                 <small>Write The Title Of Your Note, title can be updated later</small>
-                <NInput size="large" placeholder="What is the Title of the new Note, can be changed later" v-model:value="createNoteTitle" />
+                <NInput size="large" placeholder="What is the Title of the new Note, can be changed later" v-model:value="createNoteTitle" @keypress.enter="clickCreateButton()" />
                 <div class="py-7px flex justify-end gap-10px">
                     <NButton @click="cancelCreate()">
                         <div><i class="bx bx-x"></i></div>
                         Cancel</NButton
                     >
-                    <NButton type="primary" @click="clickCreateButton()">
+                    <NButton type="primary" :disabled="createNoteTitle === null || createNoteTitle === ''" @click="clickCreateButton()">
                         <div><i class="bx bx-list-plus"></i></div>
                         Create
                     </NButton>
@@ -65,6 +65,9 @@ export default defineComponent({
             showCreateNoteModal,
             createNoteTitle,
             clickCreateButton: (): void => {
+                if (createNoteTitle.value === null || createNoteTitle.value === "") {
+                    return;
+                }
                 store.state.notes.currentNote.title = createNoteTitle.value;
                 store.state.notes.currentNote.date = new Date().toDateString();
                 reset();

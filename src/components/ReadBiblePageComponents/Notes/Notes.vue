@@ -64,7 +64,7 @@
                 </button>
             </div>
             <div
-                class="mx-10px pt-30px pb-10px mb-30px min-w-300px text-size-20px border-b-[2px] border-gray-400 whitespace-nowrap"
+                class="mx-10px pt-30px pb-10px mb-10px min-w-300px text-size-20px border-b-[2px] border-gray-400 whitespace-nowrap "
                 contenteditable="true"
                 placeholder="Write Title Here"
                 v-html="currentNote.title ? `<p>${currentNote.title}</p>` : ''"
@@ -138,9 +138,9 @@ export default defineComponent({
     }
 }
 .ProseMirror {
-    @apply h-[100%] p-10px;
+    @apply h-[100%] p-10px ;
     p {
-        @apply text-size-15px;
+        @apply text-size-15px leading-normal;
     }
 
     ol,
