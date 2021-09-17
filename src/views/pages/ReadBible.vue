@@ -18,8 +18,8 @@
                             <i class="bx bx-notepad"></i>
                             {{ "Notes" }}
                         </div>
-                        <div class="w-[100%] overflow-auto overflow-y-auto overflowing-div h-[100%]">
-                            Notes Here
+                        <div class="w-[100%] overflow-y-auto overflowing-div h-[100%]">
+                            <Notes />
                         </div>
                     </div>
                 </div>
@@ -36,9 +36,10 @@ import { defineComponent, onMounted, ref } from "vue";
 import ViewChapter from "@/components/ReadBiblePageComponents/ViewChapter/ViewChapter.vue";
 import RightSide from "@/components/ReadBiblePageComponents/RightSide/RightSide.vue";
 import LeftSideBar from "@/components/leftSideBar/leftSideBar.vue";
+import Notes from "@/components/ReadBiblePageComponents/Notes/Notes.vue"
 
 export default defineComponent({
-    components: { LeftSideBar, ViewChapter, RightSide },
+    components: { LeftSideBar, ViewChapter, RightSide, Notes },
     setup() {
         const toggledMakeNote = ref(false);
         const isOnDragVerticalSplit = ref(false);
