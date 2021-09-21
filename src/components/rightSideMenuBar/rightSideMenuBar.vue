@@ -24,7 +24,7 @@
             </div>
             <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'MarkedHighlights' }" @click="selectTab('MarkedHighlights')">
                 <div v-if="true" class="text-size-22px">
-                    <i class='bx bx-highlight'></i>
+                    <i class="bx bx-highlight"></i>
                 </div>
                 <Icon v-else name="bucket" :size="24" />
                 <div class="tooltip">Highlights</div>
@@ -41,8 +41,8 @@ export default defineComponent({
     name: "ReadBibleChapterRightSide",
     components: { Icon },
     setup() {
-        const store = useStore()
-        const tabValue = computed(() => store.state.rightMenuTab)
+        const store = useStore();
+        const tabValue = computed(() => store.state.rightMenuTab);
 
         onMounted(() => {
             store.state.rightMenuTab = session.get("rightSideSelectedTab") || "versionsTab";
@@ -88,7 +88,7 @@ export default defineComponent({
             }
 
             .tooltip {
-                @apply dark:bg-gray-800 bg-gray-100 dark:opacity-100 opacity-90;
+                @apply dark:bg-gray-800 dark:opacity-100 bg-gray-100 opacity-100;
                 visibility: visible;
                 z-index: 99999;
             }

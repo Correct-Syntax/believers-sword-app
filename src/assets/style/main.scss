@@ -9,30 +9,31 @@ button:focus {
     outline: none !important;
 }
 
-.gutter {
-    background-color: rgb(49, 49, 49);
+[contenteditable][placeholder]:empty:before {
+    content: attr(placeholder);
+    opacity: 0.3;
+    cursor: text;
+}
 
-    &.gutter-horizontal {
-        cursor: col-resize;
-        width: 0 !important;
+.gutter {
+
+    &.gutter-horizontal,
+    &.gutter-vertical {
         position: relative;
+
         &::before {
             content: "";
             position: absolute;
-            height: 100%;
-            width: 5px;
-            background-color: rgb(49, 49, 49);
-            z-index: 60;
+            background-color: var(--primaryColor);
             opacity: 0;
+            z-index: 60;
             transition: 0.3s;
             transition-delay: 0.1s;
-            left: -2.5px;
-            cursor: col-resize;
         }
 
         &:hover {
             &::before {
-                opacity: 0.3;
+                opacity: 0.5;
             }
         }
 
@@ -42,16 +43,28 @@ button:focus {
             }
         }
     }
-}
 
-.dark {
-    .gutter {
-        background-color: #eee;
+    &.gutter-horizontal {
+        cursor: col-resize;
+        width: 0 !important;
 
-        &.gutter-horizontal {
-            &::before {
-                background-color: rgb(255, 255, 255);
-            }
+        &::before {
+            height: 100%;
+            width: 5px;
+            left: -2.5px;
+            cursor: col-resize;
+        }
+    }
+
+    &.gutter-vertical {
+        cursor: col-resize;
+        width: 100% !important;
+        height: 0 !important;
+        &::before {
+            height: 5px;
+            width: 100%;
+            top: -2.5px;
+            cursor: row-resize;
         }
     }
 }

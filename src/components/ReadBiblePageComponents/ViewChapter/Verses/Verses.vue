@@ -1,5 +1,5 @@
 <template>
-    <div class="my-20px mx-50px select-none">
+    <div id="verses-view" class="my-20px mx-50px select-none">
         <div
             v-for="verse in viewBookChapter"
             :key="verse.v"
@@ -124,7 +124,8 @@ export default defineComponent({
 
         onMounted(() => {
             setTimeout(() => {
-                document.querySelectorAll("[contenteditable]").forEach((el) => {
+                const parentElement = document.getElementById('verses-view');
+                parentElement?.querySelectorAll("[contenteditable]").forEach((el) => {
                     el.addEventListener("keydown", function (evt: any) {
                         if (evt.code === "KeyC") return true;
                         evt.preventDefault();

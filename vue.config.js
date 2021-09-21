@@ -21,7 +21,8 @@ module.exports = {
                 publish: ['github']
             },
             externals: ['knex', 'sqlite3'],
-            nodeIntegration: true
+            nodeIntegration: true,
+            mainProcessWatch: ['src/service/Notes/ipcMainNotesEvents.ts'],
         }
     },
 }
