@@ -66,7 +66,7 @@ export default defineComponent({
             const VerticalSizes: any = localStorage.getItem("read-chapter-split-sizes-vertical");
             let middleVerticalSplit = Split(["#read-chapter-area", "#make-notes-area"], {
                 direction: "vertical",
-                sizes: VerticalSizes ? JSON.parse(VerticalSizes) : [70, 30],
+                sizes: VerticalSizes ? JSON.parse(VerticalSizes) : [100, 0],
                 minSize: [200, 20],
                 snapOffset: 45,
                 onDragStart: () => {
