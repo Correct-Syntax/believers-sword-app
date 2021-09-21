@@ -50,6 +50,7 @@
 import { defineComponent, ref } from "vue";
 import { NModal, NCard, NInput, NButton } from "naive-ui";
 import { useStore } from "vuex";
+import { ipcRenderer } from "electron";
 
 export default defineComponent({
     components: { NModal, NCard, NInput, NButton },
@@ -61,15 +62,20 @@ export default defineComponent({
             createNoteTitle.value = null;
             showCreateNoteModal.value = false;
         };
+
         return {
             showCreateNoteModal,
             createNoteTitle,
             clickCreateButton: (): void => {
-                if (createNoteTitle.value === null || createNoteTitle.value === "") {
-                    return;
-                }
-                store.state.notes.currentNote.title = createNoteTitle.value;
-                store.state.notes.currentNote.date = new Date().toDateString();
+                const key = Date.now();
+                const data = {
+                    key: `key_${key}`,
+                    content: "",
+                    title: createNoteTitle.value,
+                    date: new Date().toDateString(),
+                };
+                ipcRenderer.send("saveNote", data);
+                store.state.notes.selectedNote = data;
                 reset();
             },
             cancelCreate: (): void => reset(),

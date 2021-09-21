@@ -1,6 +1,6 @@
 "use strict";
 import { AutoUpdaterEvents } from "./service/AutoUpdater/AutoUpdaterMainProcessEvent";
-import { app, protocol, BrowserWindow, Menu } from "electron";
+import { app, protocol, BrowserWindow, Menu, MenuItem } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 import { ipcMainEvents } from "./service/ipcMain";
@@ -28,7 +28,7 @@ async function createWindow() {
             devTools: isDevelopment
         },
         show: false,
-        alwaysOnTop: true
+        alwaysOnTop: !isDevelopment
     });
 
     ipcMainEvents(win);
@@ -47,13 +47,42 @@ async function createWindow() {
     }
 
     win.maximize();
-    setTimeout(() => {
-        win.setAlwaysOnTop(false);
-    }, 1000);
+
+    if (!isDevelopment) {
+        setTimeout(() => {
+            win.setAlwaysOnTop(false);
+        }, 1000);
+    }
 
     if (!isDevelopment) {
         AutoUpdaterEvents(win);
     }
+
+    win.webContents.on("context-menu", (event, params) => {
+        const menu = new Menu();
+
+        // Add each spelling suggestion
+        for (const suggestion of params.dictionarySuggestions) {
+            menu.append(
+                new MenuItem({
+                    label: suggestion,
+                    click: () => win.webContents.replaceMisspelling(suggestion)
+                })
+            );
+        }
+
+        // Allow users to add the misspelled word to the dictionary
+        if (params.misspelledWord) {
+            menu.append(
+                new MenuItem({
+                    label: "Add to dictionary",
+                    click: () => win.webContents.session.addWordToSpellCheckerDictionary(params.misspelledWord)
+                })
+            );
+        }
+
+        if (menu.items.length > 0) menu.popup();
+    });
 }
 
 // Quit when all windows are closed.

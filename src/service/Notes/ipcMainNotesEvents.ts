@@ -17,15 +17,25 @@ export const bibleNotesEvents = (win: BrowserWindow): any => {
     ipcMain.on("saveNote", (event, payload) => {
         try {
             noteStore.set(`notes.${payload.key}`, payload);
-            win.webContents.send("getNotesResult", noteStore.get("notes"));
+            win.webContents.send("getNotes", noteStore.get("notes"));
         } catch (e) {
             if (e instanceof Error) console.log(e.message);
         }
     });
 
-    ipcMain.on("getNotes", (event, payload) => {
+    ipcMain.on("saveContent", (event, payload) => {
         try {
-            win.webContents.send("getNotesResult", noteStore.get("notes"));
+            if (payload.content) noteStore.set(`notes.${payload.key}.content`, payload.content);
+            if (payload.title) noteStore.set(`notes.${payload.key}.title`, payload.title);
+            win.webContents.send("getNotes", noteStore.get("notes"));
+        } catch (e) {
+            if (e instanceof Error) console.log(e.message);
+        }
+    });
+
+    ipcMain.on("getNotes", () => {
+        try {
+            win.webContents.send("getNotes", noteStore.get("notes"));
         } catch (e) {
             if (e instanceof Error) console.log(e.message);
         }

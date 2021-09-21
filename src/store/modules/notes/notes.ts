@@ -1,6 +1,6 @@
 export const notes ={
     state: {
-        currentNote: {},
+        selectedNote: {},
         noteLists: {}
     }
 }
