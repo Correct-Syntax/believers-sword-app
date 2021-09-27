@@ -39,7 +39,7 @@ export default defineComponent({
                 primaryColorPressed: "#5acea7",
                 primaryColorSuppl: "rgb(42, 148, 125)",
                 popoverColor: "rgba(55, 65, 81, 1)",
-                modalColor: "rgba(55, 65, 81, 1)"
+                modalColor: "rgba(55, 65, 81, 1)",
             },
             dark: {
                 primaryColor: "#22577A",
@@ -87,8 +87,71 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="postcss">
 .none-just-testing {
     color: rgba(255, 255, 255, 1);
+}
+
+.ProseMirror {
+    @apply h-[100%] p-10px pb-50px;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply leading-normal m-0;
+    }
+
+    h1 {
+        @apply text-size-24px font-600;
+    }
+    h2 {
+        @apply text-size-22px font-600;
+    }
+    h3 {
+        @apply text-size-20px font-600;
+    }
+    h4 {
+        @apply text-size-18px font-600;
+    }
+    h5 {
+        @apply text-size-16px font-600;
+    }
+    h6 {
+        @apply text-size-14px font-600;
+    }
+
+    p {
+        @apply text-size-15px leading-normal;
+    }
+
+    ol,
+    ul {
+        @apply text-size-18px py-5px my-5px;
+    }
+
+    pre {
+        @apply text-size-18px dark:bg-dark-900 bg-gray-700 py-10px px-10px dark:text-gray-300 text-gray-100 rounded-md font-mono m-0;
+
+        code {
+            color: inherit;
+            padding: 0;
+            background: none;
+        }
+    }
+
+    blockquote {
+        @apply pl-[30px] py-[20px] border-l-[5px] dark:border-gray-100 border-gray-600 dark:bg-light-50 bg-gray-600 dark:bg-opacity-05 bg-opacity-10;
+    }
+
+    p.is-editor-empty:first-child::before {
+        @apply dark:opacity-30 dark:text-gray-400 text-gray-400;
+        content: attr(data-placeholder);
+        float: left;
+        pointer-events: none;
+        height: 0;
+    }
 }
 </style>

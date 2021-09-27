@@ -1,25 +1,33 @@
 <template>
-    <div class="h-[100%] flex justify-center items-center">
-        <NEmpty description="Prayer List Page" size="huge">
-            <template #icon>
-                <i class='bx bx-traffic-cone'></i>
-            </template>
-            <template #extra>
-                <div class="w-[100%] max-w-[300px]">
-                    Hi! This Page is Under Contraction and It will come soon.
-                    <div>
-                        I just want to let you know that this page, is where you keep all your prayer list.
-                    </div>
-                </div>
-            </template>
-        </NEmpty>
+    <div class="h-[100%] split flex flex-row w-[100%]">
+        <div id="prayer-list-main" class="h-[100%] relative">
+            <NewPrayerItem />
+        </div>
+        <div id="prayer-list-side" class="h-[100%] dark:bg-black dark:bg-opacity-30 bg-black bg-opacity-5">prayer list</div>
     </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
-import { NEmpty } from "naive-ui";
+import { defineComponent, onMounted } from "vue";
+import Split from "split.js";
 
+import NewPrayerItem from "./PrayerListPage/CreateNewPrayerItem.vue"
 export default defineComponent({
-    components: { NEmpty },
+    components: {
+        NewPrayerItem
+    },
+    setup() {
+        onMounted(() => {
+            Split(["#prayer-list-main", "#prayer-list-side"], {
+                sizes: [80, 20],
+                maxSize: [Infinity, 500],
+                // eslint-disable-next-line
+                elementStyle: (dimension, size, gutterSize) => {
+                    return {
+                        "flex-basis": size + "%",
+                    };
+                },
+            });
+        });
+    },
 });
 </script>
