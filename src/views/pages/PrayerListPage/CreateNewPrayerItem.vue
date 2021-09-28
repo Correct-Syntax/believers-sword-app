@@ -83,6 +83,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Placeholder from "@tiptap/extension-placeholder";
 import initialContent from "./initialContent";
+import { ipcRenderer } from "electron";
 
 export default defineComponent({
     components: {
@@ -105,7 +106,14 @@ export default defineComponent({
             showModal,
             editor,
             SaveEditorContent: () => {
-                console.log(editor.value?.getHTML());
+                const prayerItemContent = editor.value?.getHTML();
+                const date = new Date()
+                ipcRenderer.send("savePrayerListItem", {
+                    key: `prayer_item_${Date.now()}`,
+                    content: prayerItemContent,
+                    date_created: date,
+                    date_updated: date
+                });
             },
         };
     },
@@ -113,15 +121,16 @@ export default defineComponent({
 </script>
 <style lang="postcss">
 .create-new-prayer-list-editor {
-    @apply bg-gray-800 rounded-md overflow-hidden;
+    @apply dark:bg-gray-800 bg-gray-200 rounded-md overflow-hidden;
 
     .prayer-list-button {
         @apply p-10px flex flex-row;
+        
         button {
             @apply p-7px text-size-[20px] rounded-md;
 
             &:hover {
-                @apply bg-gray-700;
+                @apply dark:bg-gray-700 bg-gray-300;
             }
         }
     }

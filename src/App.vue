@@ -1,7 +1,7 @@
 <template>
     <n-config-provider :theme-overrides="themeOverrides" :theme="dark ? darkTheme : null">
         <NMessageProvider placement="bottom-right">
-            <div class="h-[100vh] w-[100%]" :class="{ dark: dark, light: !dark }">
+            <div class="h-[100vh] w-[100%]">
                 <TitleBar />
                 <div class="dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 h-[calc(100%-30px)] w-[100%] overflow-y-auto">
                     <LeftSideMenuBar />
@@ -71,9 +71,17 @@ export default defineComponent({
             let sessionZoom = session.get("webFrameZoom");
             webFrame.setZoomFactor(sessionZoom ? sessionZoom : 1);
             store.state.frame.zoomLevel = sessionZoom ? sessionZoom : 1;
+
+            let doc = document.getElementsByTagName('body')[0];
+            if (dark.value) doc.classList.add('dark');
         });
 
-        watch(dark, () => changeTheme());
+        watch(dark, () => {
+            changeTheme()
+            let doc = document.getElementsByTagName('body')[0];
+            if (dark.value) doc.classList.add('dark');
+            if (!dark.value) doc.classList.remove('dark');
+        });
         watch(zoomLevel, () => {
             webFrame.setZoomFactor(zoomLevel.value);
         });
@@ -93,7 +101,7 @@ export default defineComponent({
 }
 
 .ProseMirror {
-    @apply h-[100%] p-10px pb-50px;
+    @apply h-[100%] p-10px pb-50px bg-black bg-opacity-10;
 
     h1,
     h2,
