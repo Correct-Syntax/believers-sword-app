@@ -1,3 +1,4 @@
+import { prayerListEvents } from "./PrayerLists/PrayerListEventsMainEvents";
 import { ipcMainHighlightMarker } from "./ipcMainEvents/ipcMainHighlightMarker";
 import { searchBibleSubmitButton } from "./ipcMainEvents/SearchBibleEvents";
 import { deleteVerseInSavedBookmarks, getVersesSavedBookmarks, saveVersesInBookmark } from "./ipcMainEvents/BookMarkEvents";
@@ -25,6 +26,9 @@ export const ipcMainEvents = (win: BrowserWindow) => {
 
     // notes
     bibleNotesEvents(win);
+
+    // prayer list
+    prayerListEvents(win);
 
     win.on("maximize", () => {
         win.webContents.send("isMaximized");

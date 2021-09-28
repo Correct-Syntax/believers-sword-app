@@ -1,3 +1,4 @@
+import { prayerList } from './modules/prayerList/prayerList';
 import { markerHighLights } from './modules/markerHighlights/markerHighlights';
 import { appUpdate } from './modules/appUpdate/index';
 import { verseBookmarkState } from './modules/verseBookMarkState/index';
@@ -20,6 +21,7 @@ export default createStore({
         verseBookmark: verseBookmarkState,
         appUpdate: appUpdate,
         marker: markerHighLights,
-        notes: notes
+        notes: notes,
+        prayerList: prayerList
     }
 });

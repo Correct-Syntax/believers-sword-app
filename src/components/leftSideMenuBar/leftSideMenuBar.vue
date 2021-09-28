@@ -49,14 +49,17 @@ export default defineComponent({
         const store = useStore();
         const router = useRouter();
         const readBibleIsSelected = computed(() => store.state.readBibleMenuSelected);
+        const storePathLocalKey = "pathRoute"
 
         return {
             readBibleIsSelected,
             selectReadBibleMenu() {
                 store.state.readBibleMenuSelected = true;
+                localStorage.removeItem(storePathLocalKey)
             },
             selectRoute(path: string) {
                 store.state.readBibleMenuSelected = false;
+                localStorage.setItem(storePathLocalKey, path);
                 router.push(path);
             },
         };

@@ -1,7 +1,7 @@
 <template>
     <n-config-provider :theme-overrides="themeOverrides" :theme="dark ? darkTheme : null">
         <NMessageProvider placement="bottom-right">
-            <div class="h-[100vh] w-[100%]" :class="{ dark: dark, light: !dark }">
+            <div class="h-[100vh] w-[100%]">
                 <TitleBar />
                 <div class="dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 h-[calc(100%-30px)] w-[100%] overflow-y-auto">
                     <LeftSideMenuBar />
@@ -25,6 +25,7 @@ import session from "./service/session/session";
 import LeftSideMenuBar from "@/components/leftSideMenuBar/leftSideMenuBar.vue";
 import { NMessageProvider } from "naive-ui";
 import { AutoUpdateRendererEvents } from "@/service/AutoUpdater/AutoUpdaterRendererProcessEvents";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
     name: "App",
@@ -32,6 +33,7 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const dark = computed(() => store.state.dark);
+        const router = useRouter();
         const themeOverrides = reactive({
             common: {
                 primaryColor: "#22577A",
@@ -39,7 +41,7 @@ export default defineComponent({
                 primaryColorPressed: "#5acea7",
                 primaryColorSuppl: "rgb(42, 148, 125)",
                 popoverColor: "rgba(55, 65, 81, 1)",
-                modalColor: "rgba(55, 65, 81, 1)"
+                modalColor: "rgba(55, 65, 81, 1)",
             },
             dark: {
                 primaryColor: "#22577A",
@@ -63,6 +65,13 @@ export default defineComponent({
         });
 
         onMounted(async () => {
+            const storedRoutePath = localStorage.getItem("pathRoute");
+
+            if (storedRoutePath) {
+                store.state.readBibleMenuSelected = false;
+                await router.push(storedRoutePath);
+            }
+
             const savedRightSideWidth = await session.get("viewChapterRightSideBarWidth");
             if (!savedRightSideWidth) {
                 session.set("viewChapterRightSideBarWidth", 300);
@@ -71,9 +80,17 @@ export default defineComponent({
             let sessionZoom = session.get("webFrameZoom");
             webFrame.setZoomFactor(sessionZoom ? sessionZoom : 1);
             store.state.frame.zoomLevel = sessionZoom ? sessionZoom : 1;
+
+            let doc = document.getElementsByTagName("body")[0];
+            if (dark.value) doc.classList.add("dark");
         });
 
-        watch(dark, () => changeTheme());
+        watch(dark, () => {
+            changeTheme();
+            let doc = document.getElementsByTagName("body")[0];
+            if (dark.value) doc.classList.add("dark");
+            if (!dark.value) doc.classList.remove("dark");
+        });
         watch(zoomLevel, () => {
             webFrame.setZoomFactor(zoomLevel.value);
         });
@@ -87,8 +104,72 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="postcss">
 .none-just-testing {
     color: rgba(255, 255, 255, 1);
+}
+.ProseMirror {
+    @apply h-[100%] p-10px pb-50px;
+}
+.ProseMirror,
+.prayer-list {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply leading-normal m-0;
+    }
+
+    h1 {
+        @apply text-size-24px font-600;
+    }
+    h2 {
+        @apply text-size-22px font-600;
+    }
+    h3 {
+        @apply text-size-20px font-600;
+    }
+    h4 {
+        @apply text-size-18px font-600;
+    }
+    h5 {
+        @apply text-size-16px font-600;
+    }
+    h6 {
+        @apply text-size-14px font-600;
+    }
+
+    p {
+        @apply text-size-15px leading-normal;
+    }
+
+    ol,
+    ul {
+        @apply text-size-18px py-5px my-5px;
+    }
+
+    pre {
+        @apply text-size-18px dark:bg-dark-900 bg-gray-700 py-10px px-10px dark:text-gray-300 text-gray-100 rounded-md font-mono m-0;
+
+        code {
+            color: inherit;
+            padding: 0;
+            background: none;
+        }
+    }
+
+    blockquote {
+        @apply pl-[30px] py-[20px] border-l-[5px] dark:border-gray-100 border-gray-600 dark:bg-light-50 bg-gray-600 dark:bg-opacity-05 bg-opacity-10;
+    }
+
+    p.is-editor-empty:first-child::before {
+        @apply dark:opacity-30 dark:text-gray-400 text-gray-400;
+        content: attr(data-placeholder);
+        float: left;
+        pointer-events: none;
+        height: 0;
+    }
 }
 </style>
