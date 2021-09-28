@@ -33,6 +33,15 @@ export const bibleNotesEvents = (win: BrowserWindow): any => {
         }
     });
 
+    ipcMain.on("deleteNote", (event, payload) => {
+        try {
+            noteStore.delete(`notes.${payload.key}`);
+            win.webContents.send("getNotes", noteStore.get("notes"));
+        } catch (e) {
+            if (e instanceof Error) console.log(e.message);
+        }
+    });
+
     ipcMain.on("getNotes", () => {
         try {
             win.webContents.send("getNotes", noteStore.get("notes"));

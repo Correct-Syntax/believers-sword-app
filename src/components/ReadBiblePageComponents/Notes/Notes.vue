@@ -63,6 +63,14 @@
                     <button @click="editor.chain().focus().redo().run()">
                         <i class="bx bx-redo"></i>
                     </button>
+                    <NPopconfirm @positive-click="deleteNote()" placement="bottom-start">
+                        <template #trigger>
+                            <button class="!dark:hover:bg-red-500 !hover:bg-red-600">
+                                <i class="bx bx-trash-alt"></i>
+                            </button>
+                        </template>
+                        Are you you want to delete this Note?
+                    </NPopconfirm>
                 </div>
                 <div class="relative mb-20px">
                     <div
@@ -74,7 +82,7 @@
                     ></div>
                     <div class="absolute bottom-[-10px] left-[20px] opacity-50">Write Note Title Here</div>
                 </div>
-                <editor-content ref="note-editor" class="h-[100%] overflow-auto overflowing-div" :editor="editor" />
+                <EditorContent ref="note-editor" class="h-[100%] overflow-auto overflowing-div" :editor="editor" />
             </div>
             <div v-show="Object.keys(selectedNote).length === 0" class="p-10px text-size-[17px] flex items-center gap-3px">
                 <span class="text-size-50px text-[var(--primaryColor)]">
@@ -97,12 +105,14 @@ import Placeholder from "@tiptap/extension-placeholder";
 import NoteList from "./NoteLists/NoteList.vue";
 import { useStore } from "vuex";
 import { ipcRenderer } from "electron";
+import { NPopconfirm } from "naive-ui";
 
 export default defineComponent({
     components: {
         EditorContent,
         CreateNoteModal,
         NoteList,
+        NPopconfirm,
     },
 
     setup() {
@@ -177,17 +187,22 @@ export default defineComponent({
             editor,
             selectedNote,
             titleUpdate,
+            deleteNote: () => {
+                // console.log(selectedNote.value)
+                ipcRenderer.send("deleteNote", {key: selectedNote.value.key})
+                store.state.notes.selectedNote = {}
+            },
         };
     },
 });
 </script>
 <style lang="postcss">
 .note-format-buttons {
-    @apply flex flex-wrap gap-10px text-size-20px p-10px dark:bg-gray-900 bg-gray-400;
+    @apply flex flex-wrap justify-center text-size-20px p-10px dark:bg-gray-800 bg-gray-100;
     button {
-        @apply opacity-75;
+        @apply opacity-75 p-5px rounded-lg;
         &:hover {
-            @apply text-gray-50 opacity-100;
+            @apply bg-gray-600 text-gray-50 opacity-100;
         }
     }
 }

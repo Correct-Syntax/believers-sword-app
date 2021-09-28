@@ -25,6 +25,7 @@ import session from "./service/session/session";
 import LeftSideMenuBar from "@/components/leftSideMenuBar/leftSideMenuBar.vue";
 import { NMessageProvider } from "naive-ui";
 import { AutoUpdateRendererEvents } from "@/service/AutoUpdater/AutoUpdaterRendererProcessEvents";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
     name: "App",
@@ -32,6 +33,7 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const dark = computed(() => store.state.dark);
+        const router = useRouter();
         const themeOverrides = reactive({
             common: {
                 primaryColor: "#22577A",
@@ -63,6 +65,13 @@ export default defineComponent({
         });
 
         onMounted(async () => {
+            const storedRoutePath = localStorage.getItem("pathRoute");
+
+            if (storedRoutePath) {
+                store.state.readBibleMenuSelected = false;
+                await router.push(storedRoutePath);
+            }
+
             const savedRightSideWidth = await session.get("viewChapterRightSideBarWidth");
             if (!savedRightSideWidth) {
                 session.set("viewChapterRightSideBarWidth", 300);
@@ -72,15 +81,15 @@ export default defineComponent({
             webFrame.setZoomFactor(sessionZoom ? sessionZoom : 1);
             store.state.frame.zoomLevel = sessionZoom ? sessionZoom : 1;
 
-            let doc = document.getElementsByTagName('body')[0];
-            if (dark.value) doc.classList.add('dark');
+            let doc = document.getElementsByTagName("body")[0];
+            if (dark.value) doc.classList.add("dark");
         });
 
         watch(dark, () => {
-            changeTheme()
-            let doc = document.getElementsByTagName('body')[0];
-            if (dark.value) doc.classList.add('dark');
-            if (!dark.value) doc.classList.remove('dark');
+            changeTheme();
+            let doc = document.getElementsByTagName("body")[0];
+            if (dark.value) doc.classList.add("dark");
+            if (!dark.value) doc.classList.remove("dark");
         });
         watch(zoomLevel, () => {
             webFrame.setZoomFactor(zoomLevel.value);
@@ -99,10 +108,11 @@ export default defineComponent({
 .none-just-testing {
     color: rgba(255, 255, 255, 1);
 }
-
 .ProseMirror {
-    @apply h-[100%] p-10px pb-50px bg-black bg-opacity-10;
-
+    @apply h-[100%] p-10px pb-50px;
+}
+.ProseMirror,
+.prayer-list {
     h1,
     h2,
     h3,
