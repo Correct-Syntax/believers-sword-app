@@ -23,7 +23,7 @@
                     @click="goToVerse(result)"
                 >
                     <div>
-                        <span class="font-700 italic">{{ getBookNameByNumber(result.b) }} {{ result.c }}:{{ result.v }}</span>
+                        <span class="font-700 italic mr-5px">{{ getBookNameByNumber(result.b) }} {{ result.c }}:{{ result.v }}</span>
                         <span v-html="result.t"></span>
                     </div>
                 </div>
@@ -119,7 +119,15 @@ export default defineComponent({
 
         onMounted(() => {
             ipcRenderer.on("searchBibleSubmitButtonResult", (event, payload) => {
-                searchResults.value = payload.result;
+                let result = payload.result;
+                var searchMask = searchValue.value;
+                var regEx = new RegExp(searchMask, "ig");
+                var replaceMask = `<span style="background-color: yellow; color: black; font-weight: 500;">${searchValue.value.toUpperCase()}</span>`;
+
+                for (let [key, item] of result.entries()) {
+                    result[key].t = item.t.replace(regEx, replaceMask);
+                }
+                searchResults.value = result;
                 searchResultCount.value = payload.count;
                 let searchResultView = document.getElementById("search-result-view");
                 if (searchResultView) searchResultView.scrollTop = 0;
@@ -148,5 +156,9 @@ export default defineComponent({
 .selected-view-result {
     @apply border-l-[5px] border-b-[var(--primaryColor)];
     opacity: 1 !important;
+}
+
+.highlight-search {
+    @apply !bg-yellow-300;
 }
 </style>
