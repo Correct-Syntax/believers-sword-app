@@ -1,3 +1,4 @@
+import { linkEvents } from './linkEvents/linkEvents';
 import { prayerListEvents } from "./PrayerLists/PrayerListEventsMainEvents";
 import { ipcMainHighlightMarker } from "./ipcMainEvents/ipcMainHighlightMarker";
 import { searchBibleSubmitButton } from "./ipcMainEvents/SearchBibleEvents";
@@ -29,6 +30,9 @@ export const ipcMainEvents = (win: BrowserWindow) => {
 
     // prayer list
     prayerListEvents(win);
+
+    // link events
+    linkEvents();
 
     win.on("maximize", () => {
         win.webContents.send("isMaximized");
