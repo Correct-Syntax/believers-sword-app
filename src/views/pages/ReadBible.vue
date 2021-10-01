@@ -10,13 +10,13 @@
                 </div>
                 <div
                     id="make-notes-area"
-                    class="dark:bg-black dark:bg-opacity-30 h-[100%]  bg-gray-300 bg-opacity-80 relative flex flex-col !w-[100%]"
+                    class="dark:bg-black dark:bg-opacity-30 h-[100%] bg-gray-300 bg-opacity-80 relative flex flex-col !w-[100%]"
                     :class="{ 'duration-200': !isOnDragVerticalSplit }"
                 >
                     <div class="h-[100%] flex flex-col">
-                        <div id="expanding-this" class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center">
+                        <div id="expanding-this" class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center select-none">
                             <i class="bx bx-notepad"></i>
-                            {{ "Notes" }}
+                            Notes
                         </div>
                         <div class="w-[100%] overflow-y-auto overflowing-div h-[100%]">
                             <Notes />
@@ -36,13 +36,14 @@ import { defineComponent, onMounted, ref } from "vue";
 import ViewChapter from "@/components/ReadBiblePageComponents/ViewChapter/ViewChapter.vue";
 import RightSide from "@/components/ReadBiblePageComponents/RightSide/RightSide.vue";
 import LeftSideBar from "@/components/leftSideBar/leftSideBar.vue";
-import Notes from "@/components/ReadBiblePageComponents/Notes/Notes.vue"
+import Notes from "@/components/ReadBiblePageComponents/Notes/Notes.vue";
 
 export default defineComponent({
     components: { LeftSideBar, ViewChapter, RightSide, Notes },
     setup() {
         const toggledMakeNote = ref(false);
         const isOnDragVerticalSplit = ref(false);
+
         onMounted(async () => {
             const sizes: any = localStorage.getItem("read-bible-split-sizes");
             Split(["#leftSide", "#mainWindow", "#pinakaRightSide"], {
@@ -68,17 +69,9 @@ export default defineComponent({
                 direction: "vertical",
                 sizes: VerticalSizes ? JSON.parse(VerticalSizes) : [100, 0],
                 minSize: [200, 20],
-                snapOffset: 45,
+                snapOffset: 0,
                 onDragStart: () => {
                     isOnDragVerticalSplit.value = true;
-                },
-                onDrag: (sizes) => {
-                    if (sizes[1] > 5 && toggledMakeNote.value != true) {
-                        toggledMakeNote.value = true;
-                        return;
-                    } else {
-                        toggledMakeNote.value = false;
-                    }
                 },
                 gutterStyle: () => {
                     return {
@@ -94,6 +87,7 @@ export default defineComponent({
                 onDragEnd: (sizes) => {
                     isOnDragVerticalSplit.value = false;
                     localStorage.setItem("read-chapter-split-sizes-vertical", JSON.stringify(sizes));
+                    localStorage.setItem("read-chapter-split-sizes-vertical-open-sizes", JSON.stringify(sizes));
                 },
             });
 
@@ -101,15 +95,23 @@ export default defineComponent({
             if (vertical_sizes[1] > 5) toggledMakeNote.value = true;
 
             document.getElementById("expanding-this")?.addEventListener("click", () => {
+                console.log(toggledMakeNote.value)
                 if (toggledMakeNote.value) {
                     toggledMakeNote.value = false;
 
                     middleVerticalSplit.setSizes([100, 0]);
+
                     localStorage.setItem("read-chapter-split-sizes-vertical", JSON.stringify([100, 0]));
                 } else {
                     toggledMakeNote.value = true;
-                    middleVerticalSplit.setSizes([50, 50]);
-                    localStorage.setItem("read-chapter-split-sizes-vertical", JSON.stringify([50, 50]));
+                    const vertical: any = localStorage.getItem("read-chapter-split-sizes-vertical-open-sizes");
+                    if (JSON.parse(vertical)[1] < 10) {
+                        middleVerticalSplit.setSizes([50, 50]);
+                        localStorage.setItem("read-chapter-split-sizes-vertical", JSON.stringify([50, 50]));
+                        return;
+                    }
+                    middleVerticalSplit.setSizes(vertical ? JSON.parse(vertical) : [50, 50]);
+                    localStorage.setItem("read-chapter-split-sizes-vertical", vertical);
                 }
             });
 

@@ -109,7 +109,7 @@ export default defineComponent({
     color: rgba(255, 255, 255, 1);
 }
 .ProseMirror {
-    @apply h-[100%] p-10px pb-50px;
+    @apply h-[100%];
 }
 .ProseMirror,
 .prayer-list {

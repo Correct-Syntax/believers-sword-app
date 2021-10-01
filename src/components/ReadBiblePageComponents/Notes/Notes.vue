@@ -1,12 +1,12 @@
 <template>
-    <div class="split h-[100%] flex select-none">
-        <div id="create-note-panel-1" class="h-[100%] dark:bg-gray-800 bg-gray-100 overflow-y-auto overflowing-div p-5px flex flex-col justify-between">
+    <div class="split notes-panel h-[100%] flex select-none">
+        <div id="create-note-panel-1" class="h-[100%] overflow-y-auto overflowing-div p-5px flex flex-col justify-between">
             <div class="w-[100%] overflow-y-auto overflowing-div flex flex-col gap-10px">
                 <NoteList />
             </div>
             <CreateNoteModal />
         </div>
-        <div id="create-note-panel-2" class="h-[100%]">
+        <div id="create-note-panel-2" class="h-[100%] dark:bg-gray-800 bg-gray-100 px-20px">
             <div v-show="Object.keys(selectedNote).length > 0" class="h-[100%] flex flex-col">
                 <div v-if="editor" class="note-format-buttons">
                     <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
@@ -75,14 +75,14 @@
                 <div class="relative mb-20px">
                     <div
                         id="note-title"
-                        class="mx-10px pt-30px pb-10px mb-10px min-w-300px text-size-23px border-b-[2px] border-gray-400 font-700"
+                        class="mx-10px pb-10px mb-10px min-w-300px text-size-23px border-b-[2px] border-gray-400 font-700"
                         contenteditable="true"
                         placeholder="Write Title Here"
                         v-html="selectedNote.title"
                     ></div>
                     <div class="absolute bottom-[-10px] left-[20px] opacity-50">Write Note Title Here</div>
                 </div>
-                <EditorContent ref="note-editor" class="h-[100%] overflow-auto overflowing-div" :editor="editor" />
+                <EditorContent ref="note-editor" class="editor-content-for-notes h-[100%] overflow-auto overflowing-div" :editor="editor" />
             </div>
             <div v-show="Object.keys(selectedNote).length === 0" class="p-10px text-size-[17px] flex items-center gap-3px">
                 <span class="text-size-50px text-[var(--primaryColor)]">
@@ -198,12 +198,18 @@ export default defineComponent({
 </script>
 <style lang="postcss">
 .note-format-buttons {
-    @apply flex flex-wrap justify-center text-size-20px p-10px dark:bg-gray-800 bg-gray-100;
+    @apply flex flex-wrap justify-center text-size-20px p-10px;
     button {
         @apply opacity-75 p-5px rounded-lg;
         &:hover {
             @apply bg-gray-600 text-gray-50 opacity-100;
         }
+    }
+}
+
+.notes-panel {
+    .editor-content-for-notes {
+        @apply dark:bg-black dark:bg-opacity-30  bg-gray-300 bg-opacity-80 mb-20px p-10px rounded-md;
     }
 }
 </style>

@@ -17,6 +17,10 @@
                 <Icon name="list" :size="20" />
                 <div class="tooltip">Prayer List</div>
             </div>
+            <div class="icon-item" :class="{ 'active-menu-bar-item': ($route.path === '/games' ||  pathSelected === '/games') && readBibleIsSelected == false}" @click="selectRoute('/games')">
+                <Icon name="game" :size="20" />
+                <div class="tooltip">Play Games</div>
+            </div>
         </div>
         <div class="flex flex-col gap-10px">
             <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/donate' && readBibleIsSelected == false }" @click="selectRoute('/donate')">
@@ -39,7 +43,7 @@
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, onMounted, ref } from "vue";
 import Icon from "@/components/Icon/Icon.vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
@@ -49,15 +53,23 @@ export default defineComponent({
         const store = useStore();
         const router = useRouter();
         const readBibleIsSelected = computed(() => store.state.readBibleMenuSelected);
-        const storePathLocalKey = "pathRoute"
+        const storePathLocalKey = "pathRoute";
+        const pathSelected = ref("");
+
+        onMounted(() => {
+            pathSelected.value = localStorage.getItem('pathSelected') || "";
+        })
 
         return {
+            pathSelected,
             readBibleIsSelected,
             selectReadBibleMenu() {
                 store.state.readBibleMenuSelected = true;
                 localStorage.removeItem(storePathLocalKey)
             },
             selectRoute(path: string) {
+                pathSelected.value = path
+                localStorage.setItem("pathSelected", path)
                 store.state.readBibleMenuSelected = false;
                 localStorage.setItem(storePathLocalKey, path);
                 router.push(path);
