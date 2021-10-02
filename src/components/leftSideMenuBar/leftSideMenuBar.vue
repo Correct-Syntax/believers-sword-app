@@ -17,7 +17,12 @@
                 <Icon name="list" :size="20" />
                 <div class="tooltip">Prayer List</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': ($route.path === '/games' ||  pathSelected === '/games') && readBibleIsSelected == false}" @click="selectRoute('/games')">
+            <div
+                v-show="false"
+                class="icon-item"
+                :class="{ 'active-menu-bar-item': ($route.path === '/games' || pathSelected === '/games') && readBibleIsSelected == false }"
+                @click="selectRoute('/games')"
+            >
                 <Icon name="game" :size="20" />
                 <div class="tooltip">Play Games</div>
             </div>
@@ -57,19 +62,19 @@ export default defineComponent({
         const pathSelected = ref("");
 
         onMounted(() => {
-            pathSelected.value = localStorage.getItem('pathSelected') || "";
-        })
+            pathSelected.value = localStorage.getItem("pathSelected") || "";
+        });
 
         return {
             pathSelected,
             readBibleIsSelected,
             selectReadBibleMenu() {
                 store.state.readBibleMenuSelected = true;
-                localStorage.removeItem(storePathLocalKey)
+                localStorage.removeItem(storePathLocalKey);
             },
             selectRoute(path: string) {
-                pathSelected.value = path
-                localStorage.setItem("pathSelected", path)
+                pathSelected.value = path;
+                localStorage.setItem("pathSelected", path);
                 store.state.readBibleMenuSelected = false;
                 localStorage.setItem(storePathLocalKey, path);
                 router.push(path);
