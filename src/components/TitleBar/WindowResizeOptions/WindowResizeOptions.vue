@@ -15,10 +15,8 @@
 <script lang="ts">
 import { ipcRenderer } from "electron";
 import { defineComponent, onMounted, ref } from "vue";
-// import Icon from "@/components/Icon/Icon.vue";
 
 export default defineComponent({
-    // components: { Icon },
     setup() {
         const isMaximized = ref(true);
         onMounted(() => {

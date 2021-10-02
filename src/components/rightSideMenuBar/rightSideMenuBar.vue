@@ -1,5 +1,5 @@
 <template>
-    <div class="right-side-menu-bar fixed top-35px right-0px">
+    <div class="right-side-menu-bar fixed top-35px right-0px z-99">
         <div class="flex flex-col gap-10px">
             <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'searchTab' }" @click="selectTab('searchTab')">
                 <div v-if="false" class="text-size-24px">
@@ -72,8 +72,9 @@ export default defineComponent({
         }
 
         .tooltip {
-            @apply invisible absolute right-[40px] dark:text-cool-gray-300 text-gray-700 px-[7px] py-[5px] rounded-md text-size-[15px] whitespace-nowrap opacity-0 duration-150 select-none;
+            @apply invisible absolute right-[40px] dark:text-cool-gray-300 text-gray-700 px-[7px] py-[5px] rounded-md text-size-[15px] whitespace-nowrap opacity-0 duration-150 select-none z-99;
             box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.481);
+            z-index: 999999;
         }
 
         &:hover {
@@ -88,7 +89,7 @@ export default defineComponent({
             }
 
             .tooltip {
-                @apply dark:bg-gray-800 dark:opacity-100 bg-gray-100 opacity-100;
+                @apply dark:bg-gray-800 bg-opacity-100 dark:opacity-100 bg-gray-100 opacity-100;
                 visibility: visible;
                 z-index: 99999;
             }

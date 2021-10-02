@@ -41,4 +41,14 @@ export const prayerListEvents = (win: BrowserWindow): any => {
             if (e instanceof Error) console.log(e.message);
         }
     });
+
+    ipcMain.on("editPrayerItem", (event, payload) => {
+        try {
+            noteStore.set(`list.${payload.key}.content`, payload.content);
+            noteStore.set(`list.${payload.key}.date_updated`, payload.date_updated);
+            win.webContents.send("getPrayerLists", noteStore.get("list"));
+        } catch (e) {
+            if (e instanceof Error) console.log(e.message);
+        }
+    });
 };

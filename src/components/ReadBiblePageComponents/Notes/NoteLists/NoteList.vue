@@ -50,10 +50,10 @@ export default defineComponent({
     }
 
     h1 {
-        @apply font-600 text-size-17px max-w-300px truncate;
+        @apply font-600 text-size-17px max-w-300px truncate mb-5px;
     }
     p {
-        @apply truncate text-size-14px;
+        @apply truncate text-size-14px opacity-50;
     }
 }
 </style>
