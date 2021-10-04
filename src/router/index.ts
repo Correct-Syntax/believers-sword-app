@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import SermonPage from "@/views/pages/Sermons.vue"
+import GamesRoute from "@/views/pages/Games/Route/GamesRoute";
 
 export const routes: Array<RouteRecordRaw> = [
     {
@@ -45,17 +46,7 @@ export const routes: Array<RouteRecordRaw> = [
         path: "/games",
         name: "Games",
         component: () => import("@/views/pages/Games.vue"),
-        children: [
-            {
-                path: "",
-                component: () => import("@/views/pages/Games/SelectGames.vue")
-            },
-            {
-                path: "/qna",
-                name: "QNA",
-                component: () => import("@/views/pages/Games/QuestionAndAnswer/QandA.vue")
-            }
-        ]
+        children: GamesRoute
     }
 ];
 

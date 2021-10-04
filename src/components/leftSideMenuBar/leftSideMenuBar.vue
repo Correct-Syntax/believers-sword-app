@@ -18,7 +18,6 @@
                 <div class="tooltip">Prayer List</div>
             </div>
             <div
-                v-show="false"
                 class="icon-item"
                 :class="{ 'active-menu-bar-item': ($route.path === '/games' || pathSelected === '/games') && readBibleIsSelected == false }"
                 @click="selectRoute('/games')"
