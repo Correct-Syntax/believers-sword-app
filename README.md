@@ -13,3 +13,5 @@ There features I really like to have in this applcation.
 - The ability to create prayer lists
 - The ability to create ask the community to get some answers
 - The ability to answer questions from the community.
+- play games to challenge my/our knowledge about the bible
+- flip card for memory retension
