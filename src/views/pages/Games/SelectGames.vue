@@ -1,5 +1,5 @@
 <template>
-    <div class="games-selection gap-20px">
+    <div v-if="games" class="games-selection gap-20px">
         <div
             v-for="game in games"
             :key="game.title"
@@ -17,21 +17,28 @@
             </div>
         </div>
     </div>
+    <div class="max-w-500px w-[100%] mx-auto pt-50px">
+        <NEmpty> Games Are Still Being Developed. When its done, it will be added here. </NEmpty>
+    </div>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
+import { NEmpty } from "naive-ui";
 
 export default defineComponent({
+    components: {
+        NEmpty,
+    },
     setup() {
         return {
             games: [
-                {
-                    title: "Question and Answer",
-                    logo: "qna.png",
-                    path: "/qna",
-                    description:
-                        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias, debitis? Aspernatur sapiente ad maxime nobis. Ipsum adipisci facere odit fugit distinctio voluptatem illum, porro, repudiandae fugiat quis obcaecati architecto aliquid.",
-                },
+                // {
+                //     title: "Question and Answer",
+                //     logo: "qna.png",
+                //     path: "/qna",
+                //     description:
+                //         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias, debitis? Aspernatur sapiente ad maxime nobis. Ipsum adipisci facere odit fugit distinctio voluptatem illum, porro, repudiandae fugiat quis obcaecati architecto aliquid.",
+                // },
             ],
         };
     },
@@ -42,7 +49,6 @@ export default defineComponent({
     display: grid;
     grid-template-columns: 100%;
 }
-
 
 @media only screen and (min-width: 746px) {
     .games-selection {

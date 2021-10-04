@@ -12,8 +12,8 @@
                 or call me Bro Jenuel/Mister J. and I am the creator of this application. As you can see, This app is not fully developed yet, but You can still use some of its
                 features to help you study the bible. <br /><br />
                 I created this application because I like to create my own application where I can put the features that I like inside a single bible study app, and I am open for
-                any suggestions to make the app better. I am also sharing this application to you, <br /><br />
-                If you want to <b>Donate</b> to make this application even better, you can donate by clicking the donate button bellow.
+                any suggestions to make the app better. I am also sharing this application to you for <b>FREE</b>, <br /><br />
+                If you want to <b>Donate/Support</b> to make this application even better, you can donate by clicking the donate button bellow.
             </div>
             <div class="w-[50%]">
                 <img class="rounded-md" src="./../../assets/images/me.png" />
@@ -27,10 +27,10 @@
         <div class="max-w-700px w-[100%] mx-auto mt-100px">
             <h1 class="text-size-18px font-700">Are you a developer?</h1>
             <p>
-                If your a developer and like or love to help in the development, you can pull request this
+                If your a developer and like or love to help in the development, you can this
                 <span class="cursor-pointer hover:text-[var(--primaryColor)]" @click="clickLink(`https://github.com/Bible-Projects/believers-sword-app`)"
                     ><b>GITHUB REPOSITORY</b></span
-                >, and you can Pull Request, and I will be reviewing your code contributions.
+                >, and you can Pull Request, and I will be reviewing/checking your code contributions.
             </p>
             <div class="text-center flex justify-center mt-30px">
                 <img src="https://media4.giphy.com/media/lgRNj0m1oORfW/200.gif" alt="" />
