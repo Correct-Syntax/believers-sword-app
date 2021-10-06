@@ -28,7 +28,7 @@
                                     </n-popconfirm>
                                 </div>
                             </template>
-                            Edit Prayer Item
+                            Delete Prayer Item
                         </n-tooltip>
 
                         <NPopover trigger="hover" :show-arrow="true" placement="bottom">

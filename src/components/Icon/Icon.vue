@@ -13,7 +13,6 @@ export default defineComponent({
     setup(props) {
         return {
             getIconPath: () => {
-                // eslint-disable-next-line
                 return (iconPaths as any)[props.name]
             }
         }

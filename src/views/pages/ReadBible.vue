@@ -5,16 +5,19 @@
         </div>
         <div id="mainWindow" class="h-[100%] w-[100%]">
             <div class="split flex flex-col h-[100%] relative">
-                <div id="read-chapter-area" :class="{ 'duration-200': !isOnDragVerticalSplit }">
+                <div id="read-chapter-area" :class="{ 'duration-100': !isOnDragVerticalSplit }">
                     <ViewChapter />
                 </div>
                 <div
                     id="make-notes-area"
                     class="dark:bg-black dark:bg-opacity-30 h-[100%] bg-gray-300 bg-opacity-80 relative flex flex-col !w-[100%]"
-                    :class="{ 'duration-200': !isOnDragVerticalSplit }"
+                    :class="{ 'duration-100': !isOnDragVerticalSplit }"
                 >
                     <div class="h-[100%] flex flex-col">
-                        <div id="expanding-this" class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center select-none">
+                        <div id="expanding-this" class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center select-none flex items-center">
+                            <div class="mr-10px transform duration-150" :class="{'-rotate-90': !toggledMakeNote}">
+                                <span class="codicon codicon-chevron-down"></span>
+                            </div>
                             <i class="bx bx-notepad"></i>
                             Notes
                         </div>
@@ -95,7 +98,6 @@ export default defineComponent({
             if (vertical_sizes[1] > 5) toggledMakeNote.value = true;
 
             document.getElementById("expanding-this")?.addEventListener("click", () => {
-                console.log(toggledMakeNote.value)
                 if (toggledMakeNote.value) {
                     toggledMakeNote.value = false;
 
@@ -105,7 +107,7 @@ export default defineComponent({
                 } else {
                     toggledMakeNote.value = true;
                     const vertical: any = localStorage.getItem("read-chapter-split-sizes-vertical-open-sizes");
-                    if (JSON.parse(vertical)[1] < 10) {
+                    if (vertical && JSON.parse(vertical)[1] < 10) {
                         middleVerticalSplit.setSizes([50, 50]);
                         localStorage.setItem("read-chapter-split-sizes-vertical", JSON.stringify([50, 50]));
                         return;
