@@ -6,6 +6,7 @@ import "./assets/style/main.scss";
 import "virtual:windi.css";
 import "boxicons/css/boxicons.min.css";
 import "./assets/style/proseMirror.postcss";
+import "@vscode/codicons/dist/codicon.css";
 
 createApp(App)
     .use(store)
