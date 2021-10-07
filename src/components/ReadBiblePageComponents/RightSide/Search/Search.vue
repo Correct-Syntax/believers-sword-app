@@ -2,10 +2,10 @@
     <div class="h-[100%]">
         <div class="h-[100%] p-7px flex flex-col gap-7px">
             <div class="flex flex-col gap-7px">
-                <NInput v-model:value="searchValue" type="text" size="small" placeholder="Type To Search" @keyup.enter="clickSubmitSearch(true)" />
-                <NSelect v-model:value="searchBibleVersion" size="small" :options="bibleVersionsOptions" placeholder="Select The Bible Version" />
-                <NSelect v-model:value="searchBibleBook" size="small" :options="bibleBookOptions" placeholder="Select Bible Book" />
-                <NButton type="primary" size="small" @click="clickSubmitSearch(true)">
+                <NInput v-model:value="searchValue" type="text" placeholder="Type To Search" @keyup.enter="clickSubmitSearch(true)" />
+                <NSelect v-model:value="searchBibleVersion" :options="bibleVersionsOptions" placeholder="Select The Bible Version" />
+                <NSelect v-model:value="searchBibleBook" :options="bibleBookOptions" placeholder="Select Bible Book" />
+                <NButton type="primary" @click="clickSubmitSearch(true)">
                     <div class="flex items-center gap-[10px]">
                         <i class="bx bx-search"></i>
                         <span>Search</span>
@@ -122,7 +122,7 @@ export default defineComponent({
                 let result = payload.result;
                 var searchMask = searchValue.value;
                 var regEx = new RegExp(searchMask, "ig");
-                var replaceMask = `<span style="background-color: yellow; color: black; font-weight: 500;">${searchValue.value.toUpperCase()}</span>`;
+                var replaceMask = `<span style="background-color: yellow; color: black; font-weight: 900 !important;">${searchValue.value}</span>`;
 
                 for (let [key, item] of result.entries()) {
                     result[key].t = item.t.replace(regEx, replaceMask);

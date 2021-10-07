@@ -1,14 +1,17 @@
 <template>
-    <div class="mark-highlight-sidebar p-7px h-[100%] w-[100%] overflow-auto overflowing-div">
+    <div class="mark-highlight-sidebar p-7px h-[100%] w-[100%] flex flex-col">
         <div class="text-size-[18px] mb-7px">
             <h3>Your Highlights:</h3>
+            <div class="mt-7px">
+                <NAutoComplete :options="options" v-model:value="value" placeholder="Write Book Name To Filter" :on-select="selectOption" />
+            </div>
         </div>
-        <div v-if="Highlights.highlights" class="flex flex-col gap-10px">
-            <template v-for="highlight in Highlights.highlights" :key="highlight.key">
+        <div v-if="Highlights" class="flex flex-col gap-10px h-[100%] overflow-y-auto overflowing-div">
+            <template v-for="highlight in Highlights" :key="highlight.key">
                 <div
                     v-if="highlight.key && isVerseVersionChecked(highlight.bibleVersion)"
                     class="mark-highlight-sidebar-item"
-                    :class="{ 'mark-highlight-sidebar-item-active': Highlights.selectedHighlights === highlight.key }"
+                    :class="{ 'mark-highlight-sidebar-item-active': selectedHighlights === highlight.key }"
                     @click="clickHighlight(highlight)"
                 >
                     <div class="text-size-18px font-700">{{ getBibleVersion(highlight.bibleVersion) }}</div>
@@ -23,19 +26,27 @@
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, watch } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import { useStore } from "vuex";
-import { NEmpty } from "naive-ui";
+import { NEmpty, NAutoComplete } from "naive-ui";
 
 export default defineComponent({
-    components: { NEmpty },
+    components: { NEmpty, NAutoComplete },
     setup() {
         const store = useStore();
-        const Highlights = computed(() => store.state.marker);
+
+        const selectedHighlights = computed(() => store.state.marker.selectedHighlights);
         const bibleState = computed(() => store.state.bible);
         const verseBookmark = computed(() => store.state.verseBookmark);
         const BibleVersion = computed(() => store.state.bible.bibleVersions);
         const BibleBooks = computed(() => store.state.bible.bibleBooks);
+        const searchBibleBook = ref("all");
+
+        const Highlights = computed(() => {
+            return Object.fromEntries(
+                Object.entries(store.state.marker.highlights).filter((highlight: any) => highlight[1].bookNumber == searchBibleBook.value || searchBibleBook.value === "all")
+            );
+        });
 
         const getBibleVersion = (bible_key: string) => {
             let Version = BibleVersion.value.filter((version: any) => bible_key === version.table)[0];
@@ -48,10 +59,6 @@ export default defineComponent({
             return Book ? Book.n : false;
         };
 
-        watch(Highlights, (e) => {
-            console.log(e);
-        });
-
         const goToVerse = (verse: any) => {
             bibleState.value.bookSelected = verse.b;
             bibleState.value.chapterSelected = verse.c;
@@ -62,18 +69,60 @@ export default defineComponent({
             return bibleState.value.bibleVersionsSelected.includes(version);
         };
 
+        const valueRef = ref("");
+        const bibleBookOptions = computed(() => {
+            let bibleBooks = store.state.bible.bibleBooks;
+            let newData: any = [
+                {
+                    label: "All - Select Book",
+                    value: "all",
+                },
+            ];
+            bibleBooks.forEach((item: any) =>
+                newData.push({
+                    label: item.n,
+                    value: item.b,
+                })
+            );
+            return newData;
+        });
+
         return {
+            value: valueRef,
+            selectedHighlights,
+            bibleBookOptions,
+            searchBibleBook,
             getBibleBook,
             getBibleVersion,
             Highlights,
             isVerseVersionChecked,
             clickHighlight: (verse: any): void => {
-                Highlights.value.selectedHighlights = verse.key;
+                store.state.marker.selectedHighlights = verse.key;
                 goToVerse({
                     b: parseInt(verse.bookNumber),
                     c: parseInt(verse.chapterNumber),
                     v: parseInt(verse.verseNumber),
                 });
+            },
+            options: computed(() => {
+                let newData: any = [
+                    {
+                        label: "All - Select Book",
+                        value: "all",
+                    },
+                ];
+                store.state.bible.bibleBooks.forEach((item: any) => {
+                    if (item.n.toLowerCase().includes(valueRef.value.toLowerCase()) || valueRef.value === " " || valueRef.value === "" || valueRef.value === null) {
+                        newData.push({
+                            label: item.n,
+                            value: item.b,
+                        });
+                    }
+                });
+                return newData;
+            }),
+            selectOption: (e: any) => {
+                searchBibleBook.value = e;
             },
         };
     },
