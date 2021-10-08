@@ -50,10 +50,10 @@
                     </div>
                 </div>
             </div>
-            <div class="verse-item-more-options absolute top-10px right-10px">
+            <div class="verse-item-more-options absolute top-10px right-10px" @click.stop.prevent>
                 <NTooltip trigger="hover" size="small">
                     <template #trigger>
-                        <div class="text-size-26px m-10px dark:text-gray-300 text-gray-100 cursor-pointer" @click="saveToBookmark(verse)">
+                        <div class="verse-item-more-options-item text-size-26px m-10px dark:text-gray-300 text-gray-100 cursor-pointer" @click="saveToBookmark(verse)">
                             <i class="bx bx-bookmark-alt-plus"></i>
                         </div>
                     </template>
@@ -202,11 +202,20 @@ export default defineComponent({
         @apply opacity-0 invisible duration-150 flex flex-col gap-10px;
     }
 
+    .verse-item-more-options-item {
+        @apply opacity-0 dark:text-gray-100 text-gray-900 duration-200;
+    }
+
     &:hover {
         .verse-item-more-options {
-            @apply opacity-30 visible;
-            &:hover {
-                @apply dark:opacity-90 opacity-70;
+            @apply opacity-100 visible;
+
+            .verse-item-more-options-item {
+                @apply opacity-30;
+
+                &:hover {
+                    @apply dark:text-yellow-400 text-yellow-500 !opacity-100;
+                }
             }
         }
 

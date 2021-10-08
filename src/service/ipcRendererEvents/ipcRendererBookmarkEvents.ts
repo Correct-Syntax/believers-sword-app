@@ -1,5 +1,6 @@
 import store from "@/store";
+import { ipcRenderer } from "electron";
 
-export const getVersesInBookmarkResult = (event: Electron.IpcRendererEvent, result: any): void => {
-    store.dispatch("getVersesInBookmarkResult", result);
+export const bibleVerseBookmarkEvents = () => {
+    ipcRenderer.on("getVersesInBookmarkResult", (event, result) => store.dispatch("getVersesInBookmarkResult", result));
 };

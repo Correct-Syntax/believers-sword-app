@@ -1,6 +1,6 @@
-import { searchBibleSubmitButton } from './SearchBibleEvents';
-import { ipcMain } from 'electron';
-import { BrowserWindow } from 'electron';
+import { searchBibleSubmitButton } from "./SearchBibleEvents";
+import { ipcMain } from "electron";
+import { BrowserWindow } from "electron";
 const log = require("electron-log");
 const isDevelopment = process.env.NODE_ENV !== "production";
 const config = require("./../../db.config");
@@ -16,19 +16,6 @@ const mainWindowLoad = (win: any) => {
         result
             .then((rows: any) => {
                 win.webContents.send("resultSent", rows);
-            })
-            .catch((e: any) => log.error(e));
-    } catch (e) {
-        log.info(e);
-    }
-};
-
-const getBibleBooks = (win: any) => {
-    try {
-        let result = knex.select().from("key_english");
-        result
-            .then((rows: any) => {
-                win.webContents.send("resultBibleBooks", rows);
             })
             .catch((e: any) => log.error(e));
     } catch (e) {
@@ -103,12 +90,27 @@ const getBibleVersions = (win: any) => {
     }
 };
 
-
 export const BibleEvents = (win: BrowserWindow) => {
     ipcMain.on("mainWindowLoad", () => mainWindowLoad(win));
-    ipcMain.on("getBibleBooks", () => getBibleBooks(win));
+
+    ipcMain.handle("getBibleBooks", async (win: any) => {
+        try {
+            let data: any = "";
+            let result = knex.select().from("key_english");
+            await result
+                .then((rows: any) => {
+                    data = rows;
+                })
+                .catch((e: any) => log.error(e));
+
+            return data;
+        } catch (e) {
+            if (e instanceof Error) log.info(e.message);
+        }
+    });
+
     ipcMain.on("getBookChaptersCount", (event, { book, bible }) => getBookChaptersCount(win, { book, bible }));
     ipcMain.on("getBookInChapter", (event, { book, bible, chapter, versions }) => getBookInChapter(win, { book, bible, chapter, versions }));
     ipcMain.on("getBibleVersions", () => getBibleVersions(win));
     ipcMain.handle("searchBibleSubmitButton", (event, payload) => searchBibleSubmitButton(payload));
-}
+};
