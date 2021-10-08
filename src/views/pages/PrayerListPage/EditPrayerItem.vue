@@ -155,6 +155,9 @@ export default defineComponent({
                 @apply dark:bg-gray-700 bg-gray-300;
             }
         }
+        button.is-active {
+            @apply dark:bg-gray-700 bg-gray-300;
+        }
     }
 
     .ProseMirror {

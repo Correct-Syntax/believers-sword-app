@@ -3,11 +3,9 @@
         <i class="bx bx-plus"></i>
         <span class="ml-5px">Create New Prayer Item</span>
     </NButton>
-    <NModal v-model:show="showModal" >
+    <NModal v-model:show="showModal">
         <div class="create-new-prayer-list-editor">
-            <div class="mt-7px ml-10px text-size-25px font-600 opacity-75">
-                Create Prayer Item
-            </div>
+            <div class="mt-7px ml-10px text-size-25px font-600 opacity-75">Create Prayer Item</div>
             <div class="mx-10px">
                 <div v-if="editor" class="prayer-list-button">
                     <div class="flex flex-row">
@@ -159,6 +157,9 @@ export default defineComponent({
             &:hover {
                 @apply dark:bg-gray-700 bg-gray-300;
             }
+        }
+        button.is-active {
+            @apply dark:bg-gray-700 bg-gray-300;
         }
     }
 

@@ -113,6 +113,12 @@ export default defineComponent({
 }
 .ProseMirror,
 .prayer-list {
+    s {
+        text-decoration: line-through;
+        text-decoration-color: red;
+        text-decoration-thickness: 3px;
+    }
+
     h1,
     h2,
     h3,

@@ -32,7 +32,7 @@
                             <i class="bx bx-code-block"></i>
                         </button>
                         <button @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
-                            <i class="bx bx-paragraph"></i>
+                            <i class='bx bx-text'></i>
                         </button>
                     </div>
                     <span class="dark:bg-gray-600 bg-gray-400 w-5px h-5px rounded-md mx-10px rounded-1"></span>
@@ -222,6 +222,9 @@ export default defineComponent({
         &:hover {
             @apply bg-gray-600 text-gray-50 opacity-100;
         }
+    }
+    button.is-active {
+        @apply bg-gray-600 text-gray-50 opacity-100;
     }
 }
 
