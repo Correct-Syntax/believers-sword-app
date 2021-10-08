@@ -7,7 +7,7 @@ export default [
         content: [
             {
                 type: "text",
-                text: "Title Sample"
+                text: "My Pastor and His family"
             }
         ]
     },
@@ -16,7 +16,7 @@ export default [
         content: [
             {
                 type: "text",
-                text: "You can change anything here ✋ sample list"
+                text: "You can change anything here ✋ This is just a sample list"
             }
         ]
     },
@@ -60,6 +60,20 @@ export default [
                             {
                                 type: "text",
                                 text: "Plans"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                type: "listItem",
+                content: [
+                    {
+                        type: "paragraph",
+                        content: [
+                            {
+                                type: "text",
+                                text: "Guidance"
                             }
                         ]
                     }

@@ -22,7 +22,7 @@
                 >
                     <div class="w-[100%] px-5px py-10px text-size-20px">{{ bookmark.b_text }} {{ bookmark.c }}:{{ bookmark.v }}</div>
                     <div class="flex gap-10px cursor-pointer text-size-18px px-10px">
-                        <div class="opacity-50 hover:opacity-100" @click.stop.prevent>
+                        <div class="opacity-50 hover:opacity-100 hidden" @click.stop.prevent>
                             <i class="bx bx-share-alt"></i>
                         </div>
                         <NPopconfirm :show-icon="false" placement="top-start" @positive-click="removeBookmark(bookmark)">

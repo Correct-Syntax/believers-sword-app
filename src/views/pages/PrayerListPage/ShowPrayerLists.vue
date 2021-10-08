@@ -3,11 +3,11 @@
         <div v-for="(item, i) in prayerList" :key="i" class="prayer-list max-w-800px mx-auto my-10px">
             <template v-if="item">
                 <div v-for="(prayerItem, keyString) in item" :key="prayerItem.key" class="prayer-list-item">
-                    <div class="absolute top-10px right-10px text-size-24px flex">
+                    <div class="absolute top-10px right-10px text-size-17px flex">
                         <n-tooltip trigger="hover" placement="left">
                             <template #trigger>
                                 <button
-                                    class="p-5px rounded-1 dark:hover:bg-gray-800 dark:bg-opacity-20 hover:bg-gray-400"
+                                    class="p-5px rounded-1 dark:hover:bg-gray-700 dark:bg-opacity-20 hover:bg-gray-400"
                                     @click="editPrayerItem(`${i}.${keyString}`, prayerItem.content)"
                                 >
                                     <i class="bx bx-edit"></i>
@@ -33,7 +33,7 @@
 
                         <NPopover trigger="hover" :show-arrow="true" placement="bottom">
                             <template #trigger>
-                                <button class="p-5px rounded-1 dark:hover:bg-gray-800 dark:bg-opacity-20 hover:bg-gray-400">
+                                <button class="p-5px rounded-1 dark:hover:bg-gray-700 dark:bg-opacity-20 hover:bg-gray-400">
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                             </template>
@@ -117,6 +117,6 @@ export default defineComponent({
 </script>
 <style lang="postcss">
 .prayer-list-item {
-    @apply dark:bg-gray-800 bg-gray-200 my-10px dark:hover:bg-gray-700 hover:bg-gray-300 p-10px rounded-md relative;
+    @apply my-10px dark:hover:bg-gray-800 hover:bg-gray-300 p-10px rounded-md relative;
 }
 </style>

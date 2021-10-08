@@ -27,19 +27,15 @@
             </div>
         </div>
         <div class="flex flex-col gap-10px">
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/donate' && readBibleIsSelected == false }" @click="selectRoute('/donate')">
-                <Icon class="hover:text-yellow-400" name="heart" :size="22" />
-                <div class="tooltip">Donate</div>
-            </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/help' && readBibleIsSelected == false }" @click="selectRoute('/help')">
-                <Icon name="question" :size="22" />
-                <div class="tooltip">Help</div>
+            <div class="icon-item heart-donate" :class="{ 'active-menu-bar-item': $route.path === '/about' && readBibleIsSelected == false }" @click="selectRoute('/about')">
+                <Icon name="heart" class="hover:text-yellow-400" :size="22" />
+                <div class="tooltip">About and Donate</div>
             </div>
             <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/account' && readBibleIsSelected == false }" @click="selectRoute('/account')">
                 <Icon name="user" :size="20" />
                 <div class="tooltip">You Account</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/settings' && readBibleIsSelected == false }" @click="selectRoute('/settings')">
+            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/settings' && readBibleIsSelected == false }" @click="$store.state.showSettings = true">
                 <Icon name="cog" :size="20" />
                 <div class="tooltip">Settings</div>
             </div>

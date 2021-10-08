@@ -23,19 +23,9 @@ export const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/pages/Account.vue")
     },
     {
-        path: "/donate",
-        name: "DonatePage",
-        component: () => import("@/views/pages/Donate.vue")
-    },
-    {
-        path: "/help",
-        name: "HelpPage",
-        component: () => import("@/views/pages/Help.vue")
-    },
-    {
-        path: "/settings",
-        name: "SettingPage",
-        component: () => import("@/views/pages/Settings.vue")
+        path: "/about",
+        name: "AboutPage",
+        component: () => import("@/views/pages/About.vue")
     },
     {
         path: "/prayer_list",
