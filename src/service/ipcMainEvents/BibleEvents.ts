@@ -1,9 +1,12 @@
+import { searchBibleSubmitButton } from './SearchBibleEvents';
+import { ipcMain } from 'electron';
+import { BrowserWindow } from 'electron';
 const log = require("electron-log");
 const isDevelopment = process.env.NODE_ENV !== "production";
 const config = require("./../../db.config");
 const knex = require("knex")(isDevelopment ? config.development : config.production);
 
-export const mainWindowLoad = (win: any) => {
+const mainWindowLoad = (win: any) => {
     try {
         log.info("checking log");
         let result = knex
@@ -20,7 +23,7 @@ export const mainWindowLoad = (win: any) => {
     }
 };
 
-export const getBibleBooks = (win: any) => {
+const getBibleBooks = (win: any) => {
     try {
         let result = knex.select().from("key_english");
         result
@@ -33,7 +36,7 @@ export const getBibleBooks = (win: any) => {
     }
 };
 
-export const getBookChaptersCount = (win: any, { book, bible }: any) => {
+const getBookChaptersCount = (win: any, { book, bible }: any) => {
     try {
         let result = knex
             .select("c")
@@ -49,7 +52,7 @@ export const getBookChaptersCount = (win: any, { book, bible }: any) => {
     }
 };
 
-export const getBookInChapter = async (win: any, { book, bible, chapter, versions }: { versions: [] } | any) => {
+const getBookInChapter = async (win: any, { book, bible, chapter, versions }: { versions: [] } | any) => {
     try {
         let finalResult: any[] = [];
 
@@ -88,7 +91,7 @@ export const getBookInChapter = async (win: any, { book, bible, chapter, version
     }
 };
 
-export const getBibleVersions = (win: any) => {
+const getBibleVersions = (win: any) => {
     try {
         let result = knex.select().from("bible_version_key");
 
@@ -99,3 +102,13 @@ export const getBibleVersions = (win: any) => {
         log.info(e);
     }
 };
+
+
+export const BibleEvents = (win: BrowserWindow) => {
+    ipcMain.on("mainWindowLoad", () => mainWindowLoad(win));
+    ipcMain.on("getBibleBooks", () => getBibleBooks(win));
+    ipcMain.on("getBookChaptersCount", (event, { book, bible }) => getBookChaptersCount(win, { book, bible }));
+    ipcMain.on("getBookInChapter", (event, { book, bible, chapter, versions }) => getBookInChapter(win, { book, bible, chapter, versions }));
+    ipcMain.on("getBibleVersions", () => getBibleVersions(win));
+    ipcMain.handle("searchBibleSubmitButton", (event, payload) => searchBibleSubmitButton(payload));
+}

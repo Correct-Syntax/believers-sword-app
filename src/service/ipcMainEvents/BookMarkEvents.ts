@@ -1,4 +1,4 @@
-import { BrowserWindow } from "electron";
+import { BrowserWindow, ipcMain } from "electron";
 const ElectronStore = require("electron-store");
 
 const bookmarkStore = new ElectronStore({
@@ -13,7 +13,7 @@ const bookmarkStore = new ElectronStore({
     }
 });
 
-export const saveVersesInBookmark = async (win: BrowserWindow, payload: Array<any>) => {
+const saveVersesInBookmark = async (win: BrowserWindow, payload: Array<any>) => {
     try {
         for (const item of payload) {
             let key = `${item.b}_${item.c}_${item.v}`;
@@ -26,7 +26,7 @@ export const saveVersesInBookmark = async (win: BrowserWindow, payload: Array<an
     }
 };
 
-export const getVersesSavedBookmarks = async (win: BrowserWindow) => {
+const getVersesSavedBookmarks = async (win: BrowserWindow) => {
     try {
         win.webContents.send("getVersesInBookmarkResult", bookmarkStore.get("bookmarks"));
     } catch (e) {
@@ -34,7 +34,7 @@ export const getVersesSavedBookmarks = async (win: BrowserWindow) => {
     }
 };
 
-export const deleteVerseInSavedBookmarks = async (win: BrowserWindow, payload: any) => {
+const deleteVerseInSavedBookmarks = async (win: BrowserWindow, payload: any) => {
     try {
         bookmarkStore.delete(`bookmarks.${payload.b}_${payload.c}_${payload.v}`);
         win.webContents.send("getVersesInBookmarkResult", bookmarkStore.get("bookmarks"));
@@ -42,3 +42,10 @@ export const deleteVerseInSavedBookmarks = async (win: BrowserWindow, payload: a
         if (e instanceof Error) console.log(e.message);
     }
 };
+
+
+export const BookmarkEvents = (win: BrowserWindow) => {
+    ipcMain.on("saveVersesInBookmark", (event, payload) => saveVersesInBookmark(win, payload));
+    ipcMain.on("getVersesSavedBookmarks", (event, payload) => getVersesSavedBookmarks(win));
+    ipcMain.on("deleteVerseInSavedBookmarks", (event, payload) => deleteVerseInSavedBookmarks(win, payload));
+}

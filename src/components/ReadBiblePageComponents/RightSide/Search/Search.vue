@@ -36,7 +36,7 @@
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, watch } from "vue";
+import { computed, defineComponent, ref, watch } from "vue";
 import { NInput, NSelect, NButton, NPagination } from "naive-ui";
 import { useStore } from "vuex";
 import { ipcRenderer } from "electron";
@@ -110,15 +110,7 @@ export default defineComponent({
                 page: searchBiblePage.value,
                 limit: searchResultLimit.value,
             };
-            ipcRenderer.send("searchBibleSubmitButton", params);
-        };
-
-        watch(searchBiblePage, () => {
-            clickSubmitSearch();
-        });
-
-        onMounted(() => {
-            ipcRenderer.on("searchBibleSubmitButtonResult", (event, payload) => {
+            ipcRenderer.invoke("searchBibleSubmitButton", params).then((payload: any) => {
                 let result = payload.result;
                 var searchMask = searchValue.value;
                 var regEx = new RegExp(searchMask, "ig");
@@ -132,6 +124,10 @@ export default defineComponent({
                 let searchResultView = document.getElementById("search-result-view");
                 if (searchResultView) searchResultView.scrollTop = 0;
             });
+        };
+
+        watch(searchBiblePage, () => {
+            clickSubmitSearch();
         });
 
         return {
