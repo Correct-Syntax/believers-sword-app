@@ -15,21 +15,13 @@ const electronStore = new ElectronStore({
 });
 
 export const ipcMainHighlightMarker = (win: BrowserWindow): void => {
-    ipcMain.on("getBibleVerseHighlight", () => {
-        win.webContents.send("getBibleVerseHighlightResult", electronStore.get("highlights"));
-    });
-
-    ipcMain.on("saveBibleVerseHighlight", (event, payload) => {
+    ipcMain.handle("getBibleVerseHighlight", () => electronStore.get("highlights"));
+    ipcMain.handle("saveBibleVerseHighlight", (event, payload): any | void => {
         try {
             let hasHighlight = payload.content.includes("HasHighlightSpan");
-
-            if (hasHighlight) {
-                electronStore.set(`highlights.${payload.key}`, payload);
-            } else {
-                electronStore.delete(`highlights.${payload.key}`);
-            }
-
-            win.webContents.send("getBibleVerseHighlightResult", electronStore.get("highlights"));
+            if (hasHighlight) electronStore.set(`highlights.${payload.key}`, payload);
+            else electronStore.delete(`highlights.${payload.key}`);
+            return electronStore.get("highlights");
         } catch (e) {
             console.log(e);
         }

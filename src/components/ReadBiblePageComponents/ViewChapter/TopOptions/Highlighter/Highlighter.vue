@@ -70,6 +70,7 @@
 import { defineComponent, ref } from "vue";
 import { NPopover, useMessage } from "naive-ui";
 import { ipcRenderer } from "electron";
+import store from "@/store";
 
 export default defineComponent({
     components: { NPopover },
@@ -77,7 +78,7 @@ export default defineComponent({
         const showPopover = ref(false);
         const message = useMessage();
 
-        function getSelectionParentElement() {
+        const getSelectionParentElement = () => {
             var parentEl = null,
                 sel;
             if (window.getSelection) {
@@ -144,8 +145,10 @@ export default defineComponent({
                             content = rootParent.innerHTML;
                         }
                     }
-                    
-                    ipcRenderer.send("saveBibleVerseHighlight", { key, bibleVersion, bookNumber, chapterNumber, verseNumber, content });
+
+                    ipcRenderer.invoke("saveBibleVerseHighlight", { key, bibleVersion, bookNumber, chapterNumber, verseNumber, content }).then((args: any) => {
+                        store.dispatch("setHighlights", args);
+                    });
 
                     // remove all selections
                     window.getSelection()?.empty();
