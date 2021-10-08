@@ -50,7 +50,7 @@
                     </div>
                 </div>
             </div>
-            <div class="verse-item-more-options absolute top-10px right-10px" @click.stop.prevent>
+            <div class="verse-item-more-options absolute top-20px right-20px" @click.stop.prevent>
                 <NTooltip trigger="hover" size="small">
                     <template #trigger>
                         <div class="verse-item-more-options-item text-size-26px m-10px dark:text-gray-300 text-gray-100 cursor-pointer" @click="saveToBookmark(verse)">
@@ -203,7 +203,7 @@ export default defineComponent({
     }
 
     .verse-item-more-options-item {
-        @apply opacity-0 dark:text-gray-100 text-gray-900 duration-200;
+        @apply opacity-0 !hover:opacity-100 text-gray-900 dark:text-gray-100 hover:dark:text-yellow-400 hover:text-yellow-500  duration-200;
     }
 
     &:hover {
@@ -212,10 +212,6 @@ export default defineComponent({
 
             .verse-item-more-options-item {
                 @apply opacity-30;
-
-                &:hover {
-                    @apply dark:text-yellow-400 text-yellow-500 !opacity-100;
-                }
             }
         }
 
