@@ -1,8 +1,4 @@
 import { BrowserWindow } from "electron";
-const log = require("electron-log");
-const isDevelopment = process.env.NODE_ENV !== "production";
-const config = require("./../../db.config");
-const storeDB = require("knex")(isDevelopment ? config.store_dev : config.store);
 const ElectronStore = require("electron-store");
 
 const bookmarkStore = new ElectronStore({

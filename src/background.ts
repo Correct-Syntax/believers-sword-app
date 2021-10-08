@@ -1,16 +1,20 @@
 "use strict";
+import { appSettingsStore } from "./helper/electronStore/SettingSchema";
 import { AutoUpdaterEvents } from "./service/AutoUpdater/AutoUpdaterMainProcessEvent";
-import { app, protocol, BrowserWindow, Menu, MenuItem } from "electron";
+import { app, protocol, BrowserWindow, Menu, MenuItem, screen } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 import { ipcMainEvents } from "./service/ipcMain";
+import { BrowserWindowConstructorOptions } from "electron";
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
 
 async function createWindow() {
-    const win = new BrowserWindow({
+    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+    const appBounds: any = appSettingsStore.get("setting.appBounds");
+    let windowBrowserOptions: BrowserWindowConstructorOptions = {
         width: 1190,
         height: 660,
         frame: false,
@@ -18,10 +22,6 @@ async function createWindow() {
         minHeight: 650,
         backgroundColor: "#000",
         titleBarStyle: "hidden",
-        trafficLightPosition: {
-            x: 10,
-            y: 15
-        },
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
@@ -29,7 +29,9 @@ async function createWindow() {
         },
         show: false,
         alwaysOnTop: !isDevelopment
-    });
+    };
+    Object.assign(windowBrowserOptions, appBounds);
+    const win = new BrowserWindow(windowBrowserOptions);
 
     ipcMainEvents(win);
 
@@ -45,14 +47,13 @@ async function createWindow() {
         win.removeMenu();
         Menu.setApplicationMenu(Menu.buildFromTemplate([]));
     }
+    
+    if (appBounds.width > width && appBounds.height > height) win.maximize();
+    else win.show();
 
-    win.maximize();
-
-    if (!isDevelopment) {
-        setTimeout(() => {
-            win.setAlwaysOnTop(false);
-        }, 1000);
-    }
+    setTimeout(() => {
+        win.setAlwaysOnTop(false);
+    }, 1000);
 
     if (!isDevelopment) {
         AutoUpdaterEvents(win);

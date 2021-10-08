@@ -1,11 +1,11 @@
 <template>
     <div class="flex justify-center items-center h-[100%]">
         <div id="minimizeButton" class="dark:hover:bg-gray-600 hover:bg-gray-400 h-[100%] px-[10px] flex justify-center items-center text-size-18px" @click="minimize()">
-            <span v-show="isMaximized" class="codicon codicon-chrome-minimize"></span>
+            <span class="codicon codicon-chrome-minimize"></span>
         </div>
         <div id="maximizeButton" class="dark:hover:bg-gray-600 hover:bg-gray-400 h-[100%] px-[10px] flex justify-center items-center text-size-18px" @click="maximize()">
-            <span v-show="isMaximized" class="codicon codicon-chrome-maximize"></span>
-            <span v-show="!isMaximized" class="codicon codicon-chrome-restore"></span>
+            <span v-show="!isMaximized" class="codicon codicon-chrome-maximize"></span>
+            <span v-show="isMaximized" class="codicon codicon-chrome-restore"></span>
         </div>
         <div id="closeButton" class="hover:bg-red-600 h-[100%] px-[10px] flex justify-center items-center text-size-18px" @click="close()">
             <span class="codicon codicon-chrome-close"></span>
@@ -20,12 +20,9 @@ export default defineComponent({
     setup() {
         const isMaximized = ref(true);
         onMounted(() => {
-            ipcRenderer.on("isMaximized", () => {
-                isMaximized.value = true
+            ipcRenderer.invoke("isWindowBrowserMaximized").then((args: any) => {
+                isMaximized.value = args;
             });
-            ipcRenderer.on("windowUnmaximized", () => {
-                isMaximized.value = false
-            })
         });
 
         return {
@@ -34,7 +31,9 @@ export default defineComponent({
                 ipcRenderer.send("minimizeWindow");
             },
             maximize: () => {
-                ipcRenderer.send("maximizeWindow");
+                ipcRenderer.invoke("maximizeWindow").then((args: any) => {
+                    isMaximized.value = args;
+                });
             },
             close: () => {
                 ipcRenderer.send("closeWindow");

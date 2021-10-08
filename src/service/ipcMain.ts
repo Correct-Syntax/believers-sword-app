@@ -1,17 +1,17 @@
-import { linkEvents } from './linkEvents/linkEvents';
+import { linkEvents } from "./linkEvents/linkEvents";
 import { prayerListEvents } from "./PrayerLists/PrayerListEventsMainEvents";
 import { ipcMainHighlightMarker } from "./ipcMainEvents/ipcMainHighlightMarker";
 import { searchBibleSubmitButton } from "./ipcMainEvents/SearchBibleEvents";
 import { deleteVerseInSavedBookmarks, getVersesSavedBookmarks, saveVersesInBookmark } from "./ipcMainEvents/BookMarkEvents";
 import { mainWindowLoad, getBibleBooks, getBookChaptersCount, getBookInChapter, getBibleVersions } from "./ipcMainEvents/BibleEvents";
 import { BrowserWindow, ipcMain } from "electron";
-import { closeWindow, maximizeWindow, minimizeWindow } from "./ipcMainEvents/BrowserWindowEvents";
+import { windowBrowserEvents } from "./ipcMainEvents/BrowserWindowEvents";
 import { bibleNotesEvents } from "./Notes/ipcMainNotesEvents";
 
 export const ipcMainEvents = (win: BrowserWindow) => {
-    ipcMain.on("minimizeWindow", () => minimizeWindow(win));
-    ipcMain.on("maximizeWindow", () => maximizeWindow(win));
-    ipcMain.on("closeWindow", () => closeWindow(win));
+    // browser Window Events
+    windowBrowserEvents(win);
+
     ipcMain.on("mainWindowLoad", () => mainWindowLoad(win));
     ipcMain.on("getBibleBooks", () => getBibleBooks(win));
     ipcMain.on("getBookChaptersCount", (event, { book, bible }) => getBookChaptersCount(win, { book, bible }));
@@ -33,11 +33,4 @@ export const ipcMainEvents = (win: BrowserWindow) => {
 
     // link events
     linkEvents();
-
-    win.on("maximize", () => {
-        win.webContents.send("isMaximized");
-    });
-    win.on("unmaximize", () => {
-        win.webContents.send("windowUnmaximized");
-    });
 };
