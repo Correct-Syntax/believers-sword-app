@@ -3,7 +3,7 @@
         <div
             v-for="verse in viewBookChapter"
             :key="verse.v"
-            class="verse-item relative cursor-pointer"
+            class="verse-item relative cursor-pointer relative pr-80px"
             :class="{
                 'item-bookmarked': checkIfVerseExistInBookmarkState(verse),
                 'item-saved-in-bookmark': checkIfVerseExistInSavedBookmarks(verse),
@@ -11,7 +11,7 @@
             }"
             @click="clickVerse(verse)"
         >
-            <div class="item-bookmarked-dot invisible opacity-0 absolute right-[10px] top-[10px]">
+            <div class="item-bookmarked-dot invisible opacity-0 absolute right-[2px] top-[2px]">
                 <div class="text-[var(--primaryColor)]">
                     <i class="bx bxs-circle"></i>
                 </div>
@@ -50,26 +50,15 @@
                     </div>
                 </div>
             </div>
-            <div class="verse-item-more-options">
-                <NPopover trigger="hover" :show-arrow="false">
+            <div class="verse-item-more-options absolute top-10px right-10px">
+                <NTooltip trigger="hover" size="small">
                     <template #trigger>
-                        <div class="text-size-30px p-10px bg-gray-600 dark:text-gray-300 text-gray-100 rounded-[100%] cursor-pointer">
-                            <i class="bx bx-dots-vertical-rounded"></i>
+                        <div class="text-size-26px m-10px dark:text-gray-300 text-gray-100 cursor-pointer" @click="saveToBookmark(verse)">
+                            <i class="bx bx-bookmark-alt-plus"></i>
                         </div>
                     </template>
-                    <div>
-                        <div class="text-size-18px flex flex-col gap-[10px]">
-                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100" @click="saveToBookmark(verse)">
-                                <i class="bx bx-bookmark"></i>
-                                <span>Bookmark</span>
-                            </div>
-                            <div class="cursor-pointer flex items-center gap-[7px] opacity-70 hover:opacity-100">
-                                <i class="bx bx-share-alt"></i>
-                                <span>Share Verse</span>
-                            </div>
-                        </div>
-                    </div>
-                </NPopover>
+                    <span>Add to Bookmark</span>
+                </NTooltip>
             </div>
         </div>
     </div>
@@ -77,14 +66,14 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted } from "vue";
 import { useStore } from "vuex";
-import { NPopover, NTooltip, useMessage } from "naive-ui";
+import { NTooltip, useMessage } from "naive-ui";
 import { ipcRenderer } from "electron";
 import _ from "lodash";
 
 export default defineComponent({
     name: "VersesRender",
     props: ["viewBookChapter", "fontSize"],
-    components: { NPopover, NTooltip },
+    components: { NTooltip },
     setup() {
         const store = useStore();
         const bibleBookMarkStore = computed(() => store.state.verseBookmark);
@@ -115,7 +104,7 @@ export default defineComponent({
                 b: verse.b,
                 c: verse.c,
                 v: verse.v,
-                versions: _.cloneDeep(verse.versions)
+                versions: _.cloneDeep(verse.versions),
             });
 
             ipcRenderer.send("saveVersesInBookmark", newBookMark);
@@ -124,7 +113,7 @@ export default defineComponent({
 
         onMounted(() => {
             setTimeout(() => {
-                const parentElement = document.getElementById('verses-view');
+                const parentElement = document.getElementById("verses-view");
                 parentElement?.querySelectorAll("[contenteditable]").forEach((el) => {
                     el.addEventListener("keydown", function (evt: any) {
                         if (evt.code === "KeyC") return true;
@@ -210,7 +199,7 @@ export default defineComponent({
     }
 
     .verse-item-more-options {
-        @apply opacity-0 invisible duration-150;
+        @apply opacity-0 invisible duration-150 flex flex-col gap-10px;
     }
 
     &:hover {
