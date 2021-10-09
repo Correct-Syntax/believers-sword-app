@@ -1,8 +1,5 @@
-import { HighlightMarkerEvent } from "./ipcRendererEvents/HighlightMarkerEvents";
-import { getVersesInBookmarkResult } from "./ipcRendererEvents/ipcRendererBookmarkEvents";
 import session from "@/service/session/session";
-import { getBibleVersionsResult, getBookChaptersCountResult, getBookInChapterResult, resultBibleBooks } from "./ipcRendererEvents/ipcBibleOnEvents";
-import { ipcRenderer } from "electron";
+import { bibleEventOnRenderer } from "./ipcRendererEvents/ipcBibleOnEvents";
 import { localStorageThemeKey } from "./ThemeChangeService";
 
 export const onMountedRendererEvents = async (store: any = null): Promise<void> => {
@@ -19,16 +16,8 @@ export const onMountedRendererEvents = async (store: any = null): Promise<void> 
         session.set("webFrameZoom", 0.95);
     }
 
-    // ON EVENTS
-    ipcRenderer.on("resultBibleBooks", (event, result) => resultBibleBooks(event, result));
-    ipcRenderer.on("getBookChaptersCountResult", (event, result) => getBookChaptersCountResult(event, result));
-    ipcRenderer.on("getBookInChapterResult", (event, result) => getBookInChapterResult(event, result));
-    ipcRenderer.on("getBibleVersionsResult", (event, result) => getBibleVersionsResult(event, result));
-    ipcRenderer.on("getVersesInBookmarkResult", (event, result) => getVersesInBookmarkResult(event, result));
-    HighlightMarkerEvent();
-
-    // SEND EVENTS
-    ipcRenderer.send("getBibleBooks");
+    // Bible Events on Renderer
+    bibleEventOnRenderer();
 
     // DISPATCH EVENTS
     await store.dispatch("getBookChaptersCount", { bible: store.state.bible.bible, book: store.state.bible.bookSelected });

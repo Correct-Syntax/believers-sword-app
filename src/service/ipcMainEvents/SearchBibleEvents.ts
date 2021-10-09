@@ -2,7 +2,7 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 const config = require("./../../db.config");
 const knex = require("knex")(isDevelopment ? config.development : config.production);
 
-export const searchBibleSubmitButton = async (win: any, payload: any) => {
+export const searchBibleSubmitButton = async (payload: any) => {
     try {
         let result = knex(payload.bibleVersion)
             .where("t", "like", `%${payload.q}%`)
@@ -29,7 +29,8 @@ export const searchBibleSubmitButton = async (win: any, payload: any) => {
         await result.then((rows: any) => {
             response.result = rows;
         });
-        win.webContents.send("searchBibleSubmitButtonResult", response);
+
+        return response;
     } catch (e) {
         // eslint-disable-next-line
         console.log(e);

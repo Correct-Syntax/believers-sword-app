@@ -26,9 +26,10 @@
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import { NEmpty, NAutoComplete } from "naive-ui";
+import { ipcRenderer } from "electron";
 
 export default defineComponent({
     components: { NEmpty, NAutoComplete },
@@ -85,6 +86,18 @@ export default defineComponent({
                 })
             );
             return newData;
+        });
+
+        onMounted(() => {
+            ipcRenderer.invoke("getBibleVerseHighlight").then((args: any) => {
+                const obj = store.state.marker.highlights;
+                if (
+                    obj &&
+                    Object.keys(obj).length === 0 &&
+                    Object.getPrototypeOf(obj) === Object.prototype
+                )
+                    store.dispatch("setHighlights", args);
+            });
         });
 
         return {

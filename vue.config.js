@@ -22,7 +22,14 @@ module.exports = {
             },
             externals: ['knex', 'sqlite3'],
             nodeIntegration: true,
-            mainProcessWatch: ['src/service'],
+            mainProcessWatch: [
+                'src/service/ipcMain.ts',
+                'src/service/AutoUpdater',
+                'src/service/ipcMainEvents',
+                'src/service/linkEvents',
+                'src/service/Notes',
+                'src/service/PrayerLists'
+            ],
         }
     },
 }

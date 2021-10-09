@@ -3,12 +3,7 @@
         <div class="text-size-[18px] mb-7px">
             <h3>Your Bookmarks:</h3>
             <div class="mt-7px">
-                <NAutoComplete
-                    :options="options"
-                    v-model:value="valueRef"
-                    placeholder="Write Book Name To Filter"
-                    :on-select="selectOption"
-                />
+                <NAutoComplete :options="options" v-model:value="valueRef" placeholder="Write Book Name To Filter" :on-select="selectOption" />
             </div>
         </div>
         <div v-if="Object.keys(savedBookmarks).length > 0" class="bookmarks-view-wrapper overflow-y-auto overflowing-div w-[100%]">
@@ -65,12 +60,18 @@ export default defineComponent({
             );
         });
 
+        const getSavedBookmarks = () => {
+            ipcRenderer.invoke("getVersesSavedBookmarks").then((bookmarks: any) => {
+                store.dispatch("getVersesInBookmarkResult", bookmarks);
+            });
+        };
+
         watch(BibleBookSelected, () => {
-            ipcRenderer.send("getVersesSavedBookmarks");
+            getSavedBookmarks();
         });
 
         onMounted(() => {
-            ipcRenderer.send("getVersesSavedBookmarks");
+            getSavedBookmarks();
         });
 
         const bibleBookOptions = computed(() => {
@@ -111,11 +112,19 @@ export default defineComponent({
             selectedBookmark,
             removeBookmark(verse: any) {
                 if (verse.b && verse.c && verse.v)
-                    ipcRenderer.send("deleteVerseInSavedBookmarks", {
-                        b: verse.b,
-                        c: verse.c,
-                        v: verse.v,
-                    });
+                    ipcRenderer
+                        .invoke("deleteVerseInSavedBookmarks", {
+                            b: verse.b,
+                            c: verse.c,
+                            v: verse.v,
+                        })
+                        .then((data: any) => {
+                            if (data) {
+                                let savedBookmarks = store.state.verseBookmark.savedBookmarks;
+                                delete savedBookmarks[`${verse.b}_${verse.c}_${verse.v}`];
+                                store.state.verseBookmark.savedBookmarks = savedBookmarks;
+                            }
+                        });
             },
             options: computed(() => {
                 let newData: any = [

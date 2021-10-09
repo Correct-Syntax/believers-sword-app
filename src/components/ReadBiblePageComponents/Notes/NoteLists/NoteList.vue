@@ -43,7 +43,7 @@ export default defineComponent({
 </script>
 <style lang="postcss">
 .note-lists-items {
-    @apply dark:hover:bg-gray-700 hover:bg-gray-300 p-7px w-[100%] border-l-[5px] dark:border-gray-700 border-gray-300 cursor-pointer;
+    @apply dark:hover:bg-gray-700 hover:bg-gray-300 p-7px w-[100%] border-l-[5px] dark:border-gray-700 border-gray-300 cursor-pointer rounded-r-md;
 
     &.selected-note {
         @apply border-[var(--primaryColor)];
