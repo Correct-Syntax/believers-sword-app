@@ -3,19 +3,22 @@
         <div id="leftSide" class="h-[100%] dark:bg-black dark:bg-opacity-20 bg-gray-200 resize-x p-5px z-20">
             <LeftSideBar />
         </div>
-        <div id="mainWindow" class="h-[100%] w-[100%] overflow-hidden">
+        <div id="mainWindow" class="h-[100%] w-[100%]">
             <div class="split flex flex-col h-[100%] relative">
-                <div id="read-chapter-area" :class="{ 'duration-100': !isOnDragVerticalSplit }">
+                <div id="read-chapter-area" :class="{ 'duration-200': !isOnDragVerticalSplit }">
                     <ViewChapter />
                 </div>
                 <div
                     id="make-notes-area"
                     class="dark:bg-black dark:bg-opacity-30 h-[100%] bg-gray-300 bg-opacity-80 relative flex flex-col !w-[100%]"
-                    :class="{ 'duration-100': !isOnDragVerticalSplit }"
+                    :class="{ 'duration-200': !isOnDragVerticalSplit }"
                 >
                     <div class="h-[100%] flex flex-col">
-                        <div id="expanding-this" class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center select-none flex items-center">
-                            <div class="mr-10px transform duration-150" :class="{'-rotate-90': !toggledMakeNote}">
+                        <div
+                            id="expanding-this"
+                            class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center select-none flex items-center"
+                        >
+                            <div class="mr-10px transform duration-150" :class="{ '-rotate-90': !toggledMakeNote }">
                                 <span class="codicon codicon-chevron-down"></span>
                             </div>
                             <i class="bx bx-notepad"></i>
@@ -102,7 +105,6 @@ export default defineComponent({
                     toggledMakeNote.value = false;
 
                     middleVerticalSplit.setSizes([100, 0]);
-
                     localStorage.setItem("read-chapter-split-sizes-vertical", JSON.stringify([100, 0]));
                 } else {
                     toggledMakeNote.value = true;
