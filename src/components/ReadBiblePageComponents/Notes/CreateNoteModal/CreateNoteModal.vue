@@ -13,6 +13,7 @@
             hover:bg-[var(--primaryColor)]
             dark:bg-gray-800
             dark:hover:text-gray-900
+            bg-gray-100
             hover:text-gray-50
             duration-300
             hover:font-700

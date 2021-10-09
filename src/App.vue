@@ -129,22 +129,22 @@ export default defineComponent({
     }
 
     h1 {
-        @apply text-size-24px font-600;
+        @apply text-size-32px font-600;
     }
     h2 {
-        @apply text-size-22px font-600;
+        @apply text-size-28px font-600;
     }
     h3 {
-        @apply text-size-20px font-600;
+        @apply text-size-25px font-600;
     }
     h4 {
-        @apply text-size-18px font-600;
+        @apply text-size-20px font-600;
     }
     h5 {
-        @apply text-size-16px font-600;
+        @apply text-size-18px font-600;
     }
     h6 {
-        @apply text-size-14px font-600;
+        @apply text-size-16px font-600;
     }
 
     p {

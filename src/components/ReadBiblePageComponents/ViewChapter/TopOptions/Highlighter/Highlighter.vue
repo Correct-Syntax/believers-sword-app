@@ -152,8 +152,8 @@ export default defineComponent({
 
                     // remove all selections
                     window.getSelection()?.empty();
-                } catch (e: any) {
-                    message.info(e.message);
+                } catch (e) {
+                    if (e instanceof Error) message.info("Please Select phrase/words to mark.");
                 }
             },
         };
