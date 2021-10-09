@@ -28,7 +28,9 @@ export default defineComponent({
             try {
                 let selectedVerses = _.cloneDeep(bookMarkState.value);
                 if (selectedVerses.length > 0) {
-                    ipcRenderer.send("saveVersesInBookmark", selectedVerses);
+                    ipcRenderer.invoke("saveVersesInBookmark", selectedVerses).then((bookmarks: any) => {
+                        store.dispatch("getVersesInBookmarkResult", bookmarks);
+                    });
                     store.state.verseBookmark.bookmarks = [];
                     message.info("Bookmark Saved");
                     return;

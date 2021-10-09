@@ -107,7 +107,9 @@ export default defineComponent({
                 versions: _.cloneDeep(verse.versions),
             });
 
-            ipcRenderer.send("saveVersesInBookmark", newBookMark);
+            ipcRenderer.invoke("saveVersesInBookmark", newBookMark).then((bookmarks: any) => {
+                store.dispatch("getVersesInBookmarkResult", bookmarks);
+            });
             message.info("Bookmarked! Saved");
         };
 

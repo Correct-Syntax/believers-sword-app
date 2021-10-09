@@ -3,7 +3,7 @@
         <div id="leftSide" class="h-[100%] dark:bg-black dark:bg-opacity-20 bg-gray-200 resize-x p-5px z-20">
             <LeftSideBar />
         </div>
-        <div id="mainWindow" class="h-[100%] w-[100%]">
+        <div id="mainWindow" class="h-[100%] w-[100%] overflow-hidden">
             <div class="split flex flex-col h-[100%] relative">
                 <div id="read-chapter-area" :class="{ 'duration-100': !isOnDragVerticalSplit }">
                     <ViewChapter />

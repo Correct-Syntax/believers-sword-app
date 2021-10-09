@@ -20,7 +20,7 @@ const saveVersesInBookmark = async (win: BrowserWindow, payload: Array<any>) => 
             let checkIsExist = bookmarkStore.get(`bookmarks.${key}`);
             if (!checkIsExist) bookmarkStore.set(`bookmarks.${key}`, item);
         }
-        win.webContents.send("getVersesInBookmarkResult", bookmarkStore.get("bookmarks"));
+        return bookmarkStore.get("bookmarks");
     } catch (e) {
         if (e instanceof Error) console.log(e.message);
     }
@@ -28,7 +28,7 @@ const saveVersesInBookmark = async (win: BrowserWindow, payload: Array<any>) => 
 
 const getVersesSavedBookmarks = async (win: BrowserWindow) => {
     try {
-        win.webContents.send("getVersesInBookmarkResult", bookmarkStore.get("bookmarks"));
+        return bookmarkStore.get("bookmarks");
     } catch (e) {
         if (e instanceof Error) console.log(e.message);
     }
@@ -37,15 +37,14 @@ const getVersesSavedBookmarks = async (win: BrowserWindow) => {
 const deleteVerseInSavedBookmarks = async (win: BrowserWindow, payload: any) => {
     try {
         bookmarkStore.delete(`bookmarks.${payload.b}_${payload.c}_${payload.v}`);
-        win.webContents.send("getVersesInBookmarkResult", bookmarkStore.get("bookmarks"));
+        return true;
     } catch (e) {
-        if (e instanceof Error) console.log(e.message);
+        return false;
     }
 };
 
-
 export const BookmarkEvents = (win: BrowserWindow) => {
-    ipcMain.on("saveVersesInBookmark", (event, payload) => saveVersesInBookmark(win, payload));
-    ipcMain.on("getVersesSavedBookmarks", (event, payload) => getVersesSavedBookmarks(win));
-    ipcMain.on("deleteVerseInSavedBookmarks", (event, payload) => deleteVerseInSavedBookmarks(win, payload));
-}
+    ipcMain.handle("saveVersesInBookmark", (event, payload) => saveVersesInBookmark(win, payload));
+    ipcMain.handle("getVersesSavedBookmarks", (event, payload) => getVersesSavedBookmarks(win));
+    ipcMain.handle("deleteVerseInSavedBookmarks", (event, payload) => deleteVerseInSavedBookmarks(win, payload));
+};

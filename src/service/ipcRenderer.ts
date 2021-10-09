@@ -1,4 +1,3 @@
-import { bibleVerseBookmarkEvents } from "./ipcRendererEvents/ipcRendererBookmarkEvents";
 import session from "@/service/session/session";
 import { bibleEventOnRenderer } from "./ipcRendererEvents/ipcBibleOnEvents";
 import { localStorageThemeKey } from "./ThemeChangeService";
@@ -19,9 +18,6 @@ export const onMountedRendererEvents = async (store: any = null): Promise<void> 
 
     // Bible Events on Renderer
     bibleEventOnRenderer();
-
-    // Bible Renderer for Bookmarks
-    bibleVerseBookmarkEvents();
 
     // DISPATCH EVENTS
     await store.dispatch("getBookChaptersCount", { bible: store.state.bible.bible, book: store.state.bible.bookSelected });
