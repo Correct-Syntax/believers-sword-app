@@ -2,10 +2,10 @@
     <div id="right-side-bar" class="h-[100%] w-[100%] select-none dark:bg-black dark:bg-opacity-20 bg-gray-200">
         <RightSideMenuBar />
         <div class="h-[100%] w-[100%]">
-            <SearchTab v-if="tabValue === 'searchTab'" />
-            <SelectBibleVersions v-if="tabValue === 'versionsTab'" />
-            <Bookmarks v-if="tabValue === 'bookmarksTab'" />
-            <MarkedHighlights v-if="tabValue === 'MarkedHighlights'" />
+            <SearchTab v-show="tabValue === 'searchTab'" />
+            <SelectBibleVersions v-show="tabValue === 'versionsTab'" />
+            <Bookmarks v-show="tabValue === 'bookmarksTab'" />
+            <MarkedHighlights v-show="tabValue === 'MarkedHighlights'" />
         </div>
     </div>
 </template>
