@@ -10,33 +10,6 @@
             <div v-show="Object.keys(selectedNote).length > 0" class="h-[100%] flex flex-col">
                 <div v-if="editor" class="note-format-buttons flex flex-row items-center justify-between text-size-18px py-5px px-5px dark:bg-black dark:bg-opacity-10">
                     <div class="flex flex-row items-center">
-                        <div class="flex flex-row">
-                            <button title="Bold" @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
-                                <i class="bx bx-bold"></i>
-                            </button>
-                            <button title="Italic" @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
-                                <i class="bx bx-italic"></i>
-                            </button>
-                            <button title="Underline" @click="editor.chain().focus().toggleUnderline().run()" :class="{ 'is-active': editor.isActive('underline') }">
-                                <i class="bx bx-underline"></i>
-                            </button>
-                            <button title="Strike Through" @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
-                                <i class="bx bx-strikethrough"></i>
-                            </button>
-                        </div>
-                        <span class="dark:bg-gray-600 bg-gray-400 w-5px h-5px rounded-md mx-10px rounded-1"></span>
-                        <div>
-                            <button title="Code Text" @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
-                                <i class="bx bx-code"></i>
-                            </button>
-                            <button title="Code Block" @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
-                                <i class="bx bx-code-block"></i>
-                            </button>
-                            <button title="Normal Text" @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
-                                <i class="bx bx-text"></i>
-                            </button>
-                        </div>
-                        <span class="dark:bg-gray-600 bg-gray-400 w-5px h-5px rounded-md mx-10px rounded-1"></span>
                         <div>
                             <NPopover placement="bottom" trigger="hover">
                                 <template #trigger>
@@ -54,7 +27,7 @@
                                         }"
                                     >
                                         <i class="bx bx-heading -mr-5px"></i>
-                                        <i class='bx bx-expand-alt  rotate-135 transform !text-size-15px' ></i>
+                                        <i class="bx bx-expand-alt rotate-135 transform !text-size-15px"></i>
                                     </button>
                                 </template>
                                 <span class="outside-external-note-button flex flex-col whitespace-nowrap text-size-18px">
@@ -104,6 +77,34 @@
                             </NPopover>
                         </div>
                         <span class="dark:bg-gray-600 bg-gray-400 w-5px h-5px rounded-md mx-10px rounded-1"></span>
+                        <div class="flex flex-row">
+                            <button title="Normal Text" @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
+                                <i class="bx bx-text"></i>
+                            </button>
+                            <button title="Bold" @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+                                <i class="bx bx-bold"></i>
+                            </button>
+                            <button title="Italic" @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+                                <i class="bx bx-italic"></i>
+                            </button>
+                            <button title="Underline" @click="editor.chain().focus().toggleUnderline().run()" :class="{ 'is-active': editor.isActive('underline') }">
+                                <i class="bx bx-underline"></i>
+                            </button>
+                            <button title="Strike Through" @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
+                                <i class="bx bx-strikethrough"></i>
+                            </button>
+                        </div>
+                        <span class="dark:bg-gray-600 bg-gray-400 w-5px h-5px rounded-md mx-10px rounded-1"></span>
+                        <div>
+                            <button title="Code Text" @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
+                                <i class="bx bx-code"></i>
+                            </button>
+                            <button title="Code Block" @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
+                                <i class="bx bx-code-block"></i>
+                            </button>
+                        </div>
+                        <span class="dark:bg-gray-600 bg-gray-400 w-5px h-5px rounded-md mx-10px rounded-1"></span>
+
                         <div>
                             <button title="Unordered List" @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
                                 <i class="bx bx-list-ul"></i>
