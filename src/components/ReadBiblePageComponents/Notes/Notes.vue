@@ -250,7 +250,6 @@ export default defineComponent({
             selectedNote,
             titleUpdate,
             deleteNote: () => {
-                // console.log(selectedNote.value)
                 ipcRenderer.send("deleteNote", { key: selectedNote.value.key });
                 store.state.notes.selectedNote = {};
             },

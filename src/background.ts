@@ -14,7 +14,6 @@ protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: tru
 async function createWindow() {
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     const appBounds: any = appSettingsStore.get("setting.appBounds");
-    console.log(appBounds)
     let windowBrowserOptions: BrowserWindowConstructorOptions = {
         width: 1190,
         height: 660,
@@ -31,7 +30,7 @@ async function createWindow() {
         show: false,
         alwaysOnTop: !isDevelopment
     };
-    
+
     if (appBounds !== undefined && appBounds !== null) {
         Object.assign(windowBrowserOptions, appBounds);
     }
