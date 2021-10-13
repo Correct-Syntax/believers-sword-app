@@ -1,5 +1,5 @@
 export default {
-    q1: {
+    esq1: {
         q: "The name of the very first Human ever lived?",
         a: "o1",
         o: {
@@ -9,7 +9,7 @@ export default {
             o4: "Satan"
         }
     },
-    q2: {
+    esq2: {
         q: "What is the first book in the Bible?",
         a: "o2",
         o: {
@@ -19,7 +19,7 @@ export default {
             o4: "John"
         }
     },
-    q3: {
+    esq3: {
         q: "How many days did God take to create the world?",
         a: "o3",
         o: {
@@ -30,7 +30,7 @@ export default {
         },
         ref: "In Genesis Chapter 1 verse 31."
     },
-    q4: {
+    esq4: {
         q: "Who was the first man?",
         a: "o1",
         o: {
@@ -41,7 +41,7 @@ export default {
         },
         ref: "Answer Can be found by Reading Genesis Chapter 2"
     },
-    q5: {
+    esq5: {
         q: "Eve is the first woman created by God?",
         a: "o1",
         o: {
@@ -50,7 +50,7 @@ export default {
         },
         ref: "Eve is the first woman/girl created by God."
     },
-    q6: {
+    esq6: {
         q: "Adam and Eve live in Israel at the beginning of the world",
         a: "o2",
         o: {
@@ -58,5 +58,16 @@ export default {
             o2: "False",
         },
         ref: "Adam and Eve lived in <strong>Garden of Eden</strong> in the beginning when they haven't yet eaten the tree of good and evil."
+    },
+    esq7: {
+        q: "Where did God give Moses the Ten Commandments?",
+        a: "o2",
+        o: {
+            o1: "Mt. Saini",
+            o2: "Mt. Siana",
+            o3: "Mt. Sinai",
+            o4: "Mt. Senai"
+        },
+        ref: "Exodus 19"
     }
 };

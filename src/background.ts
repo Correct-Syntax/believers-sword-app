@@ -14,6 +14,7 @@ protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: tru
 async function createWindow() {
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     const appBounds: any = appSettingsStore.get("setting.appBounds");
+    console.log(appBounds)
     let windowBrowserOptions: BrowserWindowConstructorOptions = {
         width: 1190,
         height: 660,
@@ -30,7 +31,10 @@ async function createWindow() {
         show: false,
         alwaysOnTop: !isDevelopment
     };
-    Object.assign(windowBrowserOptions, appBounds);
+    
+    if (appBounds !== undefined && appBounds !== null) {
+        Object.assign(windowBrowserOptions, appBounds);
+    }
     const win = new BrowserWindow(windowBrowserOptions);
 
     ipcMainEvents(win);
@@ -47,9 +51,12 @@ async function createWindow() {
         win.removeMenu();
         Menu.setApplicationMenu(Menu.buildFromTemplate([]));
     }
-    
-    if (appBounds.width > width && appBounds.height > height) win.maximize();
-    else win.show();
+
+    if (appBounds !== undefined && appBounds !== null && appBounds.width > width && appBounds.height > height) {
+        win.maximize();
+    } else {
+        win.show();
+    }
 
     setTimeout(() => {
         win.setAlwaysOnTop(false);

@@ -32,13 +32,13 @@ export default defineComponent({
     setup() {
         return {
             games: [
-                // {
-                //     title: "Question and Answer",
-                //     logo: "qna.png",
-                //     path: "/qna",
-                //     description:
-                //         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias, debitis? Aspernatur sapiente ad maxime nobis. Ipsum adipisci facere odit fugit distinctio voluptatem illum, porro, repudiandae fugiat quis obcaecati architecto aliquid.",
-                // },
+                {
+                    title: "Question and Answer",
+                    logo: "qna.png",
+                    path: "/qna",
+                    description:
+                        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias, debitis? Aspernatur sapiente ad maxime nobis. Ipsum adipisci facere odit fugit distinctio voluptatem illum, porro, repudiandae fugiat quis obcaecati architecto aliquid.",
+                },
             ],
         };
     },
