@@ -3,7 +3,7 @@
         <div class="text-size-[18px] mb-7px">
             <h3>Your Bookmarks:</h3>
             <div class="mt-7px">
-                <NAutoComplete :options="options" v-model:value="valueRef" placeholder="Write Book Name To Filter" :on-select="selectOption" />
+                <NAutoComplete :options="options" v-model:value="valueRef" placeholder="Write Book Name To Filter" :on-select="selectOption" :get-show="getShowOptions" />
             </div>
         </div>
         <div v-if="Object.keys(savedBookmarks).length > 0" class="bookmarks-view-wrapper overflow-y-auto overflowing-div w-[100%]">
@@ -94,6 +94,7 @@ export default defineComponent({
         const valueRef = ref("");
 
         return {
+            getShowOptions: () => true,
             valueRef,
             searchBibleBook,
             BibleBookSelected,
