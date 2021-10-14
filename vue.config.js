@@ -28,7 +28,8 @@ module.exports = {
                 'src/service/ipcMainEvents',
                 'src/service/linkEvents',
                 'src/service/Notes',
-                'src/service/PrayerLists'
+                'src/service/PrayerLists',
+                'src/service/Settings',
             ],
         }
     },

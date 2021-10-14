@@ -1,9 +1,12 @@
 <template>
     <n-config-provider :theme-overrides="themeOverrides" :theme="dark ? darkTheme : null">
         <NMessageProvider placement="bottom-right">
-            <div class="h-[100vh] w-[100%]">
+            <div class="h-[100vh] w-[100%] dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50">
                 <TitleBar />
-                <div class="dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 h-[calc(100%-30px)] w-[100%] overflow-y-auto">
+                <div
+                    class="dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 h-[calc(100%-30px)] w-[100%] overflow-y-auto opacity-0"
+                    :class="{ 'opacity-100': showAllContent }"
+                >
                     <LeftSideMenuBar />
                     <MainView />
                 </div>
@@ -14,7 +17,7 @@
 
 <script lang="ts">
 import { NConfigProvider } from "naive-ui";
-import { computed, defineComponent, onBeforeMount, onMounted, reactive, watch } from "vue";
+import { computed, defineComponent, onBeforeMount, onMounted, reactive, ref, watch } from "vue";
 import TitleBar from "./components/TitleBar/TitleBar.vue";
 import MainView from "./views/Main.vue";
 import { useStore } from "vuex";
@@ -26,6 +29,7 @@ import LeftSideMenuBar from "@/components/leftSideMenuBar/leftSideMenuBar.vue";
 import { NMessageProvider } from "naive-ui";
 import { AutoUpdateRendererEvents } from "@/service/AutoUpdater/AutoUpdaterRendererProcessEvents";
 import { useRouter } from "vue-router";
+import { ipcRenderer } from "electron";
 
 export default defineComponent({
     name: "App",
@@ -34,6 +38,8 @@ export default defineComponent({
         const store = useStore();
         const dark = computed(() => store.state.dark);
         const router = useRouter();
+        const showAllContent = ref(false);
+        const primaryColors = computed(() => store.state.primaryColors);
         const themeOverrides = reactive({
             common: {
                 primaryColor: "#22577A",
@@ -41,19 +47,26 @@ export default defineComponent({
                 primaryColorPressed: "#5acea7",
                 primaryColorSuppl: "rgb(42, 148, 125)",
                 popoverColor: "rgba(55, 65, 81, 1)",
-                modalColor: "rgba(55, 65, 81, 1)",
+                modalColor: "rgba(55, 65, 81, 1)"
             },
             dark: {
-                primaryColor: "#22577A",
-            },
+                primaryColor: "#22577A"
+            }
         });
         const zoomLevel = computed(() => store.state.frame.zoomLevel);
 
-        const changeTheme = async () => {
-            themeOverrides.common.primaryColor = dark.value ? "#3cb1ff" : "#0084dc";
-            themeOverrides.common.primaryColorHover = dark.value ? "#3cb1ff" : "#0084dc";
+        const changePrimaryColors = () => {
+            themeOverrides.common.primaryColor = dark.value ? primaryColors.value.primaryColorDark : primaryColors.value.primaryColorLight;
+            themeOverrides.common.primaryColorHover = dark.value ? primaryColors.value.primaryColorDark : primaryColors.value.primaryColorLight;
             themeOverrides.common.popoverColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
             themeOverrides.common.modalColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
+
+            if (dark.value) document.documentElement.style.setProperty("--primaryColor", primaryColors.value.primaryColorDark);
+            else document.documentElement.style.setProperty("--primaryColor", primaryColors.value.primaryColorLight);
+        };
+
+        const changeTheme = async () => {
+            changePrimaryColors();
             let themeProperty = dark.value ? "dark" : "light";
             document.documentElement.setAttribute("theme", themeProperty);
         };
@@ -66,7 +79,6 @@ export default defineComponent({
 
         onMounted(async () => {
             const storedRoutePath = localStorage.getItem("pathRoute");
-
             if (storedRoutePath) {
                 store.state.readBibleMenuSelected = false;
                 await router.push(storedRoutePath);
@@ -83,24 +95,39 @@ export default defineComponent({
 
             let doc = document.getElementsByTagName("body")[0];
             if (dark.value) doc.classList.add("dark");
+
+            ipcRenderer.invoke("getPrimaryColors").then((response: any) => {
+                store.state.primaryColors = response;
+            });
+
+            setTimeout(() => {
+                showAllContent.value = true;
+            }, 200);
         });
 
         watch(dark, () => {
             changeTheme();
+            changePrimaryColors();
             let doc = document.getElementsByTagName("body")[0];
             if (dark.value) doc.classList.add("dark");
             if (!dark.value) doc.classList.remove("dark");
         });
+
         watch(zoomLevel, () => {
             webFrame.setZoomFactor(zoomLevel.value);
         });
 
+        watch(primaryColors, () => {
+            changePrimaryColors();
+        });
+
         return {
+            showAllContent,
             dark,
             themeOverrides,
-            darkTheme,
+            darkTheme
         };
-    },
+    }
 });
 </script>
 

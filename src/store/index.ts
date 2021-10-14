@@ -12,7 +12,11 @@ export default createStore({
         dark: true,
         readBibleMenuSelected: true,
         rightMenuTab: "versionsTab",
-        showSettings: false
+        showSettings: false,
+        primaryColors: {
+            primaryColorDark: "#3cb1ff",
+            primaryColorLight: "#008fee"
+        }
     },
     mutations: {},
     actions: {},

@@ -6,6 +6,7 @@ import { BibleEvents } from "./ipcMainEvents/BibleEvents";
 import { BrowserWindow } from "electron";
 import { windowBrowserEvents } from "./ipcMainEvents/BrowserWindowEvents";
 import { bibleNotesEvents } from "./Notes/ipcMainNotesEvents";
+import { settingsEvents } from "./Settings/Settings";
 
 export const ipcMainEvents = (win: BrowserWindow) => {
     // browser Window Events
@@ -28,4 +29,7 @@ export const ipcMainEvents = (win: BrowserWindow) => {
 
     // link events
     linkEvents();
+
+    // configuration events
+    settingsEvents();
 };
