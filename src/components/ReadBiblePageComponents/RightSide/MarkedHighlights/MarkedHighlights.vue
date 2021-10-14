@@ -3,7 +3,7 @@
         <div class="text-size-[18px] mb-7px">
             <h3>Your Highlights:</h3>
             <div class="mt-7px">
-                <NAutoComplete :options="options" v-model:value="value" placeholder="Write Book Name To Filter" :on-select="selectOption" />
+                <NAutoComplete :options="options" v-model:value="value" placeholder="Write Book Name To Filter" :on-select="selectOption" :get-show="getShowOptions" />
             </div>
         </div>
         <div v-if="Highlights" class="flex flex-col gap-10px h-[100%] overflow-y-auto overflowing-div">
@@ -101,6 +101,7 @@ export default defineComponent({
         });
 
         return {
+            getShowOptions: () => true,
             value: valueRef,
             selectedHighlights,
             bibleBookOptions,

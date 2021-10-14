@@ -73,8 +73,8 @@ export default defineComponent({
             const VerticalSizes: any = localStorage.getItem("read-chapter-split-sizes-vertical");
             let middleVerticalSplit = Split(["#read-chapter-area", "#make-notes-area"], {
                 direction: "vertical",
-                sizes: VerticalSizes ? JSON.parse(VerticalSizes) : [100, 0],
                 minSize: [200, 20],
+                sizes: VerticalSizes ? JSON.parse(VerticalSizes) : [100, 0],
                 snapOffset: 0,
                 onDragStart: () => {
                     isOnDragVerticalSplit.value = true;
@@ -120,7 +120,7 @@ export default defineComponent({
             });
 
             window.addEventListener("resize", () => {
-                if (middleVerticalSplit.getSizes()[1] < 5) {
+                if (middleVerticalSplit.getSizes()[1] < 10) {
                     middleVerticalSplit.collapse(1);
                 }
             });

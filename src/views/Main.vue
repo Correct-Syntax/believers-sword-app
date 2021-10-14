@@ -1,7 +1,7 @@
 <template>
     <div id="main-container" class="main-container flex h-[100%] flex-col">
         <n-modal v-model:show="showSettingModal" :on-after-leave="closeModal">
-            <n-card style="width: 600px" :bordered="false" size="small">
+            <n-card style="width: 600px; height: 600px;" :bordered="false" size="small">
                 <Settings />
             </n-card>
         </n-modal>
@@ -26,7 +26,7 @@ import Footer from "@/components/footer/Footer.vue";
 import ReadBible from "./pages/ReadBible.vue";
 import { useStore } from "vuex";
 import { NModal, NCard } from "naive-ui";
-import Settings from "@/components/Settings.vue";
+import Settings from "@/components/Settings/Settings.vue";
 
 export default defineComponent({
     name: "MainView",

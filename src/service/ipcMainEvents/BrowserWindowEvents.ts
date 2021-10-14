@@ -11,7 +11,7 @@ const maximizeWindow = (win: BrowserWindow): boolean | void => {
             const { width, height } = screen.getPrimaryDisplay().workAreaSize;
             const appBounds: any = appSettingsStore.get("setting.appBounds");
 
-            if (appBounds.width > width && appBounds.height > height) {
+            if (appBounds !== undefined && appBounds !== null && appBounds.width > width && appBounds.height > height) {
                 win.unmaximize();
                 win.setSize(1180, 650, false);
                 win.center();
