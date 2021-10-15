@@ -109,10 +109,10 @@ export default defineComponent({
 
     .book-selection-item,
     .chapter-selection-item {
-        @apply cursor-pointer dark:bg-gray-200 dark:bg-opacity-0 bg-gray-700 bg-opacity-0 px-5px;
+        @apply cursor-pointer dark:bg-gray-200 dark:bg-opacity-0 bg-gray-700 bg-opacity-0 px-5px border border-gray-100 border-opacity-0;
 
         &.selected-active {
-            @apply dark:bg-opacity-20 bg-opacity-20 font-700;
+            @apply dark:bg-opacity-20 bg-opacity-20 font-700 border border-[var(--primaryColor)] rounded-md;
 
             .book-selection-item-number {
                 @apply opacity-100 dark:text-[var(--primaryColor)] text-[var(--primaryColor)];

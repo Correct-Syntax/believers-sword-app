@@ -205,7 +205,7 @@ export default defineComponent({
     }
 
     .verse-item-more-options-item {
-        @apply opacity-0 !hover:opacity-100 text-gray-900 dark:text-gray-100 hover:dark:text-yellow-400 hover:text-yellow-500  duration-200;
+        @apply opacity-0 !hover:opacity-100 text-gray-900 dark:text-gray-100 dark:hover:text-[var(--primaryColor)] hover:text-[var(--primaryColor)] duration-200;
     }
 
     &:hover {

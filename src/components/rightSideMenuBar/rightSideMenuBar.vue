@@ -62,7 +62,7 @@ export default defineComponent({
 <style lang="postcss">
 .right-side-menu-bar {
     .icon-item {
-        @apply flex px-7px justify-center items-center h-[30px] cursor-pointer text-size-18px dark:text-gray-400 text-gray-600 pl-5px border-r-[1px] dark:border-gray-800 border-[#fff];
+        @apply flex px-7px justify-center items-center !h-[35px] !w-[35px] cursor-pointer dark:text-gray-400 text-gray-600 mr-4px;
         .bx {
             @apply transform scale-110 duration-100  relative;
         }
@@ -96,13 +96,15 @@ export default defineComponent({
         }
 
         &.active-menu-bar-item {
-            @apply text-[var(--primaryColor)] border-r-[1px] border-[var(--primaryColor)];
-            .bx {
+            @apply dark:text-gray-900 text-gray-50 bg-[var(--primaryColor)] rounded-md duration-100;
+
+            .bx,
+            .codicon {
                 @apply scale-125;
             }
 
             &:hover {
-                @apply text-[var(--primaryColor)];
+                @apply dark:text-gray-900 text-gray-50;
             }
         }
     }

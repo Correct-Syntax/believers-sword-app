@@ -58,6 +58,7 @@ export default defineComponent({
         const changePrimaryColors = () => {
             themeOverrides.common.primaryColor = dark.value ? primaryColors.value.primaryColorDark : primaryColors.value.primaryColorLight;
             themeOverrides.common.primaryColorHover = dark.value ? primaryColors.value.primaryColorDark : primaryColors.value.primaryColorLight;
+            themeOverrides.common.primaryColorSuppl = dark.value ? primaryColors.value.primaryColorDark : primaryColors.value.primaryColorLight;
             themeOverrides.common.popoverColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
             themeOverrides.common.modalColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
 
@@ -181,6 +182,18 @@ export default defineComponent({
     ol,
     ul {
         @apply text-size-18px py-5px my-5px;
+    }
+
+    ol {
+        display: block;
+        list-style-type: decimal;
+        padding-inline-start: 40px;
+    }
+
+    ul {
+        display: block;
+        list-style-type: disc;
+        padding-inline-start: 40px;
     }
 
     pre {

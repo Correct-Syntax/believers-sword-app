@@ -36,17 +36,17 @@ export default defineComponent({
             selectedNote,
             selectNote: (note: any) => {
                 store.state.notes.selectedNote = note;
-            },
+            }
         };
-    },
+    }
 });
 </script>
 <style lang="postcss">
 .note-lists-items {
-    @apply dark:hover:bg-gray-700 hover:bg-gray-300 p-7px w-[100%] border-l-[5px] dark:border-gray-700 border-gray-300 cursor-pointer rounded-r-md;
+    @apply dark:hover:bg-gray-700 hover:bg-gray-300 p-7px w-[100%] border-l-[5px] dark:border-opacity-0 border-opacity-0 dark:border-gray-700 border-gray-300 cursor-pointer rounded-r-md duration-100;
 
     &.selected-note {
-        @apply border-[var(--primaryColor)];
+        @apply border-[var(--primaryColor)] dark:bg-gray-600 bg-gray-400;
     }
 
     h1 {

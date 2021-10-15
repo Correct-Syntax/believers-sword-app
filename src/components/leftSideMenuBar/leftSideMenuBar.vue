@@ -26,10 +26,14 @@
                 <div class="tooltip">Play Games</div>
             </div>
         </div>
-        <div class="flex flex-col gap-10px">
+        <div class="flex flex-col justify-center items-center gap-10px">
+            <div class="icon-item heart-donate" :class="{ 'active-menu-bar-item': $route.path === '/donate' && readBibleIsSelected == false }" @click="selectRoute('/donate')">
+                <Icon name="heart" :size="23" />
+                <div class="tooltip">Donate / Support</div>
+            </div>
             <div class="icon-item heart-donate" :class="{ 'active-menu-bar-item': $route.path === '/about' && readBibleIsSelected == false }" @click="selectRoute('/about')">
-                <Icon name="heart" class="hover:text-yellow-400" :size="22" />
-                <div class="tooltip">About and Donate</div>
+                <Icon name="question" :size="23" />
+                <div class="tooltip">About</div>
             </div>
             <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/account' && readBibleIsSelected == false }" @click="selectRoute('/account')">
                 <Icon name="user" :size="20" />
@@ -73,9 +77,9 @@ export default defineComponent({
                 store.state.readBibleMenuSelected = false;
                 localStorage.setItem(storePathLocalKey, path);
                 router.push(path);
-            },
+            }
         };
-    },
+    }
 });
 </script>
 <style lang="postcss">
@@ -83,8 +87,10 @@ export default defineComponent({
     @apply fixed h-[100%] top-0 left-0 py-35px;
 
     .icon-item {
-        @apply flex justify-center items-center h-[30px] cursor-pointer text-size-18px dark:text-gray-400 text-gray-600 pl-5px border-l-[1px] dark:border-gray-800 border-[#fff];
-        .bx {
+        @apply flex justify-center items-center !w-[30px] !h-[30px] cursor-pointer text-size-18px dark:text-gray-400 text-gray-600 ml-4px duration-100 ml-5px;
+
+        .bx,
+        .codicon {
             @apply transform scale-110 duration-100  relative;
         }
 
@@ -100,7 +106,8 @@ export default defineComponent({
         &:hover {
             @apply dark:text-gray-300 text-gray-800;
 
-            .bx {
+            .bx,
+            .codicon {
                 @apply scale-125;
             }
 
@@ -116,13 +123,15 @@ export default defineComponent({
         }
 
         &.active-menu-bar-item {
-            @apply text-[var(--primaryColor)] border-l-[1px] border-[var(--primaryColor)];
-            .bx {
+            @apply dark:text-gray-900 text-gray-50 bg-[var(--primaryColor)] rounded-md duration-100;
+
+            .bx,
+            .codicon {
                 @apply scale-125;
             }
 
             &:hover {
-                @apply text-[var(--primaryColor)];
+                @apply dark:text-gray-900 text-gray-50;
             }
         }
     }
