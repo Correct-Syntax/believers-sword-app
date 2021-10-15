@@ -30,6 +30,8 @@ module.exports = {
                 'src/service/Notes',
                 'src/service/PrayerLists',
                 'src/service/Settings',
+                'src/service/GamesEvents',
+                "src/helper"
             ],
         }
     },

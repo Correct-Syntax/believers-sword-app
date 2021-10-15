@@ -1,3 +1,4 @@
+import { memoryFlipCardGameEvents } from "./GamesEvents/MemoryCardGame/MemoryCardGame";
 import { linkEvents } from "./linkEvents/linkEvents";
 import { prayerListEvents } from "./PrayerLists/PrayerListEventsMainEvents";
 import { ipcMainHighlightMarker } from "./ipcMainEvents/ipcMainHighlightMarker";
@@ -16,7 +17,7 @@ export const ipcMainEvents = (win: BrowserWindow) => {
     BibleEvents(win);
 
     // Bookmark Events
-    BookmarkEvents(win)
+    BookmarkEvents(win);
 
     // highlight Events
     ipcMainHighlightMarker(win);
@@ -32,4 +33,7 @@ export const ipcMainEvents = (win: BrowserWindow) => {
 
     // configuration events
     settingsEvents();
+
+    //memoryFlipCardGameEvents
+    memoryFlipCardGameEvents();
 };

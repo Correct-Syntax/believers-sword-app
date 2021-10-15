@@ -15,7 +15,7 @@
                 </div>
             </div>
         </div>
-        <div class="dark:bg-gray-900 bg-gray-50 px-[7px] py-[2px]">
+        <div class="dark:bg-gray-900 bg-gray-50 px-[7px] py-[2px] z-50">
             <Footer />
         </div>
     </div>
