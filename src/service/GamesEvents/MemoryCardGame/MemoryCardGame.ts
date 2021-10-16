@@ -1,4 +1,4 @@
-import { MemoryCardGameStore } from "./../../../helper/electronStore/MemoryCardGame";
+import { MemoryCardGameStore } from "../../ElectronStoreSchemma/MemoryCardGame";
 import { ipcMain } from "electron";
 import { ElectronLog } from "electron-log";
 const log: ElectronLog = require("electron-log");

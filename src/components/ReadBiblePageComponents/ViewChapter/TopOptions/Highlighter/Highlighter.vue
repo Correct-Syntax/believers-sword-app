@@ -13,7 +13,7 @@
                             highlightSelection('#FFD26A');
                             showPopover = false;
                         "
-                        style="color: yellow"
+                        style="color: #FFD26A"
                     >
                         <i class="bx bxs-square-rounded"></i>
                     </button>

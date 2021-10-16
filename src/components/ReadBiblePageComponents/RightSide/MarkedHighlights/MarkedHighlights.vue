@@ -76,13 +76,13 @@ export default defineComponent({
             let newData: any = [
                 {
                     label: "All - Select Book",
-                    value: "all",
-                },
+                    value: "all"
+                }
             ];
             bibleBooks.forEach((item: any) =>
                 newData.push({
                     label: item.n,
-                    value: item.b,
+                    value: item.b
                 })
             );
             return newData;
@@ -91,12 +91,7 @@ export default defineComponent({
         onMounted(() => {
             ipcRenderer.invoke("getBibleVerseHighlight").then((args: any) => {
                 const obj = store.state.marker.highlights;
-                if (
-                    obj &&
-                    Object.keys(obj).length === 0 &&
-                    Object.getPrototypeOf(obj) === Object.prototype
-                )
-                    store.dispatch("setHighlights", args);
+                if (obj && Object.keys(obj).length === 0 && Object.getPrototypeOf(obj) === Object.prototype) store.dispatch("setHighlights", args);
             });
         });
 
@@ -115,21 +110,21 @@ export default defineComponent({
                 goToVerse({
                     b: parseInt(verse.bookNumber),
                     c: parseInt(verse.chapterNumber),
-                    v: parseInt(verse.verseNumber),
+                    v: parseInt(verse.verseNumber)
                 });
             },
             options: computed(() => {
                 let newData: any = [
                     {
                         label: "All - Select Book",
-                        value: "all",
-                    },
+                        value: "all"
+                    }
                 ];
                 store.state.bible.bibleBooks.forEach((item: any) => {
                     if (item.n.toLowerCase().includes(valueRef.value.toLowerCase()) || valueRef.value === " " || valueRef.value === "" || valueRef.value === null) {
                         newData.push({
                             label: item.n,
-                            value: item.b,
+                            value: item.b
                         });
                     }
                 });
@@ -137,9 +132,9 @@ export default defineComponent({
             }),
             selectOption: (e: any) => {
                 searchBibleBook.value = e;
-            },
+            }
         };
-    },
+    }
 });
 </script>
 <style lang="postcss">

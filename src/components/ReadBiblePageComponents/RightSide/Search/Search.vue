@@ -12,7 +12,7 @@
                     </div>
                 </NButton>
             </div>
-            <div id="search-result-view" class="h-[100%] overflow-y-auto flex flex-col gap-7px">
+            <div id="search-result-view" class="h-[100%] overflow-y-auto overflowing-div flex flex-col gap-7px">
                 <div
                     class="cursor-pointer opacity-70 hover:opacity-100 p-7px"
                     v-for="result in searchResults"

@@ -1,3 +1,4 @@
+import { clipNoteEvents } from './clipNotes/clipNotes';
 import { memoryFlipCardGameEvents } from "./GamesEvents/MemoryCardGame/MemoryCardGame";
 import { linkEvents } from "./linkEvents/linkEvents";
 import { prayerListEvents } from "./PrayerLists/PrayerListEventsMainEvents";
@@ -36,4 +37,7 @@ export const ipcMainEvents = (win: BrowserWindow) => {
 
     //memoryFlipCardGameEvents
     memoryFlipCardGameEvents();
+
+    // clip Notes Events
+    clipNoteEvents();
 };

@@ -3,9 +3,10 @@
         <RightSideMenuBar />
         <div class="h-[100%] w-[100%]">
             <SearchTab v-show="tabValue === 'searchTab'" />
-            <SelectBibleVersions v-show="tabValue === 'versionsTab'" />
-            <Bookmarks v-show="tabValue === 'bookmarksTab'" />
-            <MarkedHighlights v-show="tabValue === 'MarkedHighlights'" />
+            <SelectBibleVersions v-if="tabValue === 'versionsTab'" />
+            <Bookmarks v-if="tabValue === 'bookmarksTab'" />
+            <MarkedHighlights v-if="tabValue === 'MarkedHighlights'" />
+            <ShowClipNotes v-if="tabValue === 'MyNotes'" />
         </div>
     </div>
 </template>
@@ -15,18 +16,20 @@ import SelectBibleVersions from "./SelectBibleVersions/SelectBibleVersions.vue";
 import SearchTab from "./Search/Search.vue";
 import Bookmarks from "./Bookmarks/Bookmarks.vue";
 import { useStore } from "vuex";
-import RightSideMenuBar from "@/components/rightSideMenuBar/rightSideMenuBar.vue";
-import MarkedHighlights from "./MarkedHighlights/MarkedHighlights.vue"
+import RightSideMenuBar from "@/components/ReadBiblePageComponents/RightSide/rightSideMenuBar/rightSideMenuBar.vue";
+import MarkedHighlights from "./MarkedHighlights/MarkedHighlights.vue";
+import ShowClipNotes from "./showClipNotes/showClipNotes.vue"
+
 export default defineComponent({
     name: "ReadBibleChapterRightSide",
-    components: { SelectBibleVersions, Bookmarks, SearchTab, RightSideMenuBar, MarkedHighlights },
+    components: { SelectBibleVersions, Bookmarks, SearchTab, RightSideMenuBar, MarkedHighlights, ShowClipNotes },
     setup() {
         const store = useStore();
         const tabValue = computed(() => store.state.rightMenuTab);
         return {
-            tabValue,
+            tabValue
         };
-    },
+    }
 });
 </script>
 <style lang="postcss">

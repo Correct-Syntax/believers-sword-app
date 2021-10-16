@@ -1,66 +1,76 @@
 <template>
     <div id="verses-view" class="my-20px mx-50px select-none">
-        <div
-            v-for="verse in viewBookChapter"
-            :key="verse.v"
-            class="verse-item relative cursor-pointer relative pr-80px"
-            :class="{
-                'item-bookmarked': checkIfVerseExistInBookmarkState(verse),
-                'item-saved-in-bookmark': checkIfVerseExistInSavedBookmarks(verse),
-                'saved-bookmark-selected': verse.b === selectedBookmark.b && verse.c === selectedBookmark.c && verse.v === selectedBookmark.v,
-            }"
-            @click="clickVerse(verse)"
-        >
-            <div class="item-bookmarked-dot invisible opacity-0 absolute right-[2px] top-[2px]">
-                <div class="text-[var(--primaryColor)]">
-                    <i class="bx bxs-circle"></i>
-                </div>
-            </div>
-            <div class="read-chapter-verse-number">
-                <span>{{ verse.v }}</span>
-                <span class="item-saved-in-bookmark-mark">
-                    <n-tooltip trigger="hover" placement="bottom-start">
-                        <template #trigger>
-                            <div>
-                                <i class="bx bx-bookmarks"></i>
-                            </div>
-                        </template>
-                        <div>This Verse is <b> Bookmarked</b></div>
-                    </n-tooltip>
-                </span>
-            </div>
-            <div v-if="verse.versions" class="w-[100%] max-w-1000px text-justify flex flex-col gap-15px">
-                <div v-for="version in verse.versions" :key="version.version">
-                    <div class="leading-relaxed" :style="`font-size: ${fontSize}px; `">
-                        <span class="verse-item-bible-version opacity-50 font-500 mr-7px">
-                            <i> {{ getVersion(version.version) }}</i>
-                        </span>
-                        <span
-                            class="verse-select-text cursor-text"
-                            :data-key="`${version.version}_${verse.b}_${verse.c}_${verse.v}`"
-                            :data-bible-version="version.version"
-                            :data-book="verse.b"
-                            :data-chapter="verse.c"
-                            :data-verse="verse.v"
-                            v-html="checkHighlight({ key: `${version.version}_${verse.b}_${verse.c}_${verse.v}`, orig: version.text })"
-                            contenteditable="true"
-                            spellcheck="false"
-                            @click.stop.prevent
-                        ></span>
+        <template v-for="verse in viewBookChapter" :key="verse.v">
+            <div
+                class="verse-item relative cursor-pointer relative pr-80px rounded-md"
+                :class="{
+                    'item-bookmarked': checkIfVerseExistInBookmarkState(verse),
+                    'item-saved-in-bookmark': checkIfVerseExistInSavedBookmarks(verse),
+                    'saved-bookmark-selected': verse.b === selectedBookmark.b && verse.c === selectedBookmark.c && verse.v === selectedBookmark.v,
+                    'dark:border-b-gray-300 border-b-gray-700':
+                        clipNotes[`${verse.b}_${verse.c}_${verse.v}`] && clipNotes[`${verse.b}_${verse.c}_${verse.v}`].color === 'default'
+                }"
+                :style="`${clipNotes[`${verse.b}_${verse.c}_${verse.v}`] ? 'border-bottom: 2px solid ' + clipNotes[`${verse.b}_${verse.c}_${verse.v}`].color : ''}`"
+                @click="clickVerse(verse)"
+            >
+                <div class="item-bookmarked-dot invisible opacity-0 absolute left-[5px] top-[5px]" title="Selected Verse">
+                    <div class="text-[var(--primaryColor)]">
+                        <i class="bx bxs-circle"></i>
                     </div>
                 </div>
-            </div>
-            <div class="verse-item-more-options absolute top-20px right-20px" @click.stop.prevent>
-                <NTooltip trigger="hover" size="small">
-                    <template #trigger>
-                        <div class="verse-item-more-options-item text-size-26px m-10px dark:text-gray-300 text-gray-100 cursor-pointer" @click="saveToBookmark(verse)">
-                            <i class="bx bx-bookmark-alt-plus"></i>
+                <div class="read-chapter-verse-number">
+                    <span>{{ verse.v }}</span>
+                    <span class="item-saved-in-bookmark-mark">
+                        <n-tooltip trigger="hover" placement="bottom-start">
+                            <template #trigger>
+                                <div>
+                                    <i class="bx bx-bookmarks"></i>
+                                </div>
+                            </template>
+                            <div>This Verse is <b> Bookmarked</b></div>
+                        </n-tooltip>
+                    </span>
+                </div>
+                <div v-if="verse.versions" class="w-[100%] max-w-1000px text-justify flex flex-col gap-15px">
+                    <div v-for="version in verse.versions" :key="version.version">
+                        <div class="leading-relaxed" :style="`font-size: ${fontSize}px; `">
+                            <span class="verse-item-bible-version opacity-50 font-500 mr-7px">
+                                <i> {{ getVersion(version.version) }}</i>
+                            </span>
+                            <span
+                                class="verse-select-text cursor-text"
+                                :data-key="`${version.version}_${verse.b}_${verse.c}_${verse.v}`"
+                                :data-bible-version="version.version"
+                                :data-book="verse.b"
+                                :data-chapter="verse.c"
+                                :data-verse="verse.v"
+                                v-html="checkHighlight({ key: `${version.version}_${verse.b}_${verse.c}_${verse.v}`, orig: version.text })"
+                                contenteditable="true"
+                                spellcheck="false"
+                                @click.stop.prevent
+                            ></span>
                         </div>
-                    </template>
-                    <span>Add to Bookmark</span>
-                </NTooltip>
+                    </div>
+                </div>
+                <div class="verse-item-more-options absolute top-10px right-20px text-size-24px" @click.stop.prevent>
+                    <NTooltip trigger="hover" size="small" placement="left">
+                        <template #trigger>
+                            <div class="verse-item-more-options-item  dark:text-gray-300 text-gray-100 cursor-pointer" @click="saveToBookmark(verse)">
+                                <i class="bx bx-bookmark-alt-plus"></i>
+                            </div>
+                        </template>
+                        <span>Add to Bookmark</span>
+                    </NTooltip>
+                    <NTooltip trigger="hover" size="small" placement="left">
+                        <template #trigger>
+                            <SaveClipNote :verse="{ b: verse.b, c: verse.c, v: verse.v }" />
+                        </template>
+                        <span>Clip A Note to This Verse</span>
+                    </NTooltip>
+                </div>
             </div>
-        </div>
+            <VerseClipNote :clipNote="clipNotes[`${verse.b}_${verse.c}_${verse.v}`]" :style="`font-size: ${fontSize - 2}px; `" />
+        </template>
     </div>
 </template>
 <script lang="ts">
@@ -68,12 +78,14 @@ import { computed, defineComponent, onMounted } from "vue";
 import { useStore } from "vuex";
 import { NTooltip, useMessage } from "naive-ui";
 import { ipcRenderer } from "electron";
-import _ from "lodash";
+import { cloneDeep } from "lodash";
+import SaveClipNote from "./SaveClipNote/SaveClipNote.vue";
+import VerseClipNote from "./SaveClipNote/verseClipNotes/verseClipNotes.vue";
 
 export default defineComponent({
     name: "VersesRender",
-    props: ["viewBookChapter", "fontSize"],
-    components: { NTooltip },
+    props: ["viewBookChapter", "fontSize", "clipNotes"],
+    components: { NTooltip, SaveClipNote, VerseClipNote },
     setup() {
         const store = useStore();
         const bibleBookMarkStore = computed(() => store.state.verseBookmark);
@@ -104,7 +116,7 @@ export default defineComponent({
                 b: verse.b,
                 c: verse.c,
                 v: verse.v,
-                versions: _.cloneDeep(verse.versions),
+                versions: cloneDeep(verse.versions)
             });
 
             ipcRenderer.invoke("saveVersesInBookmark", newBookMark).then((bookmarks: any) => {
@@ -116,12 +128,12 @@ export default defineComponent({
         onMounted(() => {
             setTimeout(() => {
                 const parentElement = document.getElementById("verses-view");
-                parentElement?.querySelectorAll("[contenteditable]").forEach((el) => {
-                    el.addEventListener("keydown", function (evt: any) {
+                parentElement?.querySelectorAll("[contenteditable]").forEach(el => {
+                    el.addEventListener("keydown", function(evt: any) {
                         if (evt.code === "KeyC") return true;
                         evt.preventDefault();
                     });
-                    el.addEventListener("drop", (event) => {
+                    el.addEventListener("drop", event => {
                         event.preventDefault();
                     });
                 });
@@ -130,7 +142,10 @@ export default defineComponent({
 
         const checkHighlight = ({ key, orig }: any) => {
             let marked = MarkerHighlights.value.highlights[key];
-            if (!marked) return String(orig).replace("<pb>", "").replace("<pb/>", "");
+            if (!marked)
+                return String(orig)
+                    .replace("<pb>", "")
+                    .replace("<pb/>", "");
             return marked.content;
         };
 
@@ -151,14 +166,14 @@ export default defineComponent({
             checkIfVerseExistInSavedBookmarks,
             selectedBookmark,
             saveToBookmark,
-            checkHighlight,
+            checkHighlight
         };
-    },
+    }
 });
 </script>
 <style lang="postcss">
 .verse-item {
-    @apply flex items-center justify-between w-[100%] gap-20px mb-20px cursor-default p-20px dark:bg-gray-100 bg-gray-800 dark:bg-opacity-0 bg-opacity-0 dark:hover:bg-opacity-3 hover:bg-opacity-5 border dark:border-gray-800 border-gray-50;
+    @apply flex items-center justify-between w-[100%] gap-20px mt-20px cursor-default p-20px dark:bg-gray-100 bg-gray-800 dark:bg-opacity-0 bg-opacity-0 dark:hover:bg-opacity-3 hover:bg-opacity-5 border dark:border-gray-800 border-gray-50;
 
     .verse-select-text {
         .imOnlyOne {
