@@ -316,7 +316,7 @@ export default defineComponent({
                     b: selectedVerse.value.b,
                     c: selectedVerse.value.c,
                     v: selectedVerse.value.v,
-                    book_name: selectedVerse.value.book_name,
+                    book_name: selectedVerse.value.bookName,
                     note: clipNoteInput.value
                 };
 
