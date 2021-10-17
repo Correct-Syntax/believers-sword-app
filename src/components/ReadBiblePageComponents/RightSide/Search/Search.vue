@@ -30,7 +30,7 @@
             </div>
             <div v-show="parseInt(searchResultCount / searchResultLimit) > 1" class="w-[100%] flex flex-col items-end gap-7px">
                 <div>Total Verse Result: {{ searchResultCount }}</div>
-                <n-pagination v-model:page="searchBiblePage" :page-count="parseInt(searchResultCount / searchResultLimit)" :page-slot="5" />
+                <NPagination v-model:page="searchBiblePage" :page-count="parseInt(searchResultCount / searchResultLimit)" :page-slot="5" />
             </div>
         </div>
     </div>

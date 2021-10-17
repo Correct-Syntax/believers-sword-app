@@ -89,11 +89,13 @@ export default defineComponent({
 
                 saveScrollTopState("selected-active", 0, "bookSelectionScrollTop");
                 setScrollTopState("chapter-selection", "chapterSelectionScrollTop", 1);
+                store.dispatch("setToggledClipNote", { b: number, c: 1 });
             },
             selectChapter: async (number: number) => {
                 store.state.bible.chapterSelected = number;
                 await store.dispatch("getBookInChapter", { bible: store.state.bible.bible, book: store.state.bible.bookSelected, chapter: store.state.bible.chapterSelected });
                 saveScrollTopState("selected-active", 1, "chapterSelectionScrollTop");
+                store.dispatch("setToggledClipNote", { b: bookSelected.value, c: number });
             },
             setBookNumber(number: any) {
                 return number < 9 ? "0" + number : number + "";

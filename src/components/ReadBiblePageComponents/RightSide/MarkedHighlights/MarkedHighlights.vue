@@ -10,7 +10,7 @@
             <template v-for="highlight in Highlights" :key="highlight.key">
                 <div
                     v-if="highlight.key && isVerseVersionChecked(highlight.bibleVersion)"
-                    class="mark-highlight-sidebar-item"
+                    class="mark-highlight-sidebar-item rounded-md"
                     :class="{ 'mark-highlight-sidebar-item-active': selectedHighlights === highlight.key }"
                     @click="clickHighlight(highlight)"
                 >

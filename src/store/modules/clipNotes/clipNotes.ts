@@ -3,6 +3,19 @@ export const clipNotes = {
         clipNotes: {},
         clipNotesInChapter: {},
         createClipNote: false,
-        selectedVerse: {}
+        selectedVerse: {},
+        deletedClipNote: {},
+        addedClipNote: {},
+        toggledClipNote: {}
+    },
+    mutations: {
+        setToggledClipNote(state: any, args: any): void {
+            state.toggledClipNote = args;
+        }
+    },
+    actions: {
+        setToggledClipNote(context: any, args: any): void {
+            context.commit("setToggledClipNote", args);
+        }
     }
 };

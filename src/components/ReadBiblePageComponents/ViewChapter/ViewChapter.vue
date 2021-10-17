@@ -46,7 +46,7 @@ export default defineComponent({
         const fontSize = computed(() => store.state.bible.viewChapterVersesFontSize);
         const selectedBookmark = computed(() => store.state.verseBookmark.selectedBookmark);
         const clipNotesInChapter = computed(() => store.state.clipNotes.clipNotesInChapter);
-        const chapterSelected = computed(() => store.state.bible.chapterSelected);
+        const toggledClipNote = computed(() => store.state.clipNotes.toggledClipNote);
 
         const getVersion = (table: string) => {
             let version = bibleStore.value.bibleVersions.filter((item: any) => item.table === table);
@@ -55,12 +55,14 @@ export default defineComponent({
 
         const getClipNotesInChapter = (book: number | string, chapter: number | string) => {
             ipcRenderer.invoke("getClipNotes", { b: book, c: chapter }).then((data: any) => {
-                store.state.clipNotes.clipNotesInChapter = data;
+                store.state.clipNotes.clipNotesInChapter = data.data;
             });
         };
 
-        watch(chapterSelected, () => {
-            getClipNotesInChapter(bibleStore.value.bookSelected, bibleStore.value.chapterSelected);
+        watch(toggledClipNote, (newValue, oldValue) => {
+            if (newValue.b != oldValue.b || newValue.c != oldValue.c) {
+                getClipNotesInChapter(bibleStore.value.bookSelected, bibleStore.value.chapterSelected);
+            }
         });
 
         watch(selectedBookmark, async () => {

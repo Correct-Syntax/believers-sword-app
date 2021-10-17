@@ -9,7 +9,7 @@
         <div v-if="Object.keys(savedBookmarks).length > 0" class="bookmarks-view-wrapper overflow-y-auto overflowing-div w-[100%]">
             <template v-for="bookmark in savedBookmarks" :key="bookmark.b_text + bookmark.b + bookmark.c + bookmark.v">
                 <div
-                    class="right-side-bookmark-saved-items"
+                    class="right-side-bookmark-saved-items rounded-md"
                     :class="{
                         'right-side-bookmark-selected': bookmark.b === selectedBookmark.b && bookmark.c === selectedBookmark.c && bookmark.v === selectedBookmark.v,
                     }"

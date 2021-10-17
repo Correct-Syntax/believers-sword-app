@@ -68,3 +68,30 @@ button:focus {
     }
 }
 
+ol,
+ul {
+    padding: 5px 0px 5px 0px !important;
+    margin: 5px 0px 5px 0px !important;
+}
+
+ol {
+    display: block !important;
+    list-style-type: decimal !important;
+    padding-inline-start: 30px !important;
+}
+
+ul {
+    display: block !important;
+    list-style-type: disc !important;
+    padding-inline-start: 30px !important;
+}
+
+pre {
+    @apply text-size-18px dark:bg-dark-900 bg-gray-700 py-10px px-10px dark:text-gray-300 text-gray-100 rounded-md font-mono m-0;
+
+    code {
+        color: inherit;
+        padding: 0;
+        background: none;
+    }
+}

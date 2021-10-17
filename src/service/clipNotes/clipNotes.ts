@@ -10,13 +10,36 @@ export const clipNoteEvents = (): void => {
     ipcMain.handle("getClipNotes", async (event, args) => {
         try {
             let result = storeDB.select().from("clip_notes");
-            if (args && args.b) result.where("b", args.b);
-            if (args && args.c) result.where("c", args.c);
-            if (args && args.v) result.where("v", args.v);
+            let count = storeDB.select().from("clip_notes");
+            if (args && args.b) {
+                result.where("b", args.b);
+                count.where("b", args.b);
+            }
+            if (args && args.c) {
+                result.where("c", args.c);
+                count.where("c", args.c);
+            }
+            if (args && args.v) {
+                result.where("v", args.v);
+                count.where("v", args.v);
+            }
+            if (args && args.limit) result.limit(args.limit);
+            if (args && args.offset) result.offset(args.offset);
+            if (args && args.orderBy) result.orderBy(args.orderBy);
 
-            return await result.then((rows: Array<any>) => {
+            result.orderBy("c");
+            result.orderBy("v");
+
+            let data = await result.then((rows: Array<any>) => {
                 return rows.length > 0 ? rows.reduce((acc: any, curr: any) => ((acc[`${curr.b}_${curr.c}_${curr.v}`] = curr), acc), {}) : {};
             });
+
+            let getCount = await count.count("id as count").then((data: any) => data[0].count);
+
+            return {
+                data: data,
+                count: getCount
+            };
         } catch (e) {
             if (e instanceof Error) {
                 log.error(e.message);
@@ -47,7 +70,7 @@ export const clipNoteEvents = (): void => {
                     })
                     .update({
                         color: args.color ? args.color : "default",
-                        note: args.notes
+                        note: args.note
                     })
                     .then((raw: any) => raw);
             } else {
@@ -65,8 +88,19 @@ export const clipNoteEvents = (): void => {
         }
     });
 
-    ipcMain.handle("deleteClipNote", (event, args) => {
+    ipcMain.handle("deleteClipNote", async (event, args) => {
         try {
+            if (args && args.b && args.c && args.v) {
+                let result = storeDB("clip_notes")
+                    .where({ b: args.b, c: args.c, v: args.v })
+                    .delete();
+
+                return await result.then((row: Array<any> | number) => {
+                    return row;
+                });
+            }
+
+            return false;
         } catch (e) {
             if (e instanceof Error) {
                 log.error(e.message);
