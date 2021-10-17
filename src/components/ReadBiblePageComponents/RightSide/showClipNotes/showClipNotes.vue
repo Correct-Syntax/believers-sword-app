@@ -85,6 +85,16 @@ export default defineComponent({
             getClipNotes();
         });
 
+        function ObjectLength(object: any | Record<string, unknown>) {
+            var length = 0;
+            for (var key in object) {
+                if (key) {
+                    ++length;
+                }
+            }
+            return length;
+        }
+
         watch(page, () => getClipNotes());
         watch(deletedClipNote, () => getClipNotes());
         watch(addedClipNote, () => getClipNotes());
@@ -98,8 +108,10 @@ export default defineComponent({
             ipcRenderer
                 .invoke("deleteClipNote", verse)
                 .then(() => {
-                    store.state.clipNotes.deletedClipNote = verse;
                     delete store.state.clipNotes.clipNotesInChapter[`${verse.b}_${verse.c}_${verse.v}`];
+                    if (ObjectLength(clipNotes.data) === 1 && page.value > 0) {
+                        page.value -= 1;
+                    }
                 })
                 .catch((e: Error) => console.log(e.message));
         };

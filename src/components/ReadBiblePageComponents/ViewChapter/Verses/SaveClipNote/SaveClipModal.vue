@@ -22,116 +22,13 @@
             </NRadioGroup>
         </div>
     </div>
-    <div>
+    <div class="clip-note-create-modal">
         <h1 class="font-700">Clip Note</h1>
         <NAlert v-show="alertShow" size="small" :title="alertText" type="error" />
         <small>This will be the note that will be written on the paper to be clipped on selected verse.</small>
-        <div class="bg-black bg-opacity-20 h-[200px] pl-20ox">
+        <div class="bg-black bg-opacity-20 h-[200px] rounded-md flex flex-col pb-10px">
             <div v-if="editor" class="note-format-buttons flex flex-row items-center justify-between text-size-18px py-5px px-5px dark:bg-black dark:bg-opacity-10">
                 <div class="flex flex-row items-center">
-                    <div>
-                        <NPopover placement="bottom" trigger="hover">
-                            <template #trigger>
-                                <button
-                                    class="text-size-20px opacity-50 hover:opacity-95 cursor-pointer flex items-center"
-                                    title="Headings"
-                                    :class="{
-                                        'is-active':
-                                            editor.isActive('heading', { level: 1 }) ||
-                                            editor.isActive('heading', { level: 2 }) ||
-                                            editor.isActive('heading', { level: 3 }) ||
-                                            editor.isActive('heading', { level: 4 }) ||
-                                            editor.isActive('heading', { level: 5 }) ||
-                                            editor.isActive('heading', { level: 6 })
-                                    }"
-                                >
-                                    <i class="bx bx-heading -mr-5px"></i>
-                                    <i class="bx bx-expand-alt rotate-135 transform !text-size-15px"></i>
-                                </button>
-                            </template>
-                            <span class="outside-external-note-button flex flex-col whitespace-nowrap text-size-18px">
-                                <button
-                                    class="text-size-32px"
-                                    @click="
-                                        editor
-                                            .chain()
-                                            .focus()
-                                            .toggleHeading({ level: 1 })
-                                            .run()
-                                    "
-                                    :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
-                                >
-                                    <i class="bx bx-heading"></i>1
-                                </button>
-                                <button
-                                    class="text-size-28px"
-                                    @click="
-                                        editor
-                                            .chain()
-                                            .focus()
-                                            .toggleHeading({ level: 2 })
-                                            .run()
-                                    "
-                                    :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
-                                >
-                                    <i class="bx bx-heading"></i>2
-                                </button>
-                                <button
-                                    class="text-size-25px"
-                                    @click="
-                                        editor
-                                            .chain()
-                                            .focus()
-                                            .toggleHeading({ level: 3 })
-                                            .run()
-                                    "
-                                    :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
-                                >
-                                    <i class="bx bx-heading"></i>3
-                                </button>
-                                <button
-                                    class="text-size-20px"
-                                    @click="
-                                        editor
-                                            .chain()
-                                            .focus()
-                                            .toggleHeading({ level: 4 })
-                                            .run()
-                                    "
-                                    :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
-                                >
-                                    <i class="bx bx-heading"></i>4
-                                </button>
-                                <button
-                                    class="text-size-18px"
-                                    @click="
-                                        editor
-                                            .chain()
-                                            .focus()
-                                            .toggleHeading({ level: 5 })
-                                            .run()
-                                    "
-                                    :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
-                                >
-                                    <i class="bx bx-heading"></i>5
-                                </button>
-                                <button
-                                    class="text-size-16px"
-                                    @click="
-                                        editor
-                                            .chain()
-                                            .focus()
-                                            .toggleHeading({ level: 6 })
-                                            .run()
-                                    "
-                                    :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
-                                >
-                                    <i class="bx bx-heading"></i>6
-                                </button>
-                            </span>
-                        </NPopover>
-                    </div>
-                    <span class="dark:bg-gray-600 bg-gray-400 w-5px h-5px rounded-md mx-10px rounded-1"></span>
                     <div class="flex flex-row">
                         <button
                             title="Normal Text"
@@ -317,7 +214,7 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from "vue";
-import { NRadioGroup, NSpace, NRadio, NButton, NAlert, NPopover } from "naive-ui";
+import { NRadioGroup, NSpace, NRadio, NButton, NAlert } from "naive-ui";
 import { useStore } from "vuex";
 import { ipcRenderer } from "electron";
 import StarterKit from "@tiptap/starter-kit";
@@ -332,8 +229,7 @@ export default defineComponent({
         NSpace,
         NRadio,
         NButton,
-        NAlert,
-        NPopover
+        NAlert
     },
     setup() {
         const store = useStore();
@@ -348,7 +244,6 @@ export default defineComponent({
             onUpdate: ({ editor }) => {
                 const content = editor.getHTML();
                 clipNoteInput.value = content;
-                console.log(clipNoteInput.value);
             }
         });
         const clipColorOptions = [
@@ -388,6 +283,7 @@ export default defineComponent({
 
         onMounted(() => {
             if (selectedVerse.value.note) {
+                clipNoteInput.value = selectedVerse.value.note;
                 editor.value?.commands.setContent(selectedVerse.value.note);
             }
         });
@@ -417,7 +313,9 @@ export default defineComponent({
 
                 const dataToAdd = {
                     color: clipColorSelected.value,
-                    ...store.state.clipNotes.selectedVerse,
+                    b: selectedVerse.value.b,
+                    c: selectedVerse.value.c,
+                    v: selectedVerse.value.v,
                     note: clipNoteInput.value
                 };
 
@@ -435,7 +333,6 @@ export default defineComponent({
 });
 </script>
 <style lang="scss">
-.asdf {
-    color: #1d1d1d;
+.clip-note-create-modal {
 }
 </style>

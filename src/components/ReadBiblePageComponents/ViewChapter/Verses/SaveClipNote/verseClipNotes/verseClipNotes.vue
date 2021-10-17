@@ -51,7 +51,7 @@ export default defineComponent({
     }
 });
 </script>
-<style lang="scss">
+<style lang="postcss">
 .clipNote-Body {
     .trash-button-clipNote {
         @apply opacity-0 invisible;

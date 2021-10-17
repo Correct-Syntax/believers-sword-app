@@ -70,7 +70,7 @@ export default defineComponent({
             setTimeout(() => {
                 let el = document.getElementsByClassName("saved-bookmark-selected")[0];
                 if (el instanceof HTMLElement) {
-                    if (viewChapterVerseElement) viewChapterVerseElement.scrollTop = el.offsetTop ? el.offsetTop : 0;
+                    if (viewChapterVerseElement) viewChapterVerseElement.scrollTop = el.offsetTop ? el.offsetTop - 30 : 0;
                 }
             }, 200);
         });
