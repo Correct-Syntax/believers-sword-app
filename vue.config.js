@@ -17,7 +17,10 @@ module.exports = {
                     oneClick: false,
                     allowToChangeInstallationDirectory: true,
                 },
-                extraResources: ['database/', process.env.DEVELOPMENT_MODE === 'true' ? 'store/' : 'store_dev'],
+                extraResources: [
+                    'database/',
+                    process.env.DEVELOPMENT_MODE === 'true' ? 'store/' : 'store_dev/'
+                ],
                 publish: ['github']
             },
             externals: ['knex', 'sqlite3'],
@@ -30,6 +33,9 @@ module.exports = {
                 'src/service/Notes',
                 'src/service/PrayerLists',
                 'src/service/Settings',
+                'src/service/GamesEvents',
+                "src/helper",
+                "src/service/clipNotes"
             ],
         }
     },

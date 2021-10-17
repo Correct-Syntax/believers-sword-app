@@ -1,51 +1,70 @@
 <template>
     <div class="h-[100%] p-20px overflow-y-auto overflowing-div scroll-bar-sm">
         <div class="max-w-700px w-[100%] mx-auto">
-            <h1 class="text-size-34px font-700 text-center py-30px">Thank You for Trying This application! 🥰</h1>
+            <h1 class="text-size-34px font-700 text-center py-30px">About the Application</h1>
         </div>
         <div class="max-w-700px w-[100%] mx-auto">
             <div class="text-size-18px leading-normal">
                 <div class="mb-20px">
-                    <img class="rounded-md float-right m-10px" src="./../../assets/images/me.png" width="300" />
-                    Hi! I am
-                    <span @click="clickLink(`https://jenuelganawed.com`, true, 'Jenuel Oras Ganawed')" class="cursor-pointer hover:underline text-[var(--primaryColor)]">
-                        <b>Jenuel Oras Ganawed</b>
-                    </span>
-                    or call me Bro Jenuel/Mister J. and I am the creator of this application. <br /><br />
+                    <div>
+                        <img
+                            class="rounded-md float-left mx-10px cursor-pointer"
+                            src="./../../assets/images/me.png"
+                            width="230"
+                            @click="clickLink(`https://jenuelganawed.com`, true, 'Jenuel Oras Ganawed')"
+                        />
+                        Hi! I am
+                        <span @click="clickLink(`https://jenuelganawed.com`, true, 'Jenuel Oras Ganawed')" class="cursor-pointer hover:underline text-[var(--primaryColor)]">
+                            <b>Jenuel Oras Ganawed</b>
+                        </span>
+                        or call me Bro Jenuel/Mister J. and I am the creator of this application. I am so very thankful that you decided to try this application, as a developer I
+                        am very much happy when people starts using this application.<br /><br />
 
-                    I created this application because I like to use my talent in the ministry. I am putting the features that I like, and I am open for any suggestions to make the
-                    app better.<br /><br />
+                        I created this application because I like to use my talent in the ministry. I am putting the features that I like, and I am open for any suggestions to make
+                        the app better.
+                    </div>
 
-                    "Believers App" is a simple and an amazing application that helps you study the bible in an enjoyable and enriching manner. <br />
-                    <br />This app is not Bad or Good its <span class="font-700 dark:text-yellow-300 text-yellow-600">"Sakto Lang"</span> (a pilipino term for
-                    <span class="italic font-600">`just right`</span>). I am praying that this simple bible right here will help you study the bible.
+                    <Divider />
+
+                    <div>
+                        <span class="text-[var(--primaryColor)] font-600">"Believers Sword"</span> is simple and I hope that it will be an amazing application that helps you study
+                        the bible in an enjoyable and enriching manner.
+
+                        <br /><br />
+                        I called it sword, because I believe that when you read the bible and understand what is written, that is the time it becomes a sword. Reading with no
+                        understanding will not become a sword. And to use the sword we have to follow what is written in the Sword/Bible. Example, It is written in the sword
+                        that you should pray, so if ye pray, you are using the sword. The bible says obey your parents in the lord, so if we obey our parents, we are using the
+                        sword. And many more.
+
+                        <br /><br />
+                        But always be careful, use the sword in a right way.
+                    </div>
+
+                    <Divider />
+                    Here are the things that you can do in this application, <span class="italic font-500">more awesome features will be coming soon</span>:
+                    <ul class="pl-20px pt-10px pb-50px">
+                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Read The Bible</li>
+                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Create Prayer List</li>
+                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Bookmarking</li>
+                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Highlighting/Marking phrases with different colors</li>
+                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Search The Bible</li>
+                        <li>
+                            <i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Open multiple Versions
+                            <i class="font-100">(Downloading Other Version will be coming soon)</i>
+                        </li>
+                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Set preferred Primary Colors in Settings</li>
+                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Dark and Light theme</li>
+                    </ul>
+
+                    This app is not Bad or Good its <span class="font-700 text-[var(--primaryColor)]">"Sakto Lang"</span> (a pilipino term for
+                    <span class="italic font-600">`just right`</span>). I am praying that this simple bible studying software will help you study the bible.
+                    <Divider />
                 </div>
-
-                <NAlert title="This App Absolutely Free" type="warning">
-                    I am sharing this application to you for <b>FREE</b>. That means selling a copy of this application is forbidden. The word of God is free, so I am forbidding
-                    anyone selling a copy.
-                </NAlert>
-                <br />
-                If this ministry blesses you, and like to join me. You can <b>Support</b> this application financially, you can donate by selecting any of the choices bellow. Even
-                if you donate or not, this application is always free on the internet.
             </div>
         </div>
-        <div class="max-w-1500px w-[100%] mx-auto flex flex-wrap justify-center mt-50px gap-30px">
-            <button class="rounded-xl overflow-hidden" @click="clickLink('https://www.paypal.com/donate?hosted_button_id=PMZEYH8NSYU9G', true, 'Donate To BroJenuel')">
-                <span class="text-size-24px font-600">Debit/Credit</span>
-                <img src="./../../assets/images/donate.png" alt="" width="400" />
-            </button>
-            <button class="rounded-xl overflow-hidden">
-                <img
-                    src="./../../assets/images/gcash.jpg"
-                    @click="clickLink('https://i.ibb.co/kJGg32y/GCash-My-QR-06102021230745.png', true, 'Donate To BroJenuel')"
-                    alt=""
-                    width="325"
-                />
-            </button>
-        </div>
-        <hr class="my-40px opacity-30" />
-        <div class="max-w-700px w-[100%] mx-auto">
+        <DonateComponent :textWidth="700" />
+        <hr v-show="false" class="my-40px opacity-30" />
+        <div v-show="false" class="max-w-700px w-[100%] mx-auto">
             <h1 class="text-size-18px font-700">Are you a developer?</h1>
             <p>
                 If your a developer and like or love to help in the development, you can FORK this
@@ -62,9 +81,10 @@
 <script lang="ts">
 import { ipcRenderer } from "electron";
 import { defineComponent } from "vue";
-import { NAlert } from "naive-ui";
+import DonateComponent from "@/components/Donate/Donate.vue";
+import Divider from "@/components/Divider/Divider.vue";
 export default defineComponent({
-    components: { NAlert },
+    components: { DonateComponent, Divider },
     setup() {
         return {
             clickLink: (link: string, newWindow: false, title: "Believers Sword App") => {
@@ -72,8 +92,8 @@ export default defineComponent({
                 params.title = title;
                 if (newWindow) params["windowed"] = true;
                 ipcRenderer.send("clickExternalLink", params);
-            },
+            }
         };
-    },
+    }
 });
 </script>

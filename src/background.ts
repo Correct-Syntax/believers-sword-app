@@ -1,5 +1,5 @@
 "use strict";
-import { appSettingsStore } from "./helper/electronStore/SettingSchema";
+import { appSettingsStore } from "./service/ElectronStoreSchemma/SettingSchema";
 import { AutoUpdaterEvents } from "./service/AutoUpdater/AutoUpdaterMainProcessEvent";
 import { app, protocol, BrowserWindow, Menu, MenuItem, screen } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";

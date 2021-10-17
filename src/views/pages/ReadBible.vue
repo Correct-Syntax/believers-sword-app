@@ -16,7 +16,8 @@
                     <div class="h-[100%] flex flex-col">
                         <div
                             id="expanding-this"
-                            class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center select-none flex items-center"
+                            class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center select-none flex items-center duration-200"
+                            :class="{'!text-[var(--primaryColor)] font-900':toggledMakeNote}"
                         >
                             <div class="mr-10px transform duration-150" :class="{ '-rotate-90': !toggledMakeNote }">
                                 <span class="codicon codicon-chevron-down"></span>
@@ -75,7 +76,7 @@ export default defineComponent({
                 direction: "vertical",
                 minSize: [200, 20],
                 sizes: VerticalSizes ? JSON.parse(VerticalSizes) : [100, 0],
-                snapOffset: 0,
+                snapOffset: 20,
                 onDragStart: () => {
                     isOnDragVerticalSplit.value = true;
                 },
@@ -83,6 +84,13 @@ export default defineComponent({
                     return {
                         height: `0px`,
                     };
+                },
+                onDrag: (sizes) => {
+                    if (sizes[1] < 5) {
+                        toggledMakeNote.value = false
+                    } else {
+                        toggledMakeNote.value = true
+                    }
                 },
                 // eslint-disable-next-line
                 elementStyle: (dimension, size) => {

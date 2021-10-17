@@ -1,4 +1,4 @@
-import { appSettingsStore } from "../../helper/electronStore/SettingSchema";
+import { appSettingsStore } from "../ElectronStoreSchemma/SettingSchema";
 import { BrowserWindow, ipcMain, screen } from "electron";
 
 const minimizeWindow = (win: any) => {

@@ -29,7 +29,6 @@
 
 * {
     scrollbar-width: thin;
-    scrollbar-color: var(--lightestPrimary) #cccccc;
     scroll-behavior: smooth;
 }
 
@@ -41,6 +40,10 @@
     &:hover {
         &::-webkit-scrollbar-thumb {
             background-color: var(--scrollbar-color-on-hover);
+
+            &:hover {
+                background-color: var(--primaryColor);
+            }
         }
     }
 }

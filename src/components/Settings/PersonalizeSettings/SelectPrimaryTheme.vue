@@ -1,18 +1,23 @@
 <template>
-    <h1 class="font-700">Select Primary Color</h1>
-    <div class="pl-20px">
-        <NRadioGroup v-model:value="ThemeSelected" size="medium" :on-update:value="onSelectTheme">
-            <NSpace vertical>
-                <NRadio v-for="theme in themeOptions" :key="theme.key" :value="theme.value">
-                    <span class="flex items-center gap-7px">
-                        <span>
-                            {{ theme.label }}
+    <div>
+        <h1 class="font-700">Select Primary Color</h1>
+        <div class="pl-20px">
+            <NRadioGroup v-model:value="ThemeSelected" size="medium" :on-update:value="onSelectTheme">
+                <NSpace vertical>
+                    <NRadio v-for="theme in themeOptions" :key="theme.key" :value="theme.value" size="large">
+                        <span class="flex items-center gap-7px">
+                            <span>
+                                {{ theme.label }}
+                            </span>
+                            <span
+                                class="text-size-20px w-50px h-20px rounded-md"
+                                :style="`background-color: ${isThemeDark ? theme.primaryColorDark : theme.primaryColorLight}`"
+                            ></span>
                         </span>
-                        <span class="text-size-20px w-50px h-20px rounded-md" :style="`background-color: ${isThemeDark ? theme.primaryColorDark : theme.primaryColorLight}`"></span>
-                    </span>
-                </NRadio>
-            </NSpace>
-        </NRadioGroup>
+                    </NRadio>
+                </NSpace>
+            </NRadioGroup>
+        </div>
     </div>
 </template>
 <script lang="ts">
@@ -85,3 +90,8 @@ export default defineComponent({
     }
 });
 </script>
+<style lang="scss">
+    .asdf {
+        color: rgb(42, 148, 125);
+    }
+</style>

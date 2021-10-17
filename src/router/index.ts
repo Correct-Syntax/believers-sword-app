@@ -37,6 +37,11 @@ export const routes: Array<RouteRecordRaw> = [
         name: "Games",
         component: () => import("@/views/pages/Games.vue"),
         children: GamesRoute
+    },
+    {
+        path: "/donate",
+        name: "Donate",
+        component: () => import("@/views/pages/Donate.vue")
     }
 ];
 

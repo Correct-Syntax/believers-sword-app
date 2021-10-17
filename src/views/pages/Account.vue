@@ -8,7 +8,7 @@
                 <div class="w-[100%] max-w-[300px]">
                     Hi! This Page is Under Contraction and It will come soon.
                     <div>
-                        I just want to let you know that this page, is where you can manage you accounts.
+                        I just want to let you know that this page, is where you can manage you accounts, Im planning to save your settings on the cloud so that whenever you install this application in other computers. That means your settings, highlights, bookmarks, etc. will be saved.
                     </div>
                 </div>
             </template>

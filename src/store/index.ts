@@ -1,3 +1,4 @@
+import { clipNotes } from './modules/clipNotes/clipNotes';
 import { prayerList } from './modules/prayerList/prayerList';
 import { markerHighLights } from './modules/markerHighlights/markerHighlights';
 import { appUpdate } from './modules/appUpdate/index';
@@ -27,6 +28,7 @@ export default createStore({
         appUpdate: appUpdate,
         marker: markerHighLights,
         notes: notes,
-        prayerList: prayerList
+        prayerList: prayerList,
+        clipNotes: clipNotes
     }
 });

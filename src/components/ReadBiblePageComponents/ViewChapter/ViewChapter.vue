@@ -1,10 +1,7 @@
 <template>
     <div id="view-chapter-component" class="h-[100%] w-[100%]">
         <div id="view-chapter-component-wrapper" class="h-[100%] w-[100%] flex">
-            <div
-                id="view-chapter-left-side-bar"
-                class="h-[100%] w-[100%] relative"
-            >
+            <div id="view-chapter-left-side-bar" class="h-[100%] w-[100%] relative">
                 <div class="h-[100%] w-[100%] relative">
                     <div class="h-[var(--view-chapter-top-width)] shadow-md">
                         <TopOptionsBar />
@@ -18,7 +15,7 @@
                             </div>
                             <div class="h-[100%] flex justify-center relative">
                                 <div class="flex justify-center">
-                                    <VersesRender :viewBookChapter="bibleStore.viewBookChapter" :fontSize="fontSize" />
+                                    <VersesRender :viewBookChapter="bibleStore.viewBookChapter" :fontSize="fontSize" :clipNotes="clipNotesInChapter" />
                                 </div>
                             </div>
                             <div class="absolute right-30px top-[50%] text-size-30px z-50">
@@ -39,6 +36,7 @@ import { useStore } from "vuex";
 import session from "@/service/session/session";
 import VersesRender from "@/components/ReadBiblePageComponents/ViewChapter/Verses/Verses.vue";
 import TopOptionsBar from "@/components/ReadBiblePageComponents/ViewChapter/TopOptions/TopOptions.vue";
+import { ipcRenderer } from "electron";
 
 export default defineComponent({
     components: { VersesRender, TopOptionsBar },
@@ -47,18 +45,32 @@ export default defineComponent({
         const bibleStore = computed(() => store.state.bible);
         const fontSize = computed(() => store.state.bible.viewChapterVersesFontSize);
         const selectedBookmark = computed(() => store.state.verseBookmark.selectedBookmark);
+        const clipNotesInChapter = computed(() => store.state.clipNotes.clipNotesInChapter);
+        const toggledClipNote = computed(() => store.state.clipNotes.toggledClipNote);
 
         const getVersion = (table: string) => {
             let version = bibleStore.value.bibleVersions.filter((item: any) => item.table === table);
             return version ? version[0]?.abbreviation : "NONE";
         };
 
+        const getClipNotesInChapter = (book: number | string, chapter: number | string) => {
+            ipcRenderer.invoke("getClipNotes", { b: book, c: chapter }).then((data: any) => {
+                store.state.clipNotes.clipNotesInChapter = data.data;
+            });
+        };
+
+        watch(toggledClipNote, (newValue, oldValue) => {
+            if (newValue.b != oldValue.b || newValue.c != oldValue.c) {
+                getClipNotesInChapter(bibleStore.value.bookSelected, bibleStore.value.chapterSelected);
+            }
+        });
+
         watch(selectedBookmark, async () => {
             let viewChapterVerseElement = document.getElementById("view-chapter-verse");
             setTimeout(() => {
                 let el = document.getElementsByClassName("saved-bookmark-selected")[0];
                 if (el instanceof HTMLElement) {
-                    if (viewChapterVerseElement) viewChapterVerseElement.scrollTop = el.offsetTop ? el.offsetTop : 0;
+                    if (viewChapterVerseElement) viewChapterVerseElement.scrollTop = el.offsetTop ? el.offsetTop - 30 : 0;
                 }
             }, 200);
         });
@@ -69,9 +81,11 @@ export default defineComponent({
                 const scrollTop = session.get("viewChapterVerseScrollTop");
                 if (viewChapterVerseElement) viewChapterVerseElement.scrollTop = scrollTop ? scrollTop : 0;
             }, 300);
+            getClipNotesInChapter(bibleStore.value.bookSelected, bibleStore.value.chapterSelected);
         });
 
         return {
+            clipNotesInChapter,
             bibleStore,
             async clickPointer(action: string) {
                 let chapterCount = action === "next" ? bibleStore.value.chapterSelected + 1 : bibleStore.value.chapterSelected - 1;
@@ -88,24 +102,24 @@ export default defineComponent({
             popSelectOptions: [
                 {
                     label: "<b>sdf</b>Go Let It Out",
-                    value: "Go Let It Out",
+                    value: "Go Let It Out"
                 },
                 {
                     label: "Who Feels Love?",
-                    value: "Who Feels Love?",
+                    value: "Who Feels Love?"
                 },
                 {
                     label: "Sunday Morning Call",
                     value: "Sunday Morning Call",
-                    disabled: true,
+                    disabled: true
                 },
                 {
                     label: "Roll It Over",
-                    value: "Roll It Over",
-                },
-            ],
+                    value: "Roll It Over"
+                }
+            ]
         };
-    },
+    }
 });
 </script>
 <style lang="postcss">

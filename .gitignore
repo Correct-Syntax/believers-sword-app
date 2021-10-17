@@ -40,3 +40,4 @@ BiblesToBeAddedOrEdited
 store_dev
 /**/*.exe
 /**/*.nupkg
+store
