@@ -19,7 +19,7 @@ module.exports = {
                 },
                 extraResources: [
                     'database/',
-                    process.env.DEVELOPMENT_MODE === 'true' ? 'store/' : 'store_dev/'
+                    'store/'
                 ],
                 publish: ['github']
             },
