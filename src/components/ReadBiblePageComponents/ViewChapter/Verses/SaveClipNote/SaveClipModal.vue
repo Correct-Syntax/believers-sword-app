@@ -316,6 +316,7 @@ export default defineComponent({
                     b: selectedVerse.value.b,
                     c: selectedVerse.value.c,
                     v: selectedVerse.value.v,
+                    book_name: selectedVerse.value.book_name,
                     note: clipNoteInput.value
                 };
 
@@ -332,7 +333,3 @@ export default defineComponent({
     }
 });
 </script>
-<style lang="scss">
-.clip-note-create-modal {
-}
-</style>
