@@ -11,7 +11,7 @@
             <div v-html="clipNote.note"></div>
             <NPopconfirm @positive-click="deleteClipNote()">
                 <template #trigger>
-                    <span class="trash-button-clipNote absolute right-10px top-3px cursor-pointer"><i class="bx bx-trash-alt"></i></span>
+                    <span class="trash-button-clipNote absolute left-10px bottom-3px cursor-pointer"><i class="bx bx-trash-alt"></i></span>
                 </template>
                 Are you sure to delete this Clip Note?
             </NPopconfirm>
@@ -51,16 +51,3 @@ export default defineComponent({
     }
 });
 </script>
-<style lang="postcss">
-.clipNote-Body {
-    .trash-button-clipNote {
-        @apply opacity-0 invisible;
-    }
-
-    &:hover {
-        .trash-button-clipNote {
-            @apply opacity-100 visible;
-        }
-    }
-}
-</style>

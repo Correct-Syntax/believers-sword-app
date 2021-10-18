@@ -13,14 +13,14 @@
         </div>
 
         <div class="max-w-1500px w-[100%] mx-auto flex flex-wrap justify-center mt-50px gap-30px ">
-            <button class="rounded-xl overflow-hidden" @click="clickLink('https://www.paypal.com/donate?hosted_button_id=PMZEYH8NSYU9G', true, 'Donate To BroJenuel')">
+            <button class="rounded-xl overflow-hidden" @click="clickLink('https://www.paypal.com/donate?hosted_button_id=PMZEYH8NSYU9G', false, 'Donate To BroJenuel')">
                 <span class="text-size-24px font-600">Debit/Credit</span>
                 <img src="./../../assets/images/donate.png" alt="" width="400" />
             </button>
             <button class="rounded-xl overflow-hidden">
                 <img
                     src="./../../assets/images/gcash.jpg"
-                    @click="clickLink('https://i.ibb.co/kJGg32y/GCash-My-QR-06102021230745.png', true, 'Donate To BroJenuel')"
+                    @click="clickLink('https://i.ibb.co/kJGg32y/GCash-My-QR-06102021230745.png', false, 'Donate To BroJenuel')"
                     alt=""
                     width="325"
                 />
