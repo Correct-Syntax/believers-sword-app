@@ -66,7 +66,7 @@
             </NTooltip>
         </div>
     </div>
-    <VerseClipNote :clipNote="clipNote" :style="`font-size: ${fontSize - 2}px; `" />
+    <VerseClipNote class="verse-clip-note" :clipNote="clipNote" :verse="clipNote ? clipNote : { b: verse.b, c: verse.c, v: verse.v }" :style="`font-size: ${fontSize - 2}px; `" />
 </template>
 <script lang="ts">
 import { ipcRenderer } from "electron";
@@ -215,6 +215,38 @@ export default defineComponent({
 
         .read-chapter-verse-number {
             @apply opacity-100;
+        }
+    }
+
+    
+}
+
+.verse-clip-note {
+    ol,
+    ul {
+        padding: 5px 0px 5px 0px !important;
+        margin: 5px 0px 5px 0px !important;
+    }
+
+    ol {
+        display: block !important;
+        list-style-type: decimal !important;
+        padding-inline-start: 30px !important;
+    }
+
+    ul {
+        display: block !important;
+        list-style-type: disc !important;
+        padding-inline-start: 30px !important;
+    }
+
+    pre {
+        @apply text-size-18px dark:bg-dark-900 bg-gray-700 py-10px px-10px dark:text-gray-300 text-gray-100 rounded-md font-mono m-0;
+
+        code {
+            color: inherit;
+            padding: 0;
+            background: none;
         }
     }
 }

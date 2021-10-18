@@ -4,7 +4,7 @@
             <NPopover placement="bottom" trigger="hover">
                 <template #trigger>
                     <div class="text-size-20px opacity-50 hover:opacity-95 cursor-pointer">
-                        <i class="bx bx-highlight"></i>
+                        <i class='bx bx-paint' ></i>
                     </div>
                 </template>
                 <span class="flex whitespace-nowrap text-size-30px gap-7px">
