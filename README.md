@@ -12,6 +12,7 @@ There features I really like to have in this applcation.
 - The ability to highlight verser using different colors
 - The ability to check word definations.
 - The ability to create notes
+- the ability to clip short notes in specific verses
 - The ability to share/comment/create/ sermons on the internet so that others can see/read your sermons.
 - The ability to create prayer lists
 - The ability to create ask the community to get some answers
