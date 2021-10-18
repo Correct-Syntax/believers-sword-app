@@ -108,6 +108,7 @@ export default defineComponent({
             ipcRenderer
                 .invoke("deleteClipNote", verse)
                 .then(() => {
+                    store.state.clipNotes.deletedClipNote = verse
                     delete store.state.clipNotes.clipNotesInChapter[`${verse.b}_${verse.c}_${verse.v}`];
                     if (ObjectLength(clipNotes.data) === 1 && page.value > 0) {
                         page.value -= 1;
