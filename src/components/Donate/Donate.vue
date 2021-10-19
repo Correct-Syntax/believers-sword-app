@@ -3,8 +3,7 @@
         <div class="w-[100%] mx-auto text-size-18px leading-normal" :style="`max-width: ${textWidth}px`">
             <NAlert title="THIS APP IS ABSOLUTELY FREE" type="warning">
                 <span class="text-size-18px">
-                    I am sharing this application to you for <b>FREE</b>. The word of God is <b>FREE</b>, so I am forbidding
-                    anyone selling a copy.
+                    I am sharing this application to you for <b>FREE</b>. The word of God is <b>FREE</b>, so I am forbidding anyone selling a copy.
                 </span>
             </NAlert>
             <br />
@@ -13,14 +12,32 @@
         </div>
 
         <div class="max-w-1500px w-[100%] mx-auto flex flex-wrap justify-center mt-50px gap-30px ">
-            <button class="rounded-xl overflow-hidden" @click="clickLink('https://www.paypal.com/donate?hosted_button_id=PMZEYH8NSYU9G', false, 'Donate To BroJenuel')">
+            <button class="rounded-xl overflow-hidden opacity-75 hover:opacity-100" @click="clickLink('https://www.paypal.com/donate?hosted_button_id=DCZYF7KWPUVB4', false, 'Donate To BroJenuel')">
                 <span class="text-size-24px font-600">Debit/Credit</span>
                 <img src="./../../assets/images/donate.png" alt="" width="400" />
             </button>
-            <button class="rounded-xl overflow-hidden">
+            <button class="rounded-xl overflow-hidden opacity-75 hover:opacity-100">
                 <img
                     src="./../../assets/images/gcash.jpg"
                     @click="clickLink('https://i.ibb.co/kJGg32y/GCash-My-QR-06102021230745.png', false, 'Donate To BroJenuel')"
+                    alt=""
+                    width="325"
+                />
+            </button>
+            <button class="rounded-xl overflow-hidden opacity-75 hover:opacity-100">
+                <img
+                    class="rounded-xl"
+                    src="./../../assets/images/buymecoffee.png"
+                    @click="clickLink('https://www.buymeacoffee.com/BroJenuel', false, 'Donate To BroJenuel')"
+                    alt=""
+                    width="325"
+                />
+            </button>
+            <button class="rounded-xl overflow-hidden opacity-75 hover:opacity-100">
+                <img
+                    class="rounded-xl"
+                    src="./../../assets/images/kofi.gif"
+                    @click="clickLink('https://ko-fi.com/brojenuel', false, 'Donate To BroJenuel')"
                     alt=""
                     width="325"
                 />
