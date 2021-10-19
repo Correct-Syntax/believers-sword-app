@@ -1,7 +1,7 @@
 <template>
     <div v-if="clipNote" class="flex justify-start pl-100px">
         <div
-            class="clipNote-Body px-7px py-3px text-gray-900 rounded-bl-md rounded-br-md w-[100%] max-w-700px -mt-[1px] relative flex gap-10px"
+            class="clipNote-Body px-7px py-3px text-gray-900 rounded-bl-md rounded-br-md w-[100%] max-w-700px -mt-[1px] relative flex gap-10px pb-30px"
             :class="{ 'dark:bg-gray-300 bg-gray-700 dark:text-gray-800 text-light-200': clipNote.color === 'default' }"
             :style="`background-color: ${clipNote.color}`"
         >
@@ -9,12 +9,17 @@
                 <i class="bx bx-note"></i>
             </span>
             <div v-html="clipNote.note"></div>
-            <NPopconfirm @positive-click="deleteClipNote()">
-                <template #trigger>
-                    <span class="trash-button-clipNote absolute right-10px top-3px cursor-pointer"><i class="bx bx-trash-alt"></i></span>
-                </template>
-                Are you sure to delete this Clip Note?
-            </NPopconfirm>
+            <div class="trash-button-clipNote absolute right-5px bottom-2px flex gap-10px items-center">
+                <span class="opacity-70 hover:opacity-100 cursor-pointer" @click="createClipNote()">
+                    <i class="bx bx-pencil"></i>
+                </span>
+                <NPopconfirm @positive-click="deleteClipNote()">
+                    <template #trigger>
+                        <span class="cursor-pointer opacity-70 hover:opacity-100"><i class="bx bx-trash-alt"></i></span>
+                    </template>
+                    Are you sure to delete this Clip Note?
+                </NPopconfirm>
+            </div>
         </div>
     </div>
 </template>
@@ -27,9 +32,7 @@ export default defineComponent({
     components: {
         NPopconfirm
     },
-    props: {
-        clipNote: { type: [Object, Boolean], default: false }
-    },
+    props: ["clipNote", "verse"],
     setup(props) {
         const store = useStore();
         return {
@@ -46,21 +49,15 @@ export default defineComponent({
                         delete store.state.clipNotes.clipNotesInChapter[`${verse.b}_${verse.c}_${verse.v}`];
                     })
                     .catch((e: Error) => console.log(e.message));
+            },
+            createClipNote: () => {
+                let verse = props.verse;
+                const BookName = store.state.bible.bibleBooks[verse.b - 1].n;
+                verse.bookName = BookName;
+                store.state.clipNotes.selectedVerse = verse;
+                store.state.clipNotes.createClipNote = true;
             }
         };
     }
 });
 </script>
-<style lang="postcss">
-.clipNote-Body {
-    .trash-button-clipNote {
-        @apply opacity-0 invisible;
-    }
-
-    &:hover {
-        .trash-button-clipNote {
-            @apply opacity-100 visible;
-        }
-    }
-}
-</style>

@@ -1,5 +1,7 @@
 <template>
-    <h1 class="text-size-20px font-700">Clip Note For {{ `${selectedVerse.bookName} ${selectedVerse.c}:${selectedVerse.v}` }}</h1>
+    <h1 class="text-size-20px ">
+        <span class="font-700">{{ `${selectedVerse.bookName} ${selectedVerse.c}:${selectedVerse.v}` }}</span> <span>Clip Note</span>
+    </h1>
     <small>Clip notes, are small notes only for the verse. So that you can emphasize something in the verse.</small>
     <div class="pt-10px mb-15px">
         <h1 class="font-700">Select Clip Color</h1>
@@ -207,7 +209,7 @@
                 Cancel
             </NButton>
             <NButton type="primary" size="small" @click="saveClipNote()">
-                Add Clip Note
+                {{ isEditing ? `Save Changes` : `Add Clip Note` }}
             </NButton>
         </NSpace>
     </div>
@@ -238,6 +240,7 @@ export default defineComponent({
         const clipNoteInput = ref("");
         const alertShow = ref(false);
         const alertText = ref("");
+        const isEditing = ref(false);
         const editor = useEditor({
             content: "",
             extensions: [StarterKit, Underline, Placeholder],
@@ -283,12 +286,15 @@ export default defineComponent({
 
         onMounted(() => {
             if (selectedVerse.value.note) {
+                isEditing.value = true;
                 clipNoteInput.value = selectedVerse.value.note;
                 editor.value?.commands.setContent(selectedVerse.value.note);
+                clipColorSelected.value = selectedVerse.value.color;
             }
         });
 
         return {
+            isEditing,
             editor,
             alertShow,
             alertText,

@@ -106,8 +106,6 @@ export const clipNoteEvents = (): void => {
                 })
                 .then((raw: any) => raw);
 
-            console.log(args.color);
-
             if (checkIfExist.length > 0) {
                 return await result
                     .where({
