@@ -1,5 +1,5 @@
 <template>
-    <n-config-provider :theme-overrides="themeOverrides" :theme="dark ? darkTheme : null">
+    <NConfigProvider :theme-overrides="themeOverrides" :theme="dark ? darkTheme : null">
         <NMessageProvider placement="bottom-right">
             <div class="h-[100vh] w-[100%] dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50">
                 <TitleBar />
@@ -12,7 +12,7 @@
                 </div>
             </div>
         </NMessageProvider>
-    </n-config-provider>
+    </NConfigProvider>
 </template>
 
 <script lang="ts">
@@ -218,5 +218,4 @@ export default defineComponent({
         height: 0;
     }
 }
-
 </style>

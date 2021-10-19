@@ -1,23 +1,15 @@
 <template>
-    <div class="flex justify-center items-center select-none pt-7px">
-        <div class="flex items-center gap-10px text-size-13px items-center">
-            <div class="flex items-center whitespace-nowrap gap-[10px]">
-                <span
-                    >Font Size: <span class="dark:bg-gray-200 bg-gray-600 dark:bg-opacity-10 bg-opacity-10 p-3px rounded-md">{{ fontSize }}px</span></span
-                >
-                <div class="w-130px">
-                    <NSlider v-model:value="fontSize" :step="1" :min="13" :max="40" />
-                </div>
-            </div>
-            <div>
-                <div>
-                    <BookMarkOption />
-                </div>
-            </div>
-            <div>
-                <HighlightOption />
+    <div class="flex items-center justify-center select-none gap-10px text-size-13px items-center py-5px">
+        <div class="flex items-center whitespace-nowrap gap-[10px]">
+            <span>
+                Font Size: <span class="dark:bg-gray-200 bg-gray-600 dark:bg-opacity-10 bg-opacity-10 p-3px rounded-md">{{ fontSize }}px</span>
+            </span>
+            <div class="w-130px">
+                <NSlider v-model:value="fontSize" :step="1" :min="13" :max="40" />
             </div>
         </div>
+        <BookMarkOption />
+        <HighlightOption />
     </div>
 </template>
 <script lang="ts">
@@ -26,7 +18,7 @@ import { NSlider } from "naive-ui";
 import session from "@/service/session/session";
 import { useStore } from "vuex";
 import BookMarkOption from "@/components/ReadBiblePageComponents/ViewChapter/TopOptions/BookmarkOption/BookmarkOption.vue";
-import HighlightOption from "./Highlighter/Highlighter.vue"
+import HighlightOption from "./Highlighter/Highlighter.vue";
 
 export default defineComponent({
     name: "ViewVerseTopOptions",
@@ -54,8 +46,8 @@ export default defineComponent({
         });
 
         return {
-            fontSize,
+            fontSize
         };
-    },
+    }
 });
 </script>

@@ -1,37 +1,35 @@
 <template>
-    <div class="h-[100%]">
-        <div class="h-[100%] p-7px flex flex-col gap-7px">
-            <div class="flex flex-col gap-7px">
-                <NInput v-model:value="searchValue" type="text" placeholder="Type To Search" @keyup.enter="clickSubmitSearch(true)" />
-                <NSelect v-model:value="searchBibleVersion" :options="bibleVersionsOptions" placeholder="Select The Bible Version" />
-                <NSelect v-model:value="searchBibleBook" :options="bibleBookOptions" placeholder="Select Bible Book" />
-                <NButton type="primary" @click="clickSubmitSearch(true)">
-                    <div class="flex items-center gap-[10px]">
-                        <i class="bx bx-search"></i>
-                        <span>Search</span>
-                    </div>
-                </NButton>
-            </div>
-            <div id="search-result-view" class="h-[100%] overflow-y-auto overflowing-div flex flex-col gap-7px">
-                <div
-                    class="cursor-pointer opacity-70 hover:opacity-100 p-7px"
-                    v-for="result in searchResults"
-                    :key="result.id"
-                    :class="{
-                        'selected-view-result': selectedResult != null && selectedResult.b === result.b && selectedResult.c === result.c && selectedResult.v === result.v,
-                    }"
-                    @click="goToVerse(result)"
-                >
-                    <div>
-                        <span class="font-700 italic mr-5px">{{ getBookNameByNumber(result.b) }} {{ result.c }}:{{ result.v }}</span>
-                        <span v-html="result.t"></span>
-                    </div>
+    <div class="h-[100%] p-7px flex flex-col gap-7px">
+        <div class="flex flex-col gap-7px">
+            <NInput v-model:value="searchValue" type="text" placeholder="Type To Search" @keyup.enter="clickSubmitSearch(true)" />
+            <NSelect v-model:value="searchBibleVersion" :options="bibleVersionsOptions" placeholder="Select The Bible Version" />
+            <NSelect v-model:value="searchBibleBook" :options="bibleBookOptions" placeholder="Select Bible Book" />
+            <NButton type="primary" @click="clickSubmitSearch(true)">
+                <div class="flex items-center gap-[10px]">
+                    <i class="bx bx-search"></i>
+                    <span>Search</span>
+                </div>
+            </NButton>
+        </div>
+        <div id="search-result-view" class="h-[100%] overflow-y-auto overflowing-div flex flex-col gap-7px">
+            <div
+                class="cursor-pointer opacity-70 hover:opacity-100 p-7px"
+                v-for="result in searchResults"
+                :key="result.id"
+                :class="{
+                    'selected-view-result': selectedResult != null && selectedResult.b === result.b && selectedResult.c === result.c && selectedResult.v === result.v
+                }"
+                @click="goToVerse(result)"
+            >
+                <div>
+                    <span class="font-700 italic mr-5px">{{ getBookNameByNumber(result.b) }} {{ result.c }}:{{ result.v }}</span>
+                    <span v-html="result.t"></span>
                 </div>
             </div>
-            <div v-show="parseInt(searchResultCount / searchResultLimit) > 1" class="w-[100%] flex flex-col items-end gap-7px">
-                <div>Total Verse Result: {{ searchResultCount }}</div>
-                <NPagination v-model:page="searchBiblePage" :page-count="parseInt(searchResultCount / searchResultLimit)" :page-slot="5" />
-            </div>
+        </div>
+        <div v-show="parseInt(searchResultCount / searchResultLimit) > 1" class="w-[100%] flex flex-col items-end gap-7px">
+            <div>Total Verse Result: {{ searchResultCount }}</div>
+            <NPagination v-model:page="searchBiblePage" :page-count="parseInt(searchResultCount / searchResultLimit)" :page-slot="5" />
         </div>
     </div>
 </template>
@@ -49,7 +47,7 @@ export default defineComponent({
         const searchBibleVersion = ref("t_kjv");
         const searchBibleBook = ref("all");
         const searchBiblePage = ref(1);
-        const searchResultLimit = ref(50);
+        const searchResultLimit = ref(15);
         const searchResults = ref([]);
         const searchResultCount = ref(0);
         const selectedResult = ref(null);
@@ -70,7 +68,7 @@ export default defineComponent({
             bibleVersions.forEach((item: any) =>
                 newData.push({
                     label: `${item.abbreviation} - ${item.version}`,
-                    value: item.table,
+                    value: item.table
                 })
             );
             return newData;
@@ -86,13 +84,13 @@ export default defineComponent({
             let newData: any = [
                 {
                     label: "All",
-                    value: "all",
-                },
+                    value: "all"
+                }
             ];
             bibleBooks.forEach((item: any) =>
                 newData.push({
                     label: item.n,
-                    value: item.b,
+                    value: item.b
                 })
             );
             return newData;
@@ -108,7 +106,7 @@ export default defineComponent({
                 bibleVersion: searchBibleVersion.value,
                 bibleBook: searchBibleBook.value,
                 page: searchBiblePage.value,
-                limit: searchResultLimit.value,
+                limit: searchResultLimit.value
             };
             ipcRenderer.invoke("searchBibleSubmitButton", params).then((payload: any) => {
                 let result = payload.result;
@@ -143,9 +141,9 @@ export default defineComponent({
             searchBiblePage,
             searchResultCount,
             searchResultLimit,
-            selectedResult,
+            selectedResult
         };
-    },
+    }
 });
 </script>
 <style lang="postcss" scoped>
