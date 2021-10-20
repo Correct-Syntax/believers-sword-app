@@ -4,17 +4,16 @@
             <LeftSideBar />
         </div>
         <div id="mainWindow" class="h-[100%] w-[100%] split flex flex-col relative">
-            <div id="read-chapter-area" :class="{ 'duration-200': !isOnDragVerticalSplit }">
+            <div id="read-chapter-area">
                 <ViewChapter />
             </div>
             <div
                 id="make-notes-area"
                 class="dark:bg-black dark:bg-opacity-30 h-[100%] bg-gray-300 bg-opacity-80 relative flex flex-col !w-[100%]"
-                :class="{ 'duration-200': !isOnDragVerticalSplit }"
             >
                 <div
                     id="expanding-this"
-                    class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center select-none flex items-center duration-200"
+                    class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center select-none flex items-center duration-200 active:bg-[var(--primaryColor)]"
                     :class="{ '!text-[var(--primaryColor)] font-900': toggledMakeNote }"
                 >
                     <div class="mr-10px transform duration-150" :class="{ '-rotate-90': !toggledMakeNote }">

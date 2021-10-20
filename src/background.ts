@@ -1,14 +1,14 @@
 "use strict";
+import { contextMenus } from "./service/ContextMenu/ContextMenu";
 import { appSettingsStore } from "./service/ElectronStoreSchemma/SettingSchema";
 import { AutoUpdaterEvents } from "./service/AutoUpdater/AutoUpdaterMainProcessEvent";
-import { app, protocol, BrowserWindow, Menu, MenuItem, screen } from "electron";
+import { app, protocol, BrowserWindow, Menu, screen } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 import { ipcMainEvents } from "./service/ipcMain";
 import { BrowserWindowConstructorOptions } from "electron";
 const isDevelopment = process.env.NODE_ENV !== "production";
 
-// Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
 
 async function createWindow() {
@@ -31,11 +31,11 @@ async function createWindow() {
         alwaysOnTop: !isDevelopment
     };
 
-    if (appBounds !== undefined && appBounds !== null) {
-        Object.assign(windowBrowserOptions, appBounds);
-    }
+    // Sett the saved appBounds state
+    if (appBounds !== undefined && appBounds !== null) Object.assign(windowBrowserOptions, appBounds);
     const win = new BrowserWindow(windowBrowserOptions);
 
+    // Need to Initialize Before Loading The App
     ipcMainEvents(win);
 
     if (process.env.WEBPACK_DEV_SERVER_URL) {
@@ -46,50 +46,22 @@ async function createWindow() {
         await win.loadURL("app://./index.html");
     }
 
+    // remove the menus
     if (!isDevelopment) {
         win.removeMenu();
         Menu.setApplicationMenu(Menu.buildFromTemplate([]));
     }
 
-    if (appBounds !== undefined && appBounds !== null && appBounds.width > width && appBounds.height > height) {
-        win.maximize();
-    } else {
-        win.show();
-    }
+    if (appBounds !== undefined && appBounds !== null && appBounds.width > width && appBounds.height > height) win.maximize();
+    else win.show();
 
     setTimeout(() => {
         win.setAlwaysOnTop(false);
     }, 1000);
 
-    if (!isDevelopment) {
-        AutoUpdaterEvents(win);
-    }
+    if (!isDevelopment) AutoUpdaterEvents(win);
 
-    win.webContents.on("context-menu", (event, params) => {
-        const menu = new Menu();
-
-        // Add each spelling suggestion
-        for (const suggestion of params.dictionarySuggestions) {
-            menu.append(
-                new MenuItem({
-                    label: suggestion,
-                    click: () => win.webContents.replaceMisspelling(suggestion)
-                })
-            );
-        }
-
-        // Allow users to add the misspelled word to the dictionary
-        if (params.misspelledWord) {
-            menu.append(
-                new MenuItem({
-                    label: "Add to dictionary",
-                    click: () => win.webContents.session.addWordToSpellCheckerDictionary(params.misspelledWord)
-                })
-            );
-        }
-
-        if (menu.items.length > 0) menu.popup();
-    });
+    contextMenus(win);
 }
 
 // Quit when all windows are closed.

@@ -23,7 +23,7 @@
                                                 editor.isActive('heading', { level: 3 }) ||
                                                 editor.isActive('heading', { level: 4 }) ||
                                                 editor.isActive('heading', { level: 5 }) ||
-                                                editor.isActive('heading', { level: 6 }),
+                                                editor.isActive('heading', { level: 6 })
                                         }"
                                     >
                                         <i class="bx bx-heading -mr-5px"></i>
@@ -33,42 +33,78 @@
                                 <span class="outside-external-note-button flex flex-col whitespace-nowrap text-size-18px">
                                     <button
                                         class="text-size-32px"
-                                        @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+                                        @click="
+                                            editor
+                                                .chain()
+                                                .focus()
+                                                .toggleHeading({ level: 1 })
+                                                .run()
+                                        "
                                         :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
                                     >
                                         <i class="bx bx-heading"></i>1
                                     </button>
                                     <button
                                         class="text-size-28px"
-                                        @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+                                        @click="
+                                            editor
+                                                .chain()
+                                                .focus()
+                                                .toggleHeading({ level: 2 })
+                                                .run()
+                                        "
                                         :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
                                     >
                                         <i class="bx bx-heading"></i>2
                                     </button>
                                     <button
                                         class="text-size-25px"
-                                        @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+                                        @click="
+                                            editor
+                                                .chain()
+                                                .focus()
+                                                .toggleHeading({ level: 3 })
+                                                .run()
+                                        "
                                         :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
                                     >
                                         <i class="bx bx-heading"></i>3
                                     </button>
                                     <button
                                         class="text-size-20px"
-                                        @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
+                                        @click="
+                                            editor
+                                                .chain()
+                                                .focus()
+                                                .toggleHeading({ level: 4 })
+                                                .run()
+                                        "
                                         :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
                                     >
                                         <i class="bx bx-heading"></i>4
                                     </button>
                                     <button
                                         class="text-size-18px"
-                                        @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
+                                        @click="
+                                            editor
+                                                .chain()
+                                                .focus()
+                                                .toggleHeading({ level: 5 })
+                                                .run()
+                                        "
                                         :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
                                     >
                                         <i class="bx bx-heading"></i>5
                                     </button>
                                     <button
                                         class="text-size-16px"
-                                        @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
+                                        @click="
+                                            editor
+                                                .chain()
+                                                .focus()
+                                                .toggleHeading({ level: 6 })
+                                                .run()
+                                        "
                                         :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
                                     >
                                         <i class="bx bx-heading"></i>6
@@ -78,51 +114,169 @@
                         </div>
                         <span class="dark:bg-gray-600 bg-gray-400 w-5px h-5px rounded-md mx-10px rounded-1"></span>
                         <div class="flex flex-row">
-                            <button title="Normal Text" @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
+                            <button
+                                title="Normal Text"
+                                @click="
+                                    editor
+                                        .chain()
+                                        .focus()
+                                        .setParagraph()
+                                        .run()
+                                "
+                                :class="{ 'is-active': editor.isActive('paragraph') }"
+                            >
                                 <i class="bx bx-text"></i>
                             </button>
-                            <button title="Bold" @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+                            <button
+                                title="Bold"
+                                @click="
+                                    editor
+                                        .chain()
+                                        .focus()
+                                        .toggleBold()
+                                        .run()
+                                "
+                                :class="{ 'is-active': editor.isActive('bold') }"
+                            >
                                 <i class="bx bx-bold"></i>
                             </button>
-                            <button title="Italic" @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+                            <button
+                                title="Italic"
+                                @click="
+                                    editor
+                                        .chain()
+                                        .focus()
+                                        .toggleItalic()
+                                        .run()
+                                "
+                                :class="{ 'is-active': editor.isActive('italic') }"
+                            >
                                 <i class="bx bx-italic"></i>
                             </button>
-                            <button title="Underline" @click="editor.chain().focus().toggleUnderline().run()" :class="{ 'is-active': editor.isActive('underline') }">
+                            <button
+                                title="Underline"
+                                @click="
+                                    editor
+                                        .chain()
+                                        .focus()
+                                        .toggleUnderline()
+                                        .run()
+                                "
+                                :class="{ 'is-active': editor.isActive('underline') }"
+                            >
                                 <i class="bx bx-underline"></i>
                             </button>
-                            <button title="Strike Through" @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
+                            <button
+                                title="Strike Through"
+                                @click="
+                                    editor
+                                        .chain()
+                                        .focus()
+                                        .toggleStrike()
+                                        .run()
+                                "
+                                :class="{ 'is-active': editor.isActive('strike') }"
+                            >
                                 <i class="bx bx-strikethrough"></i>
                             </button>
                         </div>
                         <span class="dark:bg-gray-600 bg-gray-400 w-5px h-5px rounded-md mx-10px rounded-1"></span>
                         <div>
-                            <button title="Code Text" @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
+                            <button
+                                title="Code Text"
+                                @click="
+                                    editor
+                                        .chain()
+                                        .focus()
+                                        .toggleCode()
+                                        .run()
+                                "
+                                :class="{ 'is-active': editor.isActive('code') }"
+                            >
                                 <i class="bx bx-code"></i>
                             </button>
-                            <button title="Code Block" @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
+                            <button
+                                title="Code Block"
+                                @click="
+                                    editor
+                                        .chain()
+                                        .focus()
+                                        .toggleCodeBlock()
+                                        .run()
+                                "
+                                :class="{ 'is-active': editor.isActive('codeBlock') }"
+                            >
                                 <i class="bx bx-code-block"></i>
                             </button>
                         </div>
                         <span class="dark:bg-gray-600 bg-gray-400 w-5px h-5px rounded-md mx-10px rounded-1"></span>
 
                         <div>
-                            <button title="Unordered List" @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
+                            <button
+                                title="Unordered List"
+                                @click="
+                                    editor
+                                        .chain()
+                                        .focus()
+                                        .toggleBulletList()
+                                        .run()
+                                "
+                                :class="{ 'is-active': editor.isActive('bulletList') }"
+                            >
                                 <i class="bx bx-list-ul"></i>
                             </button>
-                            <button title="Ordered List" @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
+                            <button
+                                title="Ordered List"
+                                @click="
+                                    editor
+                                        .chain()
+                                        .focus()
+                                        .toggleOrderedList()
+                                        .run()
+                                "
+                                :class="{ 'is-active': editor.isActive('orderedList') }"
+                            >
                                 <i class="bx bx-list-ol"></i>
                             </button>
 
-                            <button title="Quote" @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
+                            <button
+                                title="Quote"
+                                @click="
+                                    editor
+                                        .chain()
+                                        .focus()
+                                        .toggleBlockquote()
+                                        .run()
+                                "
+                                :class="{ 'is-active': editor.isActive('blockquote') }"
+                            >
                                 <i class="bx bxs-quote-left"></i>
                             </button>
                         </div>
                         <span class="dark:bg-gray-600 bg-gray-400 w-5px h-5px rounded-md mx-10px rounded-1"></span>
                         <div>
-                            <button title="Undo" @click="editor.chain().focus().undo().run()">
+                            <button
+                                title="Undo"
+                                @click="
+                                    editor
+                                        .chain()
+                                        .focus()
+                                        .undo()
+                                        .run()
+                                "
+                            >
                                 <i class="bx bx-undo"></i>
                             </button>
-                            <button title="Redo" @click="editor.chain().focus().redo().run()">
+                            <button
+                                title="Redo"
+                                @click="
+                                    editor
+                                        .chain()
+                                        .focus()
+                                        .redo()
+                                        .run()
+                                "
+                            >
                                 <i class="bx bx-redo"></i>
                             </button>
                         </div>
@@ -145,11 +299,16 @@
                 ></div>
                 <EditorContent ref="note-editor" class="mx-10px h-[100%] overflow-auto overflowing-div" :editor="editor" />
             </div>
-            <div v-show="Object.keys(selectedNote).length === 0" class="p-10px text-size-[17px] flex items-center gap-3px">
-                <span class="text-size-50px text-[var(--primaryColor)]">
-                    <i class="bx bxs-left-arrow-alt"></i>
-                </span>
-                Select a Note To Edit
+            <div v-if="Object.keys(selectedNote).length === 0" class="p-10px text-size-[17px] flex flex-col gap-3px h-[100%]">
+                <div class="flex items-center">
+                    <span class="text-size-50px text-[var(--primaryColor)]">
+                        <i class="bx bxs-left-arrow-alt"></i>
+                    </span>
+                    Select a Note To Edit
+                </div>
+                <div class="flex justify-center h-[100%] items-center text-center leading-normal font-600">
+                    Hi! I Recommend that you use<br />pen and paper/notebook to take your notes 🙂
+                </div>
             </div>
         </div>
     </div>
@@ -174,7 +333,7 @@ export default defineComponent({
         CreateNoteModal,
         NoteList,
         NPopconfirm,
-        NPopover,
+        NPopover
     },
 
     setup() {
@@ -188,12 +347,12 @@ export default defineComponent({
                 if (selectedNote.value.key && content) {
                     ipcRenderer.send("saveContent", {
                         key: selectedNote.value.key,
-                        content: content,
+                        content: content
                     });
 
                     if (store.state.notes.noteLists[selectedNote.value.key + ""]) store.state.notes.noteLists[selectedNote.value.key + ""].content = content;
                 }
-            },
+            }
         });
 
         watch(selectedNote, () => {
@@ -206,7 +365,7 @@ export default defineComponent({
             if (title) {
                 ipcRenderer.send("saveContent", {
                     key: key,
-                    title: title,
+                    title: title
                 });
             }
         };
@@ -221,13 +380,13 @@ export default defineComponent({
                 // eslint-disable-next-line
                 elementStyle: (dimension, size, gutterSize) => {
                     return {
-                        "flex-basis": size + "%",
+                        "flex-basis": size + "%"
                     };
                 },
 
-                onDragEnd: (sizes) => {
+                onDragEnd: sizes => {
                     localStorage.setItem("create-notes-split-sizes", JSON.stringify(sizes));
-                },
+                }
             });
 
             let typingTime: any;
@@ -239,7 +398,7 @@ export default defineComponent({
                 }, 300);
             });
 
-            noteTitle.addEventListener("keydown", (e) => {
+            noteTitle.addEventListener("keydown", e => {
                 if ((e as KeyboardEvent).key === "Enter" || (e as KeyboardEvent).ctrlKey) e.preventDefault();
                 clearTimeout(typingTime);
             });
@@ -252,9 +411,9 @@ export default defineComponent({
             deleteNote: () => {
                 ipcRenderer.send("deleteNote", { key: selectedNote.value.key });
                 store.state.notes.selectedNote = {};
-            },
+            }
         };
-    },
+    }
 });
 </script>
 <style lang="postcss">
