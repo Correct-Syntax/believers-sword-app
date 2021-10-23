@@ -53,7 +53,28 @@ export default defineComponent({
                 label: "Red",
                 primaryColorDark: "#e57373",
                 primaryColorLight: "#e53935"
-            }
+            },
+            {
+                value: "green",
+                key: "green",
+                label: "Green",
+                primaryColorDark: "#66bb6a",
+                primaryColorLight: "#519657"
+            },
+            {
+                value: "purple",
+                key: "purple",
+                label: "Purple",
+                primaryColorDark: "#df78ef",
+                primaryColorLight: "#ab47bc"
+            },
+            {
+                value: "pink",
+                key: "pink",
+                label: "Pink",
+                primaryColorDark: "#ec407a",
+                primaryColorLight: "#e91e63"
+            },
         ];
 
         onMounted(() => {

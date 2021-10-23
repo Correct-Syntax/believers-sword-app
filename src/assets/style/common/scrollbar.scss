@@ -29,7 +29,7 @@
 
 * {
     scrollbar-width: thin;
-    scroll-behavior: smooth;
+    scroll-behavior: var(--scrollBehavior);
 }
 
 .s-loading {

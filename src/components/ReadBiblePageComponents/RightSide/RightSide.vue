@@ -6,7 +6,7 @@
             <SelectBibleVersions v-if="tabValue === 'versionsTab'" />
             <Bookmarks v-if="tabValue === 'bookmarksTab'" />
             <MarkedHighlights v-if="tabValue === 'MarkedHighlights'" />
-            <ShowClipNotes v-if="tabValue === 'MyNotes'" />
+            <ShowClipNotes v-show="tabValue === 'MyNotes'" />
         </div>
     </div>
 </template>

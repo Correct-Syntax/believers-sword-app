@@ -11,13 +11,11 @@
             </NCard>
         </NModal>
         <div class="w-[100%] pl-40px" :class="{ 'pr-5px': readBibleIsSelected }" style="height: calc(100% - var(--header-height) + 4px)">
-            <div class="h-[100%] w-[100%]">
-                <div id="main-container-wrapper" class="h-[100%] w-[100%] relative pr-35px" v-show="readBibleIsSelected">
-                    <ReadBible />
-                </div>
-                <div v-if="!readBibleIsSelected" class="h-[100%] w-[100%] relative dark:bg-black dark:bg-opacity-20 bg-gray-200">
-                    <router-view></router-view>
-                </div>
+            <div id="main-container-wrapper" class="h-[100%] w-[100%] relative pr-35px" v-show="readBibleIsSelected">
+                <ReadBible />
+            </div>
+            <div v-if="!readBibleIsSelected" class="h-[100%] w-[100%] relative dark:bg-black dark:bg-opacity-20 bg-gray-200">
+                <router-view></router-view>
             </div>
         </div>
         <div class="dark:bg-gray-900 bg-gray-50 px-[7px] py-[2px] z-50">

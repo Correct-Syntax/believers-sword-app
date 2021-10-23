@@ -1,70 +1,66 @@
 <template>
-    <div class="flex gap-[10px]">
-        <div>
-            <NPopover placement="bottom" trigger="hover">
-                <template #trigger>
-                    <div class="text-size-20px opacity-50 hover:opacity-95 cursor-pointer">
-                        <i class='bx bx-paint' ></i>
-                    </div>
-                </template>
-                <span class="flex whitespace-nowrap text-size-30px gap-7px">
-                    <button
-                        @click="
-                            highlightSelection('#FFD26A');
-                            showPopover = false;
-                        "
-                        style="color: #FFD26A"
-                    >
-                        <i class="bx bxs-square-rounded"></i>
-                    </button>
-                    <button
-                        @click="
-                            highlightSelection('lightpink');
-                            showPopover = false;
-                        "
-                        style="color: lightpink"
-                    >
-                        <i class="bx bxs-square-rounded"></i>
-                    </button>
-                    <button
-                        @click="
-                            highlightSelection('lightblue');
-                            showPopover = false;
-                        "
-                        style="color: lightblue"
-                    >
-                        <i class="bx bxs-square-rounded"></i>
-                    </button>
-                    <button
-                        @click="
-                            highlightSelection('#80ED99');
-                            showPopover = false;
-                        "
-                        style="color: #80ed99"
-                    >
-                        <i class="bx bxs-square-rounded"></i>
-                    </button>
-                    <button
-                        @click="
-                            highlightSelection('#C2B8A3');
-                            showPopover = false;
-                        "
-                        style="color: #c2b8a3"
-                    >
-                        <i class="bx bxs-square-rounded"></i>
-                    </button>
-                    <button
-                        @click="
-                            highlightSelection('remove');
-                            showPopover = false;
-                        "
-                    >
-                        <i class="bx bxs-x-square"></i>
-                    </button>
-                </span>
-            </NPopover>
-        </div>
-    </div>
+    <NPopover placement="bottom" trigger="hover">
+        <template #trigger>
+            <div class="text-size-20px opacity-50 hover:opacity-95 cursor-pointer">
+                <i class="bx bx-paint"></i>
+            </div>
+        </template>
+        <span class="flex whitespace-nowrap text-size-30px gap-7px">
+            <button
+                @click="
+                    highlightSelection('#FFD26A');
+                    showPopover = false;
+                "
+                style="color: #FFD26A"
+            >
+                <i class="bx bxs-square-rounded"></i>
+            </button>
+            <button
+                @click="
+                    highlightSelection('lightpink');
+                    showPopover = false;
+                "
+                style="color: lightpink"
+            >
+                <i class="bx bxs-square-rounded"></i>
+            </button>
+            <button
+                @click="
+                    highlightSelection('lightblue');
+                    showPopover = false;
+                "
+                style="color: lightblue"
+            >
+                <i class="bx bxs-square-rounded"></i>
+            </button>
+            <button
+                @click="
+                    highlightSelection('#80ED99');
+                    showPopover = false;
+                "
+                style="color: #80ed99"
+            >
+                <i class="bx bxs-square-rounded"></i>
+            </button>
+            <button
+                @click="
+                    highlightSelection('#C2B8A3');
+                    showPopover = false;
+                "
+                style="color: #c2b8a3"
+            >
+                <i class="bx bxs-square-rounded"></i>
+            </button>
+            <button
+                @click="
+                    highlightSelection('remove');
+                    showPopover = false;
+                "
+            >
+                <i class="bx bxs-x-square"></i>
+            </button>
+        </span>
+    </NPopover>
 </template>
 <script lang="ts">
 import { defineComponent, ref } from "vue";
@@ -92,7 +88,7 @@ export default defineComponent({
             }
 
             return parentEl;
-        }
+        };
 
         return {
             showPopover,
@@ -155,8 +151,8 @@ export default defineComponent({
                 } catch (e) {
                     if (e instanceof Error) message.info("Please Select phrase/words to mark.");
                 }
-            },
+            }
         };
-    },
+    }
 });
 </script>

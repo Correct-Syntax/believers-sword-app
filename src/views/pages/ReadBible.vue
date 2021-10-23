@@ -3,32 +3,27 @@
         <div id="leftSide" class="h-[100%] dark:bg-black dark:bg-opacity-20 bg-gray-200 resize-x p-5px z-20">
             <LeftSideBar />
         </div>
-        <div id="mainWindow" class="h-[100%] w-[100%]">
-            <div class="split flex flex-col h-[100%] relative">
-                <div id="read-chapter-area" :class="{ 'duration-200': !isOnDragVerticalSplit }">
-                    <ViewChapter />
-                </div>
+        <div id="mainWindow" class="h-[100%] w-[100%] split flex flex-col relative">
+            <div id="read-chapter-area">
+                <ViewChapter />
+            </div>
+            <div
+                id="make-notes-area"
+                class="dark:bg-black dark:bg-opacity-30 h-[100%] bg-gray-300 bg-opacity-80 relative flex flex-col !w-[100%]"
+            >
                 <div
-                    id="make-notes-area"
-                    class="dark:bg-black dark:bg-opacity-30 h-[100%] bg-gray-300 bg-opacity-80 relative flex flex-col !w-[100%]"
-                    :class="{ 'duration-200': !isOnDragVerticalSplit }"
+                    id="expanding-this"
+                    class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center select-none flex items-center duration-200 active:bg-[var(--primaryColor)]"
+                    :class="{ '!text-[var(--primaryColor)] font-900': toggledMakeNote }"
                 >
-                    <div class="h-[100%] flex flex-col">
-                        <div
-                            id="expanding-this"
-                            class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center select-none flex items-center duration-200"
-                            :class="{'!text-[var(--primaryColor)] font-900':toggledMakeNote}"
-                        >
-                            <div class="mr-10px transform duration-150" :class="{ '-rotate-90': !toggledMakeNote }">
-                                <span class="codicon codicon-chevron-down"></span>
-                            </div>
-                            <i class="bx bx-notepad"></i>
-                            Notes
-                        </div>
-                        <div class="w-[100%] overflow-y-auto overflowing-div h-[100%]">
-                            <Notes />
-                        </div>
+                    <div class="mr-10px transform duration-150" :class="{ '-rotate-90': !toggledMakeNote }">
+                        <span class="codicon codicon-chevron-down"></span>
                     </div>
+                    <i class="bx bx-notepad"></i>
+                    Notes
+                </div>
+                <div class="w-[100%] overflow-y-auto overflowing-div h-[100%]">
+                    <Notes v-show="toggledMakeNote" />
                 </div>
             </div>
         </div>
@@ -62,13 +57,13 @@ export default defineComponent({
                 // eslint-disable-next-line
                 elementStyle: (dimension, size, gutterSize) => {
                     return {
-                        "flex-basis": size + "%",
+                        "flex-basis": size + "%"
                     };
                 },
 
-                onDragEnd: (sizes) => {
+                onDragEnd: sizes => {
                     localStorage.setItem("read-bible-split-sizes", JSON.stringify(sizes));
-                },
+                }
             });
 
             const VerticalSizes: any = localStorage.getItem("read-chapter-split-sizes-vertical");
@@ -82,27 +77,27 @@ export default defineComponent({
                 },
                 gutterStyle: () => {
                     return {
-                        height: `0px`,
+                        height: `0px`
                     };
                 },
-                onDrag: (sizes) => {
+                onDrag: sizes => {
                     if (sizes[1] < 5) {
-                        toggledMakeNote.value = false
+                        toggledMakeNote.value = false;
                     } else {
-                        toggledMakeNote.value = true
+                        toggledMakeNote.value = true;
                     }
                 },
                 // eslint-disable-next-line
                 elementStyle: (dimension, size) => {
                     return {
-                        height: `${size}%`,
+                        height: `${size}%`
                     };
                 },
-                onDragEnd: (sizes) => {
+                onDragEnd: sizes => {
                     isOnDragVerticalSplit.value = false;
                     localStorage.setItem("read-chapter-split-sizes-vertical", JSON.stringify(sizes));
                     localStorage.setItem("read-chapter-split-sizes-vertical-open-sizes", JSON.stringify(sizes));
-                },
+                }
             });
 
             let vertical_sizes = middleVerticalSplit.getSizes();
@@ -136,19 +131,12 @@ export default defineComponent({
 
         return {
             isOnDragVerticalSplit,
-            toggledMakeNote,
+            toggledMakeNote
         };
-    },
+    }
 });
 </script>
 <style lang="postcss">
-#leftSide {
-    width: calc(var(--left-width) - var(--left-bar-width));
-}
-
-#mainWindow {
-    width: calc(100% - var(--left-width) + var(--left-bar-width));
-}
 .spanResizer {
     -webkit-app-region: no-drag;
     cursor: e-resize !important;
