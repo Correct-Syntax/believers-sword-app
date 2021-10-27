@@ -197,27 +197,3 @@ export default defineComponent({
     },
 });
 </script>
-<style lang="postcss">
-.create-new-prayer-list-editor {
-    @apply dark:bg-gray-800 bg-gray-200 rounded-md overflow-hidden;
-
-    .prayer-list-button {
-        @apply p-10px flex flex-row;
-
-        button {
-            @apply p-7px text-size-[20px] rounded-md;
-
-            &:hover {
-                @apply dark:bg-gray-700 bg-gray-300;
-            }
-        }
-        button.is-active {
-            @apply dark:bg-gray-700 bg-gray-300;
-        }
-    }
-
-    .ProseMirror {
-        @apply p-10px rounded-md;
-    }
-}
-</style>

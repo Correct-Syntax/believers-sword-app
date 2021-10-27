@@ -19,6 +19,14 @@
             </div>
             <div
                 class="icon-item"
+                :class="{ 'active-menu-bar-item': ($route.path === '/bible-talk' || pathSelected === '/bible-talk') && readBibleIsSelected == false }"
+                @click="selectRoute('/bible-talk')"
+            >
+                <span class="font-500">BT</span>
+                <div class="tooltip">Bible Talk</div>
+            </div>
+            <div
+                class="icon-item"
                 :class="{ 'active-menu-bar-item': ($route.path === '/games' || pathSelected === '/games') && readBibleIsSelected == false }"
                 @click="selectRoute('/games')"
             >
@@ -90,7 +98,7 @@ export default defineComponent({
         @apply flex justify-center items-center !w-[30px] !h-[30px] cursor-pointer text-size-18px dark:text-gray-400 text-gray-600 ml-4px duration-100 ml-5px;
 
         .bx,
-        .codicon {
+        .codicon, span {
             @apply transform scale-110 duration-100  relative;
         }
 
@@ -107,7 +115,7 @@ export default defineComponent({
             @apply dark:text-gray-300 text-gray-800;
 
             .bx,
-            .codicon {
+            .codicon, span {
                 @apply scale-125;
             }
 

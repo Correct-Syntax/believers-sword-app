@@ -1,3 +1,4 @@
+import BibleTalkRoute from '../views/pages/BibleTalk/BibleTalkRoute';
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import SermonPage from "@/views/pages/Sermons.vue"
 import GamesRoute from "@/views/pages/Games/Route/GamesRoute";
@@ -42,6 +43,12 @@ export const routes: Array<RouteRecordRaw> = [
         path: "/donate",
         name: "Donate",
         component: () => import("@/views/pages/Donate.vue")
+    },
+    {
+        path: "/bible-talk",
+        name: "BibleTalk",
+        component: () => import("@/views/pages/BibleTalk/BibleTalk.vue"),
+        children: BibleTalkRoute
     }
 ];
 
