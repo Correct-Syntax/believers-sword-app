@@ -7,8 +7,8 @@
                 </span>
             </NAlert>
             <br />
-            If this ministry blesses you, and like to join me. You can <b>Support</b> this application financially, you can donate by selecting any of the choices bellow. Even if
-            you donate or not, this application is always free on the internet. All donations will be used for the development of this application.
+            If the good Lord lays it upon your heart to help, please do so! You can <b>Support</b> this application financially, you can donate by selecting any of the choices bellow. Even if
+            you donate or not, this application is always free on the internet. <b>All donations will be used for the development of this application</b>.
         </div>
 
         <div class="max-w-1500px w-[100%] mx-auto flex flex-wrap justify-center mt-50px gap-30px ">
