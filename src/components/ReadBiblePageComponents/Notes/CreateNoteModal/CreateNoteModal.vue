@@ -25,12 +25,12 @@
         <span class="text-size-20px">
             <i class="bx bx-list-plus"></i>
         </span>
-        Create a Sermon
+        Create a Note
     </div>
     <NModal v-model:show="showCreateNoteModal">
         <NCard style="width: 600px" :bordered="false" size="small">
             <div>
-                <h1 class="text-size-20px font-600 mb-10px">Create Sermon</h1>
+                <h1 class="text-size-20px font-600 mb-10px">Note Title</h1>
                 <small>Write The Title for your Sermon, title can be updated later</small>
                 <NInput size="large" placeholder="What is the Title of the new Note, can be changed later" v-model:value="createNoteTitle" @keypress.enter="clickCreateButton()" />
                 <div class="py-7px flex justify-end gap-10px">
