@@ -130,7 +130,7 @@
             </div>
 
             <div class="p-10px flex flex-row justify-end gap-15px dark:bg-black dark:bg-opacity-10">
-                <NButton ghost @click="showModal = false">
+                <NButton ghost @click="closeCreateNewModal()">
                     <i class="bx bx-x"></i>
                     Close
                 </NButton>
@@ -172,6 +172,11 @@ export default defineComponent({
         });
         return {
             showModal,
+            closeCreateNewModal: () => {
+                showModal.value = false
+                let initialValue = initialContent;
+                editor.value?.commands.setContent(initialValue);
+            },
             editor,
             SaveEditorContent: () => {
                 try {
@@ -213,7 +218,7 @@ export default defineComponent({
     }
 
     .ProseMirror {
-        @apply p-10px rounded-md max-h-500px overflow-y-auto;
+        @apply p-10px rounded-md max-h-500px min-h-200px overflow-y-auto;
     }
 }
 </style>
