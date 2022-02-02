@@ -1,6 +1,6 @@
 {
   "name": "believers-sword-app",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "private": true,
   "author": "Jenuel Oras Ganawed <jenuelganawed936@gmail.com> (https://jenuelganawed.com)",
   "description": "Believers Sword App is a desktop application for learning and studying bible. This app is free to use.",
@@ -51,7 +51,7 @@
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-typescript": "^7.0.0",
     "cross-env": "^7.0.3",
-    "electron": "^15.0.0",
+    "electron": "^17.0.0",
     "electron-devtools-installer": "^3.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",
