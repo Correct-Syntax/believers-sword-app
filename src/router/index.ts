@@ -1,6 +1,6 @@
 import BibleTalkRoute from '../views/pages/BibleTalk/BibleTalkRoute';
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
-import SermonPage from "@/views/pages/Sermons.vue"
+import SermonPage from "@/views/pages/Sermons/Sermons.vue"
 import GamesRoute from "@/views/pages/Games/Route/GamesRoute";
 
 export const routes: Array<RouteRecordRaw> = [
