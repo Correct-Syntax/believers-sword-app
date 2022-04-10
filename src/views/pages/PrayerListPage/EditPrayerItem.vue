@@ -158,7 +158,7 @@ export default defineComponent({
         NModal,
         EditorContent,
         NPopconfirm,
-        NPopover
+        NPopover,
     },
     setup() {
         const keyString = ref("");
