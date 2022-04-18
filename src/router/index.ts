@@ -1,60 +1,67 @@
-import BibleTalkRoute from '../views/pages/BibleTalk/BibleTalkRoute';
+import BibleTalkRoute from "../views/pages/BibleTalk/BibleTalkRoute";
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
-import SermonPage from "@/views/pages/Sermons/Sermons.vue"
+import SermonPage from "@/views/pages/Sermons/Sermons.vue";
 import GamesRoute from "@/views/pages/Games/Route/GamesRoute";
+import Directions from "@/views/pages/Directions.vue";
+import AccountPage from "@/views/pages/Account.vue";
+import AboutPage from "@/views/pages/About.vue";
+import PrayerList from "@/views/pages/PrayerList.vue";
+import Games from "@/views/pages/Games.vue";
+import Donate from "@/views/pages/Donate.vue";
+import BibleTalk from "@/views/pages/BibleTalk/BibleTalk.vue";
 
 export const routes: Array<RouteRecordRaw> = [
     {
         path: "/",
-        redirect: "/sermon"
+        redirect: "/sermon",
     },
     {
         path: "/sermon",
         name: "SermonPage",
-        component: SermonPage
+        component: SermonPage,
     },
     {
         path: "/directions",
         name: "DirectionPage",
-        component: () => import("@/views/pages/Directions.vue")
+        component: Directions,
     },
     {
         path: "/account",
         name: "AccountPage",
-        component: () => import("@/views/pages/Account.vue")
+        component: AccountPage,
     },
     {
         path: "/about",
         name: "AboutPage",
-        component: () => import("@/views/pages/About.vue")
+        component: AboutPage,
     },
     {
         path: "/prayer_list",
         name: "PrayerList",
-        component: () => import("@/views/pages/PrayerList.vue")
+        component: PrayerList,
     },
     {
         path: "/games",
         name: "Games",
-        component: () => import("@/views/pages/Games.vue"),
-        children: GamesRoute
+        component: Games,
+        children: GamesRoute,
     },
     {
         path: "/donate",
         name: "Donate",
-        component: () => import("@/views/pages/Donate.vue")
+        component: Donate,
     },
     {
         path: "/bible-talk",
         name: "BibleTalk",
-        component: () => import("@/views/pages/BibleTalk/BibleTalk.vue"),
-        children: BibleTalkRoute
-    }
+        component: BibleTalk,
+        children: BibleTalkRoute,
+    },
 ];
 
 const router = createRouter({
     history: createWebHashHistory(process.env.BASE_URL),
-    routes
+    routes,
 });
 
 export default router;

@@ -9,10 +9,17 @@ const sermons = computed(() => store.state.sermonState.sermons);
 
 const drawerShowContent = ref(false);
 const placement = ref<DrawerPlacement>("right");
-onMounted(() => {
-    if (sermons.value.length > 0) {
-        return;
-    }
+
+const selectASermon = (sermon: any) => {
+    store.state.sermonState.selected_sermon = sermon;
+    drawerShowContent.value = true;
+};
+const closeSelectedSermon = () => {
+    store.state.sermonState.selected_sermon = null;
+    drawerShowContent.value = false;
+};
+
+function getSermons() {
     getFireStoreSermons()
         .then((result) => {
             store.state.sermonState.sermons = result;
@@ -20,6 +27,21 @@ onMounted(() => {
         .catch((e) => {
             console.log(e);
         });
+}
+
+onMounted(() => {
+    /**
+     * If a selected value exist on store
+     */
+    if (store.state.sermonState.selected_sermon) {
+        drawerShowContent.value = true;
+    }
+
+    if (sermons.value.length > 0) {
+        return;
+    }
+
+    getSermons();
 });
 </script>
 <template>
@@ -28,7 +50,7 @@ onMounted(() => {
             <NDrawerContent>
                 <template #header>
                     <div>This is the title</div>
-                    <div @click="drawerShowContent = false">Close</div>
+                    <div @click="closeSelectedSermon">Close</div>
                 </template>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam qui, asperiores dolore incidunt, consectetur blanditiis vel aut maiores esse modi quas molestias
                 ullam ducimus officia quae exercitationem provident nihil necessitatibus?
@@ -42,7 +64,7 @@ onMounted(() => {
             </p>
         </div>
         <div class="flex">
-            <div v-for="sermon in sermons" :key="sermon.title" class="w-300px cursor-pointer" @click="drawerShowContent = !drawerShowContent">
+            <div v-for="sermon in sermons" :key="sermon.title" class="w-300px cursor-pointer" @click="selectASermon(sermon)">
                 <img :src="sermon.thumbnail" alt="" class="w-[100%]" />
                 <div>{{ sermon.title }}</div>
                 <div>{{ sermon.description }}</div>
