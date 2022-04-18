@@ -3,7 +3,11 @@ import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import { computed } from "@vue/reactivity";
 import { getFireStoreSermons } from "@/service/FireBase/common/Sermons";
-import { DrawerPlacement, NDrawer, NDrawerContent } from "naive-ui";
+import { DrawerPlacement, NDrawer, NDrawerContent, NInput, NIcon, NSelect, NTooltip } from "naive-ui";
+import { Search24Filled, DocumentBulletList20Regular, Info16Regular } from "@vicons/fluent";
+import categoryOptions from "./CategoryOptions";
+import { Youtube } from "@vicons/fa";
+
 const store = useStore();
 const sermons = computed(() => store.state.sermonState.sermons);
 
@@ -19,10 +23,13 @@ const closeSelectedSermon = () => {
     drawerShowContent.value = false;
 };
 
+const categorySelected = ref(null);
+
 function getSermons() {
     getFireStoreSermons()
         .then((result) => {
             store.state.sermonState.sermons = result;
+            console.log(store.state.sermonState.sermons);
         })
         .catch((e) => {
             console.log(e);
@@ -56,18 +63,55 @@ onMounted(() => {
                 ullam ducimus officia quae exercitationem provident nihil necessitatibus?
             </NDrawerContent>
         </NDrawer>
-        <div class="mb-4">
-            <h1 class="text-size-30px font-800">Sermons</h1>
-            <p class="text-size-18px max-w-800px">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta deserunt reprehenderit sit saepe officiis pariatur esse numquam accusantium eligendi, laborum
-                similique eveniet ipsa quaerat est hic, harum cumque, nam sint.
-            </p>
+        <div class="mb-4 flex items-center gap-30px">
+            <h1 class="text-size-30px font-800 flex items-center gap-10px">
+                Sermons
+                <NTooltip trigger="hover" placement="bottom">
+                    <template #trigger>
+                        <NIcon> <Info16Regular /> </NIcon>
+                    </template>
+                    <p class="max-w-300px">
+                        This is the sermon page where you can watch and read sermons. Sermons are added by the creator of this app. But you can send a link or a document to my
+                        gmail jenuelganawed936@gmail.com. <b>Where going to create a function later to make this work easily.</b>
+                    </p>
+                </NTooltip>
+            </h1>
+            <NInput round placeholder="Flash">
+                <template #suffix>
+                    <NIcon><Search24Filled /></NIcon>
+                </template>
+            </NInput>
+            <div class="max-w-300px w-[100%]">
+                <NSelect v-model:value="categorySelected" :options="categoryOptions" />
+            </div>
         </div>
-        <div class="flex">
+        <div class="flex gap-20px mt-3">
             <div v-for="sermon in sermons" :key="sermon.title" class="w-300px cursor-pointer" @click="selectASermon(sermon)">
-                <img :src="sermon.thumbnail" alt="" class="w-[100%]" />
-                <div>{{ sermon.title }}</div>
-                <div>{{ sermon.description }}</div>
+                <div class="h-160px overflow-hidden">
+                    <img v-if="sermon.thumbnail" :src="sermon.thumbnail" alt="" class="w-[100%]" />
+                    <div v-else class="w-[100%] bg-black h-160px flex justify-center items-center">
+                        <h1 class="font-800 text-size-30px">{{ sermon.title }}</h1>
+                    </div>
+                </div>
+
+                <div class="font-700 flex gap-10px mt-10px">
+                    <p class="truncate">
+                        {{ sermon.title }}
+                    </p>
+                    <span v-if="sermon.type === 'youtube'" class="-mb-5px">
+                        <NIcon size="20" color="#FF0000">
+                            <Youtube />
+                        </NIcon>
+                    </span>
+                    <span v-if="sermon.type === 'text'" class="-mb-5px">
+                        <NIcon size="20">
+                            <DocumentBulletList20Regular />
+                        </NIcon>
+                    </span>
+                </div>
+                <p class="truncate">
+                    {{ sermon.description }}
+                </p>
             </div>
         </div>
     </div>
