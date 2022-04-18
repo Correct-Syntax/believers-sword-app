@@ -6,16 +6,18 @@ import { getFireStoreSermons } from "@/service/FireBase/common/Sermons";
 import { DrawerPlacement, NDrawer, NDrawerContent, NInput, NIcon, NSelect, NTooltip } from "naive-ui";
 import { Search24Filled, DocumentBulletList20Regular, Info16Regular } from "@vicons/fluent";
 import categoryOptions from "./CategoryOptions";
-import { Youtube } from "@vicons/fa";
+import { Youtube, WindowClose } from "@vicons/fa";
 
 const store = useStore();
 const sermons = computed(() => store.state.sermonState.sermons);
+const sermonTitleSelected = () => computed(() => (store.state.sermonState.selected_sermon ? store.state.sermonState.selected_sermon.title : "No Title"));
 
 const drawerShowContent = ref(false);
 const placement = ref<DrawerPlacement>("right");
 
 const selectASermon = (sermon: any) => {
     store.state.sermonState.selected_sermon = sermon;
+    console.log(sermon);
     drawerShowContent.value = true;
 };
 const closeSelectedSermon = () => {
@@ -56,11 +58,15 @@ onMounted(() => {
         <NDrawer v-model:show="drawerShowContent" :width="`100%`" :placement="placement" to="#drawer-target">
             <NDrawerContent>
                 <template #header>
-                    <div>This is the title</div>
-                    <div @click="closeSelectedSermon">Close</div>
+                    <div class="flex gap-10px">
+                        <div @click="closeSelectedSermon">
+                            <NIcon class="cursor-pointer">
+                                <WindowClose />
+                            </NIcon>
+                        </div>
+                        <div>{{ sermonTitleSelected() }}</div>
+                    </div>
                 </template>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam qui, asperiores dolore incidunt, consectetur blanditiis vel aut maiores esse modi quas molestias
-                ullam ducimus officia quae exercitationem provident nihil necessitatibus?
             </NDrawerContent>
         </NDrawer>
         <div class="mb-4 flex items-center gap-30px">
