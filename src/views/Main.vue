@@ -1,12 +1,12 @@
 <template>
     <div id="main-container" class="main-container flex h-[100%] flex-col">
         <NModal v-model:show="showSettingModal" :on-after-leave="closeModal">
-            <NCard style="width: 600px; height: 600px;" :bordered="false" size="small">
+            <NCard style="width: 600px; height: 600px" :bordered="false" size="small">
                 <Settings />
             </NCard>
         </NModal>
         <NModal v-model:show="createClipNoteModal" :on-after-leave="closeModal">
-            <NCard style="width: 600px;" :bordered="false" size="small">
+            <NCard style="width: 600px" :bordered="false" size="small">
                 <SaveClipModal />
             </NCard>
         </NModal>
@@ -58,9 +58,9 @@ export default defineComponent({
             closeModal: () => {
                 store.state.showSettings = false;
                 store.state.clipNotes.createClipNote = false;
-            }
+            },
         };
-    }
+    },
 });
 </script>
 <style lang="scss">

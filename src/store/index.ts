@@ -1,12 +1,13 @@
-import { clipNotes } from './modules/clipNotes/clipNotes';
-import { prayerList } from './modules/prayerList/prayerList';
-import { markerHighLights } from './modules/markerHighlights/markerHighlights';
-import { appUpdate } from './modules/appUpdate/index';
-import { verseBookmarkState } from './modules/verseBookMarkState/index';
+import { sermonState } from "./modules/sermons/sermons";
+import { clipNotes } from "./modules/clipNotes/clipNotes";
+import { prayerList } from "./modules/prayerList/prayerList";
+import { markerHighLights } from "./modules/markerHighlights/markerHighlights";
+import { appUpdate } from "./modules/appUpdate/index";
+import { verseBookmarkState } from "./modules/verseBookMarkState/index";
 import { bibleModule } from "./modules/bible";
 import { createStore } from "vuex";
 import { frameState } from "./modules/frameState";
-import { notes } from './modules/notes/notes';
+import { notes } from "./modules/notes/notes";
 
 export default createStore({
     state: {
@@ -16,8 +17,8 @@ export default createStore({
         showSettings: false,
         primaryColors: {
             primaryColorDark: "#3cb1ff",
-            primaryColorLight: "#008fee"
-        }
+            primaryColorLight: "#008fee",
+        },
     },
     mutations: {},
     actions: {},
@@ -29,6 +30,7 @@ export default createStore({
         marker: markerHighLights,
         notes: notes,
         prayerList: prayerList,
-        clipNotes: clipNotes
-    }
+        clipNotes: clipNotes,
+        sermonState: sermonState,
+    },
 });
