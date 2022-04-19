@@ -7,6 +7,8 @@ import { DrawerPlacement, NDrawer, NDrawerContent, NInput, NIcon, NSelect, NTool
 import { Search24Filled, DocumentBulletList20Regular, Info16Regular } from "@vicons/fluent";
 import categoryOptions from "./CategoryOptions";
 import { Youtube, WindowClose } from "@vicons/fa";
+import DrawerContentVue from "./partials/DrawerContent/DrawerContent.vue";
+import { NScrollbar } from "naive-ui";
 
 const store = useStore();
 const sermons = computed(() => store.state.sermonState.sermons);
@@ -67,6 +69,9 @@ onMounted(() => {
                         <div>{{ sermonTitleSelected() }}</div>
                     </div>
                 </template>
+                <NScrollbar class="h-[100%]">
+                    <DrawerContentVue />
+                </NScrollbar>
             </NDrawerContent>
         </NDrawer>
         <div class="mb-4 flex items-center gap-30px">

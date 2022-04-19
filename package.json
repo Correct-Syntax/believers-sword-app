@@ -37,7 +37,8 @@
     "upath": "^2.0.1",
     "vue": "^3.2.31",
     "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0"
+    "vuex": "^4.0.0-0",
+    "youtube-vue3": "^0.1.15"
   },
   "devDependencies": {
     "@types/electron-devtools-installer": "^2.2.0",
