@@ -9,13 +9,13 @@
         <div v-if="Object.keys(savedBookmarks).length > 0" class="bookmarks-view-wrapper overflow-y-auto overflowing-div w-[100%]">
             <template v-for="bookmark in savedBookmarks" :key="bookmark.b_text + bookmark.b + bookmark.c + bookmark.v">
                 <div
-                    class="right-side-bookmark-saved-items rounded-md"
+                    class="right-side-bookmark-saved-items"
                     :class="{
                         'right-side-bookmark-selected': bookmark.b === selectedBookmark.b && bookmark.c === selectedBookmark.c && bookmark.v === selectedBookmark.v,
                     }"
                     @click="goToVerse(bookmark)"
                 >
-                    <div class="w-[100%] px-5px py-10px text-size-20px">{{ bookmark.b_text }} {{ bookmark.c }}:{{ bookmark.v }}</div>
+                    <div class="w-[100%] px-5px py-10px text-size-17px">{{ bookmark.b_text }} {{ bookmark.c }}:{{ bookmark.v }}</div>
                     <div class="flex gap-10px cursor-pointer text-size-18px px-10px">
                         <div class="opacity-50 hover:opacity-100 hidden" @click.stop.prevent>
                             <i class="bx bx-share-alt"></i>
@@ -54,7 +54,7 @@ export default defineComponent({
         const bookmarkCount = computed(() => store.state.verseBookmark.bookmarkTotalCount);
         const searchBibleBook = ref("all");
 
-        const savedBookmarks = computed(() => {
+        const savedBookmarks: any = computed(() => {
             return Object.fromEntries(
                 Object.entries(store.state.verseBookmark.savedBookmarks).filter((bookmark: any) => bookmark[1].b == searchBibleBook.value || searchBibleBook.value === "all")
             );
@@ -153,7 +153,7 @@ export default defineComponent({
 </script>
 <style lang="postcss">
 .bookmarks-view-wrapper {
-    @apply flex flex-wrap gap-10px justify-center;
+    @apply flex flex-wrap gap-0px justify-center;
 }
 .right-side-bookmark-saved-items {
     @apply flex items-center flex-row gap-10px justify-between text-size-15px border-l-[5px]  border-opacity-0 border-light-50 duration-200 h-[40px] w-[100%] max-w-[320px];
