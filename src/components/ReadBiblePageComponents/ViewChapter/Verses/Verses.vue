@@ -6,7 +6,7 @@
     </div>
 </template>
 <script lang="ts">
-import { setVersesUneditable } from "@/helper/VerseHelper/VerseHelper";
+// import { setVersesUneditable } from "@/helper/VerseHelper/VerseHelper";
 import { defineComponent, onMounted } from "vue";
 import Verse from "./Verse.vue";
 
@@ -16,7 +16,7 @@ export default defineComponent({
     components: { Verse },
     setup() {
         onMounted(() => {
-            setVersesUneditable(800);
+            // setVersesUneditable(800);
         });
     },
 });

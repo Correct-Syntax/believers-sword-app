@@ -12,3 +12,4 @@ export const setVersesUneditable = (millisecond: number): void => {
         });
     }, millisecond);
 };
+
