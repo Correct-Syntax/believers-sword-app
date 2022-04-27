@@ -6,7 +6,7 @@
         <div class="flex flex-col h-[calc(100%-25px)]">
             <div class="h-[100%] overflow-y-auto overflowing-div">
                 <div class="select-none whitespace-nowrap">
-                    <NCheckboxGroup size="large" v-model:value="selectVersion" >
+                    <NCheckboxGroup size="large" v-model:value="selectVersion">
                         <NGrid :y-gap="8" :cols="1">
                             <template v-for="version in bibleStore.bibleVersions" :key="version.table">
                                 <NGi>
@@ -41,6 +41,7 @@ import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
 import session from "@/service/session/session";
 import { NCheckboxGroup, NCheckbox, NGrid, NGi } from "naive-ui";
+import { setVersesUneditable } from "@/helper/VerseHelper/VerseHelper";
 
 export default defineComponent({
     components: { NCheckboxGroup, NCheckbox, NGrid, NGi },
@@ -56,6 +57,7 @@ export default defineComponent({
             bibleStore.value.bibleVersionsSelected = selectVersion.value;
             session.set("storedSelectedVersions", selectVersion.value);
             await store.dispatch("getBookInChapter", { bible: bibleStore.value.bible, book: bibleStore.value.bookSelected, chapter: bibleStore.value.chapterSelected });
+            setVersesUneditable(100);
         };
 
         watch(selectVersion, () => checkBibleVersion());
