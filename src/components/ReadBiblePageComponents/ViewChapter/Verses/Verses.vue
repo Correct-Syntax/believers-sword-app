@@ -6,6 +6,7 @@
     </div>
 </template>
 <script lang="ts">
+// import { setVersesUneditable } from "@/helper/VerseHelper/VerseHelper";
 import { defineComponent, onMounted } from "vue";
 import Verse from "./Verse.vue";
 
@@ -15,19 +16,8 @@ export default defineComponent({
     components: { Verse },
     setup() {
         onMounted(() => {
-            setTimeout(() => {
-                const parentElement = document.getElementById("verses-view");
-                parentElement?.querySelectorAll("[contenteditable]").forEach(el => {
-                    el.addEventListener("keydown", function(evt: any) {
-                        if (evt.code === "KeyC") return true;
-                        evt.preventDefault();
-                    });
-                    el.addEventListener("drop", event => {
-                        event.preventDefault();
-                    });
-                });
-            }, 800);
+            // setVersesUneditable(800);
         });
-    }
+    },
 });
 </script>

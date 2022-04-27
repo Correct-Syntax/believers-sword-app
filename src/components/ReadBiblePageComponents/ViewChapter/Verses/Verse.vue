@@ -1,3 +1,81 @@
+<script lang="ts" setup>
+import { ipcRenderer } from "electron";
+import { useMessage } from "naive-ui";
+import { computed } from "vue";
+import { useStore } from "vuex";
+import { cloneDeep } from "lodash";
+import SaveClipNote from "./SaveClipNote/SaveClipNote.vue";
+import VerseClipNote from "./SaveClipNote/verseClipNotes/verseClipNotes.vue";
+import { NTooltip } from "naive-ui";
+
+// eslint-disable-next-line
+const { clipNote, verse, fontSize } = defineProps(["clipNote", "verse", "fontSize"]);
+
+const store = useStore();
+const bibleBookMarkStore = computed(() => store.state.verseBookmark);
+const savedBookmarks = computed(() => store.state.verseBookmark.savedBookmarks);
+const bibleBooks = computed(() => store.state.bible.bibleBooks);
+const bibleStore = computed(() => store.state.bible);
+const MarkerHighlights = computed(() => store.state.marker);
+const message = useMessage();
+const selectedBookmark = computed(() => store.state.verseBookmark.selectedBookmark);
+
+const checkIfVerseExistInBookmarkState = (verse: any) => {
+    return bibleBookMarkStore.value.bookmarks.filter((item: any) => item.b === verse.b && item.c === verse.c && item.v === verse.v).length > 0;
+};
+
+const checkIfVerseExistInSavedBookmarks = (verse: any) => {
+    return savedBookmarks.value[`${verse.b}_${verse.c}_${verse.v}`];
+};
+
+const getVersion = (table: string) => {
+    let version = bibleStore.value.bibleVersions.filter((item: any) => item.table === table);
+    return version ? version[0]?.abbreviation : "NONE";
+};
+
+const checkHighlight = ({ key, orig }: any) => {
+    let marked = MarkerHighlights.value.highlights[key];
+    if (!marked) return String(orig).replace("<pb>", "").replace("<pb/>", "");
+    return marked.content;
+};
+
+const saveToBookmark = (verse: any) => {
+    let newBookMark = [];
+    let getBook = bibleBooks.value.filter((book: any) => book.b === verse.b)?.[0]?.n;
+    newBookMark.push({
+        b_text: getBook,
+        b: verse.b,
+        c: verse.c,
+        v: verse.v,
+        versions: cloneDeep(verse.versions),
+    });
+
+    ipcRenderer.invoke("saveVersesInBookmark", newBookMark).then((bookmarks: any) => {
+        store.dispatch("getVersesInBookmarkResult", bookmarks);
+    });
+    message.info("Bookmarked! Saved");
+};
+
+function checkHere(): void {
+    // eslint-disable-next-line
+    const el: HTMLElement = this;
+    el.addEventListener("keydown", function (event: any) {
+        event.preventDefault();
+    });
+}
+
+function clickVerse(verse: any) {
+    if (checkIfVerseExistInBookmarkState(verse)) {
+        let index = bibleBookMarkStore.value.bookmarks.findIndex((item: any) => item.b === verse.b && item.c === verse.c && item.v === verse.v);
+        if (index >= 0) bibleBookMarkStore.value.bookmarks.splice(index, 1);
+    } else {
+        let getBook = bibleBooks.value.filter((book: any) => book.b === verse.b)?.[0]?.n;
+        let toAdd = verse;
+        toAdd.b_text = getBook;
+        bibleBookMarkStore.value.bookmarks.push(toAdd);
+    }
+}
+</script>
 <template>
     <div
         class="verse-item relative cursor-pointer relative pr-80px rounded-md"
@@ -5,7 +83,7 @@
             'item-bookmarked': checkIfVerseExistInBookmarkState(verse),
             'item-saved-in-bookmark': checkIfVerseExistInSavedBookmarks(verse),
             'saved-bookmark-selected': verse.b === selectedBookmark.b && verse.c === selectedBookmark.c && verse.v === selectedBookmark.v,
-            'dark:border-gray-300 border-gray-700': clipNote && clipNote.color === 'default'
+            'dark:border-gray-300 border-gray-700': clipNote && clipNote.color === 'default',
         }"
         :style="`${clipNote ? 'border: 2px solid ' + clipNote.color : ''}`"
         @click="clickVerse(verse)"
@@ -44,6 +122,7 @@
                         v-html="checkHighlight({ key: `${version.version}_${verse.b}_${verse.c}_${verse.v}`, orig: version.text })"
                         contenteditable="true"
                         spellcheck="false"
+                        :onfocus="checkHere"
                         @click.stop.prevent
                     ></span>
                 </div>
@@ -52,7 +131,7 @@
         <div class="verse-item-more-options absolute top-10px right-20px text-size-24px" @click.stop.prevent>
             <NTooltip trigger="hover" size="small" placement="left">
                 <template #trigger>
-                    <div class="verse-item-more-options-item  dark:text-gray-300 text-gray-100 cursor-pointer" @click="saveToBookmark(verse)">
+                    <div class="verse-item-more-options-item dark:text-gray-300 text-gray-100 cursor-pointer" @click="saveToBookmark(verse)">
                         <i class="bx bx-bookmark-alt-plus"></i>
                     </div>
                 </template>
@@ -68,90 +147,6 @@
     </div>
     <VerseClipNote class="verse-clip-note" :clipNote="clipNote" :verse="clipNote ? clipNote : { b: verse.b, c: verse.c, v: verse.v }" :style="`font-size: ${fontSize - 2}px; `" />
 </template>
-<script lang="ts">
-import { ipcRenderer } from "electron";
-import { useMessage } from "naive-ui";
-import { computed, defineComponent } from "vue";
-import { useStore } from "vuex";
-import { cloneDeep } from "lodash";
-import SaveClipNote from "./SaveClipNote/SaveClipNote.vue";
-import VerseClipNote from "./SaveClipNote/verseClipNotes/verseClipNotes.vue";
-import { NTooltip } from "naive-ui";
-
-export default defineComponent({
-    components: { SaveClipNote, VerseClipNote, NTooltip },
-    props: ["clipNote", "verse", "fontSize"],
-    setup() {
-        const store = useStore();
-        const bibleBookMarkStore = computed(() => store.state.verseBookmark);
-        const savedBookmarks = computed(() => store.state.verseBookmark.savedBookmarks);
-        const bibleBooks = computed(() => store.state.bible.bibleBooks);
-        const bibleStore = computed(() => store.state.bible);
-        const MarkerHighlights = computed(() => store.state.marker);
-        const message = useMessage();
-        const selectedBookmark = computed(() => store.state.verseBookmark.selectedBookmark);
-
-        const checkIfVerseExistInBookmarkState = (verse: any) => {
-            return bibleBookMarkStore.value.bookmarks.filter((item: any) => item.b === verse.b && item.c === verse.c && item.v === verse.v).length > 0;
-        };
-
-        const checkIfVerseExistInSavedBookmarks = (verse: any) => {
-            return savedBookmarks.value[`${verse.b}_${verse.c}_${verse.v}`];
-        };
-
-        const getVersion = (table: string) => {
-            let version = bibleStore.value.bibleVersions.filter((item: any) => item.table === table);
-            return version ? version[0]?.abbreviation : "NONE";
-        };
-
-        const checkHighlight = ({ key, orig }: any) => {
-            let marked = MarkerHighlights.value.highlights[key];
-            if (!marked)
-                return String(orig)
-                    .replace("<pb>", "")
-                    .replace("<pb/>", "");
-            return marked.content;
-        };
-
-        const saveToBookmark = (verse: any) => {
-            let newBookMark = [];
-            let getBook = bibleBooks.value.filter((book: any) => book.b === verse.b)?.[0]?.n;
-            newBookMark.push({
-                b_text: getBook,
-                b: verse.b,
-                c: verse.c,
-                v: verse.v,
-                versions: cloneDeep(verse.versions)
-            });
-
-            ipcRenderer.invoke("saveVersesInBookmark", newBookMark).then((bookmarks: any) => {
-                store.dispatch("getVersesInBookmarkResult", bookmarks);
-            });
-            message.info("Bookmarked! Saved");
-        };
-
-        return {
-            selectedBookmark,
-            saveToBookmark,
-            checkHighlight,
-            getVersion,
-            checkIfVerseExistInBookmarkState,
-            checkIfVerseExistInSavedBookmarks,
-            clickVerse(verse: any) {
-                if (checkIfVerseExistInBookmarkState(verse)) {
-                    let index = bibleBookMarkStore.value.bookmarks.findIndex((item: any) => item.b === verse.b && item.c === verse.c && item.v === verse.v);
-                    if (index >= 0) bibleBookMarkStore.value.bookmarks.splice(index, 1);
-                } else {
-                    let getBook = bibleBooks.value.filter((book: any) => book.b === verse.b)?.[0]?.n;
-                    let toAdd = verse;
-                    toAdd.b_text = getBook;
-                    bibleBookMarkStore.value.bookmarks.push(toAdd);
-                }
-            }
-        };
-    }
-});
-</script>
 <style lang="postcss">
 .verse-item {
     @apply flex items-center justify-between w-[100%] gap-20px mt-20px cursor-default p-20px dark:bg-gray-100 bg-gray-800 dark:bg-opacity-0 bg-opacity-0 dark:hover:bg-opacity-3 hover:bg-opacity-5 border dark:border-gray-800 border-gray-50;
@@ -217,8 +212,6 @@ export default defineComponent({
             @apply opacity-100;
         }
     }
-
-    
 }
 
 .verse-clip-note {

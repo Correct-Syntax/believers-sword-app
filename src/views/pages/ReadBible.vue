@@ -7,10 +7,7 @@
             <div id="read-chapter-area">
                 <ViewChapter />
             </div>
-            <div
-                id="make-notes-area"
-                class="dark:bg-black dark:bg-opacity-30 h-[100%] bg-gray-300 bg-opacity-80 relative flex flex-col !w-[100%]"
-            >
+            <div id="make-notes-area" class="dark:bg-black dark:bg-opacity-30 h-[100%] bg-gray-300 bg-opacity-80 relative flex flex-col !w-[100%]">
                 <div
                     id="expanding-this"
                     class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center select-none flex items-center duration-200 active:bg-[var(--primaryColor)]"
@@ -57,13 +54,13 @@ export default defineComponent({
                 // eslint-disable-next-line
                 elementStyle: (dimension, size, gutterSize) => {
                     return {
-                        "flex-basis": size + "%"
+                        "flex-basis": size + "%",
                     };
                 },
 
-                onDragEnd: sizes => {
+                onDragEnd: (sizes) => {
                     localStorage.setItem("read-bible-split-sizes", JSON.stringify(sizes));
-                }
+                },
             });
 
             const VerticalSizes: any = localStorage.getItem("read-chapter-split-sizes-vertical");
@@ -77,10 +74,10 @@ export default defineComponent({
                 },
                 gutterStyle: () => {
                     return {
-                        height: `0px`
+                        height: `0px`,
                     };
                 },
-                onDrag: sizes => {
+                onDrag: (sizes) => {
                     if (sizes[1] < 5) {
                         toggledMakeNote.value = false;
                     } else {
@@ -90,14 +87,14 @@ export default defineComponent({
                 // eslint-disable-next-line
                 elementStyle: (dimension, size) => {
                     return {
-                        height: `${size}%`
+                        height: `${size}%`,
                     };
                 },
-                onDragEnd: sizes => {
+                onDragEnd: (sizes) => {
                     isOnDragVerticalSplit.value = false;
                     localStorage.setItem("read-chapter-split-sizes-vertical", JSON.stringify(sizes));
                     localStorage.setItem("read-chapter-split-sizes-vertical-open-sizes", JSON.stringify(sizes));
-                }
+                },
             });
 
             let vertical_sizes = middleVerticalSplit.getSizes();
@@ -131,9 +128,9 @@ export default defineComponent({
 
         return {
             isOnDragVerticalSplit,
-            toggledMakeNote
+            toggledMakeNote,
         };
-    }
+    },
 });
 </script>
 <style lang="postcss">
