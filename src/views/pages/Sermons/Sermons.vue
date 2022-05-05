@@ -3,8 +3,8 @@ import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import { computed } from "@vue/reactivity";
 import { getFireStoreSermons } from "@/service/FireBase/common/Sermons";
-import { DrawerPlacement, NDrawer, NDrawerContent, NInput, NIcon, NSelect, NTooltip } from "naive-ui";
-import { Search24Filled, DocumentBulletList20Regular, Info16Regular } from "@vicons/fluent";
+import { DrawerPlacement, NDrawer, NDrawerContent, NInput, NIcon, NSelect, NTooltip, NButton } from "naive-ui";
+import { Search24Filled, DocumentBulletList20Regular, Info16Regular, ArrowReset24Filled } from "@vicons/fluent";
 import categoryOptions from "./CategoryOptions";
 import { Youtube, WindowClose } from "@vicons/fa";
 import DrawerContentVue from "./partials/DrawerContent/DrawerContent.vue";
@@ -19,7 +19,6 @@ const placement = ref<DrawerPlacement>("right");
 
 const selectASermon = (sermon: any) => {
     store.state.sermonState.selected_sermon = sermon;
-    console.log(sermon);
     drawerShowContent.value = true;
 };
 const closeSelectedSermon = () => {
@@ -27,16 +26,19 @@ const closeSelectedSermon = () => {
     drawerShowContent.value = false;
 };
 
+const loadingSermon = ref(false);
 const categorySelected = ref(null);
 
 function getSermons() {
+    loadingSermon.value = true;
     getFireStoreSermons()
         .then((result) => {
             store.state.sermonState.sermons = result;
-            console.log(store.state.sermonState.sermons);
+            loadingSermon.value = false;
         })
         .catch((e) => {
             console.log(e);
+            loadingSermon.value = false;
         });
 }
 
@@ -77,6 +79,7 @@ onMounted(() => {
         <div class="mb-4 flex items-center gap-30px">
             <h1 class="text-size-30px font-800 flex items-center gap-10px">
                 Sermons
+
                 <NTooltip trigger="hover" placement="bottom">
                     <template #trigger>
                         <NIcon> <Info16Regular /> </NIcon>
@@ -95,12 +98,17 @@ onMounted(() => {
             <div class="max-w-300px w-[100%]">
                 <NSelect v-model:value="categorySelected" :options="categoryOptions" />
             </div>
+            <NButton @click="getSermons()" :loading="loadingSermon" round>
+                <NIcon>
+                    <ArrowReset24Filled />
+                </NIcon>
+            </NButton>
         </div>
-        <div class="flex gap-20px mt-3">
-            <div v-for="sermon in sermons" :key="sermon.title" class="w-300px cursor-pointer" @click="selectASermon(sermon)">
+        <div class="flex gap-20px mt-3 flex-wrap">
+            <div v-for="sermon in sermons" :key="sermon.title" class="w-300px cursor-pointer flex-grow" @click="selectASermon(sermon)">
                 <div class="h-160px overflow-hidden">
                     <img v-if="sermon.thumbnail" :src="sermon.thumbnail" alt="" class="w-[100%]" />
-                    <div v-else class="w-[100%] bg-black h-160px flex justify-center items-center">
+                    <div v-else class="w-[100%] bg-black h-160px flex justify-center items-center p-10px overflow-auto">
                         <h1 class="font-800 text-size-30px">{{ sermon.title }}</h1>
                     </div>
                 </div>
