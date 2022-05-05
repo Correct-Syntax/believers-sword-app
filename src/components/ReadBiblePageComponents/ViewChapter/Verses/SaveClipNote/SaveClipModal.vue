@@ -241,7 +241,7 @@ export default defineComponent({
         const alertShow = ref(false);
         const alertText = ref("");
         const isEditing = ref(false);
-        const editor = useEditor({
+        const editor: any = useEditor({
             content: "",
             extensions: [StarterKit, Underline, Placeholder],
             onUpdate: ({ editor }) => {

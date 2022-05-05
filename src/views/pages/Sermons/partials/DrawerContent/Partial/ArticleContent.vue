@@ -3,7 +3,6 @@ import { computed } from "@vue/reactivity";
 import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
 
-
 const store = useStore();
 const selectedSermonContent = computed(() => store.state.sermonState.selected_sermon);
 const content = ref(null);
@@ -19,6 +18,9 @@ onMounted(() => {
 </template>
 <style lang="scss">
 .text-content-sermon {
+    max-width: 800px;
+    margin: 0 auto;
+
     h1 {
         font-size: 3rem;
     }
@@ -37,6 +39,7 @@ onMounted(() => {
 
     p {
         font-size: 1.3rem;
+        margin-bottom: 30px;
     }
 }
 </style>
