@@ -68,7 +68,7 @@ function setBookNumber(number: any) {
                     </template>
                 </NInput>
             </div>
-            <div class="book-selection-overflow h-[100%] overflow-y-auto overflowing-div">
+            <div class="book-selection-overflow h-[100%] overflow-y-auto overflowing-div pr-2">
                 <div v-for="book in storeBible" :key="book.b" class="book-selection-item py-5px" :class="{ 'selected-active': book.b == bookSelected }" @click="selectBook(book.b)">
                     <span class="book-selection-item-number opacity-50">{{ setBookNumber(book.b) }}.</span> <span>{{ book.n }}</span>
                 </div>
