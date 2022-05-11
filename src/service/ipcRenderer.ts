@@ -13,7 +13,7 @@ export const onMountedRendererEvents = async (store: any = null): Promise<void> 
     }
 
     if (!session.get("webFrameZoom")) {
-        session.set("webFrameZoom", 0.95);
+        session.set("webFrameZoom", 1);
     }
 
     // Bible Events on Renderer

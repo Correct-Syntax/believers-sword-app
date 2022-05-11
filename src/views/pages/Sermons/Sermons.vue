@@ -4,9 +4,15 @@ import { useStore } from "vuex";
 import { computed } from "@vue/reactivity";
 import { getFireStoreSermons } from "@/service/FireBase/common/Sermons";
 import { DrawerPlacement, NDrawer, NDrawerContent, NInput, NIcon, NSelect, NTooltip, NButton } from "naive-ui";
-import { Search24Filled, DocumentBulletList20Regular, Info16Regular, ArrowReset24Filled } from "@vicons/fluent";
+
+import Search24Filled from "@vicons/fluent/Search24Filled";
+import DocumentBulletList20Regular from "@vicons/fluent/DocumentBulletList20Regular";
+import Info16Regular from "@vicons/fluent/Info16Regular";
+import ArrowReset24Filled from "@vicons/fluent/ArrowReset24Filled";
+import Youtube from "@vicons/fa/Youtube";
+import WindowClose from "@vicons/fa/WindowClose";
+
 import categoryOptions from "./CategoryOptions";
-import { Youtube, WindowClose } from "@vicons/fa";
 import DrawerContentVue from "./partials/DrawerContent/DrawerContent.vue";
 import { NScrollbar } from "naive-ui";
 
