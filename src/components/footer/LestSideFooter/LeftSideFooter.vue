@@ -1,3 +1,14 @@
+<script lang="ts" setup>
+import { computed } from "vue";
+import { useStore } from "vuex";
+import { NButton } from "naive-ui";
+
+const store = useStore();
+const verseBookmarkState = computed(() => store.state.verseBookmark);
+function clearBookmarkOnSelect() {
+    verseBookmarkState.value.bookmarks = [];
+}
+</script>
 <template>
     <div>
         <div class="flex items-center">
@@ -18,23 +29,3 @@
         </div>
     </div>
 </template>
-<script lang="ts">
-import { computed, defineComponent } from "vue";
-import { useStore } from "vuex";
-import { NButton } from "naive-ui";
-
-export default defineComponent({
-    components: { NButton },
-    setup() {
-        const store = useStore();
-        const verseBookmarkState = computed(() => store.state.verseBookmark);
-
-        return {
-            verseBookmarkState,
-            clearBookmarkOnSelect() {
-                verseBookmarkState.value.bookmarks = [];
-            },
-        };
-    },
-});
-</script>

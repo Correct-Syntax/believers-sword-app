@@ -1,7 +1,8 @@
 module.exports = {
     root: true,
     env: {
-        node: true
+        node: true,
+        'vue/setup-compiler-macros': true
     },
     'extends': [
         'plugin:vue/vue3-essential',
@@ -17,5 +18,6 @@ module.exports = {
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "no-console": "off",
+        "vue/multi-word-component-names": "off"
     },
 }
