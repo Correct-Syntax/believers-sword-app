@@ -1,3 +1,98 @@
+<script lang="ts" setup>
+import Split from "split.js";
+import { onMounted, ref } from "vue";
+import ViewChapter from "@/components/ReadBiblePageComponents/ViewChapter/ViewChapter.vue";
+import RightSide from "@/components/ReadBiblePageComponents/RightSide/RightSide.vue";
+import LeftSideBar from "@/components/leftSideBar/leftSideBar.vue";
+import Notes from "@/components/ReadBiblePageComponents/Notes/Notes.vue";
+
+const toggledMakeNote = ref(false);
+const isOnDragVerticalSplit = ref(false);
+
+onMounted(async () => {
+    const sizes: any = localStorage.getItem("read-bible-split-sizes");
+    Split(["#leftSide", "#mainWindow", "#pinakaRightSide"], {
+        sizes: sizes ? JSON.parse(sizes) : [20, 60, 20],
+        minSize: [180, 500, 200],
+        maxSize: [400, Infinity, 700],
+        snapOffset: 0,
+
+        // eslint-disable-next-line
+        elementStyle: (dimension, size, gutterSize) => {
+            return {
+                "flex-basis": size + "%",
+            };
+        },
+
+        onDragEnd: (sizes) => {
+            localStorage.setItem("read-bible-split-sizes", JSON.stringify(sizes));
+        },
+    });
+
+    const VerticalSizes: any = localStorage.getItem("read-chapter-split-sizes-vertical");
+    let middleVerticalSplit = Split(["#read-chapter-area", "#make-notes-area"], {
+        direction: "vertical",
+        minSize: [200, 20],
+        sizes: VerticalSizes ? JSON.parse(VerticalSizes) : [100, 0],
+        snapOffset: 20,
+        onDragStart: () => {
+            isOnDragVerticalSplit.value = true;
+        },
+        gutterStyle: () => {
+            return {
+                height: `0px`,
+            };
+        },
+        onDrag: (sizes) => {
+            if (sizes[1] < 5) {
+                toggledMakeNote.value = false;
+            } else {
+                toggledMakeNote.value = true;
+            }
+        },
+        // eslint-disable-next-line
+        elementStyle: (dimension, size) => {
+            return {
+                height: `${size}%`,
+            };
+        },
+        onDragEnd: (sizes) => {
+            isOnDragVerticalSplit.value = false;
+            localStorage.setItem("read-chapter-split-sizes-vertical", JSON.stringify(sizes));
+            localStorage.setItem("read-chapter-split-sizes-vertical-open-sizes", JSON.stringify(sizes));
+        },
+    });
+
+    let vertical_sizes = middleVerticalSplit.getSizes();
+    if (vertical_sizes[1] > 5) toggledMakeNote.value = true;
+
+    document.getElementById("expanding-this")?.addEventListener("click", () => {
+        if (toggledMakeNote.value) {
+            toggledMakeNote.value = false;
+
+            middleVerticalSplit.setSizes([100, 0]);
+            localStorage.setItem("read-chapter-split-sizes-vertical", JSON.stringify([100, 0]));
+        } else {
+            toggledMakeNote.value = true;
+            const vertical: any = localStorage.getItem("read-chapter-split-sizes-vertical-open-sizes");
+            if (vertical && JSON.parse(vertical)[1] < 10) {
+                middleVerticalSplit.setSizes([50, 50]);
+                localStorage.setItem("read-chapter-split-sizes-vertical", JSON.stringify([50, 50]));
+                return;
+            }
+            middleVerticalSplit.setSizes(vertical ? JSON.parse(vertical) : [50, 50]);
+            localStorage.setItem("read-chapter-split-sizes-vertical", vertical);
+        }
+    });
+
+    window.addEventListener("resize", () => {
+        if (middleVerticalSplit.getSizes()[1] < 10) {
+            middleVerticalSplit.collapse(1);
+        }
+    });
+});
+</script>
+
 <template>
     <div class="split flex flex-row h-[100%] w-[100%]">
         <div id="leftSide" class="h-[100%] dark:bg-black dark:bg-opacity-20 bg-gray-200 resize-x p-5px z-20">
@@ -29,110 +124,7 @@
         </div>
     </div>
 </template>
-<script lang="ts">
-import Split from "split.js";
-import { defineComponent, onMounted, ref } from "vue";
-import ViewChapter from "@/components/ReadBiblePageComponents/ViewChapter/ViewChapter.vue";
-import RightSide from "@/components/ReadBiblePageComponents/RightSide/RightSide.vue";
-import LeftSideBar from "@/components/leftSideBar/leftSideBar.vue";
-import Notes from "@/components/ReadBiblePageComponents/Notes/Notes.vue";
 
-export default defineComponent({
-    components: { LeftSideBar, ViewChapter, RightSide, Notes },
-    setup() {
-        const toggledMakeNote = ref(false);
-        const isOnDragVerticalSplit = ref(false);
-
-        onMounted(async () => {
-            const sizes: any = localStorage.getItem("read-bible-split-sizes");
-            Split(["#leftSide", "#mainWindow", "#pinakaRightSide"], {
-                sizes: sizes ? JSON.parse(sizes) : [20, 60, 20],
-                minSize: [180, 500, 200],
-                maxSize: [400, Infinity, 700],
-                snapOffset: 0,
-
-                // eslint-disable-next-line
-                elementStyle: (dimension, size, gutterSize) => {
-                    return {
-                        "flex-basis": size + "%",
-                    };
-                },
-
-                onDragEnd: (sizes) => {
-                    localStorage.setItem("read-bible-split-sizes", JSON.stringify(sizes));
-                },
-            });
-
-            const VerticalSizes: any = localStorage.getItem("read-chapter-split-sizes-vertical");
-            let middleVerticalSplit = Split(["#read-chapter-area", "#make-notes-area"], {
-                direction: "vertical",
-                minSize: [200, 20],
-                sizes: VerticalSizes ? JSON.parse(VerticalSizes) : [100, 0],
-                snapOffset: 20,
-                onDragStart: () => {
-                    isOnDragVerticalSplit.value = true;
-                },
-                gutterStyle: () => {
-                    return {
-                        height: `0px`,
-                    };
-                },
-                onDrag: (sizes) => {
-                    if (sizes[1] < 5) {
-                        toggledMakeNote.value = false;
-                    } else {
-                        toggledMakeNote.value = true;
-                    }
-                },
-                // eslint-disable-next-line
-                elementStyle: (dimension, size) => {
-                    return {
-                        height: `${size}%`,
-                    };
-                },
-                onDragEnd: (sizes) => {
-                    isOnDragVerticalSplit.value = false;
-                    localStorage.setItem("read-chapter-split-sizes-vertical", JSON.stringify(sizes));
-                    localStorage.setItem("read-chapter-split-sizes-vertical-open-sizes", JSON.stringify(sizes));
-                },
-            });
-
-            let vertical_sizes = middleVerticalSplit.getSizes();
-            if (vertical_sizes[1] > 5) toggledMakeNote.value = true;
-
-            document.getElementById("expanding-this")?.addEventListener("click", () => {
-                if (toggledMakeNote.value) {
-                    toggledMakeNote.value = false;
-
-                    middleVerticalSplit.setSizes([100, 0]);
-                    localStorage.setItem("read-chapter-split-sizes-vertical", JSON.stringify([100, 0]));
-                } else {
-                    toggledMakeNote.value = true;
-                    const vertical: any = localStorage.getItem("read-chapter-split-sizes-vertical-open-sizes");
-                    if (vertical && JSON.parse(vertical)[1] < 10) {
-                        middleVerticalSplit.setSizes([50, 50]);
-                        localStorage.setItem("read-chapter-split-sizes-vertical", JSON.stringify([50, 50]));
-                        return;
-                    }
-                    middleVerticalSplit.setSizes(vertical ? JSON.parse(vertical) : [50, 50]);
-                    localStorage.setItem("read-chapter-split-sizes-vertical", vertical);
-                }
-            });
-
-            window.addEventListener("resize", () => {
-                if (middleVerticalSplit.getSizes()[1] < 10) {
-                    middleVerticalSplit.collapse(1);
-                }
-            });
-        });
-
-        return {
-            isOnDragVerticalSplit,
-            toggledMakeNote,
-        };
-    },
-});
-</script>
 <style lang="postcss">
 .spanResizer {
     -webkit-app-region: no-drag;
