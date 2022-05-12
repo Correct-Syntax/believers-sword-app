@@ -4,7 +4,6 @@ import router from "./router";
 import store from "./store";
 import "./assets/style/main.scss";
 import "virtual:windi.css";
-import "./assets/style/proseMirror.postcss";
 
 createApp(App)
     .use(store)

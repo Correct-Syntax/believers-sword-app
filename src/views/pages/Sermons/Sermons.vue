@@ -3,18 +3,11 @@ import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import { computed } from "@vue/reactivity";
 import { getFireStoreSermons } from "@/service/FireBase/common/Sermons";
-import { DrawerPlacement, NDrawer, NDrawerContent, NInput, NIcon, NSelect, NTooltip, NButton } from "naive-ui";
-
-import Search24Filled from "@vicons/fluent/Search24Filled";
-import DocumentBulletList20Regular from "@vicons/fluent/DocumentBulletList20Regular";
-import Info16Regular from "@vicons/fluent/Info16Regular";
-import ArrowReset24Filled from "@vicons/fluent/ArrowReset24Filled";
-import Youtube from "@vicons/fa/Youtube";
-import WindowClose from "@vicons/fa/WindowClose";
+import { DrawerPlacement, NDrawer, NDrawerContent, NInput, NIcon, NSelect, NTooltip, NButton, NScrollbar } from "naive-ui";
+import { LogoYoutube, Close, Search, ListDropdown, Information, Reset } from "@vicons/carbon";
 
 import categoryOptions from "./CategoryOptions";
 import DrawerContentVue from "./partials/DrawerContent/DrawerContent.vue";
-import { NScrollbar } from "naive-ui";
 
 const store = useStore();
 const sermons = computed(() => store.state.sermonState.sermons);
@@ -71,7 +64,7 @@ onMounted(() => {
                     <div class="flex gap-10px">
                         <div @click="closeSelectedSermon">
                             <NIcon class="cursor-pointer">
-                                <WindowClose />
+                                <Close />
                             </NIcon>
                         </div>
                         <div>{{ sermonTitleSelected() }}</div>
@@ -88,7 +81,7 @@ onMounted(() => {
 
                 <NTooltip trigger="hover" placement="bottom">
                     <template #trigger>
-                        <NIcon> <Info16Regular /> </NIcon>
+                        <NIcon> <Information /> </NIcon>
                     </template>
                     <p class="max-w-300px">
                         This is the sermon page where you can watch and read sermons. Sermons are added by the creator of this app. But you can send a link or a document to my
@@ -98,7 +91,7 @@ onMounted(() => {
             </h1>
             <NInput round placeholder="Flash">
                 <template #suffix>
-                    <NIcon><Search24Filled /></NIcon>
+                    <NIcon><Search /></NIcon>
                 </template>
             </NInput>
             <div class="max-w-300px w-[100%]">
@@ -106,7 +99,7 @@ onMounted(() => {
             </div>
             <NButton @click="getSermons()" :loading="loadingSermon" round>
                 <NIcon>
-                    <ArrowReset24Filled />
+                    <Reset />
                 </NIcon>
             </NButton>
         </div>
@@ -125,12 +118,12 @@ onMounted(() => {
                     </p>
                     <span v-if="sermon.type === 'youtube'" class="-mb-5px">
                         <NIcon size="20" color="#FF0000">
-                            <Youtube />
+                            <LogoYoutube />
                         </NIcon>
                     </span>
                     <span v-if="sermon.type === 'text'" class="-mb-5px">
                         <NIcon size="20">
-                            <DocumentBulletList20Regular />
+                            <ListDropdown />
                         </NIcon>
                     </span>
                 </div>

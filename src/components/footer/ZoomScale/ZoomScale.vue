@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch } from "vue";
-import { NTooltip, NButtonGroup, NButton } from "naive-ui";
+import { NTooltip, NButtonGroup, NButton, NIcon } from "naive-ui";
 import { useStore } from "vuex";
 import session from "@/service/session/session";
+import { Subtract, Add, Reset } from "@vicons/carbon";
 
 const store = useStore();
 const slideValue = ref(100);
@@ -27,18 +28,24 @@ onMounted(() => {
                 <span class="mr-7px">{{ slideValue }}%</span>
                 <NButtonGroup size="small">
                     <NButton size="tiny" @click="slideValue--">
-                        <i class="bx bx-minus"></i>
+                        <NIcon>
+                            <Subtract />
+                        </NIcon>
                     </NButton>
-                    <NButton size="tiny">
-                        <i class="bx bx-plus" @click="slideValue++"></i>
+                    <NButton size="tiny" @click="slideValue++">
+                        <NIcon>
+                            <Add />
+                        </NIcon>
                     </NButton>
                 </NButtonGroup>
             </div>
             <div>
                 <NTooltip trigger="hover" placement="top-start">
                     <template #trigger>
-                        <div class="cursor-pointer opacity-40 hover:opacity-100" @click="slideValue = 95">
-                            <i class="bx bx-reset"></i>
+                        <div class="cursor-pointer opacity-40 hover:opacity-100" @click="slideValue = 100">
+                            <NIcon>
+                                <Reset />
+                            </NIcon>
                         </div>
                     </template>
                     Reset Zoom Level

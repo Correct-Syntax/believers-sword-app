@@ -5,6 +5,8 @@ import ViewChapter from "@/components/ReadBiblePageComponents/ViewChapter/ViewCh
 import RightSide from "@/components/ReadBiblePageComponents/RightSide/RightSide.vue";
 import LeftSideBar from "@/components/leftSideBar/leftSideBar.vue";
 import Notes from "@/components/ReadBiblePageComponents/Notes/Notes.vue";
+import { ChevronDown } from "@vicons/carbon";
+import { NIcon } from "naive-ui";
 
 const toggledMakeNote = ref(false);
 const isOnDragVerticalSplit = ref(false);
@@ -109,7 +111,9 @@ onMounted(async () => {
                     :class="{ '!text-[var(--primaryColor)] font-900': toggledMakeNote }"
                 >
                     <div class="mr-10px transform duration-150" :class="{ '-rotate-90': !toggledMakeNote }">
-                        <span class="codicon codicon-chevron-down"></span>
+                        <NIcon>
+                            <ChevronDown />
+                        </NIcon>
                     </div>
                     <i class="bx bx-notepad"></i>
                     Notes
