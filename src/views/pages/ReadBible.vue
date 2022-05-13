@@ -5,7 +5,7 @@ import ViewChapter from "@/components/ReadBiblePageComponents/ViewChapter/ViewCh
 import RightSide from "@/components/ReadBiblePageComponents/RightSide/RightSide.vue";
 import LeftSideBar from "@/components/leftSideBar/leftSideBar.vue";
 import Notes from "@/components/ReadBiblePageComponents/Notes/Notes.vue";
-import { ChevronDown } from "@vicons/carbon";
+import { ChevronDown, NotebookReference } from "@vicons/carbon";
 import { NIcon } from "naive-ui";
 
 const toggledMakeNote = ref(false);
@@ -110,12 +110,14 @@ onMounted(async () => {
                     class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center select-none flex items-center duration-200 active:bg-[var(--primaryColor)]"
                     :class="{ '!text-[var(--primaryColor)] font-900': toggledMakeNote }"
                 >
-                    <div class="mr-10px transform duration-150" :class="{ '-rotate-90': !toggledMakeNote }">
+                    <div class="transform duration-150" :class="{ '-rotate-90': !toggledMakeNote }">
                         <NIcon>
                             <ChevronDown />
                         </NIcon>
                     </div>
-                    <i class="bx bx-notepad"></i>
+                    <NIcon class="mr-1">
+                        <NotebookReference />
+                    </NIcon>
                     Notes
                 </div>
                 <div class="w-[100%] overflow-y-auto overflowing-div h-[100%]">

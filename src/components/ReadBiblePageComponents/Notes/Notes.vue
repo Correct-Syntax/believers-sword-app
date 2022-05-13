@@ -213,11 +213,7 @@ const deleteNote = () => {
                         </div>
                         <span class="dark:bg-gray-600 bg-gray-400 w-5px h-5px rounded-md mx-10px rounded-1"></span>
                         <div>
-                            <button title="Code Text" @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
-                                <NIcon>
-                                    <Code />
-                                </NIcon>
-                            </button>
+                            <button title="Code Text" @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">C</button>
                             <button title="Code Block" @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
                                 <NIcon>
                                     <Code />

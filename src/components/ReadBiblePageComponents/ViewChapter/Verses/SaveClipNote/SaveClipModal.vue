@@ -1,5 +1,109 @@
+<script lang="ts" setup>
+import { computed, onMounted, ref } from "vue";
+import { NRadioGroup, NSpace, NRadio, NButton, NAlert, NIcon } from "naive-ui";
+import { useStore } from "vuex";
+import { ipcRenderer } from "electron";
+import StarterKit from "@tiptap/starter-kit";
+import { useEditor, EditorContent } from "@tiptap/vue-3";
+import Underline from "@tiptap/extension-underline";
+import Placeholder from "@tiptap/extension-placeholder";
+import { TextFont, TextBold, TextItalic, TextUnderline, TextStrikethrough, Code, List, ListNumbered, Quotes, Undo, Redo } from "@vicons/carbon";
+
+const store = useStore();
+const selectedVerse = computed(() => store.state.clipNotes.selectedVerse);
+const clipColorSelected = ref("default");
+const clipNoteInput = ref("");
+const alertShow = ref(false);
+const alertText = ref("");
+const isEditing = ref(false);
+const editor: any = useEditor({
+    content: "",
+    extensions: [StarterKit, Underline, Placeholder],
+    onUpdate: ({ editor }) => {
+        const content = editor.getHTML();
+        clipNoteInput.value = content;
+    },
+});
+const clipColorOptions = [
+    {
+        value: "#3cb1ff",
+        key: "blue",
+        label: "Default",
+        color: "#3cb1ff",
+    },
+    {
+        value: "#ffb300",
+        key: "orange",
+        label: "Orange",
+        color: "#ffb300",
+    },
+    {
+        value: "#e57373",
+        key: "red",
+        label: "Red",
+        color: "#e57373",
+    },
+    {
+        value: "#63ff63",
+        key: "green",
+        color: "#63ff63",
+    },
+];
+
+const closeModal = () => {
+    store.state.clipNotes.createClipNote = false;
+};
+
+const setAlert = (show: boolean, message: string): void => {
+    alertShow.value = show;
+    alertText.value = message;
+};
+
+onMounted(() => {
+    if (selectedVerse.value.note) {
+        isEditing.value = true;
+        clipNoteInput.value = selectedVerse.value.note;
+        editor.value?.commands.setContent(selectedVerse.value.note);
+        clipColorSelected.value = selectedVerse.value.color;
+    }
+});
+
+const onSelectClipColor = (e: string) => {
+    clipColorSelected.value = e;
+};
+const saveClipNote = () => {
+    alertShow.value = false;
+    if (clipNoteInput.value.replace(/<\/?[^>]+(>|$)/g, "") === "") {
+        setAlert(true, "It Seems that The note field is empty.");
+        return;
+    }
+    if (clipNoteInput.value === "" && clipNoteInput.value.replace(" ", "") === "") {
+        setAlert(true, "It Seems that The note field is empty.");
+        return;
+    }
+
+    const dataToAdd = {
+        color: clipColorSelected.value,
+        b: selectedVerse.value.b,
+        c: selectedVerse.value.c,
+        v: selectedVerse.value.v,
+        book_name: selectedVerse.value.bookName,
+        note: clipNoteInput.value,
+    };
+
+    ipcRenderer
+        .invoke("addClipNote", dataToAdd)
+        .then(() => {
+            store.state.clipNotes.clipNotesInChapter[`${dataToAdd.b}_${dataToAdd.c}_${dataToAdd.v}`] = dataToAdd;
+            store.state.clipNotes.addedClipNote = dataToAdd;
+            closeModal();
+        })
+        .catch((e: Error) => console.log(e.message));
+};
+</script>
+
 <template>
-    <h1 class="text-size-20px ">
+    <h1 class="text-size-20px">
         <span class="font-700">{{ `${selectedVerse.bookName} ${selectedVerse.c}:${selectedVerse.v}` }}</span> <span>Clip Note</span>
     </h1>
     <small>Clip notes, are small notes only for the verse. So that you can emphasize something in the verse.</small>
@@ -32,170 +136,72 @@
             <div v-if="editor" class="note-format-buttons flex flex-row items-center justify-between text-size-18px py-5px px-5px dark:bg-black dark:bg-opacity-10">
                 <div class="flex flex-row items-center">
                     <div class="flex flex-row">
-                        <button
-                            title="Normal Text"
-                            @click="
-                                editor
-                                    .chain()
-                                    .focus()
-                                    .setParagraph()
-                                    .run()
-                            "
-                            :class="{ 'is-active': editor.isActive('paragraph') }"
-                        >
-                            <i class="bx bx-text"></i>
+                        <button title="Normal Text" @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
+                            <NIcon>
+                                <TextFont />
+                            </NIcon>
                         </button>
-                        <button
-                            title="Bold"
-                            @click="
-                                editor
-                                    .chain()
-                                    .focus()
-                                    .toggleBold()
-                                    .run()
-                            "
-                            :class="{ 'is-active': editor.isActive('bold') }"
-                        >
-                            <i class="bx bx-bold"></i>
+                        <button title="Bold" @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+                            <NIcon>
+                                <TextBold />
+                            </NIcon>
                         </button>
-                        <button
-                            title="Italic"
-                            @click="
-                                editor
-                                    .chain()
-                                    .focus()
-                                    .toggleItalic()
-                                    .run()
-                            "
-                            :class="{ 'is-active': editor.isActive('italic') }"
-                        >
-                            <i class="bx bx-italic"></i>
+                        <button title="Italic" @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+                            <NIcon>
+                                <TextItalic />
+                            </NIcon>
                         </button>
-                        <button
-                            title="Underline"
-                            @click="
-                                editor
-                                    .chain()
-                                    .focus()
-                                    .toggleUnderline()
-                                    .run()
-                            "
-                            :class="{ 'is-active': editor.isActive('underline') }"
-                        >
-                            <i class="bx bx-underline"></i>
+                        <button title="Underline" @click="editor.chain().focus().toggleUnderline().run()" :class="{ 'is-active': editor.isActive('underline') }">
+                            <NIcon>
+                                <TextUnderline />
+                            </NIcon>
                         </button>
-                        <button
-                            title="Strike Through"
-                            @click="
-                                editor
-                                    .chain()
-                                    .focus()
-                                    .toggleStrike()
-                                    .run()
-                            "
-                            :class="{ 'is-active': editor.isActive('strike') }"
-                        >
-                            <i class="bx bx-strikethrough"></i>
+                        <button title="Strike Through" @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
+                            <NIcon>
+                                <TextStrikethrough />
+                            </NIcon>
                         </button>
                     </div>
                     <span class="dark:bg-gray-600 bg-gray-400 w-5px h-5px rounded-md mx-10px rounded-1"></span>
                     <div>
-                        <button
-                            title="Code Text"
-                            @click="
-                                editor
-                                    .chain()
-                                    .focus()
-                                    .toggleCode()
-                                    .run()
-                            "
-                            :class="{ 'is-active': editor.isActive('code') }"
-                        >
-                            <i class="bx bx-code"></i>
-                        </button>
-                        <button
-                            title="Code Block"
-                            @click="
-                                editor
-                                    .chain()
-                                    .focus()
-                                    .toggleCodeBlock()
-                                    .run()
-                            "
-                            :class="{ 'is-active': editor.isActive('codeBlock') }"
-                        >
-                            <i class="bx bx-code-block"></i>
+                        <button title="Code Text" @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">C</button>
+                        <button title="Code Block" @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
+                            <NIcon>
+                                <Code />
+                            </NIcon>
                         </button>
                     </div>
                     <span class="dark:bg-gray-600 bg-gray-400 w-5px h-5px rounded-md mx-10px rounded-1"></span>
 
                     <div>
-                        <button
-                            title="Unordered List"
-                            @click="
-                                editor
-                                    .chain()
-                                    .focus()
-                                    .toggleBulletList()
-                                    .run()
-                            "
-                            :class="{ 'is-active': editor.isActive('bulletList') }"
-                        >
-                            <i class="bx bx-list-ul"></i>
+                        <button title="Unordered List" @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
+                            <NIcon>
+                                <List />
+                            </NIcon>
                         </button>
-                        <button
-                            title="Ordered List"
-                            @click="
-                                editor
-                                    .chain()
-                                    .focus()
-                                    .toggleOrderedList()
-                                    .run()
-                            "
-                            :class="{ 'is-active': editor.isActive('orderedList') }"
-                        >
-                            <i class="bx bx-list-ol"></i>
+                        <button title="Ordered List" @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
+                            <NIcon>
+                                <ListNumbered />
+                            </NIcon>
                         </button>
 
-                        <button
-                            title="Quote"
-                            @click="
-                                editor
-                                    .chain()
-                                    .focus()
-                                    .toggleBlockquote()
-                                    .run()
-                            "
-                            :class="{ 'is-active': editor.isActive('blockquote') }"
-                        >
-                            <i class="bx bxs-quote-left"></i>
+                        <button title="Quote" @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
+                            <NIcon>
+                                <Quotes />
+                            </NIcon>
                         </button>
                     </div>
                     <span class="dark:bg-gray-600 bg-gray-400 w-5px h-5px rounded-md mx-10px rounded-1"></span>
                     <div>
-                        <button
-                            title="Undo"
-                            @click="
-                                editor
-                                    .chain()
-                                    .focus()
-                                    .undo()
-                                    .run()
-                            "
-                        >
-                            <i class="bx bx-undo"></i>
+                        <button title="Undo" @click="editor.chain().focus().undo().run()">
+                            <NIcon>
+                                <Undo />
+                            </NIcon>
                         </button>
-                        <button
-                            title="Redo"
-                            @click="
-                                editor
-                                    .chain()
-                                    .focus()
-                                    .redo()
-                                    .run()
-                            "
-                        >
-                            <i class="bx bx-redo"></i>
+                        <button title="Redo" @click="editor.chain().focus().redo().run()">
+                            <NIcon>
+                                <Redo />
+                            </NIcon>
                         </button>
                     </div>
                 </div>
@@ -205,137 +211,10 @@
     </div>
     <div class="pt-15px">
         <NSpace justify="end">
-            <NButton size="small" @click="closeModal()">
-                Cancel
-            </NButton>
+            <NButton size="small" @click="closeModal()"> Cancel </NButton>
             <NButton type="primary" size="small" @click="saveClipNote()">
                 {{ isEditing ? `Save Changes` : `Add Clip Note` }}
             </NButton>
         </NSpace>
     </div>
 </template>
-<script lang="ts">
-import { computed, defineComponent, onMounted, ref } from "vue";
-import { NRadioGroup, NSpace, NRadio, NButton, NAlert } from "naive-ui";
-import { useStore } from "vuex";
-import { ipcRenderer } from "electron";
-import StarterKit from "@tiptap/starter-kit";
-import { useEditor, EditorContent } from "@tiptap/vue-3";
-import Underline from "@tiptap/extension-underline";
-import Placeholder from "@tiptap/extension-placeholder";
-
-export default defineComponent({
-    components: {
-        EditorContent,
-        NRadioGroup,
-        NSpace,
-        NRadio,
-        NButton,
-        NAlert
-    },
-    setup() {
-        const store = useStore();
-        const selectedVerse = computed(() => store.state.clipNotes.selectedVerse);
-        const clipColorSelected = ref("default");
-        const clipNoteInput = ref("");
-        const alertShow = ref(false);
-        const alertText = ref("");
-        const isEditing = ref(false);
-        const editor: any = useEditor({
-            content: "",
-            extensions: [StarterKit, Underline, Placeholder],
-            onUpdate: ({ editor }) => {
-                const content = editor.getHTML();
-                clipNoteInput.value = content;
-            }
-        });
-        const clipColorOptions = [
-            {
-                value: "#3cb1ff",
-                key: "blue",
-                label: "Default",
-                color: "#3cb1ff"
-            },
-            {
-                value: "#ffb300",
-                key: "orange",
-                label: "Orange",
-                color: "#ffb300"
-            },
-            {
-                value: "#e57373",
-                key: "red",
-                label: "Red",
-                color: "#e57373"
-            },
-            {
-                value: "#63ff63",
-                key: "green",
-                color: "#63ff63"
-            }
-        ];
-
-        const closeModal = () => {
-            store.state.clipNotes.createClipNote = false;
-        };
-
-        const setAlert = (show: boolean, message: string): void => {
-            alertShow.value = show;
-            alertText.value = message;
-        };
-
-        onMounted(() => {
-            if (selectedVerse.value.note) {
-                isEditing.value = true;
-                clipNoteInput.value = selectedVerse.value.note;
-                editor.value?.commands.setContent(selectedVerse.value.note);
-                clipColorSelected.value = selectedVerse.value.color;
-            }
-        });
-
-        return {
-            isEditing,
-            editor,
-            alertShow,
-            alertText,
-            clipNoteInput,
-            selectedVerse,
-            clipColorOptions,
-            clipColorSelected,
-            onSelectClipColor: (e: string) => {
-                clipColorSelected.value = e;
-            },
-            closeModal,
-            saveClipNote: () => {
-                alertShow.value = false;
-                if (clipNoteInput.value.replace(/<\/?[^>]+(>|$)/g, "") === "") {
-                    setAlert(true, "It Seems that The note field is empty.");
-                    return;
-                }
-                if (clipNoteInput.value === "" && clipNoteInput.value.replace(" ", "") === "") {
-                    setAlert(true, "It Seems that The note field is empty.");
-                    return;
-                }
-
-                const dataToAdd = {
-                    color: clipColorSelected.value,
-                    b: selectedVerse.value.b,
-                    c: selectedVerse.value.c,
-                    v: selectedVerse.value.v,
-                    book_name: selectedVerse.value.bookName,
-                    note: clipNoteInput.value
-                };
-
-                ipcRenderer
-                    .invoke("addClipNote", dataToAdd)
-                    .then(() => {
-                        store.state.clipNotes.clipNotesInChapter[`${dataToAdd.b}_${dataToAdd.c}_${dataToAdd.v}`] = dataToAdd;
-                        store.state.clipNotes.addedClipNote = dataToAdd;
-                        closeModal();
-                    })
-                    .catch((e: Error) => console.log(e.message));
-            }
-        };
-    }
-});
-</script>

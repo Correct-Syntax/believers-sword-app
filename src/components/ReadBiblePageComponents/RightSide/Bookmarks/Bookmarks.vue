@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
-import { NPopconfirm, NEmpty, NAutoComplete } from "naive-ui";
+import { NPopconfirm, NEmpty, NAutoComplete, NIcon } from "naive-ui";
 import { ipcRenderer } from "electron";
+import { Share, TrashCan } from "@vicons/carbon";
 
 const store = useStore();
 const bibleState = computed(() => store.state.bible);
@@ -118,12 +119,16 @@ const selectOption = (e: string | number) => {
                     <div class="w-[100%] px-5px py-10px text-size-17px">{{ bookmark.b_text }} {{ bookmark.c }}:{{ bookmark.v }}</div>
                     <div class="flex gap-10px cursor-pointer text-size-18px px-10px">
                         <div class="opacity-50 hover:opacity-100 hidden" @click.stop.prevent>
-                            <i class="bx bx-share-alt"></i>
+                            <NIcon>
+                                <Share />
+                            </NIcon>
                         </div>
                         <NPopconfirm :show-icon="false" placement="top-start" @positive-click="removeBookmark(bookmark)">
                             <template #activator>
                                 <div class="opacity-50 hover:opacity-100 dark:text-red-400 text-red-600" @click.stop.prevent>
-                                    <i class="bx bx-trash"></i>
+                                    <NIcon>
+                                        <TrashCan />
+                                    </NIcon>
                                 </div>
                             </template>
                             Delete Bookmark?

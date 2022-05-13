@@ -33,11 +33,9 @@ const dark = computed(() => store.state.dark);
         </div>
         <div class="text-size-12px mr-10px h-[100%]">
             <div class="cursor-pointer h-[100%] px-10px flex justify-center items-center text-size-18px" @click="changeTheme()">
-                <!-- <i  class="bx bx-sun"></i> -->
                 <NIcon v-show="dark">
                     <Sun />
                 </NIcon>
-                <!-- <i v-show="!dark" class="bx bxs-moon"></i> -->
                 <NIcon v-show="!dark">
                     <Moon />
                 </NIcon>

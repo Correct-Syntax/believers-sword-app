@@ -54,20 +54,6 @@ const clickLink = (link: string, newWindow = false, title = "Believers Sword App
                     </div>
 
                     <Divider />
-                    Here are the things that you can do in this application, <span class="italic font-500">more awesome features will be coming soon</span>:
-                    <ul class="pl-20px pt-10px pb-50px">
-                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Read The Bible</li>
-                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Create Prayer List</li>
-                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Bookmarking</li>
-                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Highlighting/Marking phrases with different colors</li>
-                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Search The Bible</li>
-                        <li>
-                            <i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Open multiple Versions
-                            <i class="font-100">(Downloading Other Version will be coming soon)</i>
-                        </li>
-                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Set preferred Primary Colors in Settings</li>
-                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Dark and Light theme</li>
-                    </ul>
 
                     This app is not Bad or Good its <span class="font-700 text-[var(--primaryColor)]">"Sakto Lang"</span> (a pilipino term for
                     <span class="italic font-600">`just right`</span>). I am praying that this simple bible studying software will help you study the bible.

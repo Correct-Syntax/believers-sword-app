@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { computed, onMounted, reactive, ref, watch } from "vue";
 import { useStore } from "vuex";
-import { NEmpty, NAutoComplete, NPagination, NPopconfirm } from "naive-ui";
+import { NEmpty, NAutoComplete, NPagination, NPopconfirm, NIcon } from "naive-ui";
 import { ipcRenderer } from "electron";
+import { TrashCan } from "@vicons/carbon";
 
 const store = useStore();
 const valueRef = ref("");
@@ -135,7 +136,9 @@ const getShowOptions = () => true;
                 <NPopconfirm placement="left-end" @positive-click="deleteClipNote(clipNote)">
                     <template #trigger>
                         <span @click.stop.prevent class="absolute right-5px top-5px">
-                            <i class="bx bx-trash-alt"></i>
+                            <NIcon>
+                                <TrashCan />
+                            </NIcon>
                         </span>
                     </template>
                     Are Sure Delete This Clip Note?
