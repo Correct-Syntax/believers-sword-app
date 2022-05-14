@@ -57,6 +57,7 @@ function modalTrigger() {
 defineExpose({
     setKeyString,
     modalTrigger,
+    editor,
 });
 </script>
 
