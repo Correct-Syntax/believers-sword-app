@@ -114,8 +114,8 @@ const getShowOptions = () => true;
 <template>
     <div class="flex flex-col p-7px h-[100%] w-[100%] select-none">
         <div class="text-size-[18px] mb-7px">
-            <h3>Clip Notes</h3>
-            <div class="mt-7px">
+            <h3 class="font-700">Clipped Notes</h3>
+            <div class="mt-15px">
                 <NAutoComplete :options="options" v-model:value="valueRef" placeholder="Write Book Name To Filter" :on-select="selectOption" :get-show="getShowOptions" />
             </div>
         </div>

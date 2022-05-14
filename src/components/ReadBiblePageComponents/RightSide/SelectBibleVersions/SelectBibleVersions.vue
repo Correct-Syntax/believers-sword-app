@@ -30,8 +30,8 @@ onMounted(() => {
 
 <template>
     <div class="h-[100%] w-[100%] select-none p-7px flex flex-col">
-        <div class="text-size-[18px] mb-7px">
-            <h3>Select Bible Versions:</h3>
+        <div class="text-size-[18px] mb-15px">
+            <h3 class="font-700">Select Bible Versions</h3>
         </div>
         <div class="flex flex-col h-[calc(100%-25px)]">
             <div class="h-[100%] overflow-y-auto overflowing-div">
