@@ -96,8 +96,11 @@ const selectOption = (e: any) => {
                     :class="{ 'mark-highlight-sidebar-item-active': selectedHighlights === highlight.key }"
                     @click="clickHighlight(highlight)"
                 >
-                    <div class="text-size-18px font-700">{{ getBibleVersion(highlight.bibleVersion) }}</div>
-                    <div class="text-size-16px mb-10px">{{ getBibleBook(parseInt(highlight.bookNumber)) }} {{ highlight.chapterNumber }}:{{ highlight.verseNumber }}</div>
+                    <div>
+                        <span class="text-size-18px font-700">{{ getBibleBook(parseInt(highlight.bookNumber)) }} {{ highlight.chapterNumber }}:{{ highlight.verseNumber }}</span>
+                        <span class="text-size-16px mb-10px whitespace-nowrap"> - {{ getBibleVersion(highlight.bibleVersion) }}</span>
+                    </div>
+
                     <span v-html="highlight.content"></span>
                 </div>
             </template>
