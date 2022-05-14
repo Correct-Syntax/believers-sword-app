@@ -1,3 +1,24 @@
+<script lang="ts" setup>
+import { NEmpty } from "naive-ui";
+import { useRouter } from "vue-router";
+import { Layers } from "@vicons/carbon";
+import RenderIcon from "@/components/RenderIcon/RenderIcon.vue";
+
+const router = useRouter();
+const games: Array<any> = [
+    {
+        title: "Memory Flip Card",
+        icon: Layers,
+        path: "/memory-cards",
+        description: "This is an exciting game, were you create your own flip cards to challenge your memory, and to practice your recalling ability.",
+    },
+];
+const selectGame = (path: string) => {
+    localStorage.setItem("pathRoute", path);
+    router.push(path);
+};
+</script>
+
 <template>
     <div v-if="games" class="games-selection gap-20px">
         <div
@@ -7,7 +28,9 @@
         >
             <div>
                 <img v-if="game.logo" :src="require(`@/assets/images/games_logo/${game.logo}`)" />
-                <div v-if="game.icon" class="text-size-100px" v-html="game.icon"></div>
+                <div v-if="game.icon" class="text-size-100px">
+                    <RenderIcon :icon="game.icon" />
+                </div>
             </div>
             <div class="flex flex-col gap-10px justify-between w-[100%] h-[100%] pr-10px">
                 <div>
@@ -24,41 +47,7 @@
         <NEmpty> Games Are Still Being Developed. When its done, it will be added here. </NEmpty>
     </div>
 </template>
-<script lang="ts">
-import { defineComponent } from "vue";
-import { NEmpty } from "naive-ui";
-import { useRouter } from "vue-router";
 
-export default defineComponent({
-    components: {
-        NEmpty
-    },
-    setup() {
-        const router = useRouter();
-        return {
-            games: [
-                {
-                    title: "Memory Flip Card",
-                    icon: "<i class='bx bx-layer' ></i>",
-                    path: "/memory-cards",
-                    description: "This is an exciting game, were you create your own flip cards to challenge your memory, and to practice your recalling ability."
-                },
-                // {
-                //     title: "Question and Answer",
-                //     logo: "qna.png",
-                //     path: "/qna",
-                //     description:
-                //         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias, debitis? Aspernatur sapiente ad maxime nobis. Ipsum adipisci facere odit"
-                // }
-            ],
-            selectGame: (path: string) => {
-                localStorage.setItem("pathRoute", path);
-                router.push(path);
-            }
-        };
-    }
-});
-</script>
 <style lang="postcss">
 .games-selection {
     display: grid;

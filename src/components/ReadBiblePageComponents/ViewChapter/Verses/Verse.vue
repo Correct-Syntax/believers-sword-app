@@ -6,7 +6,8 @@ import { useStore } from "vuex";
 import { cloneDeep } from "lodash";
 import SaveClipNote from "./SaveClipNote/SaveClipNote.vue";
 import VerseClipNote from "./SaveClipNote/verseClipNotes/verseClipNotes.vue";
-import { NTooltip } from "naive-ui";
+import { NTooltip, NIcon } from "naive-ui";
+import { CircleFilled, BookmarkFilled, BookmarkAdd } from "@vicons/carbon";
 
 // eslint-disable-next-line
 const { clipNote, verse, fontSize } = defineProps(["clipNote", "verse", "fontSize"]);
@@ -90,7 +91,9 @@ function clickVerse(verse: any) {
     >
         <div class="item-bookmarked-dot invisible opacity-0 absolute left-[5px] top-[5px]" title="Selected Verse">
             <div class="text-[var(--primaryColor)]">
-                <i class="bx bxs-circle"></i>
+                <NIcon>
+                    <CircleFilled />
+                </NIcon>
             </div>
         </div>
         <div class="read-chapter-verse-number">
@@ -98,9 +101,9 @@ function clickVerse(verse: any) {
             <span class="item-saved-in-bookmark-mark">
                 <n-tooltip trigger="hover" placement="bottom-start">
                     <template #trigger>
-                        <div>
-                            <i class="bx bx-bookmarks"></i>
-                        </div>
+                        <NIcon>
+                            <BookmarkFilled />
+                        </NIcon>
                     </template>
                     <div>This Verse is <b> Bookmarked</b></div>
                 </n-tooltip>
@@ -132,7 +135,9 @@ function clickVerse(verse: any) {
             <NTooltip trigger="hover" size="small" placement="left">
                 <template #trigger>
                     <div class="verse-item-more-options-item dark:text-gray-300 text-gray-100 cursor-pointer" @click="saveToBookmark(verse)">
-                        <i class="bx bx-bookmark-alt-plus"></i>
+                        <NIcon>
+                            <BookmarkAdd />
+                        </NIcon>
                     </div>
                 </template>
                 <span>Add to Bookmark</span>

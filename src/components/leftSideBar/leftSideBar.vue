@@ -2,7 +2,8 @@
 import { computed, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
 import { saveScrollTopState, setScrollTopState } from "@/service/scrollService/scrollService";
-import { NInput } from "naive-ui";
+import { NInput, NIcon } from "naive-ui";
+import { Close } from "@vicons/carbon";
 
 const store = useStore();
 const searchBook = ref("");
@@ -64,7 +65,11 @@ function setBookNumber(number: any) {
             <div class="pb-7px">
                 <NInput type="text" v-model:value="searchBook" size="large" placeholder="Search Book">
                     <template #suffix>
-                        <span v-show="searchBook != ''" class="cursor-pointer" @click="searchBook = ''"><i class="bx bx-x"></i></span>
+                        <span v-show="searchBook != ''" class="cursor-pointer" @click="searchBook = ''">
+                            <NIcon>
+                                <Close />
+                            </NIcon>
+                        </span>
                     </template>
                 </NInput>
             </div>

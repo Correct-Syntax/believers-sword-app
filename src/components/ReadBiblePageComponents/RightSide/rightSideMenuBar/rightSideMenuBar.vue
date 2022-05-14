@@ -90,8 +90,7 @@ export default defineComponent({
         &.active-menu-bar-item {
             @apply dark:text-gray-900 text-gray-50 bg-[var(--primaryColor)] rounded-md duration-100;
 
-            .bx,
-            .codicon {
+            .bx {
                 @apply scale-125;
             }
 

@@ -1,3 +1,16 @@
+<script lang="ts" setup>
+import { ipcRenderer } from "electron";
+import DonateComponent from "@/components/Donate/Donate.vue";
+import Divider from "@/components/Divider/Divider.vue";
+
+const clickLink = (link: string, newWindow = false, title = "Believers Sword App") => {
+    let params: any = { link };
+    params.title = title;
+    if (newWindow) params["windowed"] = true;
+    ipcRenderer.send("clickExternalLink", params);
+};
+</script>
+
 <template>
     <div class="h-[100%] p-20px overflow-y-auto overflowing-div scroll-bar-sm">
         <div class="max-w-700px w-[100%] mx-auto">
@@ -32,29 +45,15 @@
 
                         <br /><br />
                         I called it sword, because I believe that when you read the bible and understand what is written, that is the time it becomes a sword. Reading with no
-                        understanding will not become a sword. And to use the sword we have to follow what is written in the Sword/Bible. Example, It is written in the sword
-                        that you should pray, so if ye pray, you are using the sword. The bible says obey your parents in the lord, so if we obey our parents, we are using the
-                        sword. And many more.
+                        understanding will not become a sword. And to use the sword we have to follow what is written in the Sword/Bible. Example, It is written in the sword that
+                        you should pray, so if ye pray, you are using the sword. The bible says obey your parents in the lord, so if we obey our parents, we are using the sword.
+                        And many more.
 
                         <br /><br />
                         But always be careful, use the sword in a right way.
                     </div>
 
                     <Divider />
-                    Here are the things that you can do in this application, <span class="italic font-500">more awesome features will be coming soon</span>:
-                    <ul class="pl-20px pt-10px pb-50px">
-                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Read The Bible</li>
-                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Create Prayer List</li>
-                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Bookmarking</li>
-                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Highlighting/Marking phrases with different colors</li>
-                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Search The Bible</li>
-                        <li>
-                            <i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Open multiple Versions
-                            <i class="font-100">(Downloading Other Version will be coming soon)</i>
-                        </li>
-                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Set preferred Primary Colors in Settings</li>
-                        <li><i class="bx bxs-hand-right text-[var(--primaryColor)] mr-7px"></i>Dark and Light theme</li>
-                    </ul>
 
                     This app is not Bad or Good its <span class="font-700 text-[var(--primaryColor)]">"Sakto Lang"</span> (a pilipino term for
                     <span class="italic font-600">`just right`</span>). I am praying that this simple bible studying software will help you study the bible.
@@ -78,22 +77,3 @@
         </div>
     </div>
 </template>
-<script lang="ts">
-import { ipcRenderer } from "electron";
-import { defineComponent } from "vue";
-import DonateComponent from "@/components/Donate/Donate.vue";
-import Divider from "@/components/Divider/Divider.vue";
-export default defineComponent({
-    components: { DonateComponent, Divider },
-    setup() {
-        return {
-            clickLink: (link: string, newWindow: false, title: "Believers Sword App") => {
-                let params: any = { link };
-                params.title = title;
-                if (newWindow) params["windowed"] = true;
-                ipcRenderer.send("clickExternalLink", params);
-            }
-        };
-    }
-});
-</script>

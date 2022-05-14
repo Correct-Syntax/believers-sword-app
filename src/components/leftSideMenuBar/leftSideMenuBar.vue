@@ -120,7 +120,6 @@ function selectRoute(path: string) {
         @apply flex justify-center items-center !w-[30px] !h-[30px] cursor-pointer text-size-18px dark:text-gray-400 text-gray-600 ml-4px duration-100 ml-5px;
 
         .bx,
-        .codicon,
         span {
             @apply transform scale-110 duration-100  relative;
         }
@@ -138,7 +137,6 @@ function selectRoute(path: string) {
             @apply dark:text-gray-300 text-gray-800;
 
             .bx,
-            .codicon,
             span {
                 @apply scale-125;
             }
@@ -157,8 +155,7 @@ function selectRoute(path: string) {
         &.active-menu-bar-item {
             @apply dark:text-gray-900 text-gray-50 bg-[var(--primaryColor)] rounded-md duration-100;
 
-            .bx,
-            .codicon {
+            .bx {
                 @apply scale-125;
             }
 
