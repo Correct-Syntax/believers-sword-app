@@ -9,12 +9,13 @@ const store = useStore();
 const valueRef = ref("");
 const searchBibleBook = ref("all");
 const page = ref(1);
-const clipNotes: any = reactive({
+const clipNotes: { data: Array<any>; count: number; selected: any; limit: number } = reactive({
     data: [],
     limit: 30,
     selected: {},
     count: 0,
 });
+
 const deletedClipNote = computed(() => store.state.clipNotes.deletedClipNote);
 const addedClipNote = computed(() => store.state.clipNotes.addedClipNote);
 
@@ -119,7 +120,7 @@ const getShowOptions = () => true;
                 <NAutoComplete :options="options" v-model:value="valueRef" placeholder="Write Book Name To Filter" :on-select="selectOption" :get-show="getShowOptions" />
             </div>
         </div>
-        <div class="h-[100%] overflow-y-auto overflowing-div w-[100%] flex flex-col gap-10px text-size-17px leading-snug px-7px">
+        <div v-if="Object.entries(clipNotes.data).length" class="h-[100%] overflow-y-auto overflowing-div w-[100%] flex flex-col gap-10px text-size-17px leading-snug px-7px">
             <div
                 v-for="clipNote in clipNotes.data"
                 :key="clipNote.id"
@@ -145,7 +146,7 @@ const getShowOptions = () => true;
                 </NPopconfirm>
             </div>
         </div>
-        <div v-show="clipNotes.data.length === 0" class="mt-30px">
+        <div v-else class="mt-30px">
             <NEmpty description="No Clip Notes Saved" />
         </div>
         <div v-show="clipNotes.count / clipNotes.limit > 1" class="w-[100%] flex flex-col items-end gap-7px">
