@@ -1,55 +1,59 @@
+<script lang="ts" setup>
+import { computed, onMounted } from "vue";
+import session from "@/service/session/session";
+import { useStore } from "vuex";
+import { NIcon } from "naive-ui";
+import { Search, BareMetalServer, Bookmark, PaintBrush, AddComment } from "@vicons/carbon";
+
+const store = useStore();
+const tabValue = computed(() => store.state.rightMenuTab);
+
+onMounted(() => {
+    store.state.rightMenuTab = session.get("rightSideSelectedTab") || "versionsTab";
+});
+
+function selectTab(e: any) {
+    session.set("rightSideSelectedTab", e);
+    store.state.rightMenuTab = e;
+}
+</script>
+
 <template>
     <div class="right-side-menu-bar fixed top-35px right-0px z-99">
         <div class="flex flex-col gap-10px">
             <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'searchTab' }" @click="selectTab('searchTab')">
-                <Icon name="search" :size="23" />
+                <NIcon size="25">
+                    <Search />
+                </NIcon>
                 <div class="tooltip">Search The Bible</div>
             </div>
             <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'versionsTab' }" @click="selectTab('versionsTab')">
-                <Icon name="server" :size="23" />
+                <NIcon size="25">
+                    <BareMetalServer />
+                </NIcon>
                 <div class="tooltip">Bible Versions</div>
             </div>
             <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'bookmarksTab' }" @click="selectTab('bookmarksTab')">
-                <Icon name="bookmark" :size="23" />
+                <NIcon size="25">
+                    <Bookmark />
+                </NIcon>
                 <div class="tooltip">Bookmarks</div>
             </div>
             <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'MarkedHighlights' }" @click="selectTab('MarkedHighlights')">
-                <Icon name="paintBrush" :size="23" />
+                <NIcon size="25">
+                    <PaintBrush />
+                </NIcon>
                 <div class="tooltip">Highlights</div>
             </div>
             <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'MyNotes' }" @click="selectTab('MyNotes')">
-                <Icon name="note" :size="23" />
-                <div class="tooltip">Notes</div>
+                <NIcon size="25">
+                    <AddComment />
+                </NIcon>
+                <div class="tooltip">Clip Notes</div>
             </div>
         </div>
     </div>
 </template>
-<script lang="ts">
-import { computed, defineComponent, onMounted } from "vue";
-import session from "@/service/session/session";
-import Icon from "@/components/Icon/Icon.vue";
-import { useStore } from "vuex";
-export default defineComponent({
-    name: "ReadBibleChapterRightSide",
-    components: { Icon },
-    setup() {
-        const store = useStore();
-        const tabValue = computed(() => store.state.rightMenuTab);
-
-        onMounted(() => {
-            store.state.rightMenuTab = session.get("rightSideSelectedTab") || "versionsTab";
-        });
-
-        return {
-            tabValue,
-            selectTab(e: any) {
-                session.set("rightSideSelectedTab", e);
-                store.state.rightMenuTab = e;
-            },
-        };
-    },
-});
-</script>
 
 <style lang="postcss">
 .right-side-menu-bar {

@@ -17,8 +17,8 @@ onMounted(() => {
     }
 
     document.getElementById("view-chapter-verse")?.addEventListener("wheel", function (event: WheelEvent) {
-        event.preventDefault();
         if (event.ctrlKey) {
+            event.preventDefault();
             if (event.deltaY) {
                 fontSize.value = event.deltaY < 0 ? fontSize.value + 0.5 : fontSize.value - 0.5;
             }
