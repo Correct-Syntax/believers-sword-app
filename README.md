@@ -4,3 +4,11 @@ Believers Sword App is an application to help you study the bible. Not only that
 
 ![Believers Sword App](https://i.ibb.co/RB8j8BC/Screenshot-2021-10-11-203108.png)
 ![Believers Sword App](https://i.ibb.co/tYFmjZQ/Screenshot-2021-10-11-203049.png)
+
+
+# Support
+If you like to support my simple ministry, you can do by one of this ways:
+- [Debit/Credit](https://www.paypal.com/donate?hosted_button_id=DCZYF7KWPUVB4)
+- [GCash](https://i.ibb.co/kJGg32y/GCash-My-QR-06102021230745.png)
+- [BuyMeCoffee.com](https://www.buymeacoffee.com/BroJenuel)
+- [Ko-Fi.com](https://ko-fi.com/brojenuel)
