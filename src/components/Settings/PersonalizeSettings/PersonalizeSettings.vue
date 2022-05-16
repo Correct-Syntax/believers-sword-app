@@ -6,8 +6,8 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-import SelectTheme from "./SelectPrimaryTheme.vue"
-import ChangeTheme from "./ChangeTheme.vue"
+import SelectTheme from "./SelectPrimaryTheme/SelectPrimaryTheme.vue"
+import ChangeTheme from "./ChangeTheme/ChangeTheme.vue"
 export default defineComponent({
     components: { SelectTheme, ChangeTheme },
 });
