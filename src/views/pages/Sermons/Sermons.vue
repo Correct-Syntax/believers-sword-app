@@ -3,10 +3,9 @@ import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import { computed } from "@vue/reactivity";
 import { getFireStoreSermons } from "@/service/FireBase/common/Sermons";
-import { DrawerPlacement, NDrawer, NDrawerContent, NInput, NIcon, NSelect, NTooltip, NButton, NScrollbar } from "naive-ui";
-import { LogoYoutube, Close, Search, ListDropdown, Information, Reset } from "@vicons/carbon";
+import { DrawerPlacement, NDrawer, NDrawerContent, NIcon, NTooltip, NButton, NScrollbar, NAlert } from "naive-ui";
+import { LogoYoutube, Close, Document, Information, Reset } from "@vicons/carbon";
 
-import categoryOptions from "./CategoryOptions";
 import DrawerContentVue from "./partials/DrawerContent/DrawerContent.vue";
 
 const store = useStore();
@@ -26,7 +25,6 @@ const closeSelectedSermon = () => {
 };
 
 const loadingSermon = ref(false);
-const categorySelected = ref(null);
 
 function getSermons() {
     loadingSermon.value = true;
@@ -49,7 +47,7 @@ onMounted(() => {
         drawerShowContent.value = true;
     }
 
-    if (sermons.value.length > 0) {
+    if (sermons.value.data && sermons.value.data.length > 0) {
         return;
     }
 
@@ -75,7 +73,7 @@ onMounted(() => {
                 </NScrollbar>
             </NDrawerContent>
         </NDrawer>
-        <div class="mb-4 flex items-center gap-30px">
+        <div class="mb-4 flex items-center justify-between gap-30px">
             <h1 class="text-size-30px font-800 flex items-center gap-10px">
                 Sermons
 
@@ -89,22 +87,21 @@ onMounted(() => {
                     </p>
                 </NTooltip>
             </h1>
-            <NInput round placeholder="Flash">
-                <template #suffix>
-                    <NIcon><Search /></NIcon>
-                </template>
-            </NInput>
-            <div class="max-w-300px w-[100%]">
-                <NSelect v-model:value="categorySelected" :options="categoryOptions" />
-            </div>
+
             <NButton @click="getSermons()" :loading="loadingSermon" round>
                 <NIcon>
                     <Reset />
                 </NIcon>
             </NButton>
         </div>
+        <div class="max-w-1200px mx-auto">
+            <NAlert title="Hallo! Good Day 😁" type="info">
+                More Videos and Text sermons coming in the future. I am still working on the backend for our application. In the future, you can request or add sermons you want to
+                add on our sermon list. And also can backup/Sync your bookmarks, notes, highlights, etc.
+            </NAlert>
+        </div>
         <div class="flex gap-20px mt-3 flex-wrap">
-            <div v-for="sermon in sermons" :key="sermon.title" class="w-300px cursor-pointer flex-grow" @click="selectASermon(sermon)">
+            <div v-for="sermon in sermons.data" :key="sermon.title" class="w-300px cursor-pointer flex-grow max-w-400px" @click="selectASermon(sermon)">
                 <div class="h-160px overflow-hidden">
                     <img v-if="sermon.thumbnail" :src="sermon.thumbnail" alt="" class="w-[100%]" />
                     <div v-else class="w-[100%] bg-black h-160px flex justify-center items-center p-10px overflow-auto">
@@ -123,7 +120,7 @@ onMounted(() => {
                     </span>
                     <span v-if="sermon.type === 'text'" class="-mb-5px">
                         <NIcon size="20">
-                            <ListDropdown />
+                            <Document />
                         </NIcon>
                     </span>
                 </div>

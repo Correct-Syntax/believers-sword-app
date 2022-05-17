@@ -1,12 +1,17 @@
-import { getDocs, limit, orderBy, query, startAt } from "firebase/firestore/lite";
-import { sermonCollection } from "../FireBaseService";
+import axios from 'axios'
 
-export const getFireStoreSermons = async (): Promise<string | boolean | any[]> => {
+export const getFireStoreSermons = async (search = "", limit = 50): Promise<string | boolean | any[]> => {
     try {
-        const sermonSnapShot = query(sermonCollection, orderBy("title"), startAt(0), limit(10));
-        const documentSnapshots = await getDocs(sermonSnapShot);
-        const cityList = documentSnapshots.docs.map((doc) => doc.data());
-        return cityList;
+        return await axios.get(`https://believers-sword-app.herokuapp.com/api/sermon`, {
+            params: {
+                search,
+                limit
+            }
+        }).then((response) => {
+            return response.data;
+        }).catch(e => {
+            return e;
+        })
     } catch (e) {
         return e instanceof Error ? e.message : false;
     }
