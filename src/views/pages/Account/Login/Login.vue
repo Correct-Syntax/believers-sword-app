@@ -2,9 +2,10 @@
 import { NForm, NFormItem, NButton, NInput, NIcon, FormInst } from "naive-ui";
 import { ref } from "vue";
 import { Login, UserFollow } from "@vicons/carbon";
+import { userLogin } from "@/service/backend/User";
 
 const formValue = ref<FormInst | null>(null);
-const form = ref({
+const form = ref<{ email: any; password: any }>({
     email: null,
     password: null,
 });
@@ -23,6 +24,10 @@ const rules = {
         trigger: "blur",
     },
 };
+
+const login = () => {
+    userLogin(form.value.email, form.value.password);
+};
 </script>
 <template>
     <NForm ref="formValue" :rules="rules" :model="form" label-width="auto">
@@ -34,7 +39,7 @@ const rules = {
             <NInput v-model:value="form.password" type="password" placeholder="Enter Password" />
         </NFormItem>
         <div class="flex flex-col gap-2">
-            <NButton secondary type="primary">
+            <NButton secondary type="primary" @click="login">
                 <template #icon>
                     <NIcon>
                         <Login />
