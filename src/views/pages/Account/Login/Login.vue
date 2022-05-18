@@ -59,7 +59,7 @@ const login = () => {
             <NInput v-model:value="form.password" type="password" placeholder="Enter Password" />
         </NFormItem>
         <div class="flex flex-col gap-2">
-            <NButton secondary type="primary" @click="login">
+            <NButton secondary type="primary" @click="login" :loading="loading" :disabled="loading">
                 <template #icon>
                     <NIcon>
                         <Login />
@@ -67,7 +67,7 @@ const login = () => {
                 </template>
                 Sign In
             </NButton>
-            <NButton quaternary type="info" @click="$emit('clickedRegisterButton')" :loading="loading">
+            <NButton quaternary type="info" @click="$emit('clickedRegisterButton')" :disabled="loading">
                 <template #icon>
                     <NIcon>
                         <UserFollow />
@@ -75,7 +75,7 @@ const login = () => {
                 </template>
                 Create Account
             </NButton>
-            <NButton quaternary type="info" @click="emit('clickForgotPassword')">Forgot Password</NButton>
+            <NButton quaternary type="info" @click="emit('clickForgotPassword')" :disabled="loading">Forgot Password</NButton>
         </div>
     </NForm>
 </template>

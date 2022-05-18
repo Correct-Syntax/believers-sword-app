@@ -2,10 +2,10 @@
 import Login from "./Login/Login.vue";
 import RegisterModal from "./Register/RegisterModal.vue";
 import { onBeforeMount, ref } from "vue";
-import { getUserLogged, userLogout } from "@/service/backend/User";
-import { NButton } from "naive-ui";
+import { getUserLogged } from "@/service/backend/User";
 import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
+import ShowAccount from "./Account/ShowAccount.vue";
 
 const registerModalRef = ref<{ toggleModal: any }>();
 const store = useStore();
@@ -24,18 +24,11 @@ onBeforeMount(() => {
 function toggleForgotPassword() {
     console.log("Forgot Password");
 }
-
-const logout = async () => {
-    await userLogout();
-};
 </script>
 
 <template>
-    <div v-if="isLoggedIn">
-        User is Logged IN
-        <div>
-            <NButton @click="logout()"> Logout </NButton>
-        </div>
+    <div class="h-[100%]" v-if="isLoggedIn">
+        <ShowAccount />
     </div>
     <div v-else class="pt-5">
         <RegisterModal ref="registerModalRef" />
