@@ -47,7 +47,8 @@ export default defineComponent({
                 primaryColorPressed: "#5acea7",
                 primaryColorSuppl: "rgb(42, 148, 125)",
                 popoverColor: "rgba(55, 65, 81, 1)",
-                modalColor: "rgba(55, 65, 81, 1)"
+                modalColor: "rgba(55, 65, 81, 1)",
+                cardColor: "rgba(255, 255, 255, 1)"
             },
             dark: {
                 primaryColor: "#22577A"
@@ -61,6 +62,7 @@ export default defineComponent({
             themeOverrides.common.primaryColorSuppl = dark.value ? primaryColors.value.primaryColorDark : primaryColors.value.primaryColorLight;
             themeOverrides.common.popoverColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
             themeOverrides.common.modalColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
+            themeOverrides.common.cardColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
 
             if (dark.value) document.documentElement.style.setProperty("--primaryColor", primaryColors.value.primaryColorDark);
             else document.documentElement.style.setProperty("--primaryColor", primaryColors.value.primaryColorLight);

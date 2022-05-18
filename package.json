@@ -6,8 +6,8 @@
   "description": "Believers Sword App is a desktop application for learning and studying bible. This app is free to use.",
   "main": "background.js",
   "scripts": {
-    "build": "cross-env DEVELOPMENT_MODE=false vue-cli-service electron:build",
-    "serve": "cross-env DEVELOPMENT_MODE=true vue-cli-service electron:serve",
+    "build": "cross-env DEVELOPMENT_MODE=false VUE_APP_DEV=false vue-cli-service electron:build",
+    "serve": "cross-env DEVELOPMENT_MODE=true VUE_APP_DEV=true vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
     "rebuild": "electron-rebuild -f -w sqlite3",

@@ -2,7 +2,7 @@
 import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import { computed } from "@vue/reactivity";
-import { getFireStoreSermons } from "@/service/FireBase/common/Sermons";
+import { getFireStoreSermons } from "@/service/backend/Sermons";
 import { DrawerPlacement, NDrawer, NDrawerContent, NIcon, NTooltip, NButton, NScrollbar, NAlert } from "naive-ui";
 import { LogoYoutube, Close, Document, Information, Reset } from "@vicons/carbon";
 
@@ -40,6 +40,7 @@ function getSermons() {
 }
 
 onMounted(() => {
+    
     /**
      * If a selected value exist on store
      */
