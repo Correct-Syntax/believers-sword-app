@@ -3,7 +3,7 @@ import { computed, ref, watch } from "vue";
 import Footer from "@/components/footer/Footer.vue";
 import ReadBible from "./pages/ReadBible.vue";
 import { useStore } from "vuex";
-import { NModal, NCard } from "naive-ui";
+import { NModal, NCard, useMessage, useNotification } from "naive-ui";
 import Settings from "@/components/Settings/Settings.vue";
 import SaveClipModal from "@/components/ReadBiblePageComponents/ViewChapter/Verses/SaveClipNote/SaveClipModal.vue";
 
@@ -26,6 +26,9 @@ const closeModal = () => {
     store.state.showSettings = false;
     store.state.clipNotes.createClipNote = false;
 };
+
+window.message = useMessage();
+window.notification = useNotification();
 </script>
 
 <template>

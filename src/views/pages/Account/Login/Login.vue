@@ -26,7 +26,11 @@ const rules = {
 };
 
 const login = () => {
-    userLogin(form.value.email, form.value.password);
+    formValue.value?.validate(async (errors) => {
+        if (!errors) {
+            userLogin(form.value.email, form.value.password);
+        }
+    });
 };
 </script>
 <template>

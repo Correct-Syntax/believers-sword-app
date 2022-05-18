@@ -1,6 +1,6 @@
 import store from "@/store";
 import axios from "axios";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../FireBase/FireBaseService";
 import session from "../session/session";
 import { url } from './constants'
@@ -12,33 +12,78 @@ export const getUserLogged = () => {
     return user();
 }
 
-export const userLogin = (email: string, password: string) => {
+export const userLogin = async (email: string, password: string): Promise<boolean> => {
 
     // sign in to google
-    signInWithEmailAndPassword(auth, email, password)
+    const googleSignIn = await signInWithEmailAndPassword(auth, email, password)
         .then(() => {
             // .then((userCredential) => {
             // Signed in 
             // const user = userCredential.user;
             // console.log(user)
+            return true
         })
-        .catch((error) => {
+        .catch(() => {
             // const errorCode = error.code;
-            const errorMessage = error.message;
-            alert(errorMessage);
+            // const errorMessage = error.message;
+            return false;
         });
 
+    if (!googleSignIn) return false;
+
     // sign in to backend
-    axios.post(`${url}/api/auth/login`, { email, password }).then(response => {
-        console.log(response)
+    const backendSignIn = await axios.post(`${url}/api/auth/login`, { email, password }).then(response => {
         if (response.data) {
             session.set('user', response.data)
+            return true
         }
-
+        return false
     }).catch(e => {
         console.log(e)
+        return false
     })
 
+    if (!backendSignIn) return false;
+
+    store.dispatch("isUserLoggedToggle", true);
+    return true;
+}
+
+export const createUserAccount = async (email: string | null, password: string | null) => {
+
+    // create google account
+    if (email && password) {
+        const googleCreatedAccount = await createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed in 
+                const user = userCredential.user;
+                // ...
+                return user ? user : false;
+            })
+            .catch(() => {
+                return false
+                // .catch((error) => {
+                // const errorCode = error.code;
+                // const errorMessage = error.message;
+                // ..
+            });
+
+
+        // create backend account
+        // sign in to backend
+        const backendCreatedAccount = await axios.post(`${url}/api/auth/register`, { email, password }).then(() => {
+            return true;
+        }).catch((e) => {
+            if (e.response && e.response.data && e.response.data.message) {
+                alert(e.response.data.message);
+            }
+            return false;
+        })
+
+        return googleCreatedAccount && backendCreatedAccount;
+    } else {
+        return false;
+    }
 }
 
 
