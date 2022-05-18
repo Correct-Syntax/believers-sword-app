@@ -3,7 +3,7 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import SermonPage from "@/views/pages/Sermons/Sermons.vue";
 import GamesRoute from "@/views/pages/Games/Route/GamesRoute";
 import Directions from "@/views/pages/Directions.vue";
-import AccountPage from "@/views/pages/Account.vue";
+import AccountPage from "@/views/pages/Account/Account.vue";
 import AboutPage from "@/views/pages/About.vue";
 import PrayerList from "@/views/pages/PrayerList.vue";
 import Games from "@/views/pages/Games.vue";

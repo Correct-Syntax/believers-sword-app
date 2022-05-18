@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { collection, getFirestore } from "firebase/firestore/lite"
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -23,4 +24,8 @@ export const db = getFirestore(app);
 export const analytics = getAnalytics(app);
 
 // firestore collections
-export const sermonCollection =  collection(db, "sermon");
+export const sermonCollection = collection(db, "sermon");
+
+// for google auth
+export const provider = new GoogleAuthProvider();
+export const auth = getAuth();

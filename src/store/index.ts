@@ -19,9 +19,18 @@ export default createStore({
             primaryColorDark: "#3cb1ff",
             primaryColorLight: "#008fee",
         },
+        isUserLogged: false
     },
-    mutations: {},
-    actions: {},
+    mutations: {
+        setIsUserLogged(state, args) {
+            state.isUserLogged = args;
+        }
+    },
+    actions: {
+        isUserLoggedToggle(context, args: boolean) {
+            context.commit('setIsUserLogged', args);
+        }
+    },
     modules: {
         bible: bibleModule,
         frame: frameState,

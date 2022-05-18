@@ -1,23 +1,6 @@
-<template>
-    <NConfigProvider :theme-overrides="themeOverrides" :theme="dark ? darkTheme : null">
-        <NMessageProvider placement="bottom-right">
-            <div class="h-[100vh] w-[100%] dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 flex flex-col">
-                <TitleBar />
-                <div
-                    class="dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 h-[calc(100%-30px)] w-[100%] overflow-y-auto opacity-0"
-                    :class="{ 'opacity-100': showAllContent }"
-                >
-                    <LeftSideMenuBar />
-                    <MainView />
-                </div>
-            </div>
-        </NMessageProvider>
-    </NConfigProvider>
-</template>
-
-<script lang="ts">
+<script lang="ts" setup>
 import { NConfigProvider } from "naive-ui";
-import { computed, defineComponent, onBeforeMount, onMounted, reactive, ref, watch } from "vue";
+import { computed, onBeforeMount, onMounted, reactive, ref, watch } from "vue";
 import TitleBar from "./components/TitleBar/TitleBar.vue";
 import MainView from "./views/Main.vue";
 import { useStore } from "vuex";
@@ -26,111 +9,119 @@ import { darkTheme } from "naive-ui";
 import { webFrame } from "electron";
 import session from "./service/session/session";
 import LeftSideMenuBar from "@/components/leftSideMenuBar/leftSideMenuBar.vue";
-import { NMessageProvider } from "naive-ui";
+import { NMessageProvider, NNotificationProvider } from "naive-ui";
 import { AutoUpdateRendererEvents } from "@/service/AutoUpdater/AutoUpdaterRendererProcessEvents";
 import { useRouter } from "vue-router";
 import { ipcRenderer } from "electron";
 
-export default defineComponent({
-    name: "App",
-    components: { TitleBar, MainView, NConfigProvider, LeftSideMenuBar, NMessageProvider },
-    setup() {
-        const store = useStore();
-        const dark = computed(() => store.state.dark);
-        const router = useRouter();
-        const showAllContent = ref(false);
-        const primaryColors = computed(() => store.state.primaryColors);
-        const themeOverrides = reactive({
-            common: {
-                primaryColor: "#22577A",
-                primaryColorHover: "#22577A",
-                primaryColorPressed: "#5acea7",
-                primaryColorSuppl: "rgb(42, 148, 125)",
-                popoverColor: "rgba(55, 65, 81, 1)",
-                modalColor: "rgba(55, 65, 81, 1)"
-            },
-            dark: {
-                primaryColor: "#22577A"
-            }
-        });
-        const zoomLevel = computed(() => store.state.frame.zoomLevel);
+const store = useStore();
+const dark = computed(() => store.state.dark);
+const router = useRouter();
+const showAllContent = ref(false);
+const primaryColors = computed(() => store.state.primaryColors);
+const themeOverrides = reactive({
+    common: {
+        primaryColor: "#22577A",
+        primaryColorHover: "#22577A",
+        primaryColorPressed: "#5acea7",
+        primaryColorSuppl: "rgb(42, 148, 125)",
+        popoverColor: "rgba(55, 65, 81, 1)",
+        modalColor: "rgba(55, 65, 81, 1)",
+        cardColor: "rgba(255, 255, 255, 1)",
+    },
+    dark: {
+        primaryColor: "#22577A",
+    },
+});
+const zoomLevel = computed(() => store.state.frame.zoomLevel);
 
-        const changePrimaryColors = () => {
-            themeOverrides.common.primaryColor = dark.value ? primaryColors.value.primaryColorDark : primaryColors.value.primaryColorLight;
-            themeOverrides.common.primaryColorHover = dark.value ? primaryColors.value.primaryColorDark : primaryColors.value.primaryColorLight;
-            themeOverrides.common.primaryColorSuppl = dark.value ? primaryColors.value.primaryColorDark : primaryColors.value.primaryColorLight;
-            themeOverrides.common.popoverColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
-            themeOverrides.common.modalColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
+const changePrimaryColors = () => {
+    themeOverrides.common.primaryColor = dark.value ? primaryColors.value.primaryColorDark : primaryColors.value.primaryColorLight;
+    themeOverrides.common.primaryColorHover = dark.value ? primaryColors.value.primaryColorDark : primaryColors.value.primaryColorLight;
+    themeOverrides.common.primaryColorSuppl = dark.value ? primaryColors.value.primaryColorDark : primaryColors.value.primaryColorLight;
+    themeOverrides.common.popoverColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
+    themeOverrides.common.modalColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
+    themeOverrides.common.cardColor = dark.value ? "rgba(31, 41, 55, 1)" : "rgba(255, 255, 255, 1)";
 
-            if (dark.value) document.documentElement.style.setProperty("--primaryColor", primaryColors.value.primaryColorDark);
-            else document.documentElement.style.setProperty("--primaryColor", primaryColors.value.primaryColorLight);
-        };
+    if (dark.value) document.documentElement.style.setProperty("--primaryColor", primaryColors.value.primaryColorDark);
+    else document.documentElement.style.setProperty("--primaryColor", primaryColors.value.primaryColorLight);
+};
 
-        const changeTheme = async () => {
-            changePrimaryColors();
-            let themeProperty = dark.value ? "dark" : "light";
-            document.documentElement.setAttribute("theme", themeProperty);
-        };
+const changeTheme = async () => {
+    changePrimaryColors();
+    let themeProperty = dark.value ? "dark" : "light";
+    document.documentElement.setAttribute("theme", themeProperty);
+};
 
-        onBeforeMount(async () => {
-            await onMountedRendererEvents(store);
-            changeTheme();
-            AutoUpdateRendererEvents();
-        });
+onBeforeMount(async () => {
+    await onMountedRendererEvents(store);
+    changeTheme();
+    AutoUpdateRendererEvents();
+});
 
-        onMounted(async () => {
-            const storedRoutePath = localStorage.getItem("pathRoute");
-            if (storedRoutePath) {
-                store.state.readBibleMenuSelected = false;
-                await router.push(storedRoutePath);
-            }
-
-            const savedRightSideWidth = await session.get("viewChapterRightSideBarWidth");
-            if (!savedRightSideWidth) {
-                session.set("viewChapterRightSideBarWidth", 300);
-            }
-
-            let sessionZoom = session.get("webFrameZoom");
-            webFrame.setZoomFactor(sessionZoom ? sessionZoom : 1);
-            store.state.frame.zoomLevel = sessionZoom ? sessionZoom : 1;
-
-            let doc = document.getElementsByTagName("body")[0];
-            if (dark.value) doc.classList.add("dark");
-
-            ipcRenderer.invoke("getPrimaryColors").then((response: any) => {
-                store.state.primaryColors = response;
-            });
-
-            setTimeout(() => {
-                showAllContent.value = true;
-            }, 200);
-        });
-
-        watch(dark, () => {
-            changeTheme();
-            changePrimaryColors();
-            let doc = document.getElementsByTagName("body")[0];
-            if (dark.value) doc.classList.add("dark");
-            if (!dark.value) doc.classList.remove("dark");
-        });
-
-        watch(zoomLevel, () => {
-            webFrame.setZoomFactor(zoomLevel.value);
-        });
-
-        watch(primaryColors, () => {
-            changePrimaryColors();
-        });
-
-        return {
-            showAllContent,
-            dark,
-            themeOverrides,
-            darkTheme
-        };
+onMounted(async () => {
+    const storedRoutePath = localStorage.getItem("pathRoute");
+    if (storedRoutePath) {
+        store.state.readBibleMenuSelected = false;
+        await router.push(storedRoutePath);
     }
+
+    const savedRightSideWidth = await session.get("viewChapterRightSideBarWidth");
+    if (!savedRightSideWidth) {
+        session.set("viewChapterRightSideBarWidth", 300);
+    }
+
+    let sessionZoom = session.get("webFrameZoom");
+    webFrame.setZoomFactor(sessionZoom ? sessionZoom : 1);
+    store.state.frame.zoomLevel = sessionZoom ? sessionZoom : 1;
+
+    let doc = document.getElementsByTagName("body")[0];
+    if (dark.value) doc.classList.add("dark");
+
+    ipcRenderer.invoke("getPrimaryColors").then((response: any) => {
+        store.state.primaryColors = response;
+    });
+
+    setTimeout(() => {
+        showAllContent.value = true;
+    }, 200);
+});
+
+watch(dark, () => {
+    changeTheme();
+    changePrimaryColors();
+    let doc = document.getElementsByTagName("body")[0];
+    if (dark.value) doc.classList.add("dark");
+    if (!dark.value) doc.classList.remove("dark");
+});
+
+watch(zoomLevel, () => {
+    webFrame.setZoomFactor(zoomLevel.value);
+});
+
+watch(primaryColors, () => {
+    changePrimaryColors();
 });
 </script>
+
+<template>
+    <NConfigProvider :theme-overrides="themeOverrides" :theme="dark ? darkTheme : null">
+        <NNotificationProvider>
+            <NMessageProvider placement="bottom-right">
+                <div class="h-[100vh] w-[100%] dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 flex flex-col">
+                    <TitleBar />
+                    <div
+                        class="dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 h-[calc(100%-30px)] w-[100%] overflow-y-auto opacity-0"
+                        :class="{ 'opacity-100': showAllContent }"
+                    >
+                        <LeftSideMenuBar />
+                        <MainView />
+                    </div>
+                </div>
+            </NMessageProvider>
+        </NNotificationProvider>
+    </NConfigProvider>
+</template>
 
 <style lang="postcss">
 .none-just-testing {
