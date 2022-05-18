@@ -4,6 +4,7 @@ import { ref } from "vue";
 import { Login, UserFollow } from "@vicons/carbon";
 import { userLogin } from "@/service/backend/User";
 
+const loading = ref(false);
 const formValue = ref<FormInst | null>(null);
 const form = ref<{ email: any; password: any }>({
     email: null,
@@ -28,7 +29,22 @@ const rules = {
 const login = () => {
     formValue.value?.validate(async (errors) => {
         if (!errors) {
-            userLogin(form.value.email, form.value.password);
+            loading.value = true;
+            const loginSuccessful = await userLogin(form.value.email, form.value.password);
+            if (loginSuccessful) {
+                window.notification.success({
+                    title: "Login Successful",
+                    content: "You are successfully logged to believers sword.",
+                    duration: 5000,
+                });
+            } else {
+                window.notification.error({
+                    title: "Login Unsuccessful",
+                    content: "Your Email or Password is wrong.",
+                    duration: 5000,
+                });
+            }
+            loading.value = false;
         }
     });
 };
@@ -51,7 +67,7 @@ const login = () => {
                 </template>
                 Sign In
             </NButton>
-            <NButton quaternary type="info" @click="$emit('clickedRegisterButton')">
+            <NButton quaternary type="info" @click="$emit('clickedRegisterButton')" :loading="loading">
                 <template #icon>
                     <NIcon>
                         <UserFollow />

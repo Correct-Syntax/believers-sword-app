@@ -5,6 +5,7 @@ import { UserFollow } from "@vicons/carbon";
 import { createUserAccount } from "@/service/backend/User";
 import dayjs from "dayjs";
 
+const loading = ref(false);
 const formValue = ref<FormInst | null>(null);
 const emit = defineEmits(["cancelClicked"]);
 const form = ref<{
@@ -69,12 +70,14 @@ const rules = {
 const register = () => {
     formValue.value?.validate(async (errors) => {
         if (!errors) {
+            loading.value = true;
             const isUserCreateSuccess = await createUserAccount(form.value.email, form.value.password);
             if (isUserCreateSuccess) {
                 const n = window.notification["success"]({
                     title: "Successfully Submitted!",
                     description: "From The Creator",
-                    content: `You account is successfully created. I would like to express my gratitude for you being a part of believers sword.`,
+                    content: `You account is successfully created. I would like to express my gratitude for you being a part of believers sword. Use your newly created account to login.`,
+                    duration: 11000,
                     meta: dayjs().format("MMM DD, YYYY"),
                     action: () =>
                         h(
@@ -97,12 +100,21 @@ const register = () => {
                 form.value.password = null;
                 form.value.retypePassword = null;
                 emit("cancelClicked");
+            } else {
+                window.notification.error({
+                    title: "Ops, System Error",
+                    content: "It seems like we were not able to create your account. Please Recheck the field and submit again.",
+                    duration: 5000,
+                });
             }
+
+            loading.value = false;
         } else {
             const n = window.notification["error"]({
                 title: "Ops!",
                 content: `Please Check the fields before submitting.`,
                 meta: dayjs().format("MMM DD, YYYY"),
+                duration: 4000,
                 action: () =>
                     h(
                         NButton,

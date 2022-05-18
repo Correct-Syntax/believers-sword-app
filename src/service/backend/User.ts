@@ -73,10 +73,8 @@ export const createUserAccount = async (email: string | null, password: string |
         // sign in to backend
         const backendCreatedAccount = await axios.post(`${url}/api/auth/register`, { email, password }).then(() => {
             return true;
-        }).catch((e) => {
-            if (e.response && e.response.data && e.response.data.message) {
-                alert(e.response.data.message);
-            }
+        }).catch(() => {
+
             return false;
         })
 
