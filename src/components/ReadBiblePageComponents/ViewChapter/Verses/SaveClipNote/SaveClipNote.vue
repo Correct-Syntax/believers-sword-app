@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useStore } from "vuex";
 import { NIcon } from "naive-ui";
-import { AddComment } from "@vicons/carbon";
+import { DocumentAttachment } from "@vicons/carbon";
 
 const store = useStore();
 const props = defineProps(["verse"]);
@@ -18,7 +18,7 @@ const createClipNote = () => {
 <template>
     <div class="verse-item-more-options-item dark:text-gray-300 text-gray-100 cursor-pointer" @click="createClipNote()">
         <NIcon>
-            <AddComment />
+            <DocumentAttachment />
         </NIcon>
     </div>
 </template>

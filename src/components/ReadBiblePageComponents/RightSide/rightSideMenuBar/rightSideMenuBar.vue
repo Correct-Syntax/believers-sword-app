@@ -3,7 +3,7 @@ import { computed, onMounted } from "vue";
 import session from "@/service/session/session";
 import { useStore } from "vuex";
 import { NIcon } from "naive-ui";
-import { Search, BareMetalServer, Bookmark, PaintBrush, AddComment } from "@vicons/carbon";
+import { Search, BareMetalServer, Bookmark, PaintBrush, DocumentAttachment } from "@vicons/carbon";
 
 const store = useStore();
 const tabValue = computed(() => store.state.rightMenuTab);
@@ -47,7 +47,7 @@ function selectTab(e: any) {
             </div>
             <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'MyNotes' }" @click="selectTab('MyNotes')">
                 <NIcon size="25">
-                    <AddComment />
+                    <DocumentAttachment />
                 </NIcon>
                 <div class="tooltip">Clip Notes</div>
             </div>
