@@ -10,8 +10,6 @@ const bibleState = computed(() => store.state.bible);
 const verseBookmark = computed(() => store.state.verseBookmark);
 const BibleVersion = computed(() => store.state.bible.bibleVersions);
 const BibleBooks = computed(() => store.state.bible.bibleBooks);
-const searchBibleBook = ref("all");
-
 const Highlights: any = computed(() => {
     let data = Object.fromEntries(
         Object.entries(store.state.marker.highlights).filter((highlight: any) => highlight[1].bookNumber == searchBibleBook.value || searchBibleBook.value === "all")
@@ -19,6 +17,29 @@ const Highlights: any = computed(() => {
 
     return data.data;
 });
+
+const options = computed(() => {
+    let newData: any = [
+        {
+            label: "All - Select Book",
+            value: "all",
+        },
+    ];
+    store.state.bible.bibleBooks.forEach((item: any) => {
+        if (item.n.toLowerCase().includes(valueRef.value.toLowerCase()) || valueRef.value === " " || valueRef.value === "" || valueRef.value === null) {
+            newData.push({
+                label: item.n,
+                value: item.b,
+            });
+        }
+    });
+    return newData;
+});
+
+const searchBibleBook = ref("all");
+const valueRef = ref("");
+const value = valueRef;
+const getShowOptions = () => true;
 
 const getBibleVersion = (bible_key: string) => {
     let Version = BibleVersion.value.filter((version: any) => bible_key === version.table)[0];
@@ -41,8 +62,6 @@ const isVerseVersionChecked = (version: string): boolean => {
     return bibleState.value.bibleVersionsSelected.includes(version);
 };
 
-const valueRef = ref("");
-
 const getBibleVerseHighlight = () => {
     ipcRenderer.invoke("getBibleVerseHighlight").then((args: any) => {
         const obj = store.state.marker.highlights;
@@ -52,12 +71,6 @@ const getBibleVerseHighlight = () => {
     });
 };
 
-onMounted(() => {
-    getBibleVerseHighlight();
-});
-
-const getShowOptions = () => true;
-const value = valueRef;
 const clickHighlight = (verse: any): void => {
     store.state.marker.selectedHighlights = verse.key;
     goToVerse({
@@ -66,26 +79,14 @@ const clickHighlight = (verse: any): void => {
         v: parseInt(verse.verse),
     });
 };
-const options = computed(() => {
-    let newData: any = [
-        {
-            label: "All - Select Book",
-            value: "all",
-        },
-    ];
-    store.state.bible.bibleBooks.forEach((item: any) => {
-        if (item.n.toLowerCase().includes(valueRef.value.toLowerCase()) || valueRef.value === " " || valueRef.value === "" || valueRef.value === null) {
-            newData.push({
-                label: item.n,
-                value: item.b,
-            });
-        }
-    });
-    return newData;
-});
+
 const selectOption = (e: any) => {
     searchBibleBook.value = e;
 };
+
+onMounted(() => {
+    getBibleVerseHighlight();
+});
 </script>
 <template>
     <div class="mark-highlight-sidebar p-7px h-[100%] w-[100%] flex flex-col">
