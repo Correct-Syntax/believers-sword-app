@@ -81,7 +81,7 @@ const getBibleVerseHighlight = async (args: any = null) => {
         result.orderBy("verse");
 
         let data = await result.then((rows: Array<any>) => {
-            return rows.length > 0 ? rows.reduce((acc: any, curr: any) => ((acc[`${curr.book}_${curr.chapter}_${curr.verse}`] = curr), acc), {}) : {};
+            return rows.length > 0 ? rows.reduce((acc: any, curr: any) => ((acc[`${curr.version}_${curr.book}_${curr.chapter}_${curr.verse}`] = curr), acc), {}) : {};
         });
 
         let getCount = await count.count("id as count").then((data: any) => data[0].count);

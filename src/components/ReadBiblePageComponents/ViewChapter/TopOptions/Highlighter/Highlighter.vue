@@ -75,7 +75,7 @@ function highlightSelection(color: string) {
         }
 
         ipcRenderer.invoke("saveBibleVerseHighlight", { key, bibleVersion, bookNumber, chapterNumber, verseNumber, content }).then((args: any) => {
-            store.dispatch("setHighlights", args.data);
+            store.dispatch("setHighlights", args);
         });
 
         // remove all selections

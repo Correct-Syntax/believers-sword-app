@@ -15,7 +15,7 @@ const Highlights: any = computed(() => {
         Object.entries(store.state.marker.highlights).filter((highlight: any) => highlight[1].bookNumber == searchBibleBook.value || searchBibleBook.value === "all")
     );
 
-    return data.data;
+    return data;
 });
 
 const options = computed(() => {
