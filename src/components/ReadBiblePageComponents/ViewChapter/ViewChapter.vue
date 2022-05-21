@@ -68,7 +68,7 @@ onMounted(async () => {
     }, 300);
     getClipNotesInChapter(bibleStore.value.bookSelected, bibleStore.value.chapterSelected);
 
-    window.addEventListener("click", (event) => {
+    window.addEventListener("click", () => {
         if (showPopOver.value) {
             showPopOver.value = false;
         }
