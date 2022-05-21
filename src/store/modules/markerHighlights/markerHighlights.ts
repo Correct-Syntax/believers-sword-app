@@ -10,12 +10,12 @@ export const markerHighLights = {
         },
         setCount(s: any, payload: number) {
             s.count = payload
-        }
+        },
     },
     actions: {
         setHighlights(context: any, payload: any) {
             context.commit("setHighlights", payload.data);
             context.commit("setCount", payload.count);
-        }
+        },
     }
 };

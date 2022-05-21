@@ -59,9 +59,10 @@ const storeMarkersThenBackUp = async () => {
 
 const getBibleVerseHighlight = async (args: any = null) => {
     try {
+
         let result = storeDB.select().from("highlights");
         let count = storeDB.select().from("highlights");
-        if (args && args.b) {
+        if (args && args.b && args.b != 'all') {
             result.where("book", args.b);
             count.where("book", args.b);
         }
@@ -76,6 +77,11 @@ const getBibleVerseHighlight = async (args: any = null) => {
         if (args && args.limit) result.limit(args.limit);
         if (args && args.offset) result.offset(args.offset);
         if (args && args.orderBy) result.orderBy(args.orderBy);
+
+        if (args && args.search) {
+            result.where('content', 'like', `%${args.search}%`)
+            count.where('content', 'like', `%${args.search}%`)
+        }
 
         result.orderBy("chapter");
         result.orderBy("verse");
@@ -98,10 +104,10 @@ const getBibleVerseHighlight = async (args: any = null) => {
     }
 }
 
-export const ipcMainHighlightMarker = async (win: BrowserWindow): Promise<void> => { 
+export const ipcMainHighlightMarker = async (win: BrowserWindow): Promise<void> => {
     await storeMarkersThenBackUp();
 
-    ipcMain.handle("getBibleVerseHighlight", async (args: any) => {
+    ipcMain.handle("getBibleVerseHighlight", (event, args: any) => {
         return getBibleVerseHighlight(args);
     });
 
