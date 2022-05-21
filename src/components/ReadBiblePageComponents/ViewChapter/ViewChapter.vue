@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import { computed, onMounted, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
 import session from "@/service/session/session";
 import VersesRender from "@/components/ReadBiblePageComponents/ViewChapter/Verses/Verses.vue";
 import TopOptionsBar from "@/components/ReadBiblePageComponents/ViewChapter/TopOptions/TopOptions.vue";
 import { ipcRenderer } from "electron";
-import { NIcon } from "naive-ui";
+import { NIcon, NPopover, NButton } from "naive-ui";
 import { ArrowLeft, ArrowRight } from "@vicons/carbon";
+import HighlightOptionsVue from "@/components/HighlightOptions/HighlightOptions.vue";
 
 const store = useStore();
 const bibleStore = computed(() => store.state.bible);
@@ -31,15 +32,6 @@ watch(selectedBookmark, async () => {
     }, 100);
 });
 
-onMounted(async () => {
-    let viewChapterVerseElement = document.getElementById("view-chapter-verse");
-    setTimeout(() => {
-        const scrollTop = session.get("viewChapterVerseScrollTop");
-        if (viewChapterVerseElement) viewChapterVerseElement.scrollTop = scrollTop ? scrollTop : 0;
-    }, 300);
-    getClipNotesInChapter(bibleStore.value.bookSelected, bibleStore.value.chapterSelected);
-});
-
 function clickPointer(action: string) {
     let chapterCount = action === "next" ? bibleStore.value.chapterSelected + 1 : bibleStore.value.chapterSelected - 1;
     bibleStore.value.chapterSelected = chapterCount < 1 ? 1 : chapterCount > bibleStore.value.bookSelectedChapterCount ? bibleStore.value.bookSelectedChapterCount : chapterCount;
@@ -48,6 +40,40 @@ function clickPointer(action: string) {
 function scrollViewChapterVerse() {
     session.set("viewChapterVerseScrollTop", document.getElementById("view-chapter-verse")?.scrollTop);
 }
+
+const xRef = ref(0);
+const yRef = ref(0);
+const showPopOver = ref(false);
+const rightClickHere = (e: MouseEvent) => {
+    if (showPopOver.value) {
+        showPopOver.value = false;
+    } else {
+        showPopOver.value = true;
+        xRef.value = e.clientX;
+        yRef.value = e.clientY;
+    }
+};
+
+const copyText = () => {
+    const selected = window.getSelection();
+    const text: string | undefined = selected?.toString();
+    if (text) navigator.clipboard.writeText(text);
+};
+
+onMounted(async () => {
+    let viewChapterVerseElement = document.getElementById("view-chapter-verse");
+    setTimeout(() => {
+        const scrollTop = session.get("viewChapterVerseScrollTop");
+        if (viewChapterVerseElement) viewChapterVerseElement.scrollTop = scrollTop ? scrollTop : 0;
+    }, 300);
+    getClipNotesInChapter(bibleStore.value.bookSelected, bibleStore.value.chapterSelected);
+
+    window.addEventListener("click", (event) => {
+        if (showPopOver.value) {
+            showPopOver.value = false;
+        }
+    });
+});
 </script>
 
 <template>
@@ -55,7 +81,7 @@ function scrollViewChapterVerse() {
         <div class="h-[var(--view-chapter-top-width)] shadow-md">
             <TopOptionsBar />
         </div>
-        <div id="view-chapter-verse" class="overflow-y-auto h-[100%] w-[100%] overflowing-div scroll-bar-md" @scroll="scrollViewChapterVerse">
+        <div @contextmenu="rightClickHere" id="view-chapter-verse" class="overflow-y-auto h-[100%] w-[100%] overflowing-div scroll-bar-md" @scroll="scrollViewChapterVerse">
             <div class="absolute left-10px top-[50%] text-size-30px z-50">
                 <div class="view-chapter-arrow-pointer" @click="clickPointer('previous')">
                     <NIcon>
@@ -64,7 +90,7 @@ function scrollViewChapterVerse() {
                 </div>
             </div>
             <div class="h-[100%] flex justify-center relative">
-                <div class="flex justify-center">
+                <div class="flex justify-center" @click="showPopOver = false">
                     <VersesRender :viewBookChapter="bibleStore.viewBookChapter" :fontSize="fontSize" :clipNotes="clipNotesInChapter" />
                 </div>
             </div>
@@ -77,6 +103,10 @@ function scrollViewChapterVerse() {
             </div>
         </div>
     </div>
+    <NPopover :show="showPopOver" :x="xRef" :y="yRef" trigger="click">
+        <HighlightOptionsVue @setHighlight="showPopOver = false" />
+        <NButton v-show="false" @click="copyText">Copy</NButton>
+    </NPopover>
 </template>
 
 <style lang="postcss">
