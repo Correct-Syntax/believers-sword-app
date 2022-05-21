@@ -5,7 +5,6 @@ import { NEmpty, NAutoComplete } from "naive-ui";
 import { ipcRenderer } from "electron";
 
 const store = useStore();
-
 const selectedHighlights = computed(() => store.state.marker.selectedHighlights);
 const bibleState = computed(() => store.state.bible);
 const verseBookmark = computed(() => store.state.verseBookmark);
@@ -14,9 +13,11 @@ const BibleBooks = computed(() => store.state.bible.bibleBooks);
 const searchBibleBook = ref("all");
 
 const Highlights: any = computed(() => {
-    return Object.fromEntries(
+    let data = Object.fromEntries(
         Object.entries(store.state.marker.highlights).filter((highlight: any) => highlight[1].bookNumber == searchBibleBook.value || searchBibleBook.value === "all")
     );
+
+    return data.data;
 });
 
 const getBibleVersion = (bible_key: string) => {
@@ -42,11 +43,17 @@ const isVerseVersionChecked = (version: string): boolean => {
 
 const valueRef = ref("");
 
-onMounted(() => {
+const getBibleVerseHighlight = () => {
     ipcRenderer.invoke("getBibleVerseHighlight").then((args: any) => {
         const obj = store.state.marker.highlights;
-        if (obj && Object.keys(obj).length === 0 && Object.getPrototypeOf(obj) === Object.prototype) store.dispatch("setHighlights", args);
+        if (obj && Object.keys(obj).length === 0 && Object.getPrototypeOf(obj) === Object.prototype) {
+            store.dispatch("setHighlights", args);
+        }
     });
+};
+
+onMounted(() => {
+    getBibleVerseHighlight();
 });
 
 const getShowOptions = () => true;
@@ -54,9 +61,9 @@ const value = valueRef;
 const clickHighlight = (verse: any): void => {
     store.state.marker.selectedHighlights = verse.key;
     goToVerse({
-        b: parseInt(verse.bookNumber),
-        c: parseInt(verse.chapterNumber),
-        v: parseInt(verse.verseNumber),
+        b: parseInt(verse.book),
+        c: parseInt(verse.chapter),
+        v: parseInt(verse.verse),
     });
 };
 const options = computed(() => {
@@ -91,14 +98,14 @@ const selectOption = (e: any) => {
         <div v-if="Highlights" class="flex flex-col gap-10px h-[100%] overflow-y-auto overflowing-div">
             <template v-for="highlight in Highlights" :key="highlight.key">
                 <div
-                    v-if="highlight.key && isVerseVersionChecked(highlight.bibleVersion)"
+                    v-if="highlight.key && isVerseVersionChecked(highlight.version)"
                     class="mark-highlight-sidebar-item rounded-md"
                     :class="{ 'mark-highlight-sidebar-item-active': selectedHighlights === highlight.key }"
                     @click="clickHighlight(highlight)"
                 >
                     <div>
-                        <span class="text-size-18px font-700">{{ getBibleBook(parseInt(highlight.bookNumber)) }} {{ highlight.chapterNumber }}:{{ highlight.verseNumber }}</span>
-                        <span class="text-size-16px mb-10px whitespace-nowrap"> - {{ getBibleVersion(highlight.bibleVersion) }}</span>
+                        <span class="text-size-18px font-700"> {{ getBibleBook(parseInt(highlight.book)) }} {{ highlight.chapter }}:{{ highlight.verse }} </span>
+                        <span class="text-size-16px mb-10px whitespace-nowrap"> - {{ getBibleVersion(highlight.version) }}</span>
                     </div>
 
                     <span v-html="highlight.content"></span>

@@ -8,6 +8,8 @@
   "scripts": {
     "build": "cross-env DEVELOPMENT_MODE=false VUE_APP_DEV=false vue-cli-service electron:build",
     "serve": "cross-env DEVELOPMENT_MODE=true VUE_APP_DEV=true vue-cli-service electron:serve",
+    "serve:all": "concurrently \"yarn serve\" \"serve_be.bat\"",
+    "serve:be": "serve_be.bat",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
     "rebuild": "electron-rebuild -f -w sqlite3",
@@ -54,6 +56,7 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-typescript": "^7.0.0",
+    "concurrently": "^7.2.0",
     "cross-env": "^7.0.3",
     "electron": "^18.0.0",
     "electron-devtools-installer": "^3.1.0",
