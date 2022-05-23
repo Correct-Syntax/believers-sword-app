@@ -13,7 +13,7 @@ const bibleBook = (number: number) => {
 };
 
 function gotoBibleRead() {
-    store.state.readBibleMenuSelected = true;
+    store.state.showUnRoutePage = 'showBible';
 }
 </script>
 <template>

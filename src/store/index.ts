@@ -12,7 +12,7 @@ import { notes } from "./modules/notes/notes";
 export default createStore({
     state: {
         dark: true,
-        readBibleMenuSelected: true,
+        showUnRoutePage: "showBible",
         rightMenuTab: "versionsTab",
         showSettings: false,
         primaryColors: {
