@@ -3,7 +3,7 @@ import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import { computed } from "@vue/reactivity";
 import { getFireStoreSermons } from "@/service/backend/Sermons";
-import { DrawerPlacement, NDrawer, NDrawerContent, NIcon, NTooltip, NButton, NScrollbar, NAlert } from "naive-ui";
+import { DrawerPlacement, NDrawer, NDrawerContent, NIcon, NTooltip, NButton, NScrollbar, NAlert, NSkeleton } from "naive-ui";
 import { LogoYoutube, Close, Document, Information, Reset } from "@vicons/carbon";
 
 import DrawerContentVue from "./partials/DrawerContent/DrawerContent.vue";
@@ -40,7 +40,6 @@ function getSermons() {
 }
 
 onMounted(() => {
-    
     /**
      * If a selected value exist on store
      */
@@ -56,7 +55,7 @@ onMounted(() => {
 });
 </script>
 <template>
-    <div id="drawer-target" class="h-[100%] p-5">
+    <div id="drawer-target" class="h-[100%] p-5 overflow-y-auto">
         <NDrawer v-model:show="drawerShowContent" :width="`100%`" :placement="placement" to="#drawer-target">
             <NDrawerContent>
                 <template #header>
@@ -95,15 +94,15 @@ onMounted(() => {
                 </NIcon>
             </NButton>
         </div>
-        <div class="max-w-1200px mx-auto">
+        <div class="mx-auto">
             <NAlert title="Hallo! Good Day 😁" type="info">
                 More Videos and Text sermons coming in the future. I am still working on the backend for our application. In the future, you can request or add sermons you want to
                 add on our sermon list. And also can backup/Sync your bookmarks, notes, highlights, etc.
             </NAlert>
         </div>
-        <div class="flex gap-20px mt-3 flex-wrap">
+        <div v-show="!loadingSermon" class="flex gap-20px mt-3 flex-wrap">
             <div v-for="sermon in sermons.data" :key="sermon.title" class="w-300px cursor-pointer flex-grow max-w-400px" @click="selectASermon(sermon)">
-                <div class="h-160px overflow-hidden">
+                <div class="h-160px rounded-md overflow-hidden">
                     <img v-if="sermon.thumbnail" :src="sermon.thumbnail" alt="" class="w-[100%]" />
                     <div v-else class="w-[100%] bg-black h-160px flex justify-center items-center p-10px overflow-auto">
                         <h1 class="font-800 text-size-30px">{{ sermon.title }}</h1>
@@ -128,6 +127,12 @@ onMounted(() => {
                 <p class="truncate">
                     {{ sermon.description }}
                 </p>
+            </div>
+        </div>
+        <div v-show="loadingSermon" class="flex gap-20px mt-3 flex-wrap">
+            <div v-for="count in [1, 2, 3, 4, 5, 6, 7, 8]" :key="count" class="w-300px cursor-pointer flex-grow max-w-400px">
+                <NSkeleton class="mb-3 rounded-md" :height="160" />
+                <NSkeleton :height="30" round />
             </div>
         </div>
     </div>
