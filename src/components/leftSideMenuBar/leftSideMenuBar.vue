@@ -16,49 +16,57 @@ import Settings from "@vicons/carbon/Settings";
 
 const store = useStore();
 const router = useRouter();
-const readBibleIsSelected = computed(() => store.state.readBibleMenuSelected);
-const storePathLocalKey = "pathRoute";
 const pathSelected = ref("");
+const showUnRoutePage = computed(() => store.state.showUnRoutePage);
 
 onMounted(() => {
-    pathSelected.value = localStorage.getItem("pathSelected") || "";
+    const IsSelectedUnRoutePage = localStorage.getItem("UnRoutePageSelected");
+    if (IsSelectedUnRoutePage && IsSelectedUnRoutePage != "false") {
+        store.state.showUnRoutePage = IsSelectedUnRoutePage;
+    } else {
+        let pathSelected = localStorage.getItem("pathSelected") || "";
+        if (pathSelected) {
+            selectRoute(pathSelected);
+        }
+    }
 });
 
-function selectReadBibleMenu() {
-    store.state.readBibleMenuSelected = true;
-    localStorage.removeItem(storePathLocalKey);
-}
 function selectRoute(path: string) {
+    store.state.showUnRoutePage = "false";
     pathSelected.value = path;
     localStorage.setItem("pathSelected", path);
-    store.state.readBibleMenuSelected = false;
-    localStorage.setItem(storePathLocalKey, path);
+    localStorage.setItem("UnRoutePageSelected", "false");
     router.push(path);
+}
+
+function selectUnRoutedPage(name: string) {
+    store.state.showUnRoutePage = name;
+    localStorage.setItem("UnRoutePageSelected", name);
 }
 </script>
 
 <template>
     <div class="menu-bar-icons h-[100%] flex flex-col justify-between z-50">
         <div class="flex flex-col gap-10px">
-            <div class="icon-item" :class="{ 'active-menu-bar-item': readBibleIsSelected }" @click="selectReadBibleMenu()">
+            <div class="icon-item" :class="{ 'active-menu-bar-item': showUnRoutePage == 'showBible' }" @click="selectUnRoutedPage('showBible')">
                 <NIcon :size="25">
                     <Book />
                 </NIcon>
                 <div class="tooltip">Read Bible</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/sermon' && readBibleIsSelected == false }" @click="selectRoute('/sermon')">
+            <div class="icon-item" :class="{ 'active-menu-bar-item': showUnRoutePage == 'showSermons' }" @click="selectUnRoutedPage('showSermons')">
                 <NIcon :size="25">
                     <MessageQueue />
                 </NIcon>
                 <div class="tooltip">Go To Sermons</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/directions' && readBibleIsSelected == false }" @click="selectRoute('/directions')">
+            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/directions' && showUnRoutePage == `false` }" @click="selectRoute('/directions')">
                 <NIcon :size="25">
                     <DirectionFork />
                 </NIcon>
                 <div class="tooltip">Get Directions</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/prayer_list' && readBibleIsSelected == false }" @click="selectRoute('/prayer_list')">
+            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/prayer_list' && showUnRoutePage == `false` }" @click="selectRoute('/prayer_list')">
                 <NIcon :size="25">
                     <ListDropdown />
                 </NIcon>
@@ -66,7 +74,7 @@ function selectRoute(path: string) {
             </div>
             <div
                 class="icon-item"
-                :class="{ 'active-menu-bar-item': ($route.path === '/bible-talk' || pathSelected === '/bible-talk') && readBibleIsSelected == false }"
+                :class="{ 'active-menu-bar-item': ($route.path === '/bible-talk' || pathSelected === '/bible-talk') && showUnRoutePage == `false` }"
                 @click="selectRoute('/bible-talk')"
             >
                 <span class="font-500">BT</span>
@@ -74,7 +82,7 @@ function selectRoute(path: string) {
             </div>
             <div
                 class="icon-item"
-                :class="{ 'active-menu-bar-item': ($route.path === '/games' || pathSelected === '/games') && readBibleIsSelected == false }"
+                :class="{ 'active-menu-bar-item': ($route.path === '/games' || pathSelected === '/games') && showUnRoutePage == `false` }"
                 @click="selectRoute('/games')"
             >
                 <NIcon :size="25">
@@ -84,25 +92,25 @@ function selectRoute(path: string) {
             </div>
         </div>
         <div class="flex flex-col justify-center items-center gap-10px">
-            <div class="icon-item heart-donate" :class="{ 'active-menu-bar-item': $route.path === '/donate' && readBibleIsSelected == false }" @click="selectRoute('/donate')">
+            <div class="icon-item heart-donate" :class="{ 'active-menu-bar-item': $route.path === '/donate' && showUnRoutePage == `false` }" @click="selectRoute('/donate')">
                 <NIcon :size="25">
                     <LocationHeart />
                 </NIcon>
                 <div class="tooltip">Donate / Support</div>
             </div>
-            <div class="icon-item heart-donate" :class="{ 'active-menu-bar-item': $route.path === '/about' && readBibleIsSelected == false }" @click="selectRoute('/about')">
+            <div class="icon-item heart-donate" :class="{ 'active-menu-bar-item': $route.path === '/about' && showUnRoutePage == `false` }" @click="selectRoute('/about')">
                 <NIcon :size="25">
                     <Help />
                 </NIcon>
                 <div class="tooltip">About</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/account' && readBibleIsSelected == false }" @click="selectRoute('/account')">
+            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/account' && showUnRoutePage == `false` }" @click="selectRoute('/account')">
                 <NIcon :size="25">
                     <UserAvatar />
                 </NIcon>
                 <div class="tooltip">Your Account</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/settings' && readBibleIsSelected == false }" @click="store.state.showSettings = true">
+            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/settings' && showUnRoutePage == `false` }" @click="store.state.showSettings = true">
                 <NIcon :size="25">
                     <Settings />
                 </NIcon>

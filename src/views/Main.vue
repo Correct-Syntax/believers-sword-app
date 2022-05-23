@@ -6,11 +6,12 @@ import { useStore } from "vuex";
 import { NModal, NCard, useMessage, useNotification } from "naive-ui";
 import Settings from "@/components/Settings/Settings.vue";
 import SaveClipModal from "@/components/ReadBiblePageComponents/ViewChapter/Verses/SaveClipNote/SaveClipModal.vue";
+import Sermons from "@/views/pages/Sermons/Sermons.vue";
 
 const showSettingModal = ref(false);
 const store = useStore();
 const showModalState = computed(() => store.state.showSettings);
-const readBibleIsSelected = computed(() => store.state.readBibleMenuSelected);
+const showUnRoutePage = computed(() => store.state.showUnRoutePage);
 
 watch(showModalState, (val: boolean) => {
     if (val) showSettingModal.value = val;
@@ -43,11 +44,12 @@ window.notification = useNotification();
                 <SaveClipModal />
             </NCard>
         </NModal>
-        <div class="w-[100%] pl-40px" :class="{ 'pr-5px': readBibleIsSelected }" style="height: calc(100% - var(--header-height) + 4px)">
-            <div id="main-container-wrapper" class="h-[100%] w-[100%] relative pr-35px" v-show="readBibleIsSelected">
+        <div class="w-[100%] pl-40px" :class="{ 'pr-5px': showUnRoutePage == `showBible` }" style="height: calc(100% - var(--header-height) + 4px)">
+            <div id="main-container-wrapper" class="h-[100%] w-[100%] relative pr-35px" v-show="showUnRoutePage == `showBible`">
                 <ReadBible />
             </div>
-            <div v-if="!readBibleIsSelected" class="h-[100%] w-[100%] relative dark:bg-black dark:bg-opacity-20 bg-gray-200">
+            <Sermons v-show="showUnRoutePage == `showSermons`" />
+            <div v-if="showUnRoutePage == `false`" class="h-[100%] w-[100%] relative dark:bg-black dark:bg-opacity-20 bg-gray-200">
                 <router-view></router-view>
             </div>
         </div>

@@ -13,8 +13,7 @@ export default defineComponent({
         onMounted(() => {
             window.addEventListener("online", () => (isOnline.value = true));
             window.addEventListener("offline", () => (isOnline.value = false));
-            console.log(isOnline.value);
         });
-    }
+    },
 });
 </script>

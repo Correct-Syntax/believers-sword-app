@@ -22,8 +22,8 @@ const dark = computed(() => store.state.dark);
         class="dark:bg-gray-800 dark:text-gray-300 text-gray-800 bg-gray-300 flex w-[100%] justify-between whitespace-nowrap h-[var(--header-height)] items-center select-none"
     >
         <div class="flex items-center gap-9px w-400px h-[100%]">
-            <div class="pl-[10px] w-30px">
-                <img src="@/assets/logo54x54.png" class="h-10px w-30px" alt="Icon Logo" />
+            <div class="pl-10px w-30px">
+                <img src="@/assets/logo.svg" class="h-35px w-30px" alt="Icon Logo" title="Believers Sword Logo" />
             </div>
             <div class="text-size-[12px] font-700">Believers Sword</div>
         </div>
