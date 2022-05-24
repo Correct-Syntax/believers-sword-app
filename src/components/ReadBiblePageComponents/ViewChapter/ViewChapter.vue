@@ -6,7 +6,7 @@ import VersesRender from "@/components/ReadBiblePageComponents/ViewChapter/Verse
 import TopOptionsBar from "@/components/ReadBiblePageComponents/ViewChapter/TopOptions/TopOptions.vue";
 import { ipcRenderer } from "electron";
 import { NIcon, NPopover, NButton } from "naive-ui";
-import { ArrowLeft, ArrowRight } from "@vicons/carbon";
+import { ArrowLeft, ArrowRight, Copy, Close } from "@vicons/carbon";
 import HighlightOptionsVue from "@/components/HighlightOptions/HighlightOptions.vue";
 
 const store = useStore();
@@ -104,8 +104,24 @@ onMounted(async () => {
         </div>
     </div>
     <NPopover :show="showPopOver" :x="xRef" :y="yRef" trigger="click">
-        <HighlightOptionsVue @setHighlight="showPopOver = false" />
-        <NButton v-show="false" @click="copyText">Copy</NButton>
+        <div class="flex gap-10px">
+            <HighlightOptionsVue @setHighlight="showPopOver = false" />
+            <NButton size="small" @click="copyText" round strong secondary title="Copy">
+                <template #icon>
+                    <NIcon>
+                        <Copy />
+                    </NIcon>
+                </template>
+                Copy
+            </NButton>
+            <NButton size="small" @click="showPopOver = false" circle strong secondary title="Copy">
+                <template #icon>
+                    <NIcon>
+                        <Close />
+                    </NIcon>
+                </template>
+            </NButton>
+        </div>
     </NPopover>
 </template>
 

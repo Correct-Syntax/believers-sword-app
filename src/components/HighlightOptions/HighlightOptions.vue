@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { highlight } from "../ReadBiblePageComponents/ViewChapter/TopOptions/Highlighter/HighLight";
-import { CircleSolid, CloseOutline } from "@vicons/carbon";
-import { NIcon } from "naive-ui";
+import { CircleSolid, Delete } from "@vicons/carbon";
+import { NIcon, NButton } from "naive-ui";
 
 const emit = defineEmits(["setHighlight"]);
 
@@ -37,10 +37,13 @@ function highlightSelection(color: string) {
                 <CircleSolid />
             </NIcon>
         </button>
-        <button @click="highlightSelection('remove')">
-            <NIcon>
-                <CloseOutline />
-            </NIcon>
-        </button>
+        <NButton size="small" @click="highlightSelection('remove')" round secondary strong>
+            <template #icon>
+                <NIcon>
+                    <Delete />
+                </NIcon>
+            </template>
+            Remove
+        </NButton>
     </span>
 </template>

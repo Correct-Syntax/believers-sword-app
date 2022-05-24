@@ -60,8 +60,17 @@ const saveToBookmark = (verse: any) => {
 function checkHere(): void {
     // eslint-disable-next-line
     const el: HTMLElement = this;
-    el.addEventListener("keydown", function (event: any) {
-        event.preventDefault();
+    el.addEventListener("keydown", function (event: KeyboardEvent) {
+        var key = event.key;
+        var ctrl = event.ctrlKey ? true : false;
+
+        if (key.toUpperCase() == "C" && ctrl) {
+            const selected = window.getSelection();
+            const text: string | undefined = selected?.toString();
+            if (text) navigator.clipboard.writeText(text);
+        } else {
+            event.preventDefault();
+        }
     });
 }
 
