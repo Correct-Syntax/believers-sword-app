@@ -4,6 +4,7 @@ import { CircleSolid, CloseOutline } from "@vicons/carbon";
 import { NIcon } from "naive-ui";
 
 const emit = defineEmits(["setHighlight"]);
+
 function highlightSelection(color: string) {
     highlight(color);
     emit("setHighlight", color);

@@ -1,6 +1,6 @@
 import { ipcMain } from "electron";
 import { BrowserWindow } from "electron/main";
-import Knex from "knex";
+import { Knex } from "knex";
 const isDevelopment = process.env.NODE_ENV !== "production";
 const ElectronStore = require("electron-store");
 const config = require("./../../db.config");
@@ -24,8 +24,7 @@ const storeMarkersThenBackUp = async () => {
     try {
         let result = storeDB("highlights").select("*");
         await result.then(async (raws: Array<any>) => {
-            let backupHighlights: Array<any> | any = electronStore.get("highlights");
-            // console.log(Object.entries(backupHighlights))
+            let backupHighlights: Array<any> | any = await electronStore.get("highlights");
             if (raws.length <= 0 && Object.entries(backupHighlights).length > 0) {
 
                 let toBackUp = [];
@@ -34,7 +33,7 @@ const storeMarkersThenBackUp = async () => {
                 // set The Data to database
                 for (const [key, value] of backupHighlightsToObjectEntries) {
                     toBackUp.push({
-                        key: value.key,
+                        key,
                         version: value.bibleVersion,
                         book: parseInt(value.bookNumber),
                         chapter: parseInt(value.chapterNumber),
@@ -115,25 +114,39 @@ export const ipcMainHighlightMarker = async (win: BrowserWindow): Promise<void> 
         try {
             // save to electronStore
             let hasHighlight = payload.content.includes("HasHighlightSpan");
+
             if (hasHighlight) {
                 electronStore.set(`highlights.${payload.key}`, payload);
 
-                // save to database
-                await storeDB('highlights').insert({
-                    key: payload.key,
-                    version: payload.bibleVersion,
-                    book: parseInt(payload.bookNumber),
-                    chapter: parseInt(payload.chapterNumber),
-                    verse: parseInt(payload.verseNumber),
-                    content: payload.content,
-                    date_created: new Date()
+                await storeDB('highlights').where('key', payload.key).first().then(async (row) => {
+                    if (row) {
+                        // if exist update
+                        await storeDB('highlights').where('key', payload.key).update({
+                            content: payload.content
+                        })
+                    } else {
+                        // insert to database
+                        await storeDB('highlights').insert([{
+                            key: payload.key,
+                            version: payload.bibleVersion,
+                            book: parseInt(payload.bookNumber),
+                            chapter: parseInt(payload.chapterNumber),
+                            verse: parseInt(payload.verseNumber),
+                            content: payload.content,
+                            date_created: new Date()
 
-                }).then(() => {
-                    console.log('success inserting highlight.')
-                }).catch((e: Error) => console.log(e));
-            }
-            else {
-                electronStore.delete(`highlights.${payload.key}`);
+                        }], ['key']).then(() => {
+                            console.log('success inserting highlight.')
+                        }).catch((e: Error) => console.log(e))
+                    }
+                })
+            } else {
+                try {
+                    await storeDB('highlights').where('key', payload.key).delete();
+                    await electronStore.delete(`highlights.${payload.key}`);
+                } catch (e) {
+                    console.log(e)
+                }
             }
 
             //return data
