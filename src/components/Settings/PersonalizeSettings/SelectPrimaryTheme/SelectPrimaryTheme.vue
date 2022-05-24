@@ -44,7 +44,7 @@ export default defineComponent({
                 value: "orange",
                 key: "orange",
                 label: "Orange",
-                primaryColorDark: "#ffb300",
+                primaryColorDark: "#ff8f00",
                 primaryColorLight: "#ff8f00"
             },
             {
