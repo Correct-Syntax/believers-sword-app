@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { NPopconfirm, NIcon } from "naive-ui";
+import { NPopconfirm, NIcon, NButton } from "naive-ui";
 import { ipcRenderer } from "electron";
 import { useStore } from "vuex";
 import { DocumentAttachment, Pen, TrashCan } from "@vicons/carbon";
@@ -33,29 +33,30 @@ const createClipNote = () => {
 <template>
     <div v-if="clipNote" class="flex justify-start pl-100px">
         <div
-            class="flex clipNote-Body px-7px py-3px text-gray-900 rounded-bl-md rounded-br-md w-[100%] max-w-700px -mt-[1px] relative gap-10px"
+            class="px-7px py-3px text-gray-900 rounded-bl-md rounded-br-md w-[100%] max-w-700px -mt-[1px] relative gap-10px"
             :class="{ 'dark:bg-gray-300 bg-gray-700 dark:text-gray-800 text-light-200': clipNote.color === 'default' }"
             :style="`background-color: ${clipNote.color}`"
         >
-            <span>
-                <NIcon size="18">
-                    <DocumentAttachment />
-                </NIcon>
-            </span>
             <div v-html="clipNote.note"></div>
-            <div class="trash-button-clipNote absolute right-5px bottom-2px flex gap-10px items-center">
-                <span class="opacity-70 hover:opacity-100 cursor-pointer" @click="createClipNote()">
+            <NIcon class="absolute left-[-35px] top-2 dark:text-gray-400" size="29">
+                <DocumentAttachment />
+            </NIcon>
+            <div
+                class="flex trash-button-clipNote absolute top-5px flex gap-10px items-center"
+                :class="{ 'flex-col right-[-35px] ': clipNote.note.length > 150, 'right-[-70px]': clipNote.note.length < 150 }"
+            >
+                <NButton secondary size="small" circle class="opacity-70 hover:opacity-100 cursor-pointer" @click="createClipNote()">
                     <NIcon size="20">
                         <Pen />
                     </NIcon>
-                </span>
+                </NButton>
                 <NPopconfirm @positive-click="deleteClipNote()">
                     <template #trigger>
-                        <span class="cursor-pointer opacity-70 hover:opacity-100">
+                        <NButton secondary size="small" circle class="cursor-pointer opacity-70 hover:opacity-100">
                             <NIcon size="20">
                                 <TrashCan />
                             </NIcon>
-                        </span>
+                        </NButton>
                     </template>
                     Are you sure to delete this Clip Note?
                 </NPopconfirm>

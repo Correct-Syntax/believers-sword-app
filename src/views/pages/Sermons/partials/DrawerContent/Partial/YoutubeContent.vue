@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { NButton } from "naive-ui";
 import { YoutubeVue3 } from "youtube-vue3";
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref, watch } from "vue";
 import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
 
@@ -12,6 +12,12 @@ const youtube: any = ref(null);
 const play = reactive({
     video_id: null,
     loop: 1,
+});
+
+watch(selectedSermonContent, (sermon) => {
+    if (sermon) {
+        play.video_id = sermon.youtube_video_id;
+    }
 });
 
 function playCurrentVideo() {

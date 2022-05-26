@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { computed } from "@vue/reactivity";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
 
 const store = useStore();
 const selectedSermonContent = computed(() => store.state.sermonState.selected_sermon);
 const content = ref(null);
+
+watch(selectedSermonContent, (sermon) => {
+    if (sermon) {
+        content.value = sermon.content;
+    }
+});
 
 onMounted(() => {
     if (selectedSermonContent.value) {

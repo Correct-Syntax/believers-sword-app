@@ -90,7 +90,18 @@ onMounted(() => {
     });
 
     noteTitle.addEventListener("keydown", (e) => {
+        var key = (e as KeyboardEvent).key;
+        var ctrl = (e as KeyboardEvent).ctrlKey ? true : false;
         if ((e as KeyboardEvent).key === "Enter" || (e as KeyboardEvent).ctrlKey) e.preventDefault();
+
+        if (key.toUpperCase() == "C" && ctrl) {
+            const selected = window.getSelection();
+            const text: string | undefined = selected?.toString();
+            if (text) navigator.clipboard.writeText(text);
+        } else {
+            e.preventDefault();
+        }
+
         clearTimeout(typingTime);
     });
 });

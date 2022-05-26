@@ -1,86 +1,34 @@
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
-import { useStore } from "vuex";
-import { computed } from "@vue/reactivity";
-import { getFireStoreSermons } from "@/service/backend/Sermons";
-import { DrawerPlacement, NDrawer, NDrawerContent, NIcon, NTooltip, NButton, NScrollbar, NAlert, NSkeleton, NEmpty } from "naive-ui";
-import { LogoYoutube, Close, Document, Information, Reset, WifiOff } from "@vicons/carbon";
-
+import { NIcon, NTooltip, NButton, NAffix } from "naive-ui";
+import { Information, Reset, Undo } from "@vicons/carbon";
+import ShowSermonsLists from "./ShowSermonLists.vue";
 import DrawerContentVue from "./partials/DrawerContent/DrawerContent.vue";
+import { computed, ref, watch } from "vue";
+import { useStore } from "vuex";
+
+const containerRef = ref<HTMLElement>(null as unknown as HTMLElement);
 
 const store = useStore();
-const sermons = computed(() => store.state.sermonState.sermons);
-const sermonTitleSelected = () => computed(() => (store.state.sermonState.selected_sermon ? store.state.sermonState.selected_sermon.title : "No Title"));
+const selectedSermon = computed(() => store.state.sermonState.selected_sermon);
+const showSermonsLists = ref();
 
-const drawerShowContent = ref(false);
-const placement = ref<DrawerPlacement>("right");
-
-const selectASermon = (sermon: any) => {
-    store.state.sermonState.selected_sermon = sermon;
-    drawerShowContent.value = true;
-};
-const closeSelectedSermon = () => {
-    store.state.sermonState.selected_sermon = null;
-    drawerShowContent.value = false;
-};
-
-const loadingSermon = ref(false);
-
-function getSermons() {
-    loadingSermon.value = true;
-    getFireStoreSermons()
-        .then((result) => {
-            store.state.sermonState.sermons = result;
-            loadingSermon.value = false;
-        })
-        .catch((e) => {
-            console.log(e);
-            loadingSermon.value = false;
-        });
-}
-
-const isOnline = ref(true);
-
-onMounted(() => {
-    window.addEventListener("online", () => (isOnline.value = true));
-    window.addEventListener("offline", () => (isOnline.value = false));
-    /**
-     * If a selected value exist on store
-     */
-    if (store.state.sermonState.selected_sermon) {
-        drawerShowContent.value = true;
-    }
-
-    if (sermons.value.data && sermons.value.data.length > 0) {
-        return;
-    }
-
-    getSermons();
+watch(selectedSermon, () => {
+    let ShowSermonContent = document.getElementById("show-sermon-content");
+    setTimeout(() => {
+        if (ShowSermonContent) ShowSermonContent.scrollTop = 0;
+    }, 100);
 });
+
+// methods
+function getSermons() {
+    showSermonsLists.value.getSermons();
+}
 </script>
 <template>
     <div id="drawer-target" class="h-[100%] p-5 overflow-y-auto w-[100%] relative">
-        <NDrawer v-model:show="drawerShowContent" :width="`100%`" :placement="placement" to="#drawer-target">
-            <NDrawerContent>
-                <template #header>
-                    <div class="flex gap-10px">
-                        <div @click="closeSelectedSermon">
-                            <NIcon class="cursor-pointer">
-                                <Close />
-                            </NIcon>
-                        </div>
-                        <div>{{ sermonTitleSelected() }}</div>
-                    </div>
-                </template>
-                <NScrollbar class="h-[100%]">
-                    <DrawerContentVue />
-                </NScrollbar>
-            </NDrawerContent>
-        </NDrawer>
-        <div class="mb-4 flex items-center justify-between gap-30px">
+        <div v-show="!selectedSermon" class="mb-4 flex items-center justify-between gap-30px sticky">
             <h1 class="text-size-30px font-800 flex items-center gap-10px">
                 Sermons
-
                 <NTooltip trigger="hover" placement="bottom">
                     <template #trigger>
                         <NIcon> <Information /> </NIcon>
@@ -92,62 +40,35 @@ onMounted(() => {
                 </NTooltip>
             </h1>
 
-            <NButton @click="getSermons()" :loading="loadingSermon" round>
+            <NButton @click="getSermons()" round>
                 <NIcon>
                     <Reset />
                 </NIcon>
             </NButton>
         </div>
-        <div class="mx-auto">
-            <NAlert title="Hallo! Good Day 😁" type="info">
-                More Videos and Text sermons coming in the future. I am still working on the backend for our application. In the future, you can request or add sermons you want to
-                add on our sermon list. And also can backup/Sync your bookmarks, notes, highlights, etc.
-            </NAlert>
-        </div>
-        <div v-show="!loadingSermon && isOnline" class="flex gap-20px mt-3 flex-wrap">
-            <div v-for="sermon in sermons.data" :key="sermon.title" class="w-300px cursor-pointer flex-grow max-w-400px" @click="selectASermon(sermon)">
-                <div class="h-160px rounded-md overflow-hidden">
-                    <img v-if="sermon.thumbnail" :src="sermon.thumbnail" alt="" class="w-[100%]" />
-                    <div v-else class="w-[100%] bg-black h-160px flex justify-center items-center p-10px overflow-auto">
-                        <h1 class="font-800 text-size-30px">{{ sermon.title }}</h1>
-                    </div>
-                </div>
-
-                <div class="font-700 flex gap-10px mt-10px">
-                    <p class="truncate">
-                        {{ sermon.title }}
-                    </p>
-                    <span v-if="sermon.type === 'youtube'" class="-mb-5px">
-                        <NIcon size="20" color="#FF0000">
-                            <LogoYoutube />
-                        </NIcon>
-                    </span>
-                    <span v-if="sermon.type === 'text'" class="-mb-5px">
-                        <NIcon size="20">
-                            <Document />
-                        </NIcon>
-                    </span>
-                </div>
-                <p class="truncate">
-                    {{ sermon.description }}
-                </p>
+        <div class="flex h-[100%] gap-30px">
+            <div
+                id="show-sermon-content"
+                ref="containerRef"
+                v-if="selectedSermon"
+                :class="{ 'w-[80%] h-[100%] overflow-y-auto overflowing-div scroll-bar-md': selectedSermon }"
+                class="relative py-20px"
+            >
+                <NAffix :top="50" :trigger-top="60" :listen-to="() => containerRef">
+                    <NButton round @click="store.state.sermonState.selected_sermon = null">
+                        <template #icon>
+                            <NIcon>
+                                <Undo />
+                            </NIcon>
+                        </template>
+                        Back
+                    </NButton>
+                </NAffix>
+                <DrawerContentVue />
+            </div>
+            <div :class="{ 'w-[20%] h-[100%] overflow-y-auto overflowing-div pr-4': selectedSermon }">
+                <ShowSermonsLists ref="showSermonsLists" />
             </div>
         </div>
-        <div v-show="loadingSermon && isOnline" class="flex gap-20px mt-3 flex-wrap">
-            <div v-for="count in [1, 2, 3, 4, 5, 6, 7, 8]" :key="count" class="w-300px cursor-pointer flex-grow max-w-400px">
-                <NSkeleton class="mb-3 rounded-md" :height="160" />
-                <NSkeleton :height="30" round />
-            </div>
-        </div>
-        <NEmpty class="mt-30px" v-show="!isOnline" description="Account Page" size="huge">
-            <template #icon>
-                <NIcon>
-                    <WifiOff />
-                </NIcon>
-            </template>
-            <template #extra>
-                <div class="w-[100%] max-w-[300px]">Oops! No Internet Connection. Connect To Internet to Get Show Contents.</div>
-            </template>
-        </NEmpty>
     </div>
 </template>
