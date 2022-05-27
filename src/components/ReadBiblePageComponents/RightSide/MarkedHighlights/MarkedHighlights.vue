@@ -106,7 +106,7 @@ onMounted(() => {
                 <NInput v-model:value="search.search" placeholder="Please Write and press enter..." :clearable="true" />
                 <div class="flex gap-10px">
                     <NSelect v-model:value="search.b" :options="options" />
-                    <NButton @click="getBibleVerseHighlight(true)">
+                    <NButton type="primary" @click="getBibleVerseHighlight(true)">
                         <template #icon>
                             <NIcon>
                                 <Search />

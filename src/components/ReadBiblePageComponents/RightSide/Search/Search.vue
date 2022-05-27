@@ -96,15 +96,16 @@ watch(searchBiblePage, () => {
         <div class="flex flex-col gap-7px">
             <NInput v-model:value="searchValue" type="text" placeholder="Type To Search" @keyup.enter="clickSubmitSearch(true)" />
             <NSelect v-model:value="searchBibleVersion" :options="bibleVersionsOptions" placeholder="Select The Bible Version" />
-            <NSelect v-model:value="searchBibleBook" :options="bibleBookOptions" placeholder="Select Bible Book" />
-            <NButton type="primary" @click="clickSubmitSearch(true)">
-                <div class="flex items-center gap-[10px]">
-                    <NIcon>
-                        <Search />
-                    </NIcon>
-                    <span>Search</span>
-                </div>
-            </NButton>
+            <div class="flex gap-5px">
+                <NSelect v-model:value="searchBibleBook" :options="bibleBookOptions" placeholder="Select Bible Book" />
+                <NButton type="primary" @click="clickSubmitSearch(true)">
+                    <div class="flex items-center gap-[10px]">
+                        <NIcon>
+                            <Search />
+                        </NIcon>
+                    </div>
+                </NButton>
+            </div>
         </div>
         <div id="search-result-view" class="h-[100%] overflow-y-auto overflowing-div flex flex-col gap-7px">
             <div
@@ -122,9 +123,9 @@ watch(searchBiblePage, () => {
                 </div>
             </div>
         </div>
-        <div v-show="searchResultCount / searchResultLimit > 1" class="w-[100%] flex flex-col items-end gap-7px">
+        <div v-show="Math.floor(searchResultCount / searchResultLimit) > 1" class="w-[100%] flex flex-col items-end gap-7px">
             <div>Total Verse Result: {{ searchResultCount }}</div>
-            <NPagination v-model:page="searchBiblePage" :page-count="searchResultCount / searchResultLimit" :page-slot="5" />
+            <NPagination v-model:page="searchBiblePage" :page-count="Math.floor(searchResultCount / searchResultLimit)" :page-slot="5" />
         </div>
     </div>
 </template>

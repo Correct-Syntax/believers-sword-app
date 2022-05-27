@@ -37,16 +37,6 @@ onMounted(() => {
     getClipNotes();
 });
 
-function ObjectLength(object: any | Record<string, unknown>) {
-    var length = 0;
-    for (var key in object) {
-        if (key) {
-            ++length;
-        }
-    }
-    return length;
-}
-
 watch(page, () => getClipNotes());
 watch(deletedClipNote, () => getClipNotes());
 watch(addedClipNote, () => getClipNotes());
@@ -62,9 +52,6 @@ const deleteClipNote = (clipNote: { b: number | string; c: number | string; v: n
         .then(() => {
             store.state.clipNotes.deletedClipNote = verse;
             delete store.state.clipNotes.clipNotesInChapter[`${verse.b}_${verse.c}_${verse.v}`];
-            if (ObjectLength(clipNotes.data) === 1 && page.value > 0) {
-                page.value -= 1;
-            }
         })
         .catch((e: Error) => console.log(e.message));
 };
@@ -149,9 +136,9 @@ const getShowOptions = () => true;
         <div v-else class="mt-30px">
             <NEmpty description="No Clip Notes Saved" />
         </div>
-        <div v-show="clipNotes.count / clipNotes.limit > 1" class="w-[100%] flex flex-col items-end gap-7px">
+        <div v-show="Math.floor(clipNotes.count / clipNotes.limit) > 1" class="w-[100%] flex flex-col items-end gap-7px">
             <div>Total Verse Result: {{ clipNotes.count }}</div>
-            <NPagination v-model:page="page" :page-count="Math.ceil(clipNotes.count / clipNotes.limit)" :page-slot="5" />
+            <NPagination v-model:page="page" :page-count="Math.floor(clipNotes.count / clipNotes.limit)" :page-slot="5" />
         </div>
     </div>
 </template>

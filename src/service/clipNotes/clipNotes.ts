@@ -1,6 +1,6 @@
 import { ElectronLog } from "electron-log";
 import { ipcMain } from "electron";
-import Knex from "knex";
+import { Knex } from "knex";
 import ElectronStore from "electron-store";
 const log: ElectronLog = require("electron-log");
 const isDevelopment = process.env.NODE_ENV !== "production";
@@ -22,7 +22,7 @@ const clipNotesStoreBackUp = new ElectronStore({
 const storeThenBackUp = async () => {
     try {
         let result = storeDB("clip_notes").select("b", "c", "v", "book_name", "color", "note");
-        await result.then( async (raws: Array<any>) => {
+        await result.then(async (raws: Array<any>) => {
             let backupClipNotes: Array<any> | any = clipNotesStoreBackUp.get("clipNoteBackup");
             if (raws.length <= 0 && backupClipNotes.length > 0) {
                 await storeDB("clip_notes")
@@ -45,7 +45,9 @@ export const clipNoteEvents = (): void => {
         try {
             let result = storeDB("clip_notes").select();
             result.then((raws: Array<any>) => {
-                clipNotesStoreBackUp.set("clipNoteBackup", raws);
+                if (raws.length) {
+                    clipNotesStoreBackUp.set("clipNoteBackup", raws);
+                }
             });
         } catch (e) {
             if (e instanceof Error) log.error(e.message);
