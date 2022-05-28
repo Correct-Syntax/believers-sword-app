@@ -60,6 +60,13 @@ onBeforeMount(async () => {
 });
 
 onMounted(async () => {
+    window.addEventListener("keydown", (e: KeyboardEvent) => {
+        // prevent user from using the ctr + a
+        if (e.ctrlKey && e.key.toLowerCase() === "a") {
+            e.preventDefault();
+        }
+    });
+
     const storedRoutePath = localStorage.getItem("pathRoute");
     if (storedRoutePath) {
         store.state.readBibleMenuSelected = false;
