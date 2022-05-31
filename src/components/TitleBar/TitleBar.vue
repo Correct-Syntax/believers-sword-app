@@ -6,7 +6,7 @@ import session from "@/service/session/session";
 import AutoUpdaterConfirmation from "./AutoUpdateConfirmation/AutoUpdateConfirmation.vue";
 import WindowResizeOptions from "./WindowResizeOptions/WindowResizeOptions.vue";
 import { Sun, Moon } from "@vicons/carbon";
-import { NIcon } from "naive-ui";
+import { NIcon, NButton } from "naive-ui";
 
 const store = useStore();
 const changeTheme = () => {
@@ -33,12 +33,17 @@ const dark = computed(() => store.state.dark);
         </div>
         <div class="text-size-12px mr-10px h-[100%]">
             <div class="cursor-pointer h-[100%] px-10px flex justify-center items-center text-size-18px" @click="changeTheme()">
-                <NIcon v-show="dark">
-                    <Sun />
-                </NIcon>
-                <NIcon v-show="!dark">
-                    <Moon />
-                </NIcon>
+                <NButton size="tiny" round secondary>
+                    <template #icon>
+                        <NIcon v-show="dark">
+                            <Sun />
+                        </NIcon>
+                        <NIcon v-show="!dark">
+                            <Moon />
+                        </NIcon>
+                    </template>
+                    {{ dark ? "Dark Theme" : "light Theme" }}
+                </NButton>
             </div>
         </div>
         <WindowResizeOptions />
