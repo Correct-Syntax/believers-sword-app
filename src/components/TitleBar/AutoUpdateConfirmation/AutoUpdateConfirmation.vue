@@ -3,7 +3,7 @@ import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
 import { NPopconfirm, useMessage, NIcon } from "naive-ui";
 import { ipcRenderer } from "electron";
-import { CloudDownload, Download } from "@vicons/carbon";
+import { CloudDownload, Download, LaunchStudy3 } from "@vicons/carbon";
 
 const store = useStore();
 const updateState = computed(() => store.state.appUpdate);
@@ -43,7 +43,7 @@ const installUpdateNow = (): void => {
             class="px-10px bg-[var(--primaryColor)] flex items-center dark:text-dark-800 text-light-200 cursor-pointer h-[100%]"
             v-show="!updateState.updatedDownloaded && !downloadingProgress"
         >
-            <n-popconfirm @positive-click="handlePositiveClick" @negative-click="handleNegativeClick" positive-text="Download">
+            <NPopconfirm @positive-click="handlePositiveClick" @negative-click="handleNegativeClick" positive-text="Download">
                 <template #icon>
                     <NIcon>
                         <Download />
@@ -57,11 +57,11 @@ const installUpdateNow = (): void => {
                         New Update Available
                     </div>
                 </template>
-                <span> Download New Update ? </span>
-            </n-popconfirm>
+                <span> Download New Update? </span>
+            </NPopconfirm>
         </div>
         <div class="px-10px bg-[var(--primaryColor)] flex items-center dark:text-dark-800 text-light-200 cursor-pointer h-[100%]" v-show="updateState.updatedDownloaded">
-            <n-popconfirm @positive-click="installUpdateNow()" positive-text="Install">
+            <NPopconfirm @positive-click="installUpdateNow()" positive-text="Install">
                 <template #icon>
                     <NIcon>
                         <Download />
@@ -70,13 +70,13 @@ const installUpdateNow = (): void => {
                 <template #trigger>
                     <div class="flex justify-center items-center gap-7px h-[100%] hover:underline">
                         <NIcon size="25">
-                            <CloudDownload />
+                            <LaunchStudy3 />
                         </NIcon>
                         Install Now
                     </div>
                 </template>
                 <span> Install Now ? </span>
-            </n-popconfirm>
+            </NPopconfirm>
         </div>
     </div>
 </template>

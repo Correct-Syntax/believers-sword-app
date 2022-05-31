@@ -45,12 +45,16 @@ const xRef = ref(0);
 const yRef = ref(0);
 const showPopOver = ref(false);
 const rightClickHere = (e: MouseEvent) => {
-    if (showPopOver.value) {
-        showPopOver.value = false;
-    } else {
-        showPopOver.value = true;
-        xRef.value = e.clientX;
-        yRef.value = e.clientY;
+    const selected = window.getSelection();
+    const text: string | undefined = selected?.toString();
+    if (text) {
+        if (showPopOver.value) {
+            showPopOver.value = false;
+        } else {
+            showPopOver.value = true;
+            xRef.value = e.clientX;
+            yRef.value = e.clientY;
+        }
     }
 };
 
