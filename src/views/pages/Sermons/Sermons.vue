@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { NIcon, NTooltip, NButton, NAffix } from "naive-ui";
+import { NIcon, NTooltip, NButton } from "naive-ui";
 import { Information, Reset, Undo } from "@vicons/carbon";
 import ShowSermonsLists from "./ShowSermonLists.vue";
 import DrawerContentVue from "./partials/DrawerContent/DrawerContent.vue";
@@ -51,22 +51,20 @@ function getSermons() {
                 id="show-sermon-content"
                 ref="containerRef"
                 v-if="selectedSermon"
-                :class="{ 'w-[80%] h-[100%] overflow-y-auto overflowing-div scroll-bar-md': selectedSermon }"
-                class="relative py-20px"
+                :class="{ 'w-[60%] h-[100%] overflow-y-auto overflowing-div scroll-bar-md': selectedSermon }"
+                class="relative"
             >
-                <NAffix :top="50" :trigger-top="60" :listen-to="() => containerRef">
-                    <NButton round @click="store.state.sermonState.selected_sermon = null">
-                        <template #icon>
-                            <NIcon>
-                                <Undo />
-                            </NIcon>
-                        </template>
-                        Back
-                    </NButton>
-                </NAffix>
+                <NButton class="fixed z-50 top-5px left-170px" round secondary @click="store.state.sermonState.selected_sermon = null">
+                    <template #icon>
+                        <NIcon>
+                            <Undo />
+                        </NIcon>
+                    </template>
+                    Back To Sermon
+                </NButton>
                 <DrawerContentVue />
             </div>
-            <div :class="{ 'w-[20%] h-[100%] overflow-y-auto overflowing-div pr-4': selectedSermon }">
+            <div :class="{ ' w-[40%] h-[100%] overflow-y-auto overflowing-div pr-4': selectedSermon }">
                 <ShowSermonsLists ref="showSermonsLists" />
             </div>
         </div>
