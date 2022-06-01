@@ -33,11 +33,11 @@ BroJenuel.pfx
 .env
 /Certificates
 
-database
+# database
 ser-aside
 BiblesToBeAddedOrEdited
 
 store_dev
 /**/*.exe
 /**/*.nupkg
-store
+# store
