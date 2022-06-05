@@ -15,10 +15,10 @@ const tabValue = computed(() => store.state.rightMenuTab);
     <div id="right-side-bar" class="h-[100%] w-[100%] select-none dark:bg-black dark:bg-opacity-20 bg-gray-200">
         <RightSideMenuBar />
         <div class="h-[100%] w-[100%]">
-            <SearchTab v-show="tabValue === 'searchTab'" />
+            <SearchTab v-if="tabValue === 'searchTab'" />
             <SelectBibleVersions v-if="tabValue === 'versionsTab'" />
-            <Bookmarks v-if="tabValue === 'bookmarksTab'" />
-            <MarkedHighlights v-if="tabValue === 'MarkedHighlights'" />
+            <Bookmarks v-show="tabValue === 'bookmarksTab'" />
+            <MarkedHighlights v-show="tabValue === 'MarkedHighlights'" />
             <ShowClipNotes v-show="tabValue === 'MyNotes'" />
         </div>
     </div>
