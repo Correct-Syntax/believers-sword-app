@@ -147,7 +147,15 @@ export const clipNoteEvents = (): void => {
                     .delete();
 
                 return await result.then((row: Array<any> | number) => {
-                    backup();
+                    let clipNoteBackUp: Array<any> | any = clipNotesStoreBackUp.get('clipNoteBackup')
+
+                    if (clipNoteBackUp && typeof clipNoteBackUp == 'object' && clipNoteBackUp.length > 0) {
+                        const indexToDelete = clipNoteBackUp.findIndex((clipNote: any) => clipNote.b == args.b && clipNote.c == args.c && clipNote.v == args.v)
+                        delete clipNoteBackUp[indexToDelete];
+
+                        clipNotesStoreBackUp.set('clipNoteBackup', clipNoteBackUp)
+                    }
+
                     return row;
                 });
             }
