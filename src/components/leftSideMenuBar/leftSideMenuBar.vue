@@ -19,12 +19,12 @@ const router = useRouter();
 const pathSelected = ref("");
 const showUnRoutePage = computed(() => store.state.showUnRoutePage);
 
-function selectRoute(path: string) {
+async function selectRoute(path: string) {
     store.state.showUnRoutePage = "false";
     pathSelected.value = path;
     localStorage.setItem("pathSelected", path);
     localStorage.setItem("UnRoutePageSelected", "false");
-    router.push(path);
+    await router.push(path);
 }
 
 function selectUnRoutedPage(name: string) {

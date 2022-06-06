@@ -11,13 +11,11 @@ import session from "./service/session/session";
 import LeftSideMenuBar from "@/components/leftSideMenuBar/leftSideMenuBar.vue";
 import { NMessageProvider, NNotificationProvider } from "naive-ui";
 import { AutoUpdateRendererEvents } from "@/service/AutoUpdater/AutoUpdaterRendererProcessEvents";
-import { useRouter } from "vue-router";
 import { ipcRenderer } from "electron";
 import { PrayerListIpcRenderer } from "./IpcRendererOnEvents/IpcRendererOnEvents";
 
 const store = useStore();
 const dark = computed(() => store.state.dark);
-const router = useRouter();
 const showAllContent = ref(false);
 const primaryColors = computed(() => store.state.primaryColors);
 const themeOverrides = reactive({
@@ -62,17 +60,10 @@ onBeforeMount(async () => {
 
 onMounted(async () => {
     window.addEventListener("keydown", (e: KeyboardEvent) => {
-        // prevent user from using the ctr + a
         if (e.ctrlKey && e.key.toLowerCase() === "a") {
             e.preventDefault();
         }
     });
-
-    const storedRoutePath = localStorage.getItem("pathRoute");
-    if (storedRoutePath) {
-        store.state.readBibleMenuSelected = false;
-        await router.push(storedRoutePath);
-    }
 
     const savedRightSideWidth = await session.get("viewChapterRightSideBarWidth");
     if (!savedRightSideWidth) {
