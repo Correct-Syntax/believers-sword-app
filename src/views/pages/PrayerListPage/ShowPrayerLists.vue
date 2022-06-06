@@ -18,27 +18,58 @@ onMounted(() => {
 });
 
 function logPrayerList() {
-    console.log(prayerListStore.prayerList, prayerListStore.donePrayerList);
+    console.log(prayerListStore.prayerList);
 }
 
+const removePrayerItem = (payload: any) => {
+    try {
+        ipcRenderer.send("removePrayerItem", payload);
+    } catch (e) {
+        if (e instanceof Error) console.log(e.message);
+    }
+};
+
 function logDonePrayerList() {
-    console.log(prayerListStore.prayerList, prayerListStore.donePrayerList);
+    console.log(prayerListStore.donePrayerList);
 }
+
+const editPrayerItem = (key: string, content: any): void => {
+    editPrayerModal.value?.modalTrigger();
+    editPrayerModal.value?.editor?.commands.setContent(content);
+    editPrayerModal.value?.setKeyString(key);
+};
+
+const dragOptions = {
+    animation: 200,
+    group: "description",
+    disabled: false,
+    ghostClass: "ghost",
+};
 </script>
 <template>
     <div class="px-10px h-[100%] overflow-y-auto overflowing-div scroll-bar-sm flex gap-30px">
         <div class="w-[100%] flex flex-col">
-            <div class="p-10px flex justify-between items-center">
+            <div class="p-10px flex justify-between items-center select-none">
                 <span class="font-700 text-size-20px">Prayer List </span>
                 <NewPrayerItem />
             </div>
-            <Draggable class="list-group h-[100%] overflow-y-auto overflowing-div pr-10px" :list="prayerList" group="prayer-list-items" @change="logPrayerList" itemKey="name">
+            <Draggable
+                class="list-group h-[100%] overflow-y-auto overflowing-div pr-10px"
+                :list="prayerList"
+                v-bind="dragOptions"
+                group="prayer-list-items"
+                @change="logPrayerList"
+                itemKey="name"
+            >
                 <template #item="{ element }">
                     <div class="relative prayer-list-item">
                         <div class="absolute top-10px right-10px text-size-17px flex">
                             <n-tooltip trigger="hover" placement="left">
                                 <template #trigger>
-                                    <button class="p-5px rounded-1 dark:hover:bg-gray-700 dark:bg-opacity-20 hover:bg-gray-400">
+                                    <button
+                                        @click="editPrayerItem(element.key, element.content)"
+                                        class="p-5px rounded-1 dark:hover:bg-gray-700 dark:bg-opacity-20 hover:bg-gray-400"
+                                    >
                                         <NIcon size="25">
                                             <Edit />
                                         </NIcon>
@@ -49,7 +80,7 @@ function logDonePrayerList() {
                             <n-tooltip trigger="hover" placement="bottom">
                                 <template #trigger>
                                     <div>
-                                        <n-popconfirm>
+                                        <NPopconfirm @positive-click="removePrayerItem({ key: element.key })">
                                             <template #trigger>
                                                 <button class="p-5px rounded-1 dark:hover:bg-red-500 dark:bg-opacity-20 hover:bg-red-300">
                                                     <NIcon size="25">
@@ -58,7 +89,7 @@ function logDonePrayerList() {
                                                 </button>
                                             </template>
                                             Are you Sure You want To Remove This Item?
-                                        </n-popconfirm>
+                                        </NPopconfirm>
                                     </div>
                                 </template>
                                 Delete Prayer Item
@@ -94,10 +125,14 @@ function logDonePrayerList() {
                 </template>
             </Draggable>
         </div>
-        <div class="w-[100%]">
+        <div class="w-[100%] flex flex-col">
+            <div class="p-10px flex justify-between items-center">
+                <span class="font-700 text-size-20px select-none">Done </span>
+            </div>
             <Draggable
-                class="list-group h-[95%] overflow-y-auto overflowing-div pr-10px"
+                class="list-group h-[100%] overflow-y-auto overflowing-div pr-10px"
                 :list="donePrayerList"
+                v-bind="dragOptions"
                 group="prayer-list-items"
                 @change="logDonePrayerList"
                 itemKey="name"
@@ -105,17 +140,7 @@ function logDonePrayerList() {
                 <template #item="{ element }">
                     <div class="relative prayer-list-item">
                         <div class="absolute top-10px right-10px text-size-17px flex">
-                            <n-tooltip trigger="hover" placement="left">
-                                <template #trigger>
-                                    <button class="p-5px rounded-1 dark:hover:bg-gray-700 dark:bg-opacity-20 hover:bg-gray-400">
-                                        <NIcon size="25">
-                                            <Edit />
-                                        </NIcon>
-                                    </button>
-                                </template>
-                                Edit Prayer Item
-                            </n-tooltip>
-                            <n-tooltip trigger="hover" placement="bottom">
+                            <NTooltip trigger="hover" placement="bottom">
                                 <template #trigger>
                                     <div>
                                         <n-popconfirm>
@@ -131,32 +156,7 @@ function logDonePrayerList() {
                                     </div>
                                 </template>
                                 Delete Prayer Item
-                            </n-tooltip>
-
-                            <NPopover trigger="hover" :show-arrow="true" placement="bottom">
-                                <template #trigger>
-                                    <button class="p-5px rounded-1 dark:hover:bg-gray-700 dark:bg-opacity-20 hover:bg-gray-400">
-                                        <NIcon size="25">
-                                            <OverflowMenuVertical />
-                                        </NIcon>
-                                    </button>
-                                </template>
-                                <div>
-                                    <div class="text-size-14px flex flex-col gap-[10px]">
-                                        <n-popconfirm>
-                                            <template #trigger>
-                                                <div class="opacity-50 hover:opacity-100 cursor-pointer">
-                                                    <NIcon size="25">
-                                                        <Share />
-                                                    </NIcon>
-                                                    Share Prayer to Community
-                                                </div>
-                                            </template>
-                                            Are you sure to share this Prayer Item?
-                                        </n-popconfirm>
-                                    </div>
-                                </div>
-                            </NPopover>
+                            </NTooltip>
                         </div>
                         <div class="list-group-item" v-html="element.content"></div>
                     </div>
@@ -169,6 +169,25 @@ function logDonePrayerList() {
 
 <style lang="postcss">
 .prayer-list-item {
-    @apply my-10px dark:hover:bg-gray-800 hover:bg-gray-300 p-10px rounded-md relative;
+    @apply my-10px dark:bg-opacity-50 dark:bg-gray-800 dark:hover:bg-gray-800 bg-gray-300 hover:bg-gray-400 p-10px rounded-md relative;
+}
+
+.flip-list-move {
+    transition: transform 0.5s;
+}
+.no-move {
+    transition: transform 0s;
+}
+.ghost {
+    opacity: 0.5;
+}
+.list-group {
+    min-height: 20px;
+}
+.list-group-item {
+    cursor: move;
+}
+.list-group-item i {
+    cursor: pointer;
 }
 </style>
