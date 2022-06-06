@@ -19,18 +19,6 @@ const router = useRouter();
 const pathSelected = ref("");
 const showUnRoutePage = computed(() => store.state.showUnRoutePage);
 
-onMounted(() => {
-    const IsSelectedUnRoutePage = localStorage.getItem("UnRoutePageSelected");
-    if (IsSelectedUnRoutePage && IsSelectedUnRoutePage != "false") {
-        store.state.showUnRoutePage = IsSelectedUnRoutePage;
-    } else {
-        let pathSelected = localStorage.getItem("pathSelected") || "";
-        if (pathSelected) {
-            selectRoute(pathSelected);
-        }
-    }
-});
-
 function selectRoute(path: string) {
     store.state.showUnRoutePage = "false";
     pathSelected.value = path;
@@ -43,6 +31,18 @@ function selectUnRoutedPage(name: string) {
     store.state.showUnRoutePage = name;
     localStorage.setItem("UnRoutePageSelected", name);
 }
+
+onMounted(() => {
+    const IsSelectedUnRoutePage = localStorage.getItem("UnRoutePageSelected");
+    if (IsSelectedUnRoutePage && IsSelectedUnRoutePage != "false") {
+        store.state.showUnRoutePage = IsSelectedUnRoutePage;
+    } else {
+        let pathSelectedSaved = localStorage.getItem("pathSelected");
+        if (pathSelectedSaved) {
+            selectRoute(pathSelectedSaved);
+        }
+    }
+});
 </script>
 
 <template>
@@ -60,31 +60,23 @@ function selectUnRoutedPage(name: string) {
                 </NIcon>
                 <div class="tooltip">Go To Sermons</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/directions' && showUnRoutePage == `false` }" @click="selectRoute('/directions')">
+            <div class="icon-item" :class="{ 'active-menu-bar-item': pathSelected === '/directions' && showUnRoutePage == `false` }" @click="selectRoute('/directions')">
                 <NIcon :size="25">
                     <DirectionFork />
                 </NIcon>
                 <div class="tooltip">Get Directions</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/prayer_list' && showUnRoutePage == `false` }" @click="selectRoute('/prayer_list')">
+            <div class="icon-item" :class="{ 'active-menu-bar-item': pathSelected === '/prayer_list' && showUnRoutePage == `false` }" @click="selectRoute('/prayer_list')">
                 <NIcon :size="25">
                     <ListDropdown />
                 </NIcon>
                 <div class="tooltip">Prayer List</div>
             </div>
-            <div
-                class="icon-item"
-                :class="{ 'active-menu-bar-item': ($route.path === '/bible-talk' || pathSelected === '/bible-talk') && showUnRoutePage == `false` }"
-                @click="selectRoute('/bible-talk')"
-            >
+            <div class="icon-item" :class="{ 'active-menu-bar-item': pathSelected === '/bible-talk' && showUnRoutePage == `false` }" @click="selectRoute('/bible-talk')">
                 <span class="font-500">BT</span>
                 <div class="tooltip">Bible Talk</div>
             </div>
-            <div
-                class="icon-item"
-                :class="{ 'active-menu-bar-item': ($route.path === '/games' || pathSelected === '/games') && showUnRoutePage == `false` }"
-                @click="selectRoute('/games')"
-            >
+            <div class="icon-item" :class="{ 'active-menu-bar-item': pathSelected === '/games' && showUnRoutePage == `false` }" @click="selectRoute('/games')">
                 <NIcon :size="25">
                     <GameConsole />
                 </NIcon>

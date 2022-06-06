@@ -4,12 +4,14 @@ const ElectronStore = require("electron-store");
 const noteStore = new ElectronStore({
     name: "prayerList",
     defaults: {
-        list: {
-            all: {}
-        }
+        list: {},
+        done: {}
     },
     schema: {
         list: {
+            type: "object"
+        },
+        done: {
             type: "object"
         }
     }
@@ -18,7 +20,7 @@ const noteStore = new ElectronStore({
 export const prayerListEvents = (win: BrowserWindow): any => {
     ipcMain.on("savePrayerListItem", (event, payload) => {
         try {
-            noteStore.set(`list.all.${payload.key}`, payload);
+            noteStore.set(`list.${payload.key}`, payload);
             win.webContents.send("getPrayerLists", noteStore.get("list"));
         } catch (e) {
             if (e instanceof Error) console.log(e.message);
@@ -35,7 +37,7 @@ export const prayerListEvents = (win: BrowserWindow): any => {
 
     ipcMain.on("removePrayerItem", (event, payload) => {
         try {
-            noteStore.delete(`list.${payload.folder}.${payload.key}`);
+            noteStore.delete(`list.${payload.key}`);
             win.webContents.send("getPrayerLists", noteStore.get("list"));
         } catch (e) {
             if (e instanceof Error) console.log(e.message);

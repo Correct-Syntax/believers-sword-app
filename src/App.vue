@@ -13,6 +13,7 @@ import { NMessageProvider, NNotificationProvider } from "naive-ui";
 import { AutoUpdateRendererEvents } from "@/service/AutoUpdater/AutoUpdaterRendererProcessEvents";
 import { useRouter } from "vue-router";
 import { ipcRenderer } from "electron";
+import { PrayerListIpcRenderer } from "./IpcRendererOnEvents/IpcRendererOnEvents";
 
 const store = useStore();
 const dark = computed(() => store.state.dark);
@@ -88,6 +89,8 @@ onMounted(async () => {
     ipcRenderer.invoke("getPrimaryColors").then((response: any) => {
         store.state.primaryColors = response;
     });
+
+    PrayerListIpcRenderer();
 
     setTimeout(() => {
         showAllContent.value = true;

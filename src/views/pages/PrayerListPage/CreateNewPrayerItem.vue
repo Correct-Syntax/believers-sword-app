@@ -61,11 +61,13 @@ const SaveEditorContent = () => {
 </script>
 
 <template>
-    <NButton @click="showModal = true" class="absolute bottom-[20px] right-[20px]">
-        <NIcon size="25">
-            <Add />
-        </NIcon>
-        <span class="ml-5px">Create New Prayer Item</span>
+    <NButton @click="showModal = true" round secondary>
+        <template #icon>
+            <NIcon size="20" class="-mt-3px -ml-3px">
+                <Add />
+            </NIcon>
+        </template>
+        <span>New</span>
     </NButton>
     <NModal v-model:show="showModal">
         <div class="create-new-prayer-list-editor">

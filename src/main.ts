@@ -5,6 +5,7 @@ import store from "./store";
 import "./assets/style/main.scss";
 import "virtual:windi.css";
 import { MessageProviderInst, NotificationProviderInst } from "naive-ui"
+import { createPinia } from 'pinia'
 
 declare global {
     interface Window {
@@ -16,4 +17,5 @@ declare global {
 createApp(App)
     .use(store)
     .use(router)
+    .use(createPinia())
     .mount("#app");
