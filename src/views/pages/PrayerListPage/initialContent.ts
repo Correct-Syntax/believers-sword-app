@@ -2,7 +2,7 @@ export default [
     {
         type: "heading",
         attrs: {
-            level: 1
+            level: 2
         },
         content: [
             {
@@ -16,68 +16,7 @@ export default [
         content: [
             {
                 type: "text",
-                text: "You can change anything here ✋ This is just a sample list"
-            }
-        ]
-    },
-    {
-        type: "bulletList",
-        content: [
-            {
-                type: "listItem",
-                content: [
-                    {
-                        type: "paragraph",
-                        content: [
-                            {
-                                type: "text",
-                                text: "Strength"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                type: "listItem",
-                content: [
-                    {
-                        type: "paragraph",
-                        content: [
-                            {
-                                type: "text",
-                                text: "Health"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                type: "listItem",
-                content: [
-                    {
-                        type: "paragraph",
-                        content: [
-                            {
-                                type: "text",
-                                text: "Plans"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                type: "listItem",
-                content: [
-                    {
-                        type: "paragraph",
-                        content: [
-                            {
-                                type: "text",
-                                text: "Guidance"
-                            }
-                        ]
-                    }
-                ]
+                text: "You can change anything here ✋ This is just a sample prayer list content."
             }
         ]
     }

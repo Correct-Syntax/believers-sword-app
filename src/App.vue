@@ -132,7 +132,8 @@ watch(primaryColors, () => {
     @apply h-[100%];
 }
 .ProseMirror,
-.prayer-list {
+.prayer-list,
+.prayer-list-content {
     s {
         text-decoration: line-through;
         text-decoration-color: red;
@@ -149,31 +150,31 @@ watch(primaryColors, () => {
     }
 
     h1 {
-        @apply text-size-32px font-600;
-    }
-    h2 {
-        @apply text-size-28px font-600;
-    }
-    h3 {
         @apply text-size-25px font-600;
     }
-    h4 {
+    h2 {
         @apply text-size-20px font-600;
     }
+    h3 {
+        @apply text-size-17px font-600;
+    }
+    h4 {
+        @apply text-size-14px font-600;
+    }
     h5 {
-        @apply text-size-18px font-600;
+        @apply text-size-12px font-600;
     }
     h6 {
-        @apply text-size-16px font-600;
+        @apply text-size-10px font-600;
     }
 
     p {
-        @apply text-size-15px leading-normal;
+        @apply text-size-14px leading-normal pb-3;
     }
 
     ol,
     ul {
-        @apply text-size-18px py-5px my-5px;
+        @apply text-size-14px py-5px my-5px;
     }
 
     ol {

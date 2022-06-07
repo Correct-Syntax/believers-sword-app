@@ -63,7 +63,7 @@ defineExpose({
 
 <template>
     <NModal v-model:show="showModal">
-        <div class="create-new-prayer-list-editor">
+        <div class="create-new-prayer-list-editor max-w-90vh">
             <div>
                 <div v-if="editor" class="note-format-buttons flex flex-row items-center justify-between text-size-18px py-5px px-5px dark:bg-black dark:bg-opacity-10">
                     <div class="flex flex-row items-center">

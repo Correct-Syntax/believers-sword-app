@@ -7,9 +7,10 @@ export const PrayerListIpcRenderer = () => {
     const prayerListStore = usePrayerListStore()
 
     ipcRenderer.on("getPrayerLists", (event, payload) => {
-        const data = Object.entries(payload);
+        prayerListStore.setPrayerList(payload);
+    });
 
-        // eslint-disable-next-line
-        prayerListStore.setPrayerList(data.length ? data.map(([key, value]) => value) : []);
+    ipcRenderer.on("getDonePrayerList", (event, payload) => {
+        prayerListStore.setDonePrayerList(payload);
     });
 }
