@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ipcRenderer } from "electron";
 import { onMounted, ref } from "vue";
-import { NPopconfirm, NTooltip, NIcon, NButton } from "naive-ui";
+import { NPopconfirm, NTooltip, NIcon, NButton, NAlert } from "naive-ui";
 import EditPrayerItem from "./EditPrayerItem.vue";
 import { Edit, TrashCan } from "@vicons/carbon";
 import Draggable from "vuedraggable";
@@ -80,6 +80,7 @@ const dragOptions = {
                 <span class="font-700 text-size-20px">Prayer List </span>
                 <NewPrayerItem />
             </div>
+            <NAlert class="mb-1" type="info" title="Ability to Make An Item Done"> To make an item as done, drag a prayer item by click + hold, and drag it to the done section. </NAlert>
             <Draggable
                 class="list-group h-[100%] overflow-y-auto overflowing-div pr-10px"
                 :list="prayerList"
@@ -90,9 +91,9 @@ const dragOptions = {
             >
                 <template #item="{ element }">
                     <div class="relative prayer-list-item">
-                        <div class="group pb-0 hover:pb-12 duration-200">
+                        <div class="group pb-0 pb-12 duration-200">
                             <div class="prayer-list-content cursor-move" v-html="element.content"></div>
-                            <div class="absolute -bottom-60px group-hover:bottom-10px text-size-17px flex gap-1 duration-300">
+                            <div class="absolute bottom-10px text-size-17px flex gap-1 duration-300">
                                 <NTooltip trigger="hover" placement="bottom">
                                     <template #trigger>
                                         <NButton size="small" round secondary @click="editPrayerItem(element.key, element.content)">

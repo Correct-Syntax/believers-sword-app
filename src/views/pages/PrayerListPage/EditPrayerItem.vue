@@ -1,28 +1,12 @@
 <script lang="ts" setup>
 import { ref } from "vue";
-import { NButton, NModal, NPopconfirm, NPopover, NIcon } from "naive-ui";
+import { NButton, NModal, NPopover, NIcon } from "naive-ui";
 import { useEditor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Placeholder from "@tiptap/extension-placeholder";
 import { ipcRenderer } from "electron";
-import {
-    TextScale,
-    ExpandCategories,
-    TextFont,
-    TextBold,
-    TextItalic,
-    TextUnderline,
-    TextStrikethrough,
-    Code,
-    List,
-    ListNumbered,
-    Quotes,
-    Undo,
-    Redo,
-    Close,
-    Save,
-} from "@vicons/carbon";
+import { TextScale, ExpandCategories, TextFont, TextBold, TextItalic, TextUnderline, TextStrikethrough, Code, List, ListNumbered, Quotes, Undo, Redo, Save } from "@vicons/carbon";
 
 const keyString = ref("");
 const showModal = ref(false);
@@ -213,18 +197,15 @@ defineExpose({
             </div>
 
             <div class="p-10px flex flex-row justify-end gap-15px dark:bg-black dark:bg-opacity-10">
-                <NPopconfirm @positive-click="showModal = false" placement="bottom-end">
-                    <template #trigger>
-                        <NButton ghost :icon="Close"> Close </NButton>
+                <NButton class="flex-grow" type="info" @click="SaveEditorContent()">
+                    <template #icon>
+                        <NIcon>
+                            <Save />
+                        </NIcon>
                     </template>
-                    Any change will not be saved?
-                </NPopconfirm>
-                <NButton type="info" @click="SaveEditorContent()">
-                    <NIcon>
-                        <Save />
-                    </NIcon>
                     Save Changes
                 </NButton>
+                <NButton ghost @click="showModal = false"> Cancel </NButton>
             </div>
         </div>
     </NModal>
