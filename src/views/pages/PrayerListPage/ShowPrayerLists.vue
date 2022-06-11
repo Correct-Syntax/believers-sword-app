@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { ipcRenderer } from "electron";
 import { onMounted, ref } from "vue";
-import { NPopover, NPopconfirm, NTooltip, NIcon, NButton } from "naive-ui";
+import { NPopconfirm, NTooltip, NIcon, NButton } from "naive-ui";
 import EditPrayerItem from "./EditPrayerItem.vue";
-import { Edit, TrashCan, OverflowMenuVertical, Share } from "@vicons/carbon";
+import { Edit, TrashCan } from "@vicons/carbon";
 import Draggable from "vuedraggable";
 import { usePrayerListStore } from "@/store/prayerListStore";
 import { storeToRefs } from "pinia";
@@ -89,65 +89,45 @@ const dragOptions = {
                 itemKey="name"
             >
                 <template #item="{ element }">
-                    <div class="relative prayer-list-item pr-11">
-                        <div class="absolute top-10px right-10px text-size-17px flex flex-col gap-1">
-                            <NTooltip trigger="hover" placement="left">
-                                <template #trigger>
-                                    <NButton size="small" circle secondary @click="editPrayerItem(element.key, element.content)">
-                                        <template #icon>
-                                            <NIcon>
-                                                <Edit />
-                                            </NIcon>
-                                        </template>
-                                    </NButton>
-                                </template>
-                                Edit Prayer Item
-                            </NTooltip>
-                            <NTooltip trigger="hover" placement="bottom">
-                                <template #trigger>
-                                    <div>
-                                        <NPopconfirm @positive-click="removePrayerItem('list', element.key)">
-                                            <template #trigger>
-                                                <NButton size="small" circle secondary type="error">
-                                                    <NIcon>
-                                                        <TrashCan />
-                                                    </NIcon>
-                                                </NButton>
+                    <div class="relative prayer-list-item">
+                        <div class="group pb-0 hover:pb-12 duration-200">
+                            <div class="prayer-list-content cursor-move" v-html="element.content"></div>
+                            <div class="absolute -bottom-60px group-hover:bottom-10px text-size-17px flex gap-1 duration-300">
+                                <NTooltip trigger="hover" placement="bottom">
+                                    <template #trigger>
+                                        <NButton size="small" round secondary @click="editPrayerItem(element.key, element.content)">
+                                            <template #icon>
+                                                <NIcon>
+                                                    <Edit />
+                                                </NIcon>
                                             </template>
-                                            Are you Sure You want To Remove This Item?
-                                        </NPopconfirm>
-                                    </div>
-                                </template>
-                                Delete Prayer Item
-                            </NTooltip>
-                            <NPopover trigger="hover" :show-arrow="true" placement="bottom">
-                                <template #trigger>
-                                    <NButton size="small" circle>
-                                        <template #icon>
-                                            <NIcon>
-                                                <OverflowMenuVertical />
-                                            </NIcon>
-                                        </template>
-                                    </NButton>
-                                </template>
-                                <div>
-                                    <div class="text-size-14px flex flex-col gap-[10px]">
-                                        <NPopconfirm>
-                                            <template #trigger>
-                                                <div class="opacity-80 hover:opacity-100 cursor-pointer">
-                                                    <NIcon>
-                                                        <Share />
-                                                    </NIcon>
-                                                    Share Prayer to Community
-                                                </div>
-                                            </template>
-                                            Are you sure to share this Prayer Item?
-                                        </NPopconfirm>
-                                    </div>
-                                </div>
-                            </NPopover>
+                                            Edit
+                                        </NButton>
+                                    </template>
+                                    Edit Prayer Item
+                                </NTooltip>
+                                <NTooltip trigger="hover" placement="bottom">
+                                    <template #trigger>
+                                        <div>
+                                            <NPopconfirm @positive-click="removePrayerItem('list', element.key)">
+                                                <template #trigger>
+                                                    <NButton size="small" round secondary type="error">
+                                                        <template #icon>
+                                                            <NIcon>
+                                                                <TrashCan />
+                                                            </NIcon>
+                                                        </template>
+                                                        Remove
+                                                    </NButton>
+                                                </template>
+                                                Are you Sure You want To Remove This Item?
+                                            </NPopconfirm>
+                                        </div>
+                                    </template>
+                                    Delete Prayer Item
+                                </NTooltip>
+                            </div>
                         </div>
-                        <div class="prayer-list-content cursor-move" v-html="element.content"></div>
                     </div>
                 </template>
             </Draggable>
@@ -198,7 +178,7 @@ const dragOptions = {
 
 <style lang="postcss">
 .prayer-list-item {
-    @apply my-10px min-h-120px dark:bg-opacity-50 dark:bg-gray-800 dark:hover:bg-gray-800 bg-gray-300 hover:bg-gray-400 p-10px rounded-md relative;
+    @apply my-10px dark:bg-opacity-50 dark:bg-gray-800 dark:hover:bg-gray-800 bg-gray-300 hover:bg-gray-400 p-10px rounded-md relative overflow-hidden;
 
     .flip-list-move {
         transition: transform 0.5s;

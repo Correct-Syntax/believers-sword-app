@@ -124,10 +124,7 @@ watch(primaryColors, () => {
     </NConfigProvider>
 </template>
 
-<style lang="postcss">
-.none-just-testing {
-    color: rgba(255, 255, 255, 1);
-}
+<style lang="scss">
 .ProseMirror {
     @apply h-[100%];
 }
@@ -146,7 +143,7 @@ watch(primaryColors, () => {
     h4,
     h5,
     h6 {
-        @apply leading-normal m-0;
+        @apply leading-normal m-0 pb-3;
     }
 
     h1 {
@@ -169,7 +166,7 @@ watch(primaryColors, () => {
     }
 
     p {
-        @apply text-size-14px leading-normal pb-3;
+        @apply text-size-14px leading-normal;
     }
 
     ol,
