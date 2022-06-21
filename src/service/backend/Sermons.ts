@@ -11,7 +11,7 @@ export const getFireStoreSermons = async (search = "", limit = 50): Promise<stri
         }).then((response) => {
             return response.data;
         }).catch(() => {
-            return false;
+            throw new Error("Their is an error")
         })
     } catch (e) {
         return e instanceof Error ? e.message : false;

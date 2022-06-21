@@ -23,8 +23,14 @@ const loadingSermon = ref(false);
 const isOnline = ref(true);
 
 onMounted(() => {
-    window.addEventListener("online", () => (isOnline.value = true));
-    window.addEventListener("offline", () => (isOnline.value = false));
+    window.addEventListener("online", () => {
+        isOnline.value = true;
+        getSermons();
+    });
+    window.addEventListener("offline", () => {
+        isOnline.value = false;
+        loadingSermon.value = true;
+    });
     /**
      * If a selected value exist on store
      */
@@ -39,10 +45,11 @@ onMounted(() => {
     getSermons();
 });
 
-async function getSermons() {
+function getSermons() {
     try {
         loadingSermon.value = true;
-        const errorGetting: any = await getFireStoreSermons()
+
+        getFireStoreSermons()
             .then((result) => {
                 store.state.sermonState.sermons = result;
                 loadingSermon.value = false;
@@ -52,11 +59,6 @@ async function getSermons() {
                 console.log(e);
                 loadingSermon.value = false;
             });
-
-        if (!errorGetting) {
-            isOnline.value = false;
-            alert("Oops! No Internet Connection or Error Getting Data. Connect To Internet to Get Show Contents.");
-        }
     } catch (e) {
         console.log("Their is an error");
     }
