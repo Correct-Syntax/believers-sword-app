@@ -1,12 +1,9 @@
 <script lang="ts" setup>
 import { NIcon, NTooltip, NButton } from "naive-ui";
-import { Information, Reset, Undo } from "@vicons/carbon";
+import { Information, Reset } from "@vicons/carbon";
 import ShowSermonsLists from "./ShowSermonLists.vue";
-import DrawerContentVue from "./partials/DrawerContent/DrawerContent.vue";
 import { computed, ref, watch } from "vue";
 import { useStore } from "vuex";
-
-const containerRef = ref<HTMLElement>(null as unknown as HTMLElement);
 
 const store = useStore();
 const selectedSermon = computed(() => store.state.sermonState.selected_sermon);
@@ -46,27 +43,6 @@ function getSermons() {
                 </NIcon>
             </NButton>
         </div>
-        <div class="flex h-[100%] gap-30px">
-            <div
-                id="show-sermon-content"
-                ref="containerRef"
-                v-if="selectedSermon"
-                :class="{ 'w-[60%] h-[100%] overflow-y-auto overflowing-div scroll-bar-md': selectedSermon }"
-                class="relative"
-            >
-                <NButton class="fixed z-50 top-5px left-170px" round secondary @click="store.state.sermonState.selected_sermon = null">
-                    <template #icon>
-                        <NIcon>
-                            <Undo />
-                        </NIcon>
-                    </template>
-                    Back To Sermon
-                </NButton>
-                <DrawerContentVue />
-            </div>
-            <div :class="{ ' w-[40%] h-[100%] overflow-y-auto overflowing-div pr-4': selectedSermon }">
-                <ShowSermonsLists ref="showSermonsLists" />
-            </div>
-        </div>
+        <ShowSermonsLists ref="showSermonsLists" />
     </div>
 </template>

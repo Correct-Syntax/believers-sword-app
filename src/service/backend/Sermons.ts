@@ -10,8 +10,8 @@ export const getFireStoreSermons = async (search = "", limit = 50): Promise<stri
             }
         }).then((response) => {
             return response.data;
-        }).catch(e => {
-            return e;
+        }).catch(() => {
+            return false;
         })
     } catch (e) {
         return e instanceof Error ? e.message : false;
