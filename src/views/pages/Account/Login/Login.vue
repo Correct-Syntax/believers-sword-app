@@ -53,7 +53,7 @@ const login = () => {
     <NForm ref="formValue" :rules="rules" :model="form" label-width="auto">
         <div class="font-800 text-size-25px mb-30px">Login</div>
         <NFormItem label="Email Address" path="email">
-            <NInput v-model:value="form.email" placeholder="Enter Email Address" />
+            <NInput class="select-all" v-model:value="form.email" placeholder="Enter Email Address" />
         </NFormItem>
         <NFormItem label="Password" path="password">
             <NInput v-model:value="form.password" type="password" placeholder="Enter Password" />
