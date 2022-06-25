@@ -10,7 +10,7 @@ const accountForm = ref<{
 });
 
 onMounted(() => {
-    const { user } = getUserLogged();
+    const user = getUserLogged();
     accountForm.value.email = user.email;
 });
 </script>

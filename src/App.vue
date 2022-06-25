@@ -9,7 +9,7 @@ import { darkTheme } from "naive-ui";
 import { webFrame } from "electron";
 import session from "./service/session/session";
 import LeftSideMenuBar from "@/components/leftSideMenuBar/leftSideMenuBar.vue";
-import { NMessageProvider, NNotificationProvider } from "naive-ui";
+import { NMessageProvider, NNotificationProvider, NDialogProvider } from "naive-ui";
 import { AutoUpdateRendererEvents } from "@/service/AutoUpdater/AutoUpdaterRendererProcessEvents";
 import { ipcRenderer } from "electron";
 import { PrayerListIpcRenderer } from "./IpcRendererOnEvents/IpcRendererOnEvents";
@@ -107,20 +107,22 @@ watch(primaryColors, () => {
 
 <template>
     <NConfigProvider :theme-overrides="themeOverrides" :theme="dark ? darkTheme : null">
-        <NNotificationProvider>
-            <NMessageProvider placement="bottom-right">
-                <div class="h-[100vh] w-[100%] dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 flex flex-col">
-                    <TitleBar />
-                    <div
-                        class="dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 h-[calc(100%-30px)] w-[100%] overflow-y-auto opacity-0"
-                        :class="{ 'opacity-100': showAllContent }"
-                    >
-                        <LeftSideMenuBar />
-                        <MainView />
+        <NDialogProvider>
+            <NNotificationProvider>
+                <NMessageProvider placement="bottom-right">
+                    <div class="h-[100vh] w-[100%] dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 flex flex-col">
+                        <TitleBar />
+                        <div
+                            class="dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 h-[calc(100%-30px)] w-[100%] overflow-y-auto opacity-0"
+                            :class="{ 'opacity-100': showAllContent }"
+                        >
+                            <LeftSideMenuBar />
+                            <MainView />
+                        </div>
                     </div>
-                </div>
-            </NMessageProvider>
-        </NNotificationProvider>
+                </NMessageProvider>
+            </NNotificationProvider>
+        </NDialogProvider>
     </NConfigProvider>
 </template>
 

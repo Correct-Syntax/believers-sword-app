@@ -29,11 +29,6 @@ function validateEmail(rule: FormItemRule, value: string) {
 const rules = {
     email: [
         {
-            required: true,
-            message: "Please input your name.",
-            trigger: ["blur", "input"],
-        },
-        {
             validator: validateEmail,
             message: "Please a valid email address.",
             trigger: ["blur", "input"],
@@ -47,10 +42,10 @@ const rules = {
         },
         {
             validator: (rule: FormItemRule, value: string) => {
-                return value.length > 7;
+                return `${value}`.length > 7;
             },
             message: "Password must be greater than 7 characters.",
-            trigger: ["blur", "password-input"],
+            trigger: ["blur", "input"],
         },
     ],
     retypePassword: [
@@ -62,7 +57,7 @@ const rules = {
         {
             validator: validatePasswordSame,
             message: "Password is not same as re-entered password!",
-            trigger: ["blur", "password-input"],
+            trigger: ["blur", "input"],
         },
     ],
 };
@@ -136,7 +131,7 @@ const register = () => {
 </script>
 <template>
     <NForm ref="formValue" :rules="rules" :model="form" label-width="auto">
-        <div class="font-800 text-size-25px mb-30px">Login</div>
+        <div class="font-800 text-size-25px mb-30px">Register</div>
         <NFormItem label="Email Address" path="email">
             <NInput v-model:value="form.email" placeholder="Enter Email Address" />
         </NFormItem>
