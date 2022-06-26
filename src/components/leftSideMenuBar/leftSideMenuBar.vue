@@ -72,10 +72,6 @@ onMounted(() => {
                 </NIcon>
                 <div class="tooltip">Prayer List</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': pathSelected === '/bible-talk' && showUnRoutePage == `false` }" @click="selectRoute('/bible-talk')">
-                <span class="font-500">BT</span>
-                <div class="tooltip">Bible Talk</div>
-            </div>
             <div class="icon-item" :class="{ 'active-menu-bar-item': pathSelected === '/games' && showUnRoutePage == `false` }" @click="selectRoute('/games')">
                 <NIcon :size="25">
                     <GameConsole />
