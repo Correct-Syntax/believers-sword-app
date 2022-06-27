@@ -34,7 +34,6 @@
     "firebase": "^9.6.10",
     "knex": "^2.0.0",
     "pinia": "^2.0.14",
-    "register-service-worker": "^1.7.1",
     "split.js": "^1.6.4",
     "sqlite3": "^5.0.2",
     "upath": "^2.0.1",
