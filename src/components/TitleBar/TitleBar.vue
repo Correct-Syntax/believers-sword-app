@@ -7,6 +7,7 @@ import AutoUpdaterConfirmation from "./AutoUpdateConfirmation/AutoUpdateConfirma
 import WindowResizeOptions from "./WindowResizeOptions/WindowResizeOptions.vue";
 import { Sun, Moon } from "@vicons/carbon";
 import { NIcon, NButton } from "naive-ui";
+import FeedBack from "./Feedback/Feedback.vue";
 
 const store = useStore();
 const changeTheme = () => {
@@ -25,7 +26,10 @@ const dark = computed(() => store.state.dark);
             <div class="pl-10px w-30px">
                 <img src="@/assets/logo.svg" class="h-35px w-30px" alt="Icon Logo" title="Believers Sword Logo" />
             </div>
-            <div class="text-size-[12px] font-700">Believers Sword</div>
+            <div class="text-size-[12px] font-700 flex gap-5px items-center">
+                <span> Believers Sword </span>
+                <FeedBack />
+            </div>
         </div>
         <div id="drag-region" class="w-[100%] p-[10px]" style="cursor: move"></div>
         <div class="mx-10px h-[100%]">

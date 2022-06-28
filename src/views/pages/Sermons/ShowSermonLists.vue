@@ -77,13 +77,12 @@ defineExpose({
             :class="{ 'w-[60%] h-[100%] overflow-y-auto overflowing-div scroll-bar-md': selectedSermon }"
             class="relative"
         >
-            <NButton class="fixed z-50 top-5px left-170px" round secondary @click="store.state.sermonState.selected_sermon = null">
+            <NButton class="fixed z-50 top-50px left-60px" circle secondary @click="store.state.sermonState.selected_sermon = null">
                 <template #icon>
                     <NIcon>
                         <Undo />
                     </NIcon>
                 </template>
-                Back To Sermon
             </NButton>
             <DrawerContentVue />
         </div>

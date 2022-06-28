@@ -1,2 +1,3 @@
-// const isDevelopment = process.env.VUE_APP_DEV ? process.env.VUE_APP_DEV == 'true' : false;
-export const url = 'https://believers-sword-app.herokuapp.com'
+
+const isDevelopment = process.env.NODE_ENV === 'development';
+export const url = isDevelopment ? 'http://127.0.0.1:8000' : 'https://believers-sword-app.herokuapp.com'
