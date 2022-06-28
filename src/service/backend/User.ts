@@ -1,12 +1,14 @@
 import store from "@/store";
+import axios from "axios";
 // import axios from "axios";
 import { signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../FireBase/FireBaseService";
 import session from "../session/session";
+import { url } from "./constants";
 // import { url } from './constants'
 
 const user = () => session.get('user') ? session.get('user') : null;
-const token = () => session.get('user') ? session.get('user').token : null;
+const backendToken = session.get('backendToken') ? session.get('backendToken') : null;
 
 export const getUserLogged = () => {
     const u = user();
@@ -14,6 +16,15 @@ export const getUserLogged = () => {
 }
 
 export const userLogin = async (email: string, password: string): Promise<boolean> => {
+
+    axios.post(url + '/api/auth/login', {
+        email: email,
+        password: password
+    }).then(res => {
+        if (res.data && res.data.token) {
+            session.set('backendToken', res.data.token);
+        }
+    }).catch(e => console.log(e));
 
     // sign in to google
     const googleSignIn = await signInWithEmailAndPassword(auth, email, password)
@@ -38,6 +49,13 @@ export const userLogin = async (email: string, password: string): Promise<boolea
 
 export const createUserAccount = async (email: string | null, password: string | null) => {
 
+    axios.post(url + "/api/auth/register", {
+        email: email,
+        password: password
+    }).then(res => {
+        console.log(res);
+    }).catch(e => console.log(e));
+
     // create google account
     if (email && password) {
         const googleCreatedAccount = await createUserWithEmailAndPassword(auth, email, password)
@@ -60,14 +78,6 @@ export const createUserAccount = async (email: string | null, password: string |
 
 
 export const userLogout = async (): Promise<boolean> => {
-    const userToken = token()
-
-    // if has token
-    if (!userToken) {
-        alert("Missing User Token");
-        return false;
-    }
-
     // logout to google
     const googleSignOut: boolean = await signOut(auth).then(() => {
         // Sign-out successful.
@@ -76,6 +86,17 @@ export const userLogout = async (): Promise<boolean> => {
         // An error happened.
         return false;
     });
+
+    if (backendToken)
+        axios.post(url + "/api/logout", {}, {
+            headers: {
+                "Authorization": "Bearer " + backendToken
+            }
+        }).then(() => {
+            console.log('logged out.')
+        }).catch((e) => {
+            console.log(e)
+        });
 
     if (!googleSignOut) return false;
 
