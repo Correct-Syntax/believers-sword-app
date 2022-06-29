@@ -4,10 +4,16 @@ import { NButton, NModal, NCard, NInput, NForm, NFormItem, FormInst, NSelect, NT
 import RenderIcon from "./../../Icon/Icon.vue";
 import { ref } from "vue";
 import { addFeedback } from "./../../../service/backend/feedback";
+import session from "@/service/session/session";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 const showModal = ref(false);
 const feedbackFormRef = ref<FormInst | null>(null);
 const isLoading = ref(false);
+const router = useRouter();
+const store = useStore();
+
 const form = ref<any>({
     title: null,
     category: null,
@@ -44,11 +50,23 @@ function submitFeedBack() {
     });
 }
 
+function isLoggedIn() {
+    return session.get("user");
+}
+
 function closeModal() {
     showModal.value = false;
     form.value.title = null;
     form.value.category = null;
     form.value.description = null;
+}
+
+async function selectRoute(path: string) {
+    store.state.showUnRoutePage = "false";
+    localStorage.setItem("pathSelected", path);
+    localStorage.setItem("UnRoutePageSelected", "false");
+    closeModal();
+    await router.push(path);
 }
 </script>
 <template>
@@ -59,13 +77,13 @@ function closeModal() {
         Feedback
     </NButton>
     <NModal :show="showModal">
-        <NCard display-directive="show" title="Feedback" class="max-w-300px" size="small">
+        <NCard title="Feedback" class="max-w-300px" size="small">
             <template #header-extra>
                 <NButton size="tiny" icon round tertiary @click="closeModal()"> Close </NButton>
             </template>
             <NTabs>
                 <NTabPane name="add feedback" tab="Add feedback">
-                    <NForm ref="feedbackFormRef" size="small" :rules="formRule" :model="form">
+                    <NForm v-if="isLoggedIn()" ref="feedbackFormRef" size="small" :rules="formRule" :model="form">
                         <NFormItem label="Select Category" path="category">
                             <NSelect
                                 v-model:value="form.category"
@@ -89,13 +107,17 @@ function closeModal() {
                         <NFormItem label="Enter Summary of Feedback" path="title">
                             <NInput v-model:value="form.title" />
                         </NFormItem>
-                        <NFormItem label="Enter more details" path="description" >
+                        <NFormItem label="Enter more details" path="description">
                             <NInput v-model:value="form.description" type="textarea" placeholder="Please Enter Description" />
                         </NFormItem>
                         <NButton :disabled="isLoading" :loading="isLoading" @click="submitFeedBack" type="primary" round> Submit </NButton>
                     </NForm>
+                    <div v-else>
+                        <p>Please login to submit feedback</p>
+                        <NButton type="primary" @click="selectRoute('/account')">Login!</NButton>
+                    </div>
                 </NTabPane>
-                <NTabPane name="my feedbacks" tab="My Feedbacks" display-directive="show:lazy">
+                <NTabPane v-if="isLoggedIn()" name="my feedbacks" tab="My Feedbacks" display-directive="show:lazy">
                     <MyFeedBacks />
                 </NTabPane>
             </NTabs>

@@ -113,7 +113,7 @@ watch(primaryColors, () => {
                     <div class="h-[100vh] w-[100%] dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 flex flex-col">
                         <TitleBar />
                         <div
-                            class="dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 h-[calc(100%-30px)] w-[100%] overflow-y-auto opacity-0"
+                            class="dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 h-[calc(100%-30px)] w-[100%] overflow-y-hidden opacity-0"
                             :class="{ 'opacity-100': showAllContent }"
                         >
                             <LeftSideMenuBar />

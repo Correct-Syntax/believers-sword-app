@@ -88,7 +88,7 @@ export const userLogout = async (): Promise<boolean> => {
     });
 
     if (backendToken)
-        axios.post(url + "/api/logout", {}, {
+        axios.post(url + "/api/auth/logout", {}, {
             headers: {
                 "Authorization": "Bearer " + backendToken
             }

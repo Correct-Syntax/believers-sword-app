@@ -38,42 +38,42 @@ export default defineComponent({
                 key: "default",
                 label: "Default",
                 primaryColorDark: "#3cb1ff",
-                primaryColorLight: "#008fee"
+                primaryColorLight: "#58a7db"
             },
             {
                 value: "orange",
                 key: "orange",
                 label: "Orange",
                 primaryColorDark: "#ff8f00",
-                primaryColorLight: "#ff8f00"
+                primaryColorLight: "#ffac41"
             },
             {
                 value: "red",
                 key: "red",
                 label: "Red",
                 primaryColorDark: "#e57373",
-                primaryColorLight: "#e53935"
+                primaryColorLight: "#f18280"
             },
             {
                 value: "green",
                 key: "green",
                 label: "Green",
                 primaryColorDark: "#66bb6a",
-                primaryColorLight: "#519657"
+                primaryColorLight: "#7ad982"
             },
             {
                 value: "purple",
                 key: "purple",
                 label: "Purple",
                 primaryColorDark: "#df78ef",
-                primaryColorLight: "#ab47bc"
+                primaryColorLight: "#e86dfd"
             },
             {
                 value: "pink",
                 key: "pink",
                 label: "Pink",
-                primaryColorDark: "#ec407a",
-                primaryColorLight: "#e91e63"
+                primaryColorDark: "#eb5f8e",
+                primaryColorLight: "#fb85ad"
             },
         ];
 

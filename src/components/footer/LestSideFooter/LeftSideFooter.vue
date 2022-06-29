@@ -20,7 +20,7 @@ function clearBookmarkOnSelect() {
                 </div>
                 <NButton class="ml-10px flex items-center justify-center" size="tiny" @click="clearBookmarkOnSelect()"> Clear </NButton>
             </template>
-            <div v-else>😍</div>
+            <div v-else></div>
         </div>
     </div>
 </template>

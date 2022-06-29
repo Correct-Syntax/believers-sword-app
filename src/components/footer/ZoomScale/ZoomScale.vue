@@ -27,29 +27,33 @@ onMounted(() => {
             <div class="w-90px whitespace-nowrap">
                 <span class="mr-7px">{{ slideValue }}%</span>
                 <NButtonGroup size="small">
-                    <NButton size="tiny" @click="slideValue--">
-                        <NIcon>
-                            <Subtract />
-                        </NIcon>
-                    </NButton>
-                    <NButton size="tiny" @click="slideValue++">
-                        <NIcon>
-                            <Add />
-                        </NIcon>
-                    </NButton>
-                </NButtonGroup>
-            </div>
-            <div>
-                <NTooltip trigger="hover" placement="top-start">
-                    <template #trigger>
-                        <div class="cursor-pointer opacity-40 hover:opacity-100" @click="slideValue = 100">
+                    <NButton size="tiny" tertiary circle @click="slideValue--">
+                        <template #icon>
                             <NIcon>
-                                <Reset />
+                                <Subtract />
                             </NIcon>
-                        </div>
-                    </template>
-                    Reset Zoom Level
-                </NTooltip>
+                        </template>
+                    </NButton>
+                    <NButton size="tiny" tertiary circle @click="slideValue++">
+                        <template #icon>
+                            <NIcon>
+                                <Add />
+                            </NIcon>
+                        </template>
+                    </NButton>
+                    <NTooltip trigger="hover" placement="top-start">
+                        <template #trigger>
+                            <NButton size="tiny" tertiary circle @click="slideValue = 100">
+                                <template #icon>
+                                    <NIcon>
+                                        <Reset />
+                                    </NIcon>
+                                </template>
+                            </NButton>
+                        </template>
+                        Reset Zoom Level
+                    </NTooltip>
+                </NButtonGroup>
             </div>
         </div>
     </div>

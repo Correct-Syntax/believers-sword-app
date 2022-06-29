@@ -107,7 +107,7 @@ onMounted(async () => {
             <div id="make-notes-area" class="dark:bg-black dark:bg-opacity-30 h-[100%] bg-gray-300 bg-opacity-80 relative flex flex-col !w-[100%]">
                 <div
                     id="expanding-this"
-                    class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center select-none flex items-center duration-200 active:bg-[var(--primaryColor)]"
+                    class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center select-none flex items-center duration-200 active:bg-[var(--primaryColor)] dark:hover:bg-gray-600 hover:bg-gray-300"
                     :class="{ '!text-[var(--primaryColor)] font-900': toggledMakeNote }"
                 >
                     <div class="transform duration-150" :class="{ '-rotate-90': !toggledMakeNote }">
