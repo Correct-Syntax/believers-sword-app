@@ -74,7 +74,7 @@ function setBookNumber(number: any) {
                 </NInput>
             </div>
             <div class="book-selection-overflow h-[100%] overflow-y-auto overflowing-div pr-2">
-                <div v-for="book in storeBible" :key="book.b" class="book-selection-item py-5px mb-5px" :class="{ 'selected-active': book.b == bookSelected }" @click="selectBook(book.b)">
+                <div v-for="book in storeBible" :key="book.b" class="book-selection-item py-5px mb-5px" :class="{ 'selected-active text-light-50': book.b == bookSelected }" @click="selectBook(book.b)">
                     <span class="book-selection-item-number opacity-50">{{ setBookNumber(book.b) }}.</span> <span>{{ book.n }}</span>
                 </div>
             </div>
@@ -84,7 +84,7 @@ function setBookNumber(number: any) {
                 v-for="chapter in bookSelectedChapterCount"
                 :key="chapter"
                 class="chapter-selection-item text-center ml-7px py-5px"
-                :class="{ 'selected-active': chapter == chapterSelected }"
+                :class="{ 'selected-active text-light-50': chapter == chapterSelected }"
                 @click="selectChapter(chapter)"
             >
                 {{ chapter }}
