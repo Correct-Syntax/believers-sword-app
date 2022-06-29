@@ -37,43 +37,43 @@ export default defineComponent({
                 value: "default",
                 key: "default",
                 label: "Default",
-                primaryColorDark: "#3cb1ff",
-                primaryColorLight: "#58a7db"
+                primaryColorDark: "#68c0fb",
+                primaryColorLight: "#43a1df",
             },
             {
                 value: "orange",
                 key: "orange",
                 label: "Orange",
                 primaryColorDark: "#ff8f00",
-                primaryColorLight: "#ffac41"
+                primaryColorLight: "#ffac41",
             },
             {
                 value: "red",
                 key: "red",
                 label: "Red",
                 primaryColorDark: "#e57373",
-                primaryColorLight: "#f18280"
+                primaryColorLight: "#f18280",
             },
             {
                 value: "green",
                 key: "green",
                 label: "Green",
                 primaryColorDark: "#66bb6a",
-                primaryColorLight: "#7ad982"
+                primaryColorLight: "#36d143",
             },
             {
                 value: "purple",
                 key: "purple",
                 label: "Purple",
                 primaryColorDark: "#df78ef",
-                primaryColorLight: "#e86dfd"
+                primaryColorLight: "#e86dfd",
             },
             {
                 value: "pink",
                 key: "pink",
                 label: "Pink",
-                primaryColorDark: "#eb5f8e",
-                primaryColorLight: "#fb85ad"
+                primaryColorDark: "#f17ca3",
+                primaryColorLight: "#f773a0",
             },
         ];
 
@@ -94,7 +94,7 @@ export default defineComponent({
                 let themeOptionSelected = themeOptions.filter((t: any) => t.value === theme)[0];
                 let setPrimaryColors = {
                     primaryColorDark: themeOptionSelected.primaryColorDark,
-                    primaryColorLight: themeOptionSelected.primaryColorLight
+                    primaryColorLight: themeOptionSelected.primaryColorLight,
                 };
 
                 ipcRenderer
@@ -106,13 +106,13 @@ export default defineComponent({
                     .catch((e: Error) => console.log(e.message));
 
                 ThemeSelected.value = theme;
-            }
+            },
         };
-    }
+    },
 });
 </script>
 <style lang="scss">
-    .asdf {
-        color: rgb(42, 148, 125);
-    }
+.asdf {
+    color: rgb(42, 148, 125);
+}
 </style>
