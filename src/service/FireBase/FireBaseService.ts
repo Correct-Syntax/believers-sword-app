@@ -1,4 +1,5 @@
 // Import the functions you need from the SDKs you need
+import { getDatabase } from "firebase/database"
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { collection, getFirestore } from "firebase/firestore/lite"
@@ -20,12 +21,15 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+export const firestoreDB = getFirestore(app);
 export const analytics = getAnalytics(app);
 
 // firestore collections
-export const sermonCollection = collection(db, "sermon");
+export const sermonCollection = collection(firestoreDB, "sermon");
 
 // for google auth
 export const provider = new GoogleAuthProvider();
 export const auth = getAuth();
+
+// realtime database
+export const realtimeDB = getDatabase(app);

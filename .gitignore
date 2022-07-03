@@ -41,3 +41,4 @@ store_dev
 /**/*.exe
 /**/*.nupkg
 # store
+copy-english-dictionary.bat
