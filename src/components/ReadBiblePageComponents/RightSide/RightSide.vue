@@ -19,33 +19,12 @@ const store = useStore();
 const tabValue = computed(() => store.state.rightMenuTab);
 const rightSideColumnSplitLocalStorageKey = "right-side-column-split-sizes";
 
-let rightSideSplitDiv: any;
-
-watch(rightSideBottomSelectedTab, (tab: string) => {
-    if (tab == "" && !toggleDictionaryBoxRightSide.value) {
-        clickExpandDictionary();
-    } else {
-        clickExpandDictionary();
-    }
+watch(rightSideBottomSelectedTab, () => {
+    clickExpandDictionary();
 });
 
 function clickExpandDictionary() {
-    if (toggleDictionaryBoxRightSide.value) {
-        toggleDictionaryBoxRightSide.value = false;
-
-        rightSideSplitDiv.setSizes([100, 0]);
-        localStorage.setItem(rightSideColumnSplitLocalStorageKey, JSON.stringify([100, 0]));
-    } else {
-        toggleDictionaryBoxRightSide.value = true;
-        const vertical: any = localStorage.getItem("right-side-split-sizes-vertical-open-sizes");
-        if (vertical && JSON.parse(vertical)[1] < 10) {
-            rightSideSplitDiv.setSizes([50, 50]);
-            localStorage.setItem(rightSideColumnSplitLocalStorageKey, JSON.stringify([50, 50]));
-            return;
-        }
-        rightSideSplitDiv.setSizes(vertical ? JSON.parse(vertical) : [50, 50]);
-        localStorage.setItem(rightSideColumnSplitLocalStorageKey, vertical);
-    }
+    document.getElementById("right-side-dictionary-click-to-expand")?.click();
 }
 
 onMounted(() => {
@@ -53,7 +32,7 @@ onMounted(() => {
     if (rightSideColumnSplitSizes && JSON.parse(rightSideColumnSplitSizes)[1] > 0) {
         toggleDictionaryBoxRightSide.value = true;
     }
-    rightSideSplitDiv = Split(["#right-side-top-split-div", "#right-side-bottom-split-div"], {
+    let rightSideSplitDiv = Split(["#right-side-top-split-div", "#right-side-bottom-split-div"], {
         direction: "vertical",
         minSize: [200, 20],
         sizes: rightSideColumnSplitSizes ? JSON.parse(rightSideColumnSplitSizes) : [100, 0],
@@ -75,7 +54,22 @@ onMounted(() => {
     });
 
     document.getElementById("right-side-dictionary-click-to-expand")?.addEventListener("click", () => {
-        clickExpandDictionary();
+        if (toggleDictionaryBoxRightSide.value) {
+            toggleDictionaryBoxRightSide.value = false;
+
+            rightSideSplitDiv.setSizes([100, 0]);
+            localStorage.setItem(rightSideColumnSplitLocalStorageKey, JSON.stringify([100, 0]));
+        } else {
+            toggleDictionaryBoxRightSide.value = true;
+            const vertical: any = localStorage.getItem("right-side-split-sizes-vertical-open-sizes");
+            if (vertical && JSON.parse(vertical)[1] < 10) {
+                rightSideSplitDiv.setSizes([50, 50]);
+                localStorage.setItem(rightSideColumnSplitLocalStorageKey, JSON.stringify([50, 50]));
+                return;
+            }
+            rightSideSplitDiv.setSizes(vertical ? JSON.parse(vertical) : [50, 50]);
+            localStorage.setItem(rightSideColumnSplitLocalStorageKey, vertical);
+        }
     });
 
     window.addEventListener("resize", () => {
