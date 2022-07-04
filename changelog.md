@@ -1,3 +1,6 @@
+## 1.1.3 ALPHA - 2020-04-01
+- added a dictionary
+
 ## 1.1.2 Alpha - 2020-04-01
 - some UI changes
 - color adjustments
