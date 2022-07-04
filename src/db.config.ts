@@ -15,6 +15,13 @@ module.exports = {
         },
         useNullAsDefault: true
     },
+    dictionary_prod: {
+        client: "sqlite3",
+        connection: {
+            filename: upath.toUnix(upath.join(__dirname, 'database', 'Dictionary.db')).replace('app.asar/', '')
+        },
+        useNullAsDefault: true
+    },
     production: {
         client: "sqlite3",
         connection: {

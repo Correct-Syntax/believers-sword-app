@@ -1,8 +1,8 @@
 import { ipcMain } from "electron";
-import { where } from "firebase/firestore/lite";
 import { Knex } from "knex";
+const isDevelopment = process.env.NODE_ENV !== "production";
 const config = require("./../../db.config");
-const dictionaryDB: Knex = require("knex")(config.dictionary);
+const dictionaryDB: Knex = require("knex")(isDevelopment ? config.dictionary : config.dictionary_prod);
 
 export const dictionaryEvents = (): void => {
     ipcMain.handle("dictionarySearchWord", async (event, args: string) => {
