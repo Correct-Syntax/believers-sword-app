@@ -21,9 +21,9 @@ const clipNotesStoreBackUp = new ElectronStore({
 
 const storeThenBackUp = async () => {
     try {
-        let result = storeDB("clip_notes").select("b", "c", "v", "book_name", "color", "note");
+        const result = storeDB("clip_notes").select("b", "c", "v", "book_name", "color", "note");
         await result.then(async (raws: Array<any>) => {
-            let backupClipNotes: Array<any> | any = clipNotesStoreBackUp.get("clipNoteBackup");
+            const backupClipNotes: Array<any> | any = clipNotesStoreBackUp.get("clipNoteBackup");
             if (raws.length <= 0 && backupClipNotes.length > 0) {
                 await storeDB("clip_notes")
                     .insert(backupClipNotes)
@@ -43,7 +43,7 @@ export const clipNoteEvents = (): void => {
 
     const backup = () => {
         try {
-            let result = storeDB("clip_notes").select();
+            const result = storeDB("clip_notes").select();
             result.then((raws: Array<any>) => {
                 if (raws.length) {
                     clipNotesStoreBackUp.set("clipNoteBackup", raws);
@@ -56,8 +56,8 @@ export const clipNoteEvents = (): void => {
 
     ipcMain.handle("getClipNotes", async (event, args) => {
         try {
-            let result = storeDB.select().from("clip_notes");
-            let count = storeDB.select().from("clip_notes");
+            const result = storeDB.select().from("clip_notes");
+            const count = storeDB.select().from("clip_notes");
             if (args && args.b) {
                 result.where("b", args.b);
                 count.where("b", args.b);
@@ -77,11 +77,11 @@ export const clipNoteEvents = (): void => {
             result.orderBy("c");
             result.orderBy("v");
 
-            let data = await result.then((rows: Array<any>) => {
+            const data = await result.then((rows: Array<any>) => {
                 return rows.length > 0 ? rows.reduce((acc: any, curr: any) => ((acc[`${curr.b}_${curr.c}_${curr.v}`] = curr), acc), {}) : {};
             });
 
-            let getCount = await count.count("id as count").then((data: any) => data[0].count);
+            const getCount = await count.count("id as count").then((data: any) => data[0].count);
 
             return {
                 data: data,
@@ -99,8 +99,8 @@ export const clipNoteEvents = (): void => {
             if (!args) {
                 return false;
             }
-            let result = storeDB("clip_notes");
-            let checkIfExist = await storeDB("clip_notes")
+            const result = storeDB("clip_notes");
+            const checkIfExist = await storeDB("clip_notes")
                 .where({
                     b: args.b,
                     c: args.c,
@@ -142,12 +142,12 @@ export const clipNoteEvents = (): void => {
     ipcMain.handle("deleteClipNote", async (event, args) => {
         try {
             if (args && args.b && args.c && args.v) {
-                let result = storeDB("clip_notes")
+                const result = storeDB("clip_notes")
                     .where({ b: args.b, c: args.c, v: args.v })
                     .delete();
 
                 return await result.then((row: Array<any> | number) => {
-                    let clipNoteBackUp: Array<any> | any = clipNotesStoreBackUp.get('clipNoteBackup')
+                    const clipNoteBackUp: Array<any> | any = clipNotesStoreBackUp.get('clipNoteBackup')
 
                     if (clipNoteBackUp && typeof clipNoteBackUp == 'object' && clipNoteBackUp.length > 0) {
                         const indexToDelete = clipNoteBackUp.findIndex((clipNote: any) => clipNote.b == args.b && clipNote.c == args.c && clipNote.v == args.v)

@@ -3,10 +3,15 @@ import { computed, onMounted } from "vue";
 import session from "@/service/session/session";
 import { useStore } from "vuex";
 import { NIcon } from "naive-ui";
-import { Search, BareMetalServer, Bookmark, PaintBrush, DocumentAttachment } from "@vicons/carbon";
+import { Search, BareMetalServer, Bookmark, PaintBrush, DocumentAttachment, NotebookReference } from "@vicons/carbon";
+
+import { useRightSideMenuTabs } from "@/store/ReadBibleRightSideStates";
+import { storeToRefs } from "pinia";
 
 const store = useStore();
 const tabValue = computed(() => store.state.rightMenuTab);
+const rightSideMenuTabStore = useRightSideMenuTabs();
+const { toggleDictionaryBoxRightSide } = storeToRefs(rightSideMenuTabStore);
 
 onMounted(() => {
     store.state.rightMenuTab = session.get("rightSideSelectedTab") || "versionsTab";
@@ -19,37 +24,45 @@ function selectTab(e: any) {
 </script>
 
 <template>
-    <div class="right-side-menu-bar fixed top-35px right-0px z-99">
-        <div class="flex flex-col gap-10px">
-            <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'searchTab' }" @click="selectTab('searchTab')">
-                <NIcon size="25">
-                    <Search />
-                </NIcon>
-                <div class="tooltip">Search The Bible</div>
+    <div class="right-side-menu-bar fixed top-35px right-0px z-99 h-[calc(100%-70px)]">
+        <div class="flex flex-col justify-between h-[100%]">
+            <div class="flex flex-col gap-10px">
+                <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'searchTab' }" @click="selectTab('searchTab')">
+                    <NIcon size="25">
+                        <Search />
+                    </NIcon>
+                    <div class="tooltip">Search The Bible</div>
+                </div>
+                <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'versionsTab' }" @click="selectTab('versionsTab')">
+                    <NIcon size="25">
+                        <BareMetalServer />
+                    </NIcon>
+                    <div class="tooltip">Bible Versions</div>
+                </div>
+                <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'bookmarksTab' }" @click="selectTab('bookmarksTab')">
+                    <NIcon size="25">
+                        <Bookmark />
+                    </NIcon>
+                    <div class="tooltip">Bookmarks</div>
+                </div>
+                <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'MarkedHighlights' }" @click="selectTab('MarkedHighlights')">
+                    <NIcon size="25">
+                        <PaintBrush />
+                    </NIcon>
+                    <div class="tooltip">Highlights</div>
+                </div>
+                <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'MyNotes' }" @click="selectTab('MyNotes')">
+                    <NIcon size="25">
+                        <DocumentAttachment />
+                    </NIcon>
+                    <div class="tooltip">Clip Notes</div>
+                </div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'versionsTab' }" @click="selectTab('versionsTab')">
+            <div class="icon-item" :class="{ 'active-menu-bar-item': toggleDictionaryBoxRightSide }" @click="rightSideMenuTabStore.setRightSideBottomSelectedTab('dictionary')">
                 <NIcon size="25">
-                    <BareMetalServer />
+                    <NotebookReference />
                 </NIcon>
-                <div class="tooltip">Bible Versions</div>
-            </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'bookmarksTab' }" @click="selectTab('bookmarksTab')">
-                <NIcon size="25">
-                    <Bookmark />
-                </NIcon>
-                <div class="tooltip">Bookmarks</div>
-            </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'MarkedHighlights' }" @click="selectTab('MarkedHighlights')">
-                <NIcon size="25">
-                    <PaintBrush />
-                </NIcon>
-                <div class="tooltip">Highlights</div>
-            </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'MyNotes' }" @click="selectTab('MyNotes')">
-                <NIcon size="25">
-                    <DocumentAttachment />
-                </NIcon>
-                <div class="tooltip">Clip Notes</div>
+                <div class="tooltip">Dictionary</div>
             </div>
         </div>
     </div>

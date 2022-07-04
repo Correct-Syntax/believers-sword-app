@@ -8,10 +8,17 @@ module.exports = {
         },
         useNullAsDefault: true
     },
+    dictionary: {
+        client: "sqlite3",
+        connection: {
+            filename: "./database/Dictionary.db"
+        },
+        useNullAsDefault: true
+    },
     production: {
         client: "sqlite3",
         connection: {
-            filename: upath.toUnix(upath.join(__dirname, 'database', 'bible-sqlite.db')).replace('app.asar/','')
+            filename: upath.toUnix(upath.join(__dirname, 'database', 'bible-sqlite.db')).replace('app.asar/', '')
         },
         useNullAsDefault: true
     },
@@ -25,7 +32,7 @@ module.exports = {
     store: {
         client: "sqlite3",
         connection: {
-            filename: upath.toUnix(upath.join(__dirname, 'store', 'store.db')).replace('app.asar/','')
+            filename: upath.toUnix(upath.join(__dirname, 'store', 'store.db')).replace('app.asar/', '')
         },
         useNullAsDefault: true
     },

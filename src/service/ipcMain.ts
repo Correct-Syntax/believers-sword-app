@@ -9,6 +9,7 @@ import { BrowserWindow } from "electron";
 import { windowBrowserEvents } from "./ipcMainEvents/BrowserWindowEvents";
 import { bibleNotesEvents } from "./Notes/ipcMainNotesEvents";
 import { settingsEvents } from "./Settings/Settings";
+import { dictionaryEvents } from './Dictionary/dictionary';
 
 export const ipcMainEvents = (win: BrowserWindow) => {
     // browser Window Events
@@ -40,4 +41,7 @@ export const ipcMainEvents = (win: BrowserWindow) => {
 
     // clip Notes Events
     clipNoteEvents();
+
+    // dictionary events
+    dictionaryEvents();
 };
