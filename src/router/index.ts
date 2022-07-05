@@ -40,7 +40,6 @@ export const routes: Array<RouteRecordRaw> = [
     },
     {
         path: "/games",
-        name: "Games",
         component: Games,
         children: GamesRoute,
     },

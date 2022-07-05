@@ -37,9 +37,6 @@ onMounted(() => {
         minSize: [200, 20],
         sizes: rightSideColumnSplitSizes ? JSON.parse(rightSideColumnSplitSizes) : [100, 0],
         snapOffset: 20,
-        // onDragStart: () => {
-        //     toggleDictionaryBoxRightSide.value = true;
-        // },
         gutterStyle: () => {
             return {
                 height: `0px`,

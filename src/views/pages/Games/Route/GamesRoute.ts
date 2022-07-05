@@ -1,6 +1,7 @@
 export default [
     {
         path: "",
+        name: "Games",
         component: () => import("@/views/pages/Games/SelectGames.vue")
     },
     {
