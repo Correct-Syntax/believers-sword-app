@@ -82,7 +82,7 @@ onMounted(async () => {
 
 <template>
     <div class="h-[100%] flex flex-col w-[100%] relative">
-        <div class="h-[var(--view-chapter-top-width)] shadow-md">
+        <div class="h-[var(--view-chapter-top-width)]">
             <TopOptionsBar />
         </div>
         <div @contextmenu="rightClickHere" id="view-chapter-verse" class="overflow-y-auto h-[100%] w-[100%] overflowing-div scroll-bar-md" @scroll="scrollViewChapterVerse">

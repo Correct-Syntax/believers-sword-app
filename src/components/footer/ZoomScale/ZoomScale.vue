@@ -41,18 +41,13 @@ onMounted(() => {
                             </NIcon>
                         </template>
                     </NButton>
-                    <NTooltip trigger="hover" placement="top-start">
-                        <template #trigger>
-                            <NButton size="tiny" tertiary circle @click="slideValue = 100">
-                                <template #icon>
-                                    <NIcon>
-                                        <Reset />
-                                    </NIcon>
-                                </template>
-                            </NButton>
+                    <NButton size="tiny" tertiary circle @click="slideValue = 100">
+                        <template #icon>
+                            <NIcon>
+                                <Reset />
+                            </NIcon>
                         </template>
-                        Reset Zoom Level
-                    </NTooltip>
+                    </NButton>
                 </NButtonGroup>
             </div>
         </div>

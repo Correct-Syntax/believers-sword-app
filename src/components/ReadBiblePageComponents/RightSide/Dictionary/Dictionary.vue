@@ -42,13 +42,12 @@ function copyMeaning(text: string) {
 </script>
 <template>
     <div class="p-2 h-[100%] w-[100%]">
-        <div class="flex gap-8px">
+        <div class="flex gap-8px h-45px">
             <NSelect v-model:value="search" filterable placeholder="Search a word" :options="options" :loading="isLoading" clearable remote @search="searchWord" />
             <NInputNumber class="max-w-90px" v-model:value="fontSize" min="11" max="20" />
         </div>
-
-        <div class="h-[100%] pb-100px pt-20px overflow-y-auto overflowing-div">
-            <div class="font-800 text-size-20px pb-10px">{{ search ? search.split("---")[1] : "" }}</div>
+        <div class="h-[calc(100%-65px)] pt-10px overflow-y-auto overflowing-div">
+            <div class="font-800 text-size-25px pb-10px">{{ search ? search.split("---")[1] : "" }}</div>
             <ul class="flex flex-col gap-10px" :style="`font-size: ${fontSize}px`">
                 <li v-for="meaning in meanings" :key="meaning.id">
                     <span class="font-700 mr-3">{{ meaning.wordtype }}</span>

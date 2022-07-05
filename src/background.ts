@@ -1,12 +1,11 @@
 "use strict";
+import { app, protocol, BrowserWindow, Menu, screen, BrowserWindowConstructorOptions, globalShortcut } from "electron";
 import { contextMenus } from "./service/ContextMenu/ContextMenu";
 import { appSettingsStore } from "./service/ElectronStoreSchemma/SettingSchema";
 import { AutoUpdaterEvents } from "./service/AutoUpdater/AutoUpdaterMainProcessEvent";
-import { app, protocol, BrowserWindow, Menu, screen } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 import { ipcMainEvents } from "./service/ipcMain";
-import { BrowserWindowConstructorOptions, globalShortcut } from "electron";
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
@@ -28,7 +27,7 @@ async function createWindow() {
             devTools: true
         },
         show: false,
-        alwaysOnTop: true
+        alwaysOnTop: !isDevelopment
     };
 
     // Sett the saved appBounds state

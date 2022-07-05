@@ -96,7 +96,7 @@ watch(rightSideBottomSelectedTab, () => {
     <div id="right-side-bar" class="h-[100%] w-[100%] select-none dark:bg-black dark:bg-opacity-20 bg-gray-200">
         <RightSideMenuBar />
         <div class="h-[100%] w-[100%] split !flex !flex-col relative">
-            <div id="right-side-top-split-div">
+            <div id="right-side-top-split-div" class="h-[100%] pb-10px">
                 <SearchTab v-if="tabValue === 'searchTab'" />
                 <SelectBibleVersions v-if="tabValue === 'versionsTab'" />
                 <Bookmarks v-show="tabValue === 'bookmarksTab'" />
@@ -104,10 +104,10 @@ watch(rightSideBottomSelectedTab, () => {
                 <ShowClipNotes v-show="tabValue === 'MyNotes'" />
             </div>
 
-            <div id="right-side-bottom-split-div">
+            <div id="right-side-bottom-split-div" class="h-[100%]">
                 <div
                     id="right-side-dictionary-click-to-expand"
-                    class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center select-none flex items-center duration-200 active:bg-[var(--primaryColor)] dark:hover:bg-gray-600 hover:bg-gray-300"
+                    class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center select-none flex items-center duration-200 active:bg-[var(--primaryColor)] dark:hover:bg-gray-600 hover:bg-gray-300 h-25px"
                 >
                     Dictionary
                 </div>
