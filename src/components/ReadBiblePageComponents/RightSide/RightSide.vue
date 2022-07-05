@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import Split from "split.js";
-import { computed, onMounted, watch } from "vue";
+import { computed, watch } from "vue";
 import SelectBibleVersions from "./SelectBibleVersions/SelectBibleVersions.vue";
 import SearchTab from "./Search/Search.vue";
 import Bookmarks from "./Bookmarks/Bookmarks.vue";
@@ -13,77 +12,18 @@ import { useRightSideMenuTabs } from "@/store/ReadBibleRightSideStates";
 import { storeToRefs } from "pinia";
 
 const rightSideMenuTabStore = useRightSideMenuTabs();
-const { rightSideBottomSelectedTab, toggleDictionaryBoxRightSide } = storeToRefs(rightSideMenuTabStore);
+const { rightSideBottomSelectedTab } = storeToRefs(rightSideMenuTabStore);
 const store = useStore();
 const tabValue = computed(() => store.state.rightMenuTab);
 
 watch(rightSideBottomSelectedTab, () => {
     document.getElementById("right-side-dictionary-click-to-expand")?.click();
 });
-
-onMounted(() => {
-    const rightSideColumnSplitSizes = localStorage.getItem("right-side-column-split-sizes");
-    if (rightSideColumnSplitSizes && JSON.parse(rightSideColumnSplitSizes)[1] > 0) {
-        toggleDictionaryBoxRightSide.value = true;
-    }
-    let rightSideSplitDiv = Split(["#right-side-top-split-div", "#right-side-bottom-split-div"], {
-        direction: "vertical",
-        minSize: [200, 20],
-        sizes: rightSideColumnSplitSizes ? JSON.parse(rightSideColumnSplitSizes) : [100, 0],
-        snapOffset: 20,
-        gutterStyle: () => {
-            return {
-                height: `0px`,
-            };
-        },
-        onDrag: (sizes) => {
-            if (sizes[1] < 5) {
-                toggleDictionaryBoxRightSide.value = false;
-            } else {
-                toggleDictionaryBoxRightSide.value = true;
-            }
-        },
-        elementStyle: (dimension, size) => {
-            return {
-                height: `${size}%`,
-            };
-        },
-        onDragEnd: (sizes) => {
-            localStorage.setItem("right-side-column-split-sizes", JSON.stringify(sizes));
-            localStorage.setItem("right-side-split-sizes-vertical-open-sizes", JSON.stringify(sizes));
-        },
-    });
-
-    document.getElementById("right-side-dictionary-click-to-expand")?.addEventListener("click", () => {
-        if (toggleDictionaryBoxRightSide.value) {
-            toggleDictionaryBoxRightSide.value = false;
-
-            rightSideSplitDiv.setSizes([100, 0]);
-            localStorage.setItem("right-side-column-split-sizes", JSON.stringify([100, 0]));
-        } else {
-            toggleDictionaryBoxRightSide.value = true;
-            const vertical: any = localStorage.getItem("right-side-split-sizes-vertical-open-sizes");
-            if (vertical && JSON.parse(vertical)[1] < 10) {
-                rightSideSplitDiv.setSizes([50, 50]);
-                localStorage.setItem("right-side-column-split-sizes", JSON.stringify([50, 50]));
-                return;
-            }
-            rightSideSplitDiv.setSizes(vertical ? JSON.parse(vertical) : [50, 50]);
-            localStorage.setItem("right-side-column-split-sizes", vertical);
-        }
-    });
-
-    window.addEventListener("resize", () => {
-        if (rightSideSplitDiv.getSizes()[1] < 10) {
-            rightSideSplitDiv.collapse(1);
-        }
-    });
-});
 </script>
 <template>
     <div id="right-side-bar" class="h-[100%] w-[100%] select-none dark:bg-black dark:bg-opacity-20 bg-gray-200">
         <RightSideMenuBar />
-        <div class="h-[100%] w-[100%] split flex flex-col relative">
+        <div class="h-[100%] w-[100%] split !flex !flex-col relative">
             <div id="right-side-top-split-div">
                 <SearchTab v-if="tabValue === 'searchTab'" />
                 <SelectBibleVersions v-if="tabValue === 'versionsTab'" />
