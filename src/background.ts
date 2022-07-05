@@ -6,7 +6,7 @@ import { app, protocol, BrowserWindow, Menu, screen } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 import { ipcMainEvents } from "./service/ipcMain";
-import { BrowserWindowConstructorOptions } from "electron";
+import { BrowserWindowConstructorOptions, globalShortcut } from "electron";
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
@@ -44,8 +44,11 @@ async function createWindow() {
     } else {
         createProtocol("app");
         await win.loadURL("app://./index.html");
-        win.webContents.openDevTools();
     }
+
+    globalShortcut.register('Alt+CommandOrControl+I', () => {
+        win.webContents.isDevToolsOpened() ? win.webContents.closeDevTools() : win.webContents.openDevTools()
+    })
 
     // remove the menus
     if (!isDevelopment) {
