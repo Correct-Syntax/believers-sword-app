@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import Split from "split.js";
 import { computed, onMounted, watch } from "vue";
 import SelectBibleVersions from "./SelectBibleVersions/SelectBibleVersions.vue";
 import SearchTab from "./Search/Search.vue";
@@ -8,7 +9,6 @@ import RightSideMenuBar from "@/components/ReadBiblePageComponents/RightSide/rig
 import MarkedHighlights from "./MarkedHighlights/MarkedHighlights.vue";
 import ShowClipNotes from "./showClipNotes/showClipNotes.vue";
 import Dictionary from "./Dictionary/Dictionary.vue";
-import Split from "split.js";
 import { useRightSideMenuTabs } from "@/store/ReadBibleRightSideStates";
 import { storeToRefs } from "pinia";
 
@@ -37,10 +37,20 @@ onMounted(() => {
         minSize: [200, 20],
         sizes: rightSideColumnSplitSizes ? JSON.parse(rightSideColumnSplitSizes) : [100, 0],
         snapOffset: 20,
+        // onDragStart: () => {
+        //     toggleDictionaryBoxRightSide.value = true;
+        // },
         gutterStyle: () => {
             return {
                 height: `0px`,
             };
+        },
+        onDrag: (sizes) => {
+            if (sizes[1] < 5) {
+                toggleDictionaryBoxRightSide.value = false;
+            } else {
+                toggleDictionaryBoxRightSide.value = true;
+            }
         },
         elementStyle: (dimension, size) => {
             return {
@@ -80,13 +90,9 @@ onMounted(() => {
 });
 </script>
 <template>
-    <div
-        id="right-side-bar"
-        :class="{ 'dont-show-split-hover': rightSideBottomSelectedTab == '' }"
-        class="h-[100%] w-[100%] select-none dark:bg-black dark:bg-opacity-20 bg-gray-200"
-    >
+    <div id="right-side-bar" class="h-[100%] w-[100%] select-none dark:bg-black dark:bg-opacity-20 bg-gray-200">
         <RightSideMenuBar />
-        <div class="h-[100%] w-[100%] split flex flex-col">
+        <div class="h-[100%] w-[100%] split flex flex-col relative">
             <div id="right-side-top-split-div">
                 <SearchTab v-if="tabValue === 'searchTab'" />
                 <SelectBibleVersions v-if="tabValue === 'versionsTab'" />
