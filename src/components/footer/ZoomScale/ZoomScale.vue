@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch } from "vue";
-import { NTooltip, NButtonGroup, NButton, NIcon } from "naive-ui";
+import { NButtonGroup, NButton, NIcon } from "naive-ui";
 import { useStore } from "vuex";
 import session from "@/service/session/session";
 import { Subtract, Add, Reset } from "@vicons/carbon";
