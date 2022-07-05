@@ -25,10 +25,10 @@ async function createWindow() {
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
-            devTools: isDevelopment
+            devTools: true
         },
         show: false,
-        alwaysOnTop: !isDevelopment
+        alwaysOnTop: true
     };
 
     // Sett the saved appBounds state
@@ -44,6 +44,7 @@ async function createWindow() {
     } else {
         createProtocol("app");
         await win.loadURL("app://./index.html");
+        win.webContents.openDevTools();
     }
 
     // remove the menus
