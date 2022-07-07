@@ -1,3 +1,7 @@
+## 1.2.3 ALPHA - 2019-01-01
+- optimized highlighter
+- did some UI update on dictionary
+
 ## 1.1.3 ALPHA - 2020-04-01
 - added a dictionary
 
