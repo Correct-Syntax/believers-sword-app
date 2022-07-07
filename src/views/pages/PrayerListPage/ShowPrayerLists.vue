@@ -80,7 +80,9 @@ const dragOptions = {
                 <span class="font-700 text-size-20px">Prayer List </span>
                 <NewPrayerItem />
             </div>
-            <NAlert class="mb-1" type="info" title="Ability to Make An Item Done"> To make an item as done, drag a prayer item by click + hold, and drag it to the done section. </NAlert>
+            <NAlert class="mb-1" type="info" title="Ability to Make An Item Done">
+                To make an item as done, drag a prayer item by click + hold, and drag it to the done section.
+            </NAlert>
             <Draggable
                 class="list-group h-[100%] overflow-y-auto overflowing-div pr-10px"
                 :list="prayerList"

@@ -35,7 +35,7 @@ onMounted(() => {
         </div>
         <div class="flex flex-col h-[calc(100%-25px)]">
             <div class="h-[100%] overflow-y-auto overflowing-div">
-                <div class="select-none whitespace-nowrap">
+                <div class="whitespace-nowrap">
                     <NCheckboxGroup size="large" v-model:value="selectVersion">
                         <NGrid :y-gap="8" :cols="1">
                             <template v-for="version in bibleStore.bibleVersions" :key="version.table">

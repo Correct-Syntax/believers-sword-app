@@ -113,7 +113,7 @@ const deleteNote = () => {
 </script>
 
 <template>
-    <div class="split notes-panel h-[100%] flex select-none">
+    <div class="split notes-panel h-[100%] flex">
         <div id="create-note-panel-1" class="h-[100%] overflow-y-auto overflowing-div p-5px flex flex-col justify-between">
             <div class="w-[100%] overflow-y-auto overflowing-div flex flex-col gap-10px">
                 <NoteList />

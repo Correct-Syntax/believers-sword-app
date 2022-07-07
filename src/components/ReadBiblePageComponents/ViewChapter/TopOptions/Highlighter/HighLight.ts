@@ -17,7 +17,28 @@ const getSelectionParentElement = () => {
     return parentEl;
 };
 
+
+export function isHighlightable(): boolean {
+    const selected = window.getSelection();
+    const selection = selected?.getRangeAt(0);
+    let parentNode = selection?.startContainer.parentNode as HTMLElement;
+
+    for (let x = 0; x <= 10; x++) {
+        if (
+            parentNode &&
+            parentNode.classList &&
+            parentNode.classList.contains("verse-select-text")
+        ) {
+            return true
+        }
+
+        parentNode = parentNode.parentNode as HTMLElement;
+    }
+    return false
+}
+
 export const highlight = (color: string) => {
+
     try {
         const selected = window.getSelection();
         const selection = selected?.getRangeAt(0);

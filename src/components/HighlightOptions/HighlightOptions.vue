@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { highlight } from "../ReadBiblePageComponents/ViewChapter/TopOptions/Highlighter/HighLight";
+import { highlight, isHighlightable } from "../ReadBiblePageComponents/ViewChapter/TopOptions/Highlighter/HighLight";
 import { CircleSolid, Delete } from "@vicons/carbon";
 import { NIcon, NButton } from "naive-ui";
 
 const emit = defineEmits(["setHighlight"]);
 
 function highlightSelection(color: string) {
+    if (!isHighlightable()) return;
     highlight(color);
     emit("setHighlight", color);
 }
