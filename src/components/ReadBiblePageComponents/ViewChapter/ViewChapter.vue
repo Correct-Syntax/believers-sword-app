@@ -1,13 +1,12 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, watch } from "vue";
 import { useStore } from "vuex";
 import session from "@/service/session/session";
 import VersesRender from "@/components/ReadBiblePageComponents/ViewChapter/Verses/Verses.vue";
 import TopOptionsBar from "@/components/ReadBiblePageComponents/ViewChapter/TopOptions/TopOptions.vue";
 import { ipcRenderer } from "electron";
-import { NIcon, NPopover, NButton } from "naive-ui";
-import { ArrowLeft, ArrowRight, Copy, Close } from "@vicons/carbon";
-import HighlightOptionsVue from "@/components/HighlightOptions/HighlightOptions.vue";
+import { NIcon } from "naive-ui";
+import { ArrowLeft, ArrowRight } from "@vicons/carbon";
 
 const store = useStore();
 const bibleStore = computed(() => store.state.bible);
@@ -41,29 +40,6 @@ function scrollViewChapterVerse() {
     session.set("viewChapterVerseScrollTop", document.getElementById("view-chapter-verse")?.scrollTop);
 }
 
-const xRef = ref(0);
-const yRef = ref(0);
-const showPopOver = ref(false);
-const rightClickHere = (e: MouseEvent) => {
-    const selected = window.getSelection();
-    const text: string | undefined = selected?.toString();
-    if (text) {
-        if (showPopOver.value) {
-            showPopOver.value = false;
-        } else {
-            showPopOver.value = true;
-            xRef.value = e.clientX;
-            yRef.value = e.clientY;
-        }
-    }
-};
-
-const copyText = () => {
-    const selected = window.getSelection();
-    const text: string | undefined = selected?.toString();
-    if (text) navigator.clipboard.writeText(text);
-};
-
 onMounted(async () => {
     let viewChapterVerseElement = document.getElementById("view-chapter-verse");
     setTimeout(() => {
@@ -71,12 +47,6 @@ onMounted(async () => {
         if (viewChapterVerseElement) viewChapterVerseElement.scrollTop = scrollTop ? scrollTop : 0;
     }, 300);
     getClipNotesInChapter(bibleStore.value.bookSelected, bibleStore.value.chapterSelected);
-
-    window.addEventListener("click", () => {
-        if (showPopOver.value) {
-            showPopOver.value = false;
-        }
-    });
 });
 </script>
 
@@ -85,7 +55,7 @@ onMounted(async () => {
         <div class="h-[var(--view-chapter-top-width)]">
             <TopOptionsBar />
         </div>
-        <div @contextmenu="rightClickHere" id="view-chapter-verse" class="overflow-y-auto h-[100%] w-[100%] overflowing-div scroll-bar-md" @scroll="scrollViewChapterVerse">
+        <div id="view-chapter-verse" class="overflow-y-auto h-[100%] w-[100%] overflowing-div scroll-bar-md" @scroll="scrollViewChapterVerse">
             <div class="absolute left-10px top-[50%] text-size-30px z-50">
                 <div class="view-chapter-arrow-pointer" @click="clickPointer('previous')">
                     <NIcon>
@@ -94,7 +64,7 @@ onMounted(async () => {
                 </div>
             </div>
             <div class="h-[100%] flex justify-center relative">
-                <div class="flex justify-center" @click="showPopOver = false">
+                <div class="flex justify-center">
                     <VersesRender :viewBookChapter="bibleStore.viewBookChapter" :fontSize="fontSize" :clipNotes="clipNotesInChapter" />
                 </div>
             </div>
@@ -107,26 +77,6 @@ onMounted(async () => {
             </div>
         </div>
     </div>
-    <NPopover :show="showPopOver" :x="xRef" :y="yRef" trigger="click">
-        <div class="flex gap-10px">
-            <HighlightOptionsVue @setHighlight="showPopOver = false" />
-            <NButton size="small" @click="copyText" round strong secondary title="Copy">
-                <template #icon>
-                    <NIcon>
-                        <Copy />
-                    </NIcon>
-                </template>
-                Copy
-            </NButton>
-            <NButton size="small" @click="showPopOver = false" circle strong secondary title="Copy">
-                <template #icon>
-                    <NIcon>
-                        <Close />
-                    </NIcon>
-                </template>
-            </NButton>
-        </div>
-    </NPopover>
 </template>
 
 <style lang="postcss">
