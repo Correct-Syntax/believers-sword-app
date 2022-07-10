@@ -16,7 +16,7 @@ import { useStore } from "vuex";
 import session from "@/service/session/session";
 export default defineComponent({
     components: {
-        NSwitch
+        NSwitch,
     },
     setup() {
         const store = useStore();
@@ -31,8 +31,8 @@ export default defineComponent({
             handleThemeChange(value: boolean) {
                 store.state.dark = value;
                 session.set("believers-sword-ui-theme", value ? "dark" : "light");
-            }
+            },
         };
-    }
+    },
 });
 </script>
