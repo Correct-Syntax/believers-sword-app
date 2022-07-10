@@ -27,7 +27,7 @@ const dark = computed(() => store.state.dark);
                 <img src="@/assets/logo.svg" class="h-35px w-30px" alt="Icon Logo" title="Believers Sword Logo" />
             </div>
             <div class="text-size-[12px] font-700 flex gap-5px items-center">
-                <span> Believers Sword </span>
+                <span> {{ $t("title") }} </span>
                 <FeedBack />
             </div>
         </div>
