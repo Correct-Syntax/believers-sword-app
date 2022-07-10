@@ -1,3 +1,5 @@
+import DonateTranslations from "./../components/Donate/DonateTranslations"
+
 const translations = {
     title: {
         english: "Believers Sword",
@@ -6,7 +8,8 @@ const translations = {
     feedback: {
         english: "Feedback",
         tagalog: "Mga Puna"
-    }
+    },
+    ...DonateTranslations
 }
 
 export const localeMessages = (locale: string) => {

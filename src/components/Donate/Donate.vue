@@ -17,13 +17,10 @@ const props = defineProps({
     <div>
         <div class="w-[100%] mx-auto text-size-18px leading-normal" :style="`max-width: ${props.textWidth}px`">
             <NAlert title="THIS APP IS ABSOLUTELY FREE" type="warning">
-                <span class="text-size-18px">
-                    I am sharing this application to you for <b>FREE</b>. The word of God is <b>FREE</b>, so I am forbidding anyone selling a copy.
-                </span>
+                <span class="text-size-18px" v-html="$t('donate_first_pag')"></span>
             </NAlert>
             <br />
-            If the good Lord lays it upon your heart to help, please do so! You can <b>Support</b> this application financially, you can donate by selecting any of the choices
-            bellow. Even if you donate or not, this application is always free on the internet. <b>All donations will be used for the development of this application</b>.
+            <span v-html="$t('donate_second_pag')"></span>
         </div>
 
         <div class="max-w-1500px w-[100%] mx-auto flex flex-wrap justify-center mt-50px gap-30px">
