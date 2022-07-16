@@ -9,19 +9,19 @@ Believers Sword App is an application to help you study the bible. Not only that
 ![Believers Sword App](https://i.ibb.co/tYFmjZQ/Screenshot-2021-10-11-203049.png)
 
 # features
-[x] Browse the bible
-[x] search the Bible
-[x] Bible Different Version
-[x] dictionary
-[x] clip notes
-[x] bookmarking
-[x] highlighter
-[x] take notes
-[x] prayer list
-[x] sermon page to watch or read sermons
-[ ] believers forum - where people discuss different concepts
-[ ] play games - play some simple games to reserve the things that you learned.
-[x] can customize colors of your liking. Also has dark and light theme.
+- [x] Browse the bible  
+- [x] search the Bible  
+- [x] Bible Different Version  
+- [x] dictionary  
+- [x] clip notes  
+- [x] bookmarking  
+- [x] highlighter  
+- [x] take notes
+- [x] prayer list
+- [x] sermon page to watch or read sermons
+- [ ] believers forum - where people discuss different concepts
+- [ ] play games - play some simple games to reserve the things that you learned.
+- [x] can customize colors of your liking. Also has dark and light theme.
 
 # Support
 If you like to support my simple ministry, you can do by one of this ways:
