@@ -27,7 +27,7 @@ const dark = computed(() => store.state.dark);
                 <img src="@/assets/logo.svg" class="h-35px w-30px" alt="Icon Logo" title="Believers Sword Logo" />
             </div>
             <div class="text-size-[12px] font-700 flex gap-5px items-center">
-                <span> {{ $t("title") }} </span>
+                <span> {{ $t("believers_sword") }} </span>
                 <FeedBack />
             </div>
         </div>
@@ -46,7 +46,7 @@ const dark = computed(() => store.state.dark);
                             <Moon />
                         </NIcon>
                     </template>
-                    {{ dark ? "Dark Theme" : "light Theme" }}
+                    {{ dark ? $t("dark_theme") : $t("light_theme") }}
                 </NButton>
             </div>
         </div>

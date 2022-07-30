@@ -1,14 +1,10 @@
+import TitleBarLocal from "@/components/TitleBar/TitleBarLocal";
 import DonateTranslations from "./../components/Donate/DonateTranslations"
+import LocalesPerWord from "./LocalesPerWord";
 
 const translations = {
-    title: {
-        english: "Believers Sword",
-        tagalog: "Sandata ng Mananampalataya"
-    },
-    feedback: {
-        english: "Feedback",
-        tagalog: "Mga Puna"
-    },
+    ...LocalesPerWord,
+    ...TitleBarLocal,
     ...DonateTranslations
 }
 
