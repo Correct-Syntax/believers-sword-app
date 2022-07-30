@@ -15,7 +15,7 @@ export default {
         spanish: "Tema oscuro",
         chinese: "暗主题"
     },
-    title: {
+    believers_sword: {
         english: "Believers Sword",
         filipino: "Sandata ng Mananampalataya",
         korean: "신자 검",
