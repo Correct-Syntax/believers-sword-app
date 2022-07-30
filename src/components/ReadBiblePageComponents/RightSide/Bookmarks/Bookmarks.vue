@@ -147,7 +147,7 @@ const selectOption = (e: string | number) => {
     @apply flex flex-wrap gap-0px;
 }
 .right-side-bookmark-saved-items {
-    @apply flex items-center flex-row gap-10px justify-between text-size-15px border-l-[5px]  border-opacity-0 border-light-50 duration-200 h-[40px] w-[100%] max-w-[320px];
+    @apply flex items-center flex-row gap-10px justify-between text-size-15px border-l-[5px]  border-opacity-0 border-light-50 duration-200 h-[40px] w-[100%];
 
     &.right-side-bookmark-selected {
         @apply border-[var(--primaryColor)];

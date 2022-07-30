@@ -46,7 +46,7 @@ const dark = computed(() => store.state.dark);
                             <Moon />
                         </NIcon>
                     </template>
-                    {{ dark ? "Dark Theme" : "light Theme" }}
+                    {{ dark ? $t("dark_theme") : $t("light_theme") }}
                 </NButton>
             </div>
         </div>

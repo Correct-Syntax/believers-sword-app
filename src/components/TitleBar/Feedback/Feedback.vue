@@ -79,10 +79,10 @@ async function selectRoute(path: string) {
     <NModal :show="showModal">
         <NCard title="Feedback" class="max-w-300px" size="small">
             <template #header-extra>
-                <NButton size="tiny" icon round tertiary @click="closeModal()"> Close </NButton>
+                <NButton size="tiny" icon round tertiary @click="closeModal()"> {{ $t("close") }} </NButton>
             </template>
             <NTabs>
-                <NTabPane name="add feedback" tab="Add feedback">
+                <NTabPane :name="$t('add_feedback')" :tab="$t('add_feedback')">
                     <NForm v-if="isLoggedIn()" ref="feedbackFormRef" size="small" :rules="formRule" :model="form">
                         <NFormItem label="Select Category" path="category">
                             <NSelect
@@ -114,7 +114,7 @@ async function selectRoute(path: string) {
                     </NForm>
                     <div v-else>
                         <p>Please login to submit feedback</p>
-                        <NButton type="primary" @click="selectRoute('/account')">Login!</NButton>
+                        <NButton type="primary" @click="selectRoute('/account')">{{ $t("login") }}!</NButton>
                     </div>
                 </NTabPane>
                 <NTabPane v-if="isLoggedIn()" name="my feedbacks" tab="My Feedbacks" display-directive="show:lazy">

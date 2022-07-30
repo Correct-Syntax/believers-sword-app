@@ -4,7 +4,10 @@ import { localeMessages } from './messages';
 
 const message = {
     english: localeMessages('english'),
-    tagalog: localeMessages('tagalog')
+    filipino: localeMessages('filipino'),
+    korean: localeMessages('korean'),
+    spanish: localeMessages('spanish'),
+    chinese: localeMessages('chinese')
 };
 
 export default createI18n({
