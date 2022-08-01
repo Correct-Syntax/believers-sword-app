@@ -82,7 +82,7 @@ onMounted(() => {
                     {{ selectedSermonContent ? selectedSermonContent.title : "" }}
                 </h2>
                 <div class="mt-5px">
-                    Source:
+                    {{ $t("source") }}:
                     <span class="hover:text-[var(--primaryColor)] cursor-pointer" @click="clickLink(selectedSermonContent.source, false, 'Donate To BroJenuel')">{{
                         selectedSermonContent.source
                     }}</span>

@@ -273,14 +273,14 @@ const deleteNote = () => {
                                 </NIcon>
                             </button>
                         </template>
-                        Are you you want to delete this Note?
+                        <span>{{ $t("are_you_sure_to_delete_this_note") }}</span>
                     </NPopconfirm>
                 </div>
                 <div
                     id="note-title"
                     class="mx-10px mt-10px pb-5px mb-10px min-w-300px text-size-23px border-b-[2px] border-gray-400 font-700"
                     contenteditable="true"
-                    placeholder="Enter The Title Here"
+                    :placeholder="$t('enter_title_here')"
                     v-html="selectedNote.title"
                 ></div>
                 <EditorContent ref="note-editor" class="mx-10px h-[100%] overflow-auto overflowing-div" :editor="editor" />
@@ -292,10 +292,10 @@ const deleteNote = () => {
                             <ArrowLeft />
                         </NIcon>
                     </span>
-                    Select a Note To Edit
+                    <span>{{ $t("select_a_note_to_edit") }}</span>
                 </div>
                 <div class="flex justify-center h-[100%] items-center text-center leading-normal font-600">
-                    Hi! I Recommend that you use<br />pen and paper/notebook to take your notes 🙂
+                    {{ $t("note_recommendation") }}
                 </div>
             </div>
         </div>

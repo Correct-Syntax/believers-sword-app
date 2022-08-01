@@ -131,15 +131,15 @@ const register = () => {
 </script>
 <template>
     <NForm ref="formValue" :rules="rules" :model="form" label-width="auto">
-        <div class="font-800 text-size-25px mb-30px">Register</div>
+        <div class="font-800 text-size-25px mb-30px">{{ $t("register") }}</div>
         <NFormItem label="Email Address" path="email">
-            <NInput v-model:value="form.email" placeholder="Enter Email Address" />
+            <NInput v-model:value="form.email" :placeholder="$t('enter_email_address')" />
         </NFormItem>
         <NFormItem label="Password" path="password">
-            <NInput v-model:value="form.password" type="password" placeholder="Enter Password" />
+            <NInput v-model:value="form.password" type="password" :placeholder="$t('enter_password')" />
         </NFormItem>
-        <NFormItem label="Retype-Password" path="retypePassword" placeholder="Retype Password">
-            <NInput v-model:value="form.retypePassword" type="password" placeholder="Retype Password Password" />
+        <NFormItem label="Retype-Password" path="retypePassword">
+            <NInput v-model:value="form.retypePassword" type="password" :placeholder="$t('retype_password')" />
         </NFormItem>
         <div class="flex gap-2 mt-4">
             <NButton secondary type="primary" @click="register()">
@@ -148,9 +148,9 @@ const register = () => {
                         <UserFollow />
                     </NIcon>
                 </template>
-                Sign Up
+                {{ $t("sign_up") }}
             </NButton>
-            <NButton @click="emit('cancelClicked')"> Cancel </NButton>
+            <NButton @click="emit('cancelClicked')"> {{ $t("cancel") }} </NButton>
         </div>
     </NForm>
 </template>

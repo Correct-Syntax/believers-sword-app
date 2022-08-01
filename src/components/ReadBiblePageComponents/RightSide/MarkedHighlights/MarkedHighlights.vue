@@ -101,9 +101,9 @@ onMounted(() => {
 <template>
     <div class="mark-highlight-sidebar p-7px h-[100%] w-[100%] flex flex-col">
         <div class="text-size-[18px] mb-7px">
-            <h3 class="font-700">Marked Verses</h3>
+            <h3 class="font-700">{{ $t("marked_verses") }}</h3>
             <form class="mt-15px flex flex-col gap-10px" @submit.prevent="getBibleVerseHighlight(true)">
-                <NInput v-model:value="search.search" placeholder="Please Write and press enter..." :clearable="true" />
+                <NInput v-model:value="search.search" :placeholder="$t('please_write_and_press_enter')" :clearable="true" />
                 <div class="flex gap-10px">
                     <NSelect v-model:value="search.b" :options="options" />
                     <NButton type="primary" @click="getBibleVerseHighlight(true)">

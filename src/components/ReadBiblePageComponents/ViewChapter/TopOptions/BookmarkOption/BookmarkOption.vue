@@ -37,6 +37,6 @@ const saveSelectedBookmark = () => {
                 </NIcon>
             </div>
         </template>
-        <span>Save to Bookmark</span>
+        <span>{{ $t("save_to_bookmark") }}</span>
     </NTooltip>
 </template>

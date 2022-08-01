@@ -131,7 +131,9 @@ defineExpose({
                     </NIcon>
                 </template>
                 <template #extra>
-                    <div class="w-[100%] max-w-[300px]">Oops! No Internet Connection or Error Getting Data. Connect To Internet to Get Show Contents.</div>
+                    <div class="w-[100%] max-w-[300px]">
+                        {{ $t("no_internet_or_error_getting_data") }}
+                    </div>
                 </template>
             </NEmpty>
         </div>

@@ -67,7 +67,7 @@ const SaveEditorContent = () => {
                 <Add />
             </NIcon>
         </template>
-        <span>New</span>
+        <span>{{ $t("new") }}</span>
     </NButton>
     <NModal v-model:show="showModal">
         <div class="create-new-prayer-list-editor">
@@ -224,13 +224,13 @@ const SaveEditorContent = () => {
                     <NIcon>
                         <Close />
                     </NIcon>
-                    Close
+                    {{ $t("close") }}
                 </NButton>
                 <NButton type="info" @click="SaveEditorContent()">
                     <NIcon>
                         <Save />
                     </NIcon>
-                    Create Prayer Item
+                    {{ $t("create_prayer_item") }}
                 </NButton>
             </div>
         </div>

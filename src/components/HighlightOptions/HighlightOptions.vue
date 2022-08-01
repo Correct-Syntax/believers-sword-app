@@ -64,7 +64,7 @@ function highlightSelection(color: string) {
                     <Delete />
                 </NIcon>
             </template>
-            Removes
+            <span class="capitalize">{{ $t("remove") }}</span>
         </NButton>
     </span>
 </template>

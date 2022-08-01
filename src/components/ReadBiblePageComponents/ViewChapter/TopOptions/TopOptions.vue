@@ -36,7 +36,7 @@ watch(fontSize, () => {
     <div class="flex items-center justify-center select-none gap-10px text-size-13px items-center py-5px">
         <div class="flex items-center whitespace-nowrap gap-[10px]">
             <span>
-                Font Size: <span class="dark:bg-gray-200 bg-gray-600 dark:bg-opacity-10 bg-opacity-10 p-3px rounded-md">{{ fontSize }}px</span>
+                {{ $t("font_size") }}: <span class="dark:bg-gray-200 bg-gray-600 dark:bg-opacity-10 bg-opacity-10 p-3px rounded-md"> {{ fontSize }} px </span>
             </span>
             <div class="w-130px">
                 <NSlider v-model:value="fontSize" :step="1" :min="13" :max="40" />

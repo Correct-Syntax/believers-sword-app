@@ -4,7 +4,9 @@
             <ShowPrayerList />
         </div>
         <div id="prayer-list-side" class="h-[100%] dark:bg-black dark:bg-opacity-30 bg-black bg-opacity-5 text-center px-30px">
-            <NEmpty class="mt-50px"> This is still in development. This will come soon, I just want to let you know that, in here you can see prayer request send by the other people. </NEmpty>
+            <NEmpty class="mt-50px">
+                This is still in development. This will come soon, I just want to let you know that, in here you can see prayer request shared by others.
+            </NEmpty>
         </div>
     </div>
 </template>
@@ -12,11 +14,11 @@
 import { defineComponent, onMounted } from "vue";
 import Split from "split.js";
 import ShowPrayerList from "./PrayerListPage/ShowPrayerLists.vue";
-import { NEmpty } from "naive-ui"
+import { NEmpty } from "naive-ui";
 export default defineComponent({
     components: {
         ShowPrayerList,
-        NEmpty
+        NEmpty,
     },
     setup() {
         onMounted(() => {

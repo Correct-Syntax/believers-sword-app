@@ -51,7 +51,7 @@ const login = () => {
 </script>
 <template>
     <NForm ref="formValue" :rules="rules" :model="form" label-width="auto">
-        <div class="font-800 text-size-25px mb-30px">Login</div>
+        <div class="font-800 text-size-25px mb-30px">{{ $t("login") }}</div>
         <NFormItem label="Email Address" path="email">
             <NInput class="select-all" v-model:value="form.email" placeholder="Enter Email Address" />
         </NFormItem>
@@ -65,7 +65,7 @@ const login = () => {
                         <Login />
                     </NIcon>
                 </template>
-                Sign In
+                {{ $t("sign_in") }}
             </NButton>
             <NButton quaternary type="info" @click="$emit('clickedRegisterButton')" :disabled="loading">
                 <template #icon>
@@ -73,9 +73,9 @@ const login = () => {
                         <UserFollow />
                     </NIcon>
                 </template>
-                Create Account
+                {{ $t("create_account") }}
             </NButton>
-            <NButton quaternary type="info" @click="emit('clickForgotPassword')" :disabled="loading">Forgot Password</NButton>
+            <NButton quaternary type="info" @click="emit('clickForgotPassword')" :disabled="loading">{{ $t("forgot_password") }}</NButton>
         </div>
     </NForm>
 </template>

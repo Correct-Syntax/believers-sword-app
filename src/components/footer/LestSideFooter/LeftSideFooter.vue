@@ -18,7 +18,9 @@ function clearBookmarkOnSelect() {
                     {{ bookmark.b }}:{{ bookmark.c }}:{{ bookmark.v }}
                     <span class="text-[var(--primaryColor)]">)</span>
                 </div>
-                <NButton class="ml-10px flex items-center justify-center" size="tiny" @click="clearBookmarkOnSelect()"> Clear </NButton>
+                <NButton class="ml-10px flex items-center justify-center" size="tiny" @click="clearBookmarkOnSelect()">
+                    <span class="capitalize">{{ $t("clear") }}</span>
+                </NButton>
             </template>
             <div v-else></div>
         </div>

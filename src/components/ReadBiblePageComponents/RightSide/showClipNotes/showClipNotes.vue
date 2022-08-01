@@ -102,9 +102,9 @@ const getShowOptions = () => true;
 <template>
     <div class="flex flex-col p-7px h-[100%] w-[100%] select-none">
         <div class="text-size-[18px] mb-7px">
-            <h3 class="font-700">Clipped Notes</h3>
+            <h3 class="font-700">{{ $t("clip_notes") }}</h3>
             <div class="mt-15px">
-                <NAutoComplete :options="options" v-model:value="valueRef" placeholder="Write Book Name To Filter" :on-select="selectOption" :get-show="getShowOptions" />
+                <NAutoComplete :options="options" v-model:value="valueRef" :placeholder="$t('write_book_name_to_filter')" :on-select="selectOption" :get-show="getShowOptions" />
             </div>
         </div>
         <div v-if="Object.entries(clipNotes.data).length" class="h-[100%] overflow-y-auto overflowing-div w-[100%] flex flex-col gap-10px text-size-17px leading-snug px-7px">

@@ -109,7 +109,7 @@ watch(rightSideBottomSelectedTab, () => {
                     id="right-side-dictionary-click-to-expand"
                     class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center flex items-center duration-200 active:bg-[var(--primaryColor)] dark:hover:bg-gray-600 hover:bg-gray-300 h-25px"
                 >
-                    Dictionary
+                    {{ $t("dictionary") }}
                 </div>
                 <Dictionary />
             </div>

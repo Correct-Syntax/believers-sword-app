@@ -23,7 +23,9 @@ onMounted(() => {
 <template>
     <div>
         <div class="flex items-center justify-center gap-10px mr-15px">
-            <div class="text-size-[12px]">Zoom:</div>
+            <div class="text-size-[12px]">
+                <span class="capitalize"> {{ $t("zoom") }} </span>:
+            </div>
             <div class="w-90px whitespace-nowrap">
                 <span class="mr-7px">{{ slideValue }}%</span>
                 <NButtonGroup size="small">

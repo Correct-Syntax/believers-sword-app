@@ -43,7 +43,7 @@ function copyMeaning(text: string) {
 <template>
     <div class="p-2 h-[100%] w-[100%]">
         <div class="flex gap-8px h-45px">
-            <NSelect v-model:value="search" filterable placeholder="Search a word" :options="options" :loading="isLoading" clearable remote @search="searchWord" />
+            <NSelect v-model:value="search" filterable :placeholder="$t('search_a_word')" :options="options" :loading="isLoading" clearable remote @search="searchWord" />
             <NInputNumber class="max-w-90px" v-model:value="fontSize" min="11" max="20" />
         </div>
         <div class="h-[calc(100%-65px)] pt-10px pr-10px overflow-y-auto overflowing-div">

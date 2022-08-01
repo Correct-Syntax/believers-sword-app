@@ -36,26 +36,26 @@ const cancelCreate = (): void => reset();
         <NIcon size="20">
             <Add />
         </NIcon>
-        Create a Note
+        <span class="capitalize">{{ $t("create_note") }}</span>
     </div>
     <NModal v-model:show="showCreateNoteModal">
         <NCard style="width: 600px" :bordered="false" size="small">
             <div>
-                <h1 class="text-size-20px font-600 mb-10px">Note Title</h1>
-                <small>Write The Title for your Sermon, title can be updated later</small>
+                <h1 class="text-size-20px font-600 mb-10px capitalize">{{ $t("note_title") }}</h1>
+                <small class="first-letter:capitalize">{{ $t("create_note_title_note") }}</small>
                 <NInput size="large" placeholder="What is the Title of the new Note, can be changed later" v-model:value="createNoteTitle" @keypress.enter="clickCreateButton()" />
                 <div class="py-7px flex justify-end gap-10px">
                     <NButton @click="cancelCreate()">
                         <NIcon size="25">
                             <Close />
                         </NIcon>
-                        Cancel
+                        <span class="capitalize">{{ $t("cancel") }}</span>
                     </NButton>
                     <NButton type="primary" :disabled="createNoteTitle === null || createNoteTitle === ''" @click="clickCreateButton()">
                         <NIcon size="25">
                             <Add />
                         </NIcon>
-                        Create
+                        <span class="capitalize">{{ $t("create") }}</span>
                     </NButton>
                 </div>
             </div>

@@ -94,10 +94,10 @@ watch(searchBiblePage, () => {
 <template>
     <div class="h-[100%] p-7px flex flex-col gap-7px">
         <div class="flex flex-col gap-7px">
-            <NInput v-model:value="searchValue" type="text" placeholder="Type To Search" @keyup.enter="clickSubmitSearch(true)" />
-            <NSelect v-model:value="searchBibleVersion" :options="bibleVersionsOptions" placeholder="Select The Bible Version" />
+            <NInput v-model:value="searchValue" type="text" :placeholder="$t('type_to_search')" @keyup.enter="clickSubmitSearch(true)" />
+            <NSelect v-model:value="searchBibleVersion" :options="bibleVersionsOptions" :placeholder="$t('select_bible_version')" />
             <div class="flex gap-5px">
-                <NSelect v-model:value="searchBibleBook" :options="bibleBookOptions" placeholder="Select Bible Book" />
+                <NSelect v-model:value="searchBibleBook" :options="bibleBookOptions" :placeholder="$t('select_bible_book')" />
                 <NButton type="primary" @click="clickSubmitSearch(true)">
                     <div class="flex items-center gap-[10px]">
                         <NIcon>
@@ -124,7 +124,7 @@ watch(searchBiblePage, () => {
             </div>
         </div>
         <div v-show="Math.floor(searchResultCount / searchResultLimit) > 1" class="w-[100%] flex flex-col items-end gap-7px">
-            <div>Total Verse Result: {{ searchResultCount }}</div>
+            <div>{{ $t("total_verse_result") }}: {{ searchResultCount }}</div>
             <NPagination v-model:page="searchBiblePage" :page-count="Math.floor(searchResultCount / searchResultLimit)" :page-slot="5" />
         </div>
     </div>

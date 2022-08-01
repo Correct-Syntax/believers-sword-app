@@ -77,11 +77,11 @@ const dragOptions = {
     <div class="px-10px h-[100%] overflow-y-auto overflowing-div scroll-bar-sm flex gap-30px">
         <div class="w-[100%] flex flex-col">
             <div class="p-10px flex justify-between items-center select-none min-h-60px">
-                <span class="font-700 text-size-20px">Prayer List </span>
+                <span class="font-700 text-size-20px">{{ $t("prayer_list") }}</span>
                 <NewPrayerItem />
             </div>
-            <NAlert class="mb-1" type="info" title="Ability to Make An Item Done">
-                To make an item as done, drag a prayer item by click + hold, and drag it to the done section.
+            <NAlert class="mb-1" type="info" :title="$t('prayer_list_note_title')">
+                {{ $t("prayer_list_note") }}
             </NAlert>
             <Draggable
                 class="list-group h-[100%] overflow-y-auto overflowing-div pr-10px"
@@ -104,10 +104,10 @@ const dragOptions = {
                                                     <Edit />
                                                 </NIcon>
                                             </template>
-                                            Edit
+                                            {{ $t("edit") }}
                                         </NButton>
                                     </template>
-                                    Edit Prayer Item
+                                    {{ $t("edit_prayer_item") }}
                                 </NTooltip>
                                 <NTooltip trigger="hover" placement="bottom">
                                     <template #trigger>
@@ -120,14 +120,14 @@ const dragOptions = {
                                                                 <TrashCan />
                                                             </NIcon>
                                                         </template>
-                                                        Remove
+                                                        {{ $t("remove") }}
                                                     </NButton>
                                                 </template>
-                                                Are you Sure You want To Remove This Item?
+                                                {{ $t("are_you_sure_to_remove_this_item") }}
                                             </NPopconfirm>
                                         </div>
                                     </template>
-                                    Delete Prayer Item
+                                    {{ $t("delete_prayer_item") }}
                                 </NTooltip>
                             </div>
                         </div>
@@ -137,7 +137,7 @@ const dragOptions = {
         </div>
         <div class="w-[100%] flex flex-col">
             <div class="p-10px flex justify-between items-center min-h-60px">
-                <span class="font-700 text-size-20px select-none">Done </span>
+                <span class="font-700 text-size-20px select-none">{{ $t("done") }} </span>
             </div>
             <Draggable
                 class="list-group h-[100%] overflow-y-auto overflowing-div pr-10px"
@@ -163,11 +163,11 @@ const dragOptions = {
                                                     </template>
                                                 </NButton>
                                             </template>
-                                            Are you Sure You want To Remove This Item?
+                                            {{ $t("are_you_sure_to_remove_this_item") }}
                                         </NPopconfirm>
                                     </div>
                                 </template>
-                                Delete Prayer Item
+                                {{ $t("delete_prayer_item") }}
                             </NTooltip>
                         </div>
                         <div class="prayer-list-content cursor-move" v-html="element.content"></div>

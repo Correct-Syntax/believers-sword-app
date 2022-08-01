@@ -74,7 +74,7 @@ async function selectRoute(path: string) {
         <template #icon>
             <RenderIcon size="15" name="feedback" />
         </template>
-        {{ $t("feedback") }}
+        <span class="capitalize">{{ $t("feedback") }}</span>
     </NButton>
     <NModal :show="showModal">
         <NCard title="Feedback" class="max-w-300px" size="small">

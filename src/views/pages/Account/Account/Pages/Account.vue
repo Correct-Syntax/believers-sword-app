@@ -17,7 +17,7 @@ onMounted(() => {
 <template>
     <div>
         <NAlert title="Account Pages" type="info">
-            Hi! this account page still on development. And we are still working on it. Hoping we can add some features here in the feature. For now you can only see your account.
+            {{ $t("account_page_is_still_on_development") }}
         </NAlert>
         <NForm class="mt-30px">
             <NFormItem label="Email Address">

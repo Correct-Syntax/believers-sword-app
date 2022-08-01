@@ -114,7 +114,7 @@ function clickVerse(verse: any) {
                             <BookmarkFilled />
                         </NIcon>
                     </template>
-                    <div>This Verse is <b> Bookmarked</b></div>
+                    <div>{{ $t("this_verse_is_bookmarked") }}</div>
                 </n-tooltip>
             </span>
         </div>
@@ -149,7 +149,7 @@ function clickVerse(verse: any) {
                         </NIcon>
                     </div>
                 </template>
-                <span>Add to Bookmark</span>
+                <span>{{ $t("add_to_bookmark") }}</span>
             </NTooltip>
             <NTooltip trigger="hover" size="small" placement="left">
                 <template #trigger>

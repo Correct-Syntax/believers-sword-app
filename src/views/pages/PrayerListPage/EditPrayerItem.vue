@@ -203,9 +203,9 @@ defineExpose({
                             <Save />
                         </NIcon>
                     </template>
-                    Save Changes
+                    {{ $t("save_changes") }}
                 </NButton>
-                <NButton ghost @click="showModal = false"> Cancel </NButton>
+                <NButton ghost @click="showModal = false"> {{ $t("cancel") }} </NButton>
             </div>
         </div>
     </NModal>

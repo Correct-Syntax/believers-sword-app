@@ -31,38 +31,38 @@ function selectTab(e: any) {
                     <NIcon size="25">
                         <Search />
                     </NIcon>
-                    <div class="tooltip">Search The Bible</div>
+                    <div class="tooltip">{{ $t("search_the_bible") }}</div>
                 </div>
                 <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'versionsTab' }" @click="selectTab('versionsTab')">
                     <NIcon size="25">
                         <BareMetalServer />
                     </NIcon>
-                    <div class="tooltip">Bible Versions</div>
+                    <div class="tooltip">{{ $t("bible_versions") }}</div>
                 </div>
                 <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'bookmarksTab' }" @click="selectTab('bookmarksTab')">
                     <NIcon size="25">
                         <Bookmark />
                     </NIcon>
-                    <div class="tooltip">Bookmarks</div>
+                    <div class="tooltip">{{ $t("bookmarks") }}</div>
                 </div>
                 <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'MarkedHighlights' }" @click="selectTab('MarkedHighlights')">
                     <NIcon size="25">
                         <PaintBrush />
                     </NIcon>
-                    <div class="tooltip">Highlights</div>
+                    <div class="tooltip">{{ $t("highlights") }}</div>
                 </div>
                 <div class="icon-item" :class="{ 'active-menu-bar-item': tabValue === 'MyNotes' }" @click="selectTab('MyNotes')">
                     <NIcon size="25">
                         <DocumentAttachment />
                     </NIcon>
-                    <div class="tooltip">Clip Notes</div>
+                    <div class="tooltip">{{ $t("clip_notes") }}</div>
                 </div>
             </div>
             <div class="icon-item" :class="{ 'active-menu-bar-item': toggleDictionaryBoxRightSide }" @click="rightSideMenuTabStore.setRightSideBottomSelectedTab('dictionary')">
                 <NIcon size="25">
                     <NotebookReference />
                 </NIcon>
-                <div class="tooltip">Dictionary</div>
+                <div class="tooltip">{{ $t("dictionary") }}</div>
             </div>
         </div>
     </div>

@@ -25,14 +25,14 @@ function getSermons() {
     <div id="drawer-target" class="h-[100%] p-5 overflow-y-auto w-[100%] relative">
         <div v-show="!selectedSermon" class="mb-4 flex items-center justify-between gap-30px sticky">
             <h1 class="text-size-30px font-800 flex items-center gap-10px">
-                Sermons
+                {{ $t("sermons") }}
                 <NTooltip trigger="hover" placement="bottom">
                     <template #trigger>
                         <NIcon> <Information /> </NIcon>
                     </template>
                     <p class="max-w-300px">
                         This is the sermon page where you can watch and read sermons. Sermons are added by the creator of this app. But you can send a link or a document to my
-                        gmail jenuelganawed936@gmail.com. <b>Where going to create a function later to make this work easily.</b>
+                        gmail jenuelganawed936@gmail.com. Where going to create a function later to make this work easily.
                     </p>
                 </NTooltip>
             </h1>

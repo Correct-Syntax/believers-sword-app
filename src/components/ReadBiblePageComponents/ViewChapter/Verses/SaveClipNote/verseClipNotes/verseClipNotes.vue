@@ -58,7 +58,7 @@ const createClipNote = () => {
                             </NIcon>
                         </NButton>
                     </template>
-                    Are you sure to delete this Clip Note?
+                    {{ $t("are_you_sure_to_delete_this_clip_note") }}
                 </NPopconfirm>
             </div>
         </div>

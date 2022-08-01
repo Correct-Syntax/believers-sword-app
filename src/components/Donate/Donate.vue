@@ -17,10 +17,10 @@ const props = defineProps({
     <div>
         <div class="w-[100%] mx-auto text-size-18px leading-normal" :style="`max-width: ${props.textWidth}px`">
             <NAlert title="THIS APP IS ABSOLUTELY FREE" type="warning">
-                <span class="text-size-18px" v-html="$t('donate_first_pag')"></span>
+                <span class="text-size-18px" v-html="$t('donate_alert_first_paragraph')"></span>
             </NAlert>
             <br />
-            <span v-html="$t('donate_second_pag')"></span>
+            <span v-html="$t('donate_alert_paragraph_one')"></span>
         </div>
 
         <div class="max-w-1500px w-[100%] mx-auto flex flex-wrap justify-center mt-50px gap-30px">

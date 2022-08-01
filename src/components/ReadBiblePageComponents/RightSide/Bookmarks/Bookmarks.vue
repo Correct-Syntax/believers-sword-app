@@ -102,9 +102,15 @@ const selectOption = (e: string | number) => {
 <template>
     <div class="flex flex-col p-7px h-[100%] w-[100%] select-none">
         <div class="text-size-[18px] mb-7px">
-            <h3 class="font-700">Bookmarks</h3>
+            <h3 class="font-700 capitalize">{{ $t("bookmarks") }}</h3>
             <div class="mt-15px">
-                <NAutoComplete :options="options" v-model:value="valueRef" placeholder="Write Book Name To Filter" :on-select="selectOption" :get-show="getShowOptions" />
+                <NAutoComplete
+                    :options="options"
+                    v-model:value="valueRef"
+                    :placeholder="$t('write_bookmark_name_to_filter')"
+                    :on-select="selectOption"
+                    :get-show="getShowOptions"
+                />
             </div>
         </div>
         <div v-if="Object.keys(savedBookmarks).length > 0" class="bookmarks-view-wrapper overflow-y-auto overflowing-div w-[100%]">
@@ -131,14 +137,14 @@ const selectOption = (e: string | number) => {
                                     </NIcon>
                                 </div>
                             </template>
-                            Delete Bookmark?
+                            {{ $t("delete_bookmark") }}?
                         </NPopconfirm>
                     </div>
                 </div>
             </template>
         </div>
         <div v-show="!Object.keys(savedBookmarks).length" class="mt-30px">
-            <NEmpty :description="bibleBookOptions != 'all' ? `No Bookmarks in this Book` : `Add Bookmarks Here`" />
+            <NEmpty :description="bibleBookOptions != 'all' ? $t('no_bookmark_in_this_book') : $t('add_bookmark')" />
         </div>
     </div>
 </template>

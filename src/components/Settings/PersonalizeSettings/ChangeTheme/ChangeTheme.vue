@@ -1,12 +1,12 @@
 <template>
     <div>
         <div class="flex items-center gap-15px">
-            <h1 class="font-700">Enable Dark Theme</h1>
+            <h1 class="font-700">{{ $t("enable_dark_theme") }}</h1>
             <div>
                 <NSwitch v-model:value="isDarkTheme" @update:value="handleThemeChange" />
             </div>
         </div>
-        <small>If this is on, the theme will change to dark theme if not it will light theme.</small>
+        <small>{{ $t("what_is_change_theme") }}</small>
     </div>
 </template>
 <script lang="ts">

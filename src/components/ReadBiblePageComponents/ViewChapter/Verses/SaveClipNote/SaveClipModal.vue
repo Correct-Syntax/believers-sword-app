@@ -104,12 +104,12 @@ const saveClipNote = () => {
 
 <template>
     <h1 class="text-size-20px">
-        <span class="font-700">{{ `${selectedVerse.bookName} ${selectedVerse.c}:${selectedVerse.v}` }}</span> <span>Clip Note</span>
+        <span class="font-700">{{ `${selectedVerse.bookName} ${selectedVerse.c}:${selectedVerse.v}` }}</span> <span> {{ $t("clip_note") }} </span>
     </h1>
-    <small>Clip notes, are small notes only for the verse. So that you can emphasize something in the verse.</small>
+    <small>{{ $t("what_is_clip_note") }}</small>
     <div class="pt-10px mb-15px">
-        <h1 class="font-700">Select Clip Color</h1>
-        <small>This will be the color of the paper to be clipped in selected verse.</small>
+        <h1 class="font-700">{{ $t("select_clip_color") }}</h1>
+        <small>{{ $t("what_is_clip_note_color") }}</small>
         <div class="pl-20px">
             <NRadioGroup v-model:value="clipColorSelected" size="medium" :on-update:value="onSelectClipColor">
                 <NSpace>
@@ -129,9 +129,9 @@ const saveClipNote = () => {
         </div>
     </div>
     <div class="clip-note-create-modal">
-        <h1 class="font-700">Clip Note</h1>
+        <h1 class="font-700">{{ $t("clip_note") }}</h1>
         <NAlert v-show="alertShow" size="small" :title="alertText" type="error" />
-        <small>This will be the note that will be written on the paper to be clipped on selected verse.</small>
+        <small>{{ $t("what_is_the_clip_note_content") }}</small>
         <div class="bg-black bg-opacity-20 h-[200px] rounded-md flex flex-col pb-10px">
             <div v-if="editor" class="note-format-buttons flex flex-row items-center justify-between text-size-18px py-5px px-5px dark:bg-black dark:bg-opacity-10">
                 <div class="flex flex-row items-center">
@@ -211,9 +211,9 @@ const saveClipNote = () => {
     </div>
     <div class="pt-15px">
         <NSpace justify="end">
-            <NButton size="small" @click="closeModal()"> Cancel </NButton>
+            <NButton size="small" @click="closeModal()"> {{ $t("cancel") }} </NButton>
             <NButton type="primary" size="small" @click="saveClipNote()">
-                {{ isEditing ? `Save Changes` : `Add Clip Note` }}
+                {{ isEditing ? $t("save_changes") : $t("add_clip_note") }}
             </NButton>
         </NSpace>
     </div>

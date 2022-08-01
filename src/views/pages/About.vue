@@ -17,21 +17,12 @@ const clickLink = (link: string, newWindow = false, title = "Believers Sword App
             <div class="flex justify-center">
                 <img class="mx-10px" src="./../../assets/logo.svg" width="140" />
             </div>
-            <h1 class="text-size-34px font-700 text-center py-30px">About the Application</h1>
+            <h1 class="text-size-34px font-700 text-center py-30px">{{ $t("about_the_application") }}</h1>
         </div>
         <div class="max-w-700px w-[100%] mx-auto">
             <div class="text-size-18px leading-normal">
                 <div class="mb-20px">
-                    <div>
-                        <span class="text-[var(--primaryColor)] font-600">"Believers Sword"</span> is simple and I hope that it will be an amazing application that helps you study
-                        the bible in an enjoyable and enriching manner.
-
-                        <br /><br />
-                        I called it sword, because I believe that when you read the bible and understand what is written, that is the time it becomes a sword. Reading with no
-                        understanding will not become a sword. And to use the sword we have to follow what is written in the Sword/Bible. Example, It is written in the sword that
-                        you should pray, so if ye pray, you are using the sword. The bible says obey your parents in the lord, so if we obey our parents, we are using the sword.
-                        And many more.
-                    </div>
+                    <div v-html="$t('about_the_application_body')"></div>
                     <Divider />
                     <div>
                         <img
@@ -54,18 +45,5 @@ const clickLink = (link: string, newWindow = false, title = "Believers Sword App
             </div>
         </div>
         <DonateComponent :textWidth="700" />
-        <hr v-show="false" class="my-40px opacity-30" />
-        <div v-show="false" class="max-w-700px w-[100%] mx-auto">
-            <h1 class="text-size-18px font-700">Are you a developer?</h1>
-            <p>
-                If your a developer and like or love to help in the development, you can FORK this
-                <span class="cursor-pointer hover:text-[var(--primaryColor)]" @click="clickLink(`https://github.com/Bible-Projects/believers-sword-app`)">
-                    <b>GITHUB REPOSITORY</b> </span
-                >, and you can submit a Request, and I will be reviewing/checking your code contributions.
-            </p>
-            <div class="text-center flex justify-center mt-30px">
-                <img class="rounded-3xl" src="./../../assets/images/toGodBeTheGlory.jpg" alt="" />
-            </div>
-        </div>
     </div>
 </template>

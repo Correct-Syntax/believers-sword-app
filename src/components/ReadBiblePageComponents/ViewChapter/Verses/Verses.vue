@@ -71,7 +71,7 @@ function cancel() {
                         <Copy />
                     </NIcon>
                 </template>
-                Copy
+                {{ $t("copy") }}
             </NButton>
             <NButton size="small" @click="cancel" circle strong title="Copy">
                 <template #icon>

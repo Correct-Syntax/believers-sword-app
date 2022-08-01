@@ -52,31 +52,31 @@ onMounted(() => {
                 <NIcon :size="25">
                     <Book />
                 </NIcon>
-                <div class="tooltip">Read Bible</div>
+                <div class="tooltip capitalize">{{ $t("read_bible") }}</div>
             </div>
             <div class="icon-item" :class="{ 'active-menu-bar-item': showUnRoutePage == 'showSermons' }" @click="selectUnRoutedPage('showSermons')">
                 <NIcon :size="25">
                     <MessageQueue />
                 </NIcon>
-                <div class="tooltip">Go To Sermons</div>
+                <div class="tooltip capitalize">{{ $t("go_to_sermon") }}</div>
             </div>
             <div class="icon-item" :class="{ 'active-menu-bar-item': pathSelected === '/directions' && showUnRoutePage == `false` }" @click="selectRoute('/directions')">
                 <NIcon :size="25">
                     <DirectionFork />
                 </NIcon>
-                <div class="tooltip">Get Directions</div>
+                <div class="tooltip capitalize">{{ $t("get_directions") }}</div>
             </div>
             <div class="icon-item" :class="{ 'active-menu-bar-item': pathSelected === '/prayer_list' && showUnRoutePage == `false` }" @click="selectRoute('/prayer_list')">
                 <NIcon :size="25">
                     <ListDropdown />
                 </NIcon>
-                <div class="tooltip">Prayer List</div>
+                <div class="tooltip capitalize">{{ $t("prayer_list") }}</div>
             </div>
             <div class="icon-item" :class="{ 'active-menu-bar-item': pathSelected === '/games' && showUnRoutePage == `false` }" @click="selectRoute('/games')">
                 <NIcon :size="25">
                     <GameConsole />
                 </NIcon>
-                <div class="tooltip">Play Games</div>
+                <div class="tooltip capitalize">{{ $t("play_games") }}</div>
             </div>
         </div>
         <div class="flex flex-col justify-center items-center gap-10px">
@@ -84,25 +84,25 @@ onMounted(() => {
                 <NIcon :size="25">
                     <LocationHeart />
                 </NIcon>
-                <div class="tooltip">Donate / Support</div>
+                <div class="tooltip capitalize">{{ $t("support") }}</div>
             </div>
             <div class="icon-item heart-donate" :class="{ 'active-menu-bar-item': $route.path === '/about' && showUnRoutePage == `false` }" @click="selectRoute('/about')">
                 <NIcon :size="25">
                     <Help />
                 </NIcon>
-                <div class="tooltip">About</div>
+                <div class="tooltip capitalize">{{ $t("about") }}</div>
             </div>
             <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/account' && showUnRoutePage == `false` }" @click="selectRoute('/account')">
                 <NIcon :size="25">
                     <UserAvatar />
                 </NIcon>
-                <div class="tooltip">Your Account</div>
+                <div class="tooltip capitalize">{{ $t("your_account") }}</div>
             </div>
             <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/settings' && showUnRoutePage == `false` }" @click="store.state.showSettings = true">
                 <NIcon :size="25">
                     <Settings />
                 </NIcon>
-                <div class="tooltip">Settings</div>
+                <div class="tooltip capitalize">{{ $t("settings") }}</div>
             </div>
         </div>
     </div>

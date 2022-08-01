@@ -31,7 +31,7 @@ onMounted(() => {
 <template>
     <div class="h-[100%] w-[100%] select-none p-7px flex flex-col">
         <div class="text-size-[18px] mb-15px">
-            <h3 class="font-700">Select Bible Versions</h3>
+            <h3 class="font-700">{{ $t("select_bible_version") }}</h3>
         </div>
         <div class="flex flex-col h-[calc(100%-25px)]">
             <div class="h-[100%] overflow-y-auto overflowing-div">
@@ -62,7 +62,7 @@ onMounted(() => {
                     <NIcon class="mr-1">
                         <Reset />
                     </NIcon>
-                    Reset Checkbox
+                    {{$t("reset_checkbox")}}
                 </div>
             </div>
         </div>
