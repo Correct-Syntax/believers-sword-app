@@ -13,6 +13,7 @@ import LocationHeart from "@vicons/carbon/LocationHeart";
 import Help from "@vicons/carbon/Help";
 import UserAvatar from "@vicons/carbon/UserAvatar";
 import Settings from "@vicons/carbon/Settings";
+import { ChatbubblesOutline } from "@vicons/ionicons5";
 
 const store = useStore();
 const router = useRouter();
@@ -60,7 +61,18 @@ onMounted(() => {
                 </NIcon>
                 <div class="tooltip capitalize">{{ $t("go_to_sermon") }}</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': pathSelected === '/directions' && showUnRoutePage == `false` }" @click="selectRoute('/directions')">
+            <div class="icon-item" :class="{ 'active-menu-bar-item': pathSelected === '/discussion' && showUnRoutePage == `false` }" @click="selectRoute('/discussion')">
+                <NIcon :size="25">
+                    <ChatbubblesOutline />
+                </NIcon>
+                <div class="tooltip capitalize">{{ $t("discussion") }}</div>
+            </div>
+            <div
+                v-if="false"
+                class="icon-item"
+                :class="{ 'active-menu-bar-item': pathSelected === '/directions' && showUnRoutePage == `false` }"
+                @click="selectRoute('/directions')"
+            >
                 <NIcon :size="25">
                     <DirectionFork />
                 </NIcon>

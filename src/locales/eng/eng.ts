@@ -98,4 +98,5 @@ export default {
     you should pray, so if ye pray, you are using the sword. The bible says obey your parents in the lord, so if we obey our parents, we are using the sword.
     And many more.`,
     are_you_a_developer: "Are you a developer?",
+    discussion: "Discussion",
 }

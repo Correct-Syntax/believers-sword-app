@@ -24,6 +24,11 @@ export const routes: Array<RouteRecordRaw> = [
         component: Directions,
     },
     {
+        path: '/discussion',
+        name: 'Discussion',
+        component: () => import('@/views/pages/Discussion/Discussion.vue'),
+    },
+    {
         path: "/account",
         name: "AccountPage",
         component: AccountPage,
