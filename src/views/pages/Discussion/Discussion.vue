@@ -1,19 +1,12 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import LeftSideMenu from "./LeftSideMenu/LeftSideMenu.vue";
-
-const ads = [
-    {
-        image: "https://laracasts.nyc3.cdn.digitaloceanspaces.com/series/thumbnails/modern-javascript-basics.png",
-        label: "Modern Javascript Basics",
-        description: "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
-    },
-];
+import TopFilter from "./TopFilter/TopFilter.vue";
+import RightSideArea from "./RightSideArea/RightSideArea.vue";
+import { View, AddComment } from "@vicons/carbon";
+import { NButton, NIcon } from "naive-ui";
 
 const selectedMenu = ref<string | null>("all_discussions");
-watch(selectedMenu, (data) => {
-    console.log(data);
-});
 </script>
 <template>
     <div class="h-[100%] h-[100%] overflow-auto overflowing-div scroll-bar-md">
@@ -22,26 +15,42 @@ watch(selectedMenu, (data) => {
                 <LeftSideMenu v-model="selectedMenu" />
             </div>
             <div class="w-[100%]">
-                <div class="flex w-[100%] justify-between">
-                    <div></div>
-                    <div>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia quidem suscipit reprehenderit soluta aliquid rerum odio, mollitia beatae iusto nihil! Fugit
-                        nesciunt repudiandae, asperiores in est error a itaque quibusdam?
+                <TopFilter />
+                <div class="mt-40px">
+                    <div class="flex gap-3 mb-15px" v-for="count in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]" :key="count">
+                        <div>
+                            <img
+                                class="w-80px"
+                                src="https://static.vecteezy.com/system/resources/thumbnails/001/840/612/small/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg"
+                            />
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center">
+                                <h2 class="text-size-20px">This is the title</h2>
+                                <div class="flex items-center gap-5px">
+                                    <div>
+                                        <NIcon>
+                                            <View />
+                                        </NIcon>
+                                        <span class="ml-2">30</span>
+                                    </div>
+                                    <div>
+                                        <NIcon>
+                                            <AddComment />
+                                        </NIcon>
+                                        <span class="ml-2">30</span>
+                                    </div>
+                                    <NButton size="small" round tertiary>Here</NButton>
+                                </div>
+                            </div>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel nam quasi suscipit mollitia. Iure aut sequi ea vero aliquam eaque, est, nisi non nesciunt
+                            adipisci praesentium soluta inventore laudantium dolorum!
+                        </div>
                     </div>
                 </div>
-                <div></div>
             </div>
             <div class="w-350px sticky top-5 self-start">
-                <div v-for="ad in ads" :key="ad.label" class="p-3 text-center">
-                    <img class="w-100px mx-auto mb-2" :src="ad.image" />
-                    <h2 class="font-800">{{ ad.label }}</h2>
-                    <p>{{ ad.description }}</p>
-                    <button
-                        class="text-left px-10px py-9px rounded-xl dark:hover:text-[var(--primaryColor)] text-size-15px dark:bg-blue-100 dark:bg-opacity-5 hover:bg-gray-900 hover:bg-opacity-5 mt-3"
-                    >
-                        Click Fore more Details
-                    </button>
-                </div>
+                <RightSideArea />
             </div>
         </div>
     </div>
