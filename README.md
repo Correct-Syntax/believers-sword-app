@@ -34,11 +34,16 @@ If you like to support my simple ministry, you can do by one of this ways:
 ```bash
 yarn serve
 ```
+
+
 ### To build and upload for dev test or nightly version
 this will build the application and upload it available for testing and nightly version.
+for this to work, need to install `yarn install -g json`, this will be used for handling renaming the package.json file.
 ```bash
 yarn up:night
 ```
+
+
 ### To build and upload it for Prod
 this will build the application and upload it available for live prod.
 ```bash
