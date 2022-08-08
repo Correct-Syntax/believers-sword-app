@@ -19,8 +19,8 @@ Believers Sword App is an application to help you study the bible. Not only that
 - [x] take notes
 - [x] prayer list
 - [x] sermon page to watch or read sermons
-- [ ] believers forum - where people discuss different concepts
-- [ ] play games - play some simple games to reserve the things that you learned.
+- [ ] believers forum/discussion - where people discuss different concepts
+- [x] play games - play some simple games to reserve the things that you learned.
 - [x] can customize colors of your liking. Also has dark and light theme.
 
 # Support
