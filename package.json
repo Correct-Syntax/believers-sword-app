@@ -1,13 +1,14 @@
 {
   "name": "believers-sword-app",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "private": true,
   "author": "Jenuel Oras Ganawed <jenuelganawed936@gmail.com> (https://jenuelganawed.com)",
   "description": "Believers Sword App is a desktop application for learning and studying bible. This app is free to use.",
   "main": "background.js",
   "scripts": {
-    "build": "cross-env DEVELOPMENT_MODE=false VUE_APP_DEV=false vue-cli-service electron:build",
-    "serve": "cross-env DEVELOPMENT_MODE=true VUE_APP_DEV=true vue-cli-service electron:serve",
+    "up:nightly:build": "cross-env DEVELOPMENT_MODE=false VUE_APP_NIGHTLY_BUILD=true VUE_APP_DEV=false vue-cli-service electron:build",
+    "build": "cross-env DEVELOPMENT_MODE=false VUE_APP_NIGHTLY_BUILD=false VUE_APP_DEV=false vue-cli-service electron:build",
+    "serve": "cross-env DEVELOPMENT_MODE=true VUE_APP_NIGHTLY_BUILD=true VUE_APP_DEV=true vue-cli-service electron:serve",
     "serve:all": "concurrently \"yarn serve\" \"serve_be.bat\"",
     "serve:be": "serve_be.bat",
     "postinstall": "electron-builder install-app-deps",
@@ -15,6 +16,7 @@
     "rebuild": "electron-rebuild -f -w sqlite3",
     "release": "RELEASE=YES vue-cli-service electron:build",
     "up:local": "release_local.bat",
+    "up:night": "nightly.bat",
     "up": "release.bat",
     "cert": "electron-builder create-self-signed-cert -p BroJenuel",
     "copy:dictionary": "copy-english-dictionary.bat"
