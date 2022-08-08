@@ -43,3 +43,4 @@ store_dev
 # store
 copy-english-dictionary.bat
 nightly.bat
+package.json
