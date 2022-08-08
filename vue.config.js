@@ -1,3 +1,4 @@
+const isNightlyBuild = process.env.VUE_APP_NIGHTLY_BUILD === "true";
 module.exports = {
     publicPath: process.env.FOR_WEB === 'true'
         ? 'app'
@@ -5,13 +6,13 @@ module.exports = {
     pluginOptions: {
         electronBuilder: {
             builderOptions: {
-                productName: "Believers Sword",
-                appId: "com.believers-sword.app",
+                productName: isNightlyBuild ? "Believers Sword Dev-Test" : "Believers Sword",
+                appId: isNightlyBuild ? "com.believers-sword-dev-test.app" : "com.believers-sword.app",
                 win: {
                     target: [
                         "nsis",
                     ],
-                    icon: "resources/icons/icon.ico"
+                    icon: isNightlyBuild ? "resources/icons/nightly-icon.ico" : "resources/icons/icon.ico"
                 },
                 nsis: {
                     oneClick: false,

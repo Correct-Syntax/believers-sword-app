@@ -42,3 +42,4 @@ store_dev
 /**/*.nupkg
 # store
 copy-english-dictionary.bat
+nightly.bat
