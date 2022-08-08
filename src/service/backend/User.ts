@@ -43,6 +43,7 @@ export const userLogin = async (email: string, password: string): Promise<boolea
 
     if (!googleSignIn) return false;
 
+    axios.defaults.headers.common['Authorization'] = `Bearer ${session.get('backendToken')}`;
     store.dispatch("isUserLoggedToggle", true);
     return true;
 }
@@ -100,7 +101,13 @@ export const userLogout = async (): Promise<boolean> => {
 
     if (!googleSignOut) return false;
 
+    axios.defaults.headers.common['Authorization'] = false;
     session.remove('user');
     store.dispatch("isUserLoggedToggle", false);
     return true;
+}
+
+
+export const isUserLogged = () => {
+    return session.get('user') && session.get('backendToken') ? true : false;
 }
