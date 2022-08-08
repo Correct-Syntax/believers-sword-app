@@ -1,3 +1,5 @@
+const isNightlyBuild = process.env.VUE_APP_NIGHTLY_BUILD === "true";
+
 export default {
     close: "Close",
     login: "Login",
@@ -5,7 +7,7 @@ export default {
     dark_theme: "Dark Theme",
     feedback: "Feedback",
     add_feedback: "Add feedback",
-    believers_sword: "Believers Sword",
+    believers_sword: isNightlyBuild ? "Believers Sword Dev Test" : "Believers Sword",
     donate_alert_first_paragraph: "I am sharing this application to you for <b>FREE</b>. The word of God is <b>FREE</b>, so I am forbidding anyone selling a copy.",
     donate_alert_paragraph_one: "If the good Lord lays it upon your heart to help, please do so! You can <b>Support</b> this application financially, you can donate by selecting any of the choices bellow.Even if you donate or not, this application is always free on the internet. <b> All donations will be used for the development of this application, and support for the developer. </b>.",
     read_bible: "Read Bible",
