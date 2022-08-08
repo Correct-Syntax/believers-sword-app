@@ -6,9 +6,9 @@
   "description": "Believers Sword App is a desktop application for learning and studying bible. This app is free to use.",
   "main": "background.js",
   "scripts": {
-    "up:nightly:build": "cross-env DEVELOPMENT_MODE=false VUE_APP_NIGHTLY_BUILD=true VUE_APP_DEV=false vue-cli-service electron:build",
-    "build": "cross-env DEVELOPMENT_MODE=false VUE_APP_NIGHTLY_BUILD=false VUE_APP_DEV=false vue-cli-service electron:build",
-    "serve": "cross-env DEVELOPMENT_MODE=true VUE_APP_NIGHTLY_BUILD=true VUE_APP_DEV=true vue-cli-service electron:serve",
+    "up:nightly:build": "yarn nightly:rename && cross-env DEVELOPMENT_MODE=false VUE_APP_NIGHTLY_BUILD=true VUE_APP_DEV=false vue-cli-service electron:build",
+    "build": "yarn nightly:rename:reset && cross-env DEVELOPMENT_MODE=false VUE_APP_NIGHTLY_BUILD=false VUE_APP_DEV=false vue-cli-service electron:build",
+    "serve": "yarn nightly:rename && cross-env DEVELOPMENT_MODE=true VUE_APP_NIGHTLY_BUILD=true VUE_APP_DEV=true vue-cli-service electron:serve",
     "serve:all": "concurrently \"yarn serve\" \"serve_be.bat\"",
     "serve:be": "serve_be.bat",
     "postinstall": "electron-builder install-app-deps",
@@ -19,7 +19,9 @@
     "up:night": "nightly.bat",
     "up": "release.bat",
     "cert": "electron-builder create-self-signed-cert -p BroJenuel",
-    "copy:dictionary": "copy-english-dictionary.bat"
+    "copy:dictionary": "copy-english-dictionary.bat",
+    "nightly:rename": "json -I -f package.json -e \"this.name='believers-sword-app-dev-nightly'\"",
+    "nightly:rename:reset": "json -I -f package.json -e \"this.name='believers-sword-app'\""
   },
   "dependencies": {
     "@intlify/vue-i18n-loader": "^4.2.0",

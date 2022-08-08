@@ -29,3 +29,18 @@ If you like to support my simple ministry, you can do by one of this ways:
 - [GCash](https://i.ibb.co/kJGg32y/GCash-My-QR-06102021230745.png)
 - [BuyMeCoffee.com](https://www.buymeacoffee.com/BroJenuel)
 - [Ko-Fi.com](https://ko-fi.com/brojenuel)
+
+### To Serve
+```bash
+yarn serve
+```
+### To build and upload for dev test or nightly version
+this will build the application and upload it available for testing and nightly version.
+```bash
+yarn up:night
+```
+### To build and upload it for Prod
+this will build the application and upload it available for live prod.
+```bash
+yarn up
+```
