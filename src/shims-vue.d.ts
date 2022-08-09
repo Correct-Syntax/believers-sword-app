@@ -7,3 +7,5 @@ declare module '*.vue' {
     $session: any
   }
 }
+
+declare module 'sanitize-html';

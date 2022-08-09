@@ -1,39 +1,16 @@
 <script setup lang="ts">
 import { NModal, NCard, NInput, NPopselect, NButton, NIcon, useMessage } from "naive-ui";
 import { computed, h, ref } from "vue";
-// import { DataClass, NotebookReference } from "@vicons/carbon"
 import Editor from "@/components/Editor/Editor.vue"
-import { Add16Filled, ChatMultiple16Regular, ChatBubblesQuestion24Regular, EmojiHand20Regular, LightbulbFilament24Regular } from "@vicons/fluent"
-// import { extensionsUsed } from "@/components/Editor/editor-options";
+import { Add16Filled } from "@vicons/fluent"
 import axios from "axios";
+import discussion_categories from "../../discussion_categories";
 
 const emit = defineEmits(['close']);
 defineProps(['modelValue']);
 const EditorValue = ref(null);
-// const extensions = extensionsUsed;
 const category = ref(null);
-const categories = [
-    {
-        icon: ChatMultiple16Regular,
-        label: "General",
-        value: "general"
-    },
-    {
-        icon: LightbulbFilament24Regular,
-        label: "Ideas",
-        value: "ideas"
-    },
-    {
-        icon: ChatBubblesQuestion24Regular,
-        label: "Question",
-        value: "question"
-    },
-    {
-        icon: EmojiHand20Regular,
-        label: "Show and Tell",
-        value: "show and tell"
-    }
-];
+const categories = discussion_categories;
 function renderLabel(option: any) {
     return h("span", { class: "flex gap-5px items-center text-size-16px" }, [
         h(NIcon, { size: 25 }, { default: () => h(option.icon) }),

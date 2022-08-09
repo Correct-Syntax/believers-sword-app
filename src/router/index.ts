@@ -8,6 +8,7 @@ import PrayerList from "@/views/pages/PrayerList.vue";
 import Games from "@/views/pages/Games.vue";
 import Donate from "@/views/pages/Donate.vue";
 import Discussion from '@/views/pages/Discussion/Discussion.vue'
+import DiscussionHomePage from '@/views/pages/Discussion/DiscussionHomePage.vue'
 
 export const routes: Array<RouteRecordRaw> = [
     {
@@ -26,8 +27,14 @@ export const routes: Array<RouteRecordRaw> = [
     },
     {
         path: '/discussion',
-        name: 'Discussion',
         component: Discussion,
+        children: [
+            {
+                path: "",
+                name: 'Discussion',
+                component: DiscussionHomePage,
+            }
+        ]
     },
     {
         path: "/account",
