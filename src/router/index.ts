@@ -9,6 +9,7 @@ import Games from "@/views/pages/Games.vue";
 import Donate from "@/views/pages/Donate.vue";
 import Discussion from '@/views/pages/Discussion/Discussion.vue'
 import DiscussionHomePage from '@/views/pages/Discussion/DiscussionHomePage.vue'
+import ViewPost from "@/views/pages/Discussion/pages/ViewPost.vue"
 
 export const routes: Array<RouteRecordRaw> = [
     {
@@ -33,6 +34,11 @@ export const routes: Array<RouteRecordRaw> = [
                 path: "",
                 name: 'Discussion',
                 component: DiscussionHomePage,
+            },
+            {
+                path: '/view/:id',
+                name: 'DiscussionView',
+                component: ViewPost
             }
         ]
     },

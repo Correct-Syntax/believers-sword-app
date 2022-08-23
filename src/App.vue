@@ -132,7 +132,8 @@ watch(primaryColors, () => {
 }
 .ProseMirror,
 .prayer-list,
-.prayer-list-content {
+.prayer-list-content,
+.post-content {
     s {
         text-decoration: line-through;
         text-decoration-color: red;
@@ -168,7 +169,7 @@ watch(primaryColors, () => {
     }
 
     p {
-        @apply text-size-14px leading-normal;
+        @apply text-size-15px leading-normal;
     }
 
     ol,

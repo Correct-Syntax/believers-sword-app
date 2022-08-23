@@ -22,8 +22,11 @@ export const discussionPostStore = defineStore('discussionPostStore', () => {
             posts.value = []
         },
         addPosts,
-        async getPosts(options: { search: string, page: number }) {
-            setPage(options.page);
+        async getPosts(options: { search: string, page: number }, refresh = false) {
+            setPage(refresh ? 1 : options.page);
+            if (refresh) {
+                posts.value = [];
+            }
             await axios.get(`/api/v1/post/all`, {
                 params: options
             }).then(({ data }) => {

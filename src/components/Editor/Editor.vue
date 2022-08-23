@@ -18,7 +18,7 @@ import {
     Redo,
 } from "@vicons/carbon";
 import { extensionsUsed } from "./editor-options";
-import { watch } from "vue";
+// import { watch } from "vue";
 const emit = defineEmits(['update:modelValue']);
 const props = defineProps(['modelValue']);
 const editor: any = useEditor({
@@ -29,10 +29,6 @@ const editor: any = useEditor({
     }
 });
 
-
-watch(props.modelValue, (value) => {
-    if (value) editor.setContent(value);
-});
 </script>
 
 <template>
