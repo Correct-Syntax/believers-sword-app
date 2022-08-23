@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { View, AddComment } from "@vicons/carbon";
-import { NButton, NIcon } from "naive-ui";
+import { NButton, NIcon, NTag } from "naive-ui";
 import { discussionPostStore } from "@/store/DiscussionPostsState";
 import { onMounted } from "vue";
 import { generateText } from "@tiptap/vue-3";
@@ -70,15 +70,25 @@ onMounted(() => {
                             <NIcon>
                                 <View />
                             </NIcon>
-                            <span class="ml-2">30</span>
+                            <span class="ml-2">
+                                {{ post.views ? post.views : 0 }}
+                            </span>
                         </div>
                         <div>
                             <NIcon>
                                 <AddComment />
                             </NIcon>
-                            <span class="ml-2">30</span>
+                            <span class="ml-2">
+                                {{ post.comment_count ? post.comment_count : 0 }}
+                            </span>
                         </div>
-                        <NButton size="small" round tertiary>Here</NButton>
+                        <!-- <NButton size="small" round tertiary>Here</NButton> -->
+                        <NTag round type="info">
+                            {{ post.category }}
+                            <!-- <template #icon>
+                                <NIcon :component="ChatMultiple16Regular" />
+                            </template> -->
+                        </NTag>
                     </div>
                 </div>
                 <div>{{ sanitizeHtml(generateText(post.content, extensionsUsed).trim()) }}</div>

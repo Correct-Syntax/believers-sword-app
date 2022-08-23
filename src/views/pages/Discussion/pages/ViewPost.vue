@@ -30,7 +30,7 @@ onMounted(() => {
 </script>
 <template>
     <div class="post-top-bar mb-5 top-0 sticky">
-        <NButton @click="router.go(-1)"> Go Back</NButton>
+        <NButton round tertiary @click="router.go(-1)"> Go Back</NButton>
     </div>
     <NCard>
         <div class="post-header pb-10">
@@ -45,15 +45,13 @@ onMounted(() => {
             </div>
             <NSkeleton height="40px" v-else />
         </div>
-        <div class="post-content">
-            <div v-if="post && !isLoading" v-html="sanitizeHtml(generateHTML(post.content, extensionsUsed).trim())"></div>
-            <div v-else class="flex flex-col gap-2">
-                <span class="text-right -mb-1">
-                    <NSkeleton text style="width: 90%" />
-                </span>
-                <NSkeleton text :repeat="17" />
-                <NSkeleton text style="width: 60%" />
-            </div>
+        <div v-if="post && !isLoading" class="post-content" v-html="sanitizeHtml(generateHTML(post.content, extensionsUsed).trim())"></div>
+        <div v-else class="flex flex-col gap-2">
+            <span class="text-right -mb-1">
+                <NSkeleton text style="width: 90%" />
+            </span>
+            <NSkeleton text :repeat="17" />
+            <NSkeleton text style="width: 60%" />
         </div>
     </NCard>
 </template>

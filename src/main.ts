@@ -12,6 +12,7 @@ declare global {
     interface Window {
         message: MessageProviderInst;
         notification: NotificationProviderInst
+        discussionContentScrollTop: any
     }
 }
 

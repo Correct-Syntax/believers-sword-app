@@ -1,46 +1,39 @@
 <script lang="ts" setup>
 import { NPopover, NIcon } from "naive-ui";
 import { useEditor, EditorContent } from "@tiptap/vue-3";
-
-import {
-    TextScale,
-    ExpandCategories,
-    TextFont,
-    TextBold,
-    TextItalic,
-    TextUnderline,
-    TextStrikethrough,
-    Code,
-    List,
-    ListNumbered,
-    Quotes,
-    Undo,
-    Redo,
-} from "@vicons/carbon";
+import { TextScale, ExpandCategories, TextFont, TextBold, TextItalic, TextUnderline, TextStrikethrough, Code, List, ListNumbered, Quotes, Undo, Redo } from "@vicons/carbon";
 import { extensionsUsed } from "./editor-options";
+
 // import { watch } from "vue";
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(["update:modelValue"]);
+const props = defineProps({
+    maxheight: {
+        type: Number,
+        default: 900,
+    },
+});
+
 // const props = defineProps(['modelValue']);
 const editor: any = useEditor({
     content: "",
     extensions: extensionsUsed,
     onUpdate: (content) => {
-        emit('update:modelValue', content.editor.getJSON());
-    }
+        emit("update:modelValue", content.editor.getJSON());
+    },
 });
-
 </script>
 
 <template>
     <div class="create-new-prayer-list-editor">
-        <div v-if="editor"
-            class="note-format-buttons flex flex-row items-center justify-between text-size-18px py-5px px-5px dark:bg-black dark:bg-opacity-10">
+        <div v-if="editor" class="note-format-buttons flex flex-row items-center justify-between text-size-18px py-5px px-5px dark:bg-black dark:bg-opacity-10">
             <div class="flex flex-row items-center">
                 <div>
                     <NPopover placement="bottom" trigger="hover">
                         <template #trigger>
-                            <button class="text-size-20px opacity-50 hover:opacity-95 cursor-pointer flex items-center"
-                                title="Headings" :class="{
+                            <button
+                                class="text-size-20px opacity-50 hover:opacity-95 cursor-pointer flex items-center"
+                                title="Headings"
+                                :class="{
                                     'is-active':
                                         editor.isActive('heading', { level: 1 }) ||
                                         editor.isActive('heading', { level: 2 }) ||
@@ -48,7 +41,8 @@ const editor: any = useEditor({
                                         editor.isActive('heading', { level: 4 }) ||
                                         editor.isActive('heading', { level: 5 }) ||
                                         editor.isActive('heading', { level: 6 }),
-                                }">
+                                }"
+                            >
                                 <NIcon>
                                     <TextScale />
                                 </NIcon>
@@ -58,34 +52,46 @@ const editor: any = useEditor({
                             </button>
                         </template>
                         <span class="outside-external-note-button flex flex-col whitespace-nowrap text-size-18px">
-                            <button class="text-size-32px"
+                            <button
+                                class="text-size-32px"
                                 @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-                                :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
+                                :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
+                            >
                                 H1
                             </button>
-                            <button class="text-size-28px"
+                            <button
+                                class="text-size-28px"
                                 @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-                                :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
+                                :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
+                            >
                                 H2
                             </button>
-                            <button class="text-size-25px"
+                            <button
+                                class="text-size-25px"
                                 @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-                                :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
+                                :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
+                            >
                                 H3
                             </button>
-                            <button class="text-size-20px"
+                            <button
+                                class="text-size-20px"
                                 @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
-                                :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }">
+                                :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
+                            >
                                 H4
                             </button>
-                            <button class="text-size-18px"
+                            <button
+                                class="text-size-18px"
                                 @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
-                                :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }">
+                                :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
+                            >
                                 H5
                             </button>
-                            <button class="text-size-16px"
+                            <button
+                                class="text-size-16px"
                                 @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
-                                :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }">
+                                :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
+                            >
                                 H6
                             </button>
                         </span>
@@ -93,32 +99,27 @@ const editor: any = useEditor({
                 </div>
                 <span class="dark:bg-gray-600 bg-gray-400 w-5px h-5px rounded-md mx-10px rounded-1"></span>
                 <div class="flex flex-row">
-                    <button title="Normal Text" @click="editor.chain().focus().setParagraph().run()"
-                        :class="{ 'is-active': editor.isActive('paragraph') }">
+                    <button title="Normal Text" @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
                         <NIcon>
                             <TextFont />
                         </NIcon>
                     </button>
-                    <button title="Bold" @click="editor.chain().focus().toggleBold().run()"
-                        :class="{ 'is-active': editor.isActive('bold') }">
+                    <button title="Bold" @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
                         <NIcon>
                             <TextBold />
                         </NIcon>
                     </button>
-                    <button title="Italic" @click="editor.chain().focus().toggleItalic().run()"
-                        :class="{ 'is-active': editor.isActive('italic') }">
+                    <button title="Italic" @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
                         <NIcon>
                             <TextItalic />
                         </NIcon>
                     </button>
-                    <button title="Underline" @click="editor.chain().focus().toggleUnderline().run()"
-                        :class="{ 'is-active': editor.isActive('underline') }">
+                    <button title="Underline" @click="editor.chain().focus().toggleUnderline().run()" :class="{ 'is-active': editor.isActive('underline') }">
                         <NIcon>
                             <TextUnderline />
                         </NIcon>
                     </button>
-                    <button title="Strike Through" @click="editor.chain().focus().toggleStrike().run()"
-                        :class="{ 'is-active': editor.isActive('strike') }">
+                    <button title="Strike Through" @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
                         <NIcon>
                             <TextStrikethrough />
                         </NIcon>
@@ -126,10 +127,8 @@ const editor: any = useEditor({
                 </div>
                 <span class="dark:bg-gray-600 bg-gray-400 w-5px h-5px rounded-md mx-10px rounded-1"></span>
                 <div>
-                    <button title="Code Text" @click="editor.chain().focus().toggleCode().run()"
-                        :class="{ 'is-active': editor.isActive('code') }">C</button>
-                    <button title="Code Block" @click="editor.chain().focus().toggleCodeBlock().run()"
-                        :class="{ 'is-active': editor.isActive('codeBlock') }">
+                    <button title="Code Text" @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">C</button>
+                    <button title="Code Block" @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
                         <NIcon>
                             <Code />
                         </NIcon>
@@ -138,21 +137,18 @@ const editor: any = useEditor({
                 <span class="dark:bg-gray-600 bg-gray-400 w-5px h-5px rounded-md mx-10px rounded-1"></span>
 
                 <div>
-                    <button title="Unordered List" @click="editor.chain().focus().toggleBulletList().run()"
-                        :class="{ 'is-active': editor.isActive('bulletList') }">
+                    <button title="Unordered List" @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
                         <NIcon>
                             <List />
                         </NIcon>
                     </button>
-                    <button title="Ordered List" @click="editor.chain().focus().toggleOrderedList().run()"
-                        :class="{ 'is-active': editor.isActive('orderedList') }">
+                    <button title="Ordered List" @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
                         <NIcon>
                             <ListNumbered />
                         </NIcon>
                     </button>
 
-                    <button title="Quote" @click="editor.chain().focus().toggleBlockquote().run()"
-                        :class="{ 'is-active': editor.isActive('blockquote') }">
+                    <button title="Quote" @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
                         <NIcon>
                             <Quotes />
                         </NIcon>
@@ -173,7 +169,7 @@ const editor: any = useEditor({
                 </div>
             </div>
         </div>
-        <EditorContent :editor="editor" />
+        <EditorContent :style="`max-height: ${props.maxheight}px`" class="overflow-y-scroll overflowing-div scroll-bar-md" :editor="editor" />
     </div>
 </template>
 
