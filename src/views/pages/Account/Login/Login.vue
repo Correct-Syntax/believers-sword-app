@@ -29,22 +29,32 @@ const rules = {
 const login = () => {
     formValue.value?.validate(async (errors) => {
         if (!errors) {
-            loading.value = true;
-            const loginSuccessful = await userLogin(form.value.email, form.value.password);
-            if (loginSuccessful) {
-                window.notification.success({
-                    title: "Login Successful",
-                    content: "You are successfully logged to believers sword.",
-                    duration: 5000,
-                });
-            } else {
+            try {
+                loading.value = true;
+                const loginSuccessful = await userLogin(form.value.email, form.value.password);
+
+                if (loginSuccessful) {
+                    window.notification.success({
+                        title: "Login Successful",
+                        content: "You are successfully logged to believers sword.",
+                        duration: 5000,
+                    });
+                } else {
+                    window.notification.error({
+                        title: "Login Unsuccessful",
+                        content: "Your Email or Password is wrong.",
+                        duration: 5000,
+                    });
+                }
+                loading.value = false;
+            } catch (e) {
                 window.notification.error({
                     title: "Login Unsuccessful",
-                    content: "Your Email or Password is wrong.",
+                    content: e as string,
                     duration: 5000,
                 });
+                loading.value = false;
             }
-            loading.value = false;
         }
     });
 };
@@ -75,7 +85,9 @@ const login = () => {
                 </template>
                 {{ $t("create_account") }}
             </NButton>
-            <NButton quaternary type="info" @click="emit('clickForgotPassword')" :disabled="loading">{{ $t("forgot_password") }}</NButton>
+            <NButton quaternary type="info" @click="emit('clickForgotPassword')" :disabled="loading">{{
+                $t("forgot_password")
+            }}</NButton>
         </div>
     </NForm>
 </template>

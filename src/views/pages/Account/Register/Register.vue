@@ -66,39 +66,48 @@ const register = () => {
     formValue.value?.validate(async (errors) => {
         if (!errors) {
             loading.value = true;
-            const isUserCreateSuccess = await createUserAccount(form.value.email, form.value.password);
-            if (isUserCreateSuccess) {
-                const n = window.notification["success"]({
-                    title: "Successfully Submitted!",
-                    description: "From The Creator",
-                    content: `You account is successfully created. I would like to express my gratitude for you being a part of believers sword. Use your newly created account to login.`,
-                    duration: 11000,
-                    meta: dayjs().format("MMM DD, YYYY"),
-                    action: () =>
-                        h(
-                            NButton,
-                            {
-                                text: true,
-                                type: "primary",
-                                onClick: () => {
-                                    n.destroy();
-                                },
-                            },
-                            {
-                                default: () => "Mark as Read",
-                            }
-                        ),
-                });
+            try {
+                const isUserCreateSuccess = await createUserAccount(form.value.email, form.value.password);
 
-                // reset form and close modal
-                form.value.email = null;
-                form.value.password = null;
-                form.value.retypePassword = null;
-                emit("cancelClicked");
-            } else {
+                if (isUserCreateSuccess) {
+                    const n = window.notification["success"]({
+                        title: "Successfully Submitted!",
+                        description: "From The Creator",
+                        content: `You account is successfully created. I would like to express my gratitude for you being a part of believers sword. Use your newly created account to login.`,
+                        duration: 11000,
+                        meta: dayjs().format("MMM DD, YYYY"),
+                        action: () =>
+                            h(
+                                NButton,
+                                {
+                                    text: true,
+                                    type: "primary",
+                                    onClick: () => {
+                                        n.destroy();
+                                    },
+                                },
+                                {
+                                    default: () => "Mark as Read",
+                                }
+                            ),
+                    });
+
+                    // reset form and close modal
+                    form.value.email = null;
+                    form.value.password = null;
+                    form.value.retypePassword = null;
+                    emit("cancelClicked");
+                } else {
+                    window.notification.error({
+                        title: "Ops, System Error",
+                        content: "It seems like we were not able to create your account. Please Recheck the field and submit again.",
+                        duration: 5000,
+                    });
+                }
+            } catch (e) {
                 window.notification.error({
                     title: "Ops, System Error",
-                    content: "It seems like we were not able to create your account. Please Recheck the field and submit again.",
+                    content: e as string,
                     duration: 5000,
                 });
             }

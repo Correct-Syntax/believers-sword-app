@@ -13,14 +13,22 @@ const message = useMessage();
 const notification = useNotification();
 
 const logout = async () => {
-    let isLoggedOut = await userLogout();
-    if (isLoggedOut) message.success("Successfully Logged Out.");
-    else
+    try {
+        let isLoggedOut = await userLogout();
+        if (isLoggedOut) message.success("Successfully Logged Out.");
+        else
+            notification.error({
+                content: "Oops, their is an error logging out.",
+                meta: dayjs(new Date()).format("MMMM DD, YYYY hh:mm:ss a"),
+                duration: 5000,
+            });
+    } catch (e) {
         notification.error({
-            content: "Oops, their is an error logging out.",
-            meta: dayjs(new Date()).format("MMMM DD, YYYY hh:mm:ss a"),
+            title: "Error",
+            content: e as string,
             duration: 5000,
         });
+    }
 };
 
 function renderIcon(icon: Component) {

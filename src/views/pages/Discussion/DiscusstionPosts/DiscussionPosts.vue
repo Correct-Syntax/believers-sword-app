@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { View, AddComment } from "@vicons/carbon";
-import { NButton, NIcon, NTag } from "naive-ui";
+import { NButton, NIcon, NTag, useNotification } from "naive-ui";
 import { discussionPostStore } from "@/store/DiscussionPostsState";
-import { onMounted } from "vue";
+import { h, onMounted } from "vue";
 import { generateText } from "@tiptap/vue-3";
 import { extensionsUsed } from "@/components/Editor/editor-options";
 import sanitizeHtml from "sanitize-html";
 import { ThumbsUp, ThumbsUpFilled, ThumbsDown, ThumbsDownFilled } from "@vicons/carbon";
 import { useRouter } from "vue-router";
+import { isUserLogged } from "@/service/backend/User";
+import Axios from "@/service/Axios/Axios";
 
+const notification = useNotification();
 const postStore = discussionPostStore();
 const router = useRouter();
 function countRender(upVoteCount: number, downVoteCount: number) {
@@ -29,6 +32,46 @@ const getPosts = async (refresh = false) => {
     }
 };
 
+function clickThumb(discussion: any, isThumbsUp = 1) {
+    if (!isUserLogged()) {
+        notification["error"]({
+            title: "You are not logged in",
+            content: "Login so that the action will be executed",
+            duration: 4000,
+            action: () =>
+                h(
+                    NButton,
+                    {
+                        text: true,
+                        type: "primary",
+                        onClick: () => {
+                            router.push({ name: "AccountPage" });
+                        },
+                    },
+                    {
+                        default: () => "Go To Login Page",
+                    }
+                ),
+        });
+        return;
+    }
+    console.log(discussion);
+    Axios.put(`/api/v1/post/${isThumbsUp ? "up" : "down"}/${discussion._id}`)
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            notification["error"]({
+                meta:
+                    error.response && error.response.data && error.response.data.message
+                        ? error.response.data.message
+                        : "Their is an error!",
+                content: "Oops! Their is an error.",
+                duration: 4000,
+            });
+        });
+}
+
 defineExpose({
     getPosts,
 });
@@ -46,13 +89,21 @@ onMounted(() => {
             @click="router.push({ name: 'DiscussionView', params: { id: post._id } })"
         >
             <div class="flex flex-col gap-1 items-center">
-                <NIcon size="25" class="dark:hover:text-blue-400 hover:text-blue-600">
+                <NIcon
+                    size="25"
+                    v-on:click.stop="clickThumb(post, 1)"
+                    class="dark:hover:text-blue-400 hover:text-blue-600"
+                >
                     <ThumbsUp />
                 </NIcon>
                 <div class="text-size-20px">
                     {{ countRender(post.up_vote_count, post.down_vote_count) }}
                 </div>
-                <NIcon size="25" class="dark:hover:text-red-500 hover:text-red-600">
+                <NIcon
+                    size="25"
+                    v-on:click.stop="clickThumb(post, 0)"
+                    class="dark:hover:text-red-500 hover:text-red-600"
+                >
                     <ThumbsDown />
                 </NIcon>
             </div>
@@ -64,7 +115,7 @@ onMounted(() => {
             </div>
             <div class="w-full">
                 <div class="flex justify-between items-center">
-                    <h2 class="text-size-20px">This is the title</h2>
+                    <h2 class="text-size-20px">{{ post.title }}</h2>
                     <div class="flex items-center gap-5px">
                         <div>
                             <NIcon>
@@ -82,16 +133,12 @@ onMounted(() => {
                                 {{ post.comment_count ? post.comment_count : 0 }}
                             </span>
                         </div>
-                        <!-- <NButton size="small" round tertiary>Here</NButton> -->
                         <NTag round type="info">
                             {{ post.category }}
-                            <!-- <template #icon>
-                                <NIcon :component="ChatMultiple16Regular" />
-                            </template> -->
                         </NTag>
                     </div>
                 </div>
-                <div>{{ sanitizeHtml(generateText(post.content, extensionsUsed).trim()) }}</div>
+                <div>{{ sanitizeHtml(generateText(post.content, extensionsUsed).trim()).substring(0, 500) }}...</div>
             </div>
         </div>
     </div>

@@ -16,7 +16,10 @@ const isLoading = ref(false);
 const notification = useNotification();
 
 function renderLabel(option: any) {
-    return h("span", { class: "flex gap-5px items-center text-size-16px" }, [h(NIcon, { size: 25 }, { default: () => h(option.icon) }), option.label as string]);
+    return h("span", { class: "flex gap-5px items-center text-size-16px" }, [
+        h(NIcon, { size: 25 }, { default: () => h(option.icon) }),
+        option.label as string,
+    ]);
 }
 
 const renderSelectedCategory: any = computed(() => {
@@ -66,7 +69,14 @@ function submit() {
         <NCard size="small" class="max-w-900px" title="Create New Discussion">
             <div class="flex mb-3 justify-between">
                 <NInput v-model:value="title" class="max-w-400px" round placeholder="Add a Title" />
-                <NPopselect trigger="click" size="small" v-model:value="category" :options="categories" :render-label="renderLabel" placeholder="Select a Category">
+                <NPopselect
+                    trigger="click"
+                    size="small"
+                    v-model:value="category"
+                    :options="categories"
+                    :render-label="renderLabel"
+                    placeholder="Select a Category"
+                >
                     <NButton round>
                         <template v-if="category" #icon>
                             <NIcon :component="renderSelectedCategory.icon" />
