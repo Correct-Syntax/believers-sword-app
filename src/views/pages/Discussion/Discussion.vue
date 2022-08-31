@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import router from "@/router";
 import session from "@/service/session/session";
 import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import LeftSideMenu from "./LeftSideMenu/LeftSideMenu.vue";
 import RightSideArea from "./RightSideArea/RightSideArea.vue";
 
-const selectedMenu = ref<string | null>("all_discussions");
+const selectedMenu = ref<string | null>("Discussion");
 const route = useRoute();
 
 watch(
@@ -25,6 +26,10 @@ watch(
         }
     }
 );
+
+function clickMenu(key: string) {
+    router.push({ name: key });
+}
 
 onMounted(() => {
     // this will save scroll
@@ -49,7 +54,7 @@ onMounted(() => {
     <div id="discussion-contents" class="h-[100%] h-[100%] overflow-y-scroll overflowing-div scroll-bar-md">
         <div class="p-9 max-w-1300px mx-auto flex gap-5">
             <div class="w-350px sticky top-5 self-start">
-                <LeftSideMenu v-model="selectedMenu" />
+                <LeftSideMenu v-model="selectedMenu" @clicked-menu="clickMenu" />
             </div>
             <div class="w-[100%]">
                 <router-view />
