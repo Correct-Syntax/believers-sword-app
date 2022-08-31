@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { View, AddComment } from "@vicons/carbon";
-import { NButton, NIcon, NTag, useNotification } from "naive-ui";
+import { NButton, NIcon, NTag, useMessage, useNotification } from "naive-ui";
 import { discussionPostStore } from "@/store/DiscussionPostsState";
 import { h, onMounted } from "vue";
 import { generateText } from "@tiptap/vue-3";
@@ -12,6 +12,7 @@ import { isUserLogged } from "@/service/backend/User";
 import Axios from "@/service/Axios/Axios";
 
 const notification = useNotification();
+const message = useMessage();
 const postStore = discussionPostStore();
 const router = useRouter();
 function countRender(upVoteCount: number, downVoteCount: number) {
@@ -20,11 +21,12 @@ function countRender(upVoteCount: number, downVoteCount: number) {
     return sum;
 }
 
-const getPosts = async (refresh = false) => {
+const getPosts = async (refresh = false, search: null | string = null) => {
     if (postStore.posts.length < 1 || refresh) {
+        console.log(search);
         await postStore.getPosts(
             {
-                search: "",
+                search: search as string,
                 page: 1,
             },
             refresh
@@ -32,7 +34,7 @@ const getPosts = async (refresh = false) => {
     }
 };
 
-function clickThumb(discussion: any, isThumbsUp = 1) {
+function clickThumb(discussion: any, isThumbsUp = 1, index: null | number = null) {
     if (!isUserLogged()) {
         notification["error"]({
             title: "You are not logged in",
@@ -55,10 +57,18 @@ function clickThumb(discussion: any, isThumbsUp = 1) {
         });
         return;
     }
-    console.log(discussion);
+
     Axios.put(`/api/v1/post/${isThumbsUp ? "up" : "down"}/${discussion._id}`)
         .then((response) => {
             console.log(response);
+            if (index != null) {
+                if (response && response.data && response.data.post) {
+                    postStore.posts[index] = response.data.post;
+                    message.info(
+                        response.data.message ? response.data.message : isThumbsUp ? "Thumbs Up!" : "Thumbs Down!"
+                    );
+                }
+            }
         })
         .catch((error) => {
             notification["error"]({
@@ -84,27 +94,31 @@ onMounted(() => {
     <div class="mt-30px">
         <div
             class="flex gap-5 mb-20px w-[100%] dark:bg-opacity-5 dark:bg-light-50 px-5 py-3 rounded-lg dark:hover:bg-opacity-10 transition duration-200 cursor-pointer bg-white darK:border dark:hover:border-light-50 dark:border-opacity-0 dark:hover:!border-opacity-100"
-            v-for="post in postStore.posts"
+            v-for="(post, index) in postStore.posts"
             :key="post._id"
             @click="router.push({ name: 'DiscussionView', params: { id: post._id } })"
         >
             <div class="flex flex-col gap-1 items-center">
                 <NIcon
                     size="25"
-                    v-on:click.stop="clickThumb(post, 1)"
+                    v-on:click.stop="clickThumb(post, 1, index)"
                     class="dark:hover:text-blue-400 hover:text-blue-600"
+                    :class="{ 'text-blue-500': post.up_votes.length }"
                 >
-                    <ThumbsUp />
+                    <ThumbsUpFilled v-if="post.up_votes.length" />
+                    <ThumbsUp v-else />
                 </NIcon>
                 <div class="text-size-20px">
                     {{ countRender(post.up_vote_count, post.down_vote_count) }}
                 </div>
                 <NIcon
                     size="25"
-                    v-on:click.stop="clickThumb(post, 0)"
+                    v-on:click.stop="clickThumb(post, 0, index)"
                     class="dark:hover:text-red-500 hover:text-red-600"
+                    :class="{ 'text-red-500': post.down_votes.length }"
                 >
-                    <ThumbsDown />
+                    <ThumbsDownFilled v-if="post.down_votes.length" />
+                    <ThumbsDown v-else />
                 </NIcon>
             </div>
             <div>
