@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@intlify/vue-i18n-loader": "^4.2.0",
+    "@supabase/supabase-js": "^1.35.6",
     "@tiptap/extension-blockquote": "^2.0.0-beta.15",
     "@tiptap/extension-code-block": "^2.0.0-beta.18",
     "@tiptap/extension-placeholder": "^2.0.0-beta.31",
