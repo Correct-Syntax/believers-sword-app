@@ -1,11 +1,16 @@
 <script lang="ts" setup>
 import { NForm, NFormItem, NButton, NInput, NIcon, FormInst } from "naive-ui";
-import { ref } from "vue";
+import { h, ref } from "vue";
 import { Login, UserFollow } from "@vicons/carbon";
-import { userLogin } from "@/service/backend/User";
+// import { userLogin } from "@/service/backend/User";
+import { supabase } from "@/service/SupaBase/supabase";
+import SESSION from "@/service/session/session";
+import { useUserStore } from "@/store/user";
+import dayjs from "dayjs";
 
 const loading = ref(false);
 const formValue = ref<FormInst | null>(null);
+const theUserStore = useUserStore();
 const form = ref<{ email: any; password: any }>({
     email: null,
     password: null,
@@ -31,21 +36,42 @@ const login = () => {
         if (!errors) {
             try {
                 loading.value = true;
-                const loginSuccessful = await userLogin(form.value.email, form.value.password);
+                const { error, session } = await supabase.auth.signIn({
+                    email: form.value.email,
+                    password: form.value.password,
+                });
 
-                if (loginSuccessful) {
-                    window.notification.success({
-                        title: "Login Successful",
-                        content: "You are successfully logged to believers sword.",
-                        duration: 5000,
+                if (error) {
+                    loading.value = false;
+                    const n = window.notification["error"]({
+                        title: error.message,
+                        content:
+                            error.message == "Email not confirmed"
+                                ? "Check The Email we Sent to confirm registration."
+                                : error.message,
+                        meta: dayjs().format("MMM DD, YYYY"),
+                        duration: 10000,
+                        action: () =>
+                            h(
+                                NButton,
+                                {
+                                    text: true,
+                                    type: "primary",
+                                    onClick: () => {
+                                        n.destroy();
+                                    },
+                                },
+                                {
+                                    default: () => "Mark as Read",
+                                }
+                            ),
                     });
-                } else {
-                    window.notification.error({
-                        title: "Login Unsuccessful",
-                        content: "Your Email or Password is wrong.",
-                        duration: 5000,
-                    });
+                    return;
                 }
+
+                SESSION.set("session", session);
+                theUserStore.setSession(session);
+
                 loading.value = false;
             } catch (e) {
                 window.notification.error({

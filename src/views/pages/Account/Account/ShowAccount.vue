@@ -1,27 +1,38 @@
 <script lang="ts" setup>
-import { userLogout } from "@/service/backend/User";
 import { MenuOption, NIcon, NMenu, NCard, useDialog, useMessage, useNotification } from "naive-ui";
 import { Component, h, ref } from "vue";
 import { User, Logout } from "@vicons/carbon";
 import ShowAccount from "./Pages/Account.vue";
-import dayjs from "dayjs";
+import { supabase } from "@/service/SupaBase/supabase";
+import SESSION from "@/service/session/session";
+import { useUserStore } from "@/store/user";
 
 const activeKey = ref("account");
 const selectedKey = ref("account");
 const dialog = useDialog();
 const message = useMessage();
 const notification = useNotification();
+const userStore = useUserStore();
 
 const logout = async () => {
     try {
-        let isLoggedOut = await userLogout();
-        if (isLoggedOut) message.success("Successfully Logged Out.");
-        else
+        const { error } = await supabase.auth.signOut();
+        if (error) {
             notification.error({
-                content: "Oops, their is an error logging out.",
-                meta: dayjs(new Date()).format("MMMM DD, YYYY hh:mm:ss a"),
+                title: "Their Is An Error Logging Out.",
+                content: error.message,
                 duration: 5000,
             });
+        }
+
+        SESSION.remove("session");
+        userStore.setSession(null);
+
+        notification.info({
+            title: "Sign Out Successfully!",
+            content: "You have successfully signed out on your account. You can sign in again, anytime.",
+            duration: 5000,
+        });
     } catch (e) {
         notification.error({
             title: "Error",
@@ -74,7 +85,7 @@ const clickMenu = (key: string) => {
             <NMenu v-model:value="activeKey" :options="menuOptions" :on-update:value="clickMenu" />
         </div>
         <NCard class="w-[100%] h-[100%]">
-            <ShowAccount v-show="selectedKey === 'account'" />
+            <ShowAccount v-if="selectedKey === 'account'" />
         </NCard>
     </div>
 </template>

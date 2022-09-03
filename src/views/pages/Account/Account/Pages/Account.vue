@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { getUserLogged } from "@/service/backend/User";
+import SESSION from "@/service/session/session";
 import { NAlert, NForm, NFormItem, NInput } from "naive-ui";
 import { onMounted, ref } from "vue";
 
@@ -10,8 +11,8 @@ const accountForm = ref<{
 });
 
 onMounted(() => {
-    const user = getUserLogged();
-    accountForm.value.email = user.email;
+    const session = SESSION.get("session");
+    accountForm.value.email = session.user.email;
 });
 </script>
 <template>
