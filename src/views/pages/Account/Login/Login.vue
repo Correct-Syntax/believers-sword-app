@@ -72,6 +72,13 @@ const login = () => {
                 SESSION.set("session", session);
                 theUserStore.setSession(session);
 
+                window.notification.success({
+                    title: "Login Successfully",
+                    content: "You have Successfully logged in to believers sword.",
+                    duration: 3000,
+                });
+                loading.value = false;
+
                 loading.value = false;
             } catch (e) {
                 window.notification.error({
