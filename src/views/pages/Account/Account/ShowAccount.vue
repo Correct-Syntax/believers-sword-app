@@ -15,6 +15,7 @@ const notification = useNotification();
 const userStore = useUserStore();
 
 const logout = async () => {
+    const loadingLogout = message.loading("Signing Out...", { duration: 10000 });
     try {
         const { error } = await supabase.auth.signOut();
         if (error) {
@@ -23,6 +24,8 @@ const logout = async () => {
                 content: error.message,
                 duration: 5000,
             });
+            loadingLogout.destroy();
+            return;
         }
 
         SESSION.remove("session");
@@ -33,12 +36,14 @@ const logout = async () => {
             content: "You have successfully signed out on your account. You can sign in again, anytime.",
             duration: 5000,
         });
+        loadingLogout.destroy();
     } catch (e) {
         notification.error({
             title: "Error",
             content: e as string,
             duration: 5000,
         });
+        loadingLogout.destroy();
     }
 };
 
