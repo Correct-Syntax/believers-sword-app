@@ -39,7 +39,7 @@ onMounted(() => {
         discussionContentElement?.scrollTo(session.get("discussion-content-scroll-top"), 0);
     }
 
-    discussionContentElement?.addEventListener("scroll", (event) => {
+    discussionContentElement?.addEventListener("scroll", () => {
         clearTimeout(window.discussionContentScrollTop);
 
         if (route.name == "Discussion") {

@@ -2,7 +2,6 @@
 import { NForm, NFormItem, NButton, NInput, NIcon, FormInst, FormItemRule } from "naive-ui";
 import { h, ref } from "vue";
 import { UserFollow } from "@vicons/carbon";
-import { createUserAccount } from "@/service/backend/User";
 import dayjs from "dayjs";
 import { supabase } from "@/service/SupaBase/supabase";
 
@@ -69,7 +68,7 @@ const register = () => {
     formValue.value?.validate(async (errors) => {
         if (!errors) {
             loading.value = true;
-            const { user, session, error } = await supabase.auth.signUp({
+            const { error } = await supabase.auth.signUp({
                 email: form.value.email as string,
                 password: form.value.password as string,
             });

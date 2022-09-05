@@ -77,7 +77,12 @@ defineExpose({
             :class="{ 'w-[60%] h-[100%] overflow-y-auto overflowing-div scroll-bar-md': selectedSermon }"
             class="relative"
         >
-            <NButton class="fixed z-50 top-50px left-60px" circle secondary @click="store.state.sermonState.selected_sermon = null">
+            <NButton
+                class="fixed z-50 top-50px left-60px"
+                circle
+                secondary
+                @click="store.state.sermonState.selected_sermon = null"
+            >
                 <template #icon>
                     <NIcon>
                         <Undo />
@@ -88,10 +93,18 @@ defineExpose({
         </div>
         <div v-if="isOnline" :class="{ ' w-[40%] h-[100%] overflow-y-auto overflowing-div pr-4': selectedSermon }">
             <div v-show="!loadingSermon && isOnline" class="flex gap-20px flex-wrap">
-                <div v-for="sermon in sermons.data" :key="sermon.title" class="w-300px cursor-pointer flex-grow max-w-400px" @click="selectASermon(sermon)">
+                <div
+                    v-for="sermon in sermons.data"
+                    :key="sermon.title"
+                    class="w-300px cursor-pointer flex-grow max-w-400px"
+                    @click="selectASermon(sermon)"
+                >
                     <div class="h-160px rounded-md overflow-hidden">
                         <img v-if="sermon.thumbnail" :src="sermon.thumbnail" alt="" class="w-[100%]" />
-                        <div v-else class="w-[100%] bg-black h-160px flex justify-center items-center p-10px overflow-auto">
+                        <div
+                            v-else
+                            class="w-[100%] bg-black h-160px flex justify-center items-center p-10px overflow-auto"
+                        >
                             <h1 class="font-800 text-size-30px">{{ sermon.title }}</h1>
                         </div>
                     </div>
@@ -117,7 +130,11 @@ defineExpose({
                 </div>
             </div>
             <div v-show="loadingSermon && isOnline" class="flex gap-20px mt-3 flex-wrap">
-                <div v-for="count in [1, 2, 3, 4, 5, 6, 7, 8]" :key="count" class="w-300px cursor-pointer flex-grow max-w-400px">
+                <div
+                    v-for="count in [1, 2, 3, 4, 5, 6, 7, 8]"
+                    :key="count"
+                    class="w-300px cursor-pointer flex-grow max-w-400px"
+                >
                     <NSkeleton class="mb-3 rounded-md" :height="160" />
                     <NSkeleton :height="30" round />
                 </div>
