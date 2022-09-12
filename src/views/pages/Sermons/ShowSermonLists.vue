@@ -2,18 +2,19 @@
 import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import { computed } from "@vue/reactivity";
-
-import { getFireStoreSermons } from "@/service/backend/Sermons";
+import { userSermonStore } from "@/store/sermons";
 import { LogoYoutube, Document, WifiOff } from "@vicons/carbon";
-import { NIcon, NSkeleton, NEmpty, NButton } from "naive-ui";
+import { NIcon, NSkeleton, NEmpty, NButton, useNotification } from "naive-ui";
 import DrawerContentVue from "./partials/DrawerContent/DrawerContent.vue";
 import { Undo } from "@vicons/carbon";
+import { supabase } from "@/service/SupaBase/supabase";
+import dayjs from "dayjs";
 
 const store = useStore();
-const sermons = computed(() => store.state.sermonState.sermons);
 const selectedSermon = computed(() => store.state.sermonState.selected_sermon);
 const drawerShowContent = ref(false);
-
+const sermonStore = userSermonStore();
+const notification = useNotification();
 const selectASermon = (sermon: any) => {
     store.state.sermonState.selected_sermon = sermon;
 };
@@ -38,29 +39,34 @@ onMounted(() => {
         drawerShowContent.value = true;
     }
 
-    if (sermons.value.data && sermons.value.data.length > 0) {
+    if (sermonStore.sermons && sermonStore.sermons.length > 0) {
         return;
     }
-
     getSermons();
 });
 
-function getSermons() {
+async function getSermons() {
     try {
         loadingSermon.value = true;
 
-        getFireStoreSermons()
-            .then((result) => {
-                store.state.sermonState.sermons = result;
-                loadingSermon.value = false;
-            })
-            .catch((e) => {
-                console.log("This is the what");
-                console.log(e);
-                loadingSermon.value = false;
+        const { data, error } = await supabase.from("sermons").select();
+
+        if (error) {
+            notification.error({
+                title: "Error!",
+                content: error.message,
+                meta: dayjs().format("MMM DD, YYYY"),
             });
+        }
+
+        sermonStore.setSermons(data as any);
+        loadingSermon.value = false;
     } catch (e) {
-        console.log("Their is an error");
+        notification.error({
+            title: "Error!",
+            content: "Their is something happened.",
+            meta: dayjs().format("MMM DD, YYYY"),
+        });
     }
 }
 
@@ -94,7 +100,7 @@ defineExpose({
         <div v-if="isOnline" :class="{ ' w-[40%] h-[100%] overflow-y-auto overflowing-div pr-4': selectedSermon }">
             <div v-show="!loadingSermon && isOnline" class="flex gap-20px flex-wrap">
                 <div
-                    v-for="sermon in sermons.data"
+                    v-for="sermon in sermonStore.sermons"
                     :key="sermon.title"
                     class="w-300px cursor-pointer flex-grow max-w-400px"
                     @click="selectASermon(sermon)"
