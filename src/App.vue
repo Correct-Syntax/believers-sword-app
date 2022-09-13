@@ -13,7 +13,10 @@ import { NMessageProvider, NNotificationProvider, NDialogProvider } from "naive-
 import { AutoUpdateRendererEvents } from "@/service/AutoUpdater/AutoUpdaterRendererProcessEvents";
 import { ipcRenderer } from "electron";
 import { PrayerListIpcRenderer } from "./IpcRendererOnEvents/IpcRendererOnEvents";
+import { useUserStore } from "./store/user";
+import { supabase } from "./service/SupaBase/supabase";
 
+const userStore = useUserStore();
 const store = useStore();
 const dark = computed(() => store.state.dark);
 const showAllContent = ref(false);
@@ -35,9 +38,15 @@ const themeOverrides = reactive({
 const zoomLevel = computed(() => store.state.frame.zoomLevel);
 
 const changePrimaryColors = () => {
-    themeOverrides.common.primaryColor = dark.value ? primaryColors.value.primaryColorDark : primaryColors.value.primaryColorLight;
-    themeOverrides.common.primaryColorHover = dark.value ? primaryColors.value.primaryColorDark : primaryColors.value.primaryColorLight;
-    themeOverrides.common.primaryColorSuppl = dark.value ? primaryColors.value.primaryColorDark : primaryColors.value.primaryColorLight;
+    themeOverrides.common.primaryColor = dark.value
+        ? primaryColors.value.primaryColorDark
+        : primaryColors.value.primaryColorLight;
+    themeOverrides.common.primaryColorHover = dark.value
+        ? primaryColors.value.primaryColorDark
+        : primaryColors.value.primaryColorLight;
+    themeOverrides.common.primaryColorSuppl = dark.value
+        ? primaryColors.value.primaryColorDark
+        : primaryColors.value.primaryColorLight;
     themeOverrides.common.popoverColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
     themeOverrides.common.modalColor = dark.value ? "rgba(55, 65, 81, 1)" : "rgba(255, 255, 255, 1)";
     themeOverrides.common.cardColor = dark.value ? "rgba(31, 41, 55, 1)" : "rgba(255, 255, 255, 1)";
@@ -56,6 +65,14 @@ onBeforeMount(async () => {
     await onMountedRendererEvents(store);
     changeTheme();
     AutoUpdateRendererEvents();
+    if (session.get("session")) {
+        userStore.setSession(session.get("session"));
+    } else {
+        const userSession = supabase.auth.session();
+        if (userSession) {
+            session.set("session", userSession);
+        }
+    }
 });
 
 onMounted(async () => {
@@ -110,7 +127,9 @@ watch(primaryColors, () => {
         <NDialogProvider>
             <NNotificationProvider>
                 <NMessageProvider placement="bottom-right">
-                    <div class="h-[100vh] w-[100%] dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 flex flex-col">
+                    <div
+                        class="h-[100vh] w-[100%] dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 flex flex-col"
+                    >
                         <TitleBar />
                         <div
                             class="dark:bg-gray-800 dark:text-gray-300 text-gray-700 bg-gray-50 h-[calc(100%-30px)] w-[100%] overflow-y-hidden opacity-0"

@@ -68,7 +68,7 @@ function submit() {
     <NModal :show="modelValue">
         <NCard size="small" class="max-w-900px" title="Create New Discussion">
             <div class="flex mb-3 justify-between">
-                <NInput v-model:value="title" class="max-w-400px" round placeholder="Add a Title" />
+                <NInput v-model:value="title" size="large" class="max-w-400px" round placeholder="Add a Title" />
                 <NPopselect
                     trigger="click"
                     size="small"

@@ -22,7 +22,11 @@ const message = useMessage();
 const selectedBookmark = computed(() => store.state.verseBookmark.selectedBookmark);
 
 const checkIfVerseExistInBookmarkState = (verse: any) => {
-    return bibleBookMarkStore.value.bookmarks.filter((item: any) => item.b === verse.b && item.c === verse.c && item.v === verse.v).length > 0;
+    return (
+        bibleBookMarkStore.value.bookmarks.filter(
+            (item: any) => item.b === verse.b && item.c === verse.c && item.v === verse.v
+        ).length > 0
+    );
 };
 
 const checkIfVerseExistInSavedBookmarks = (verse: any) => {
@@ -76,7 +80,9 @@ function checkHere(): void {
 
 function clickVerse(verse: any) {
     if (checkIfVerseExistInBookmarkState(verse)) {
-        let index = bibleBookMarkStore.value.bookmarks.findIndex((item: any) => item.b === verse.b && item.c === verse.c && item.v === verse.v);
+        let index = bibleBookMarkStore.value.bookmarks.findIndex(
+            (item: any) => item.b === verse.b && item.c === verse.c && item.v === verse.v
+        );
         if (index >= 0) bibleBookMarkStore.value.bookmarks.splice(index, 1);
     } else {
         let getBook = bibleBooks.value.filter((book: any) => book.b === verse.b)?.[0]?.n;
@@ -92,7 +98,8 @@ function clickVerse(verse: any) {
         :class="{
             'item-bookmarked': checkIfVerseExistInBookmarkState(verse),
             'item-saved-in-bookmark': checkIfVerseExistInSavedBookmarks(verse),
-            'saved-bookmark-selected': verse.b === selectedBookmark.b && verse.c === selectedBookmark.c && verse.v === selectedBookmark.v,
+            'saved-bookmark-selected':
+                verse.b === selectedBookmark.b && verse.c === selectedBookmark.c && verse.v === selectedBookmark.v,
             'dark:border-gray-300 border-gray-700': clipNote && clipNote.color === 'default',
         }"
         :style="`${clipNote ? 'border: 2px solid ' + clipNote.color : ''}`"
@@ -131,7 +138,12 @@ function clickVerse(verse: any) {
                         :data-book="verse.b"
                         :data-chapter="verse.c"
                         :data-verse="verse.v"
-                        v-html="checkHighlight({ key: `${version.version}_${verse.b}_${verse.c}_${verse.v}`, orig: version.text })"
+                        v-html="
+                            checkHighlight({
+                                key: `${version.version}_${verse.b}_${verse.c}_${verse.v}`,
+                                orig: version.text,
+                            })
+                        "
                         contenteditable="true"
                         spellcheck="false"
                         :onfocus="checkHere"
@@ -143,7 +155,10 @@ function clickVerse(verse: any) {
         <div class="verse-item-more-options absolute top-10px right-20px text-size-24px" @click.stop.prevent>
             <NTooltip trigger="hover" size="small" placement="left">
                 <template #trigger>
-                    <div class="verse-item-more-options-item dark:text-gray-300 text-gray-100 cursor-pointer" @click="saveToBookmark(verse)">
+                    <div
+                        class="verse-item-more-options-item dark:text-gray-300 text-gray-100 cursor-pointer"
+                        @click="saveToBookmark(verse)"
+                    >
                         <NIcon>
                             <BookmarkAdd />
                         </NIcon>
@@ -159,7 +174,12 @@ function clickVerse(verse: any) {
             </NTooltip>
         </div>
     </div>
-    <VerseClipNote class="verse-clip-note" :clipNote="clipNote" :verse="clipNote ? clipNote : { b: verse.b, c: verse.c, v: verse.v }" :style="`font-size: ${fontSize - 2}px; `" />
+    <VerseClipNote
+        class="verse-clip-note"
+        :clipNote="clipNote"
+        :verse="clipNote ? clipNote : { b: verse.b, c: verse.c, v: verse.v }"
+        :style="`font-size: ${fontSize - 2}px; `"
+    />
 </template>
 <style lang="postcss">
 .verse-item {

@@ -2,7 +2,11 @@ import { defineStore } from "pinia";
 import { ref, watch } from "vue";
 
 export const useUserStore = defineStore("useUserStore", () => {
-    const session = ref(null);
+    const session = ref<{
+        user: {
+            id: any;
+        };
+    } | null>(null);
     const isUserLogged = ref(false);
 
     watch(session, (data) => {

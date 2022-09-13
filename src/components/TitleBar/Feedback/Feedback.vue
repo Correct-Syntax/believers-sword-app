@@ -1,20 +1,35 @@
 <script lang="ts" setup>
 import MyFeedBacks from "./MyFeedBacks.vue";
-import { NButton, NModal, NCard, NInput, NForm, NFormItem, FormInst, NSelect, NTabs, NTabPane } from "naive-ui";
+import {
+    NButton,
+    NModal,
+    NCard,
+    NInput,
+    NForm,
+    NFormItem,
+    FormInst,
+    NSelect,
+    NTabs,
+    NTabPane,
+    useNotification,
+} from "naive-ui";
 import RenderIcon from "./../../Icon/Icon.vue";
 import { ref } from "vue";
-import { addFeedback } from "./../../../service/backend/feedback";
-import session from "@/service/session/session";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+import { useUserStore } from "@/store/user";
+import { supabase } from "@/service/SupaBase/supabase";
+import dayjs from "dayjs";
 
 const showModal = ref(false);
 const feedbackFormRef = ref<FormInst | null>(null);
 const isLoading = ref(false);
 const router = useRouter();
 const store = useStore();
+const userStore = useUserStore();
+const notification = useNotification();
 
-const form = ref<any>({
+const form = ref({
     title: null,
     category: null,
     description: null,
@@ -38,22 +53,46 @@ const formRule = {
     },
 };
 
-function submitFeedBack() {
-    feedbackFormRef.value?.validate((errors) => {
-        if (!errors) {
-            isLoading.value = true;
-            addFeedback(form.value).then((res) => {
-                console.log(res);
-                isLoading.value = false;
-            });
-        }
+async function submitFeedBack() {
+    // feedbackFormRef.value?.validate((errors) => {
+    //     if (!errors) {
+    //         isLoading.value = true;
+    //         addFeedback(form.value).then((res) => {
+    //             console.log(res);
+    //             isLoading.value = false;
+    //         });
+    //     }
+    // });
+    const { data, error } = await supabase.from("feedbacks").insert({
+        title: form.value.title,
+        category: form.value.category,
+        content: form.value.description,
+        user_id: userStore.session?.user.id,
     });
+
+    if (error) {
+        notification.error({
+            title: "Oops! Their is an Error.",
+            content: error.message,
+            meta: dayjs().format("MMM DD, YYYY"),
+        });
+        return;
+    }
+
+    console.log(data);
+    notification.success({
+        title: "Success!",
+        content: "Your Feedback is submitted successfully.",
+        meta: dayjs().format("MMM DD, YYYY"),
+    });
+    resetForm();
 }
 
-function isLoggedIn() {
-    return session.get("user");
+function resetForm() {
+    form.value.title = null;
+    form.value.category = null;
+    form.value.description = null;
 }
-
 function closeModal() {
     showModal.value = false;
     form.value.title = null;
@@ -83,7 +122,13 @@ async function selectRoute(path: string) {
             </template>
             <NTabs>
                 <NTabPane :name="$t('add_feedback')" :tab="$t('add_feedback')">
-                    <NForm v-if="isLoggedIn()" ref="feedbackFormRef" size="small" :rules="formRule" :model="form">
+                    <NForm
+                        v-if="userStore.isUserLogged"
+                        ref="feedbackFormRef"
+                        size="small"
+                        :rules="formRule"
+                        :model="form"
+                    >
                         <NFormItem label="Select Category" path="category">
                             <NSelect
                                 v-model:value="form.category"
@@ -108,16 +153,33 @@ async function selectRoute(path: string) {
                             <NInput v-model:value="form.title" />
                         </NFormItem>
                         <NFormItem label="Enter more details" path="description">
-                            <NInput v-model:value="form.description" type="textarea" placeholder="Please Enter Description" />
+                            <NInput
+                                v-model:value="form.description"
+                                type="textarea"
+                                placeholder="Please Enter Description"
+                            />
                         </NFormItem>
-                        <NButton :disabled="isLoading" :loading="isLoading" @click="submitFeedBack" type="primary" round> Submit </NButton>
+                        <NButton
+                            :disabled="isLoading"
+                            :loading="isLoading"
+                            @click="submitFeedBack"
+                            type="primary"
+                            round
+                        >
+                            Submit
+                        </NButton>
                     </NForm>
                     <div v-else>
                         <p>Please login to submit feedback</p>
                         <NButton type="primary" @click="selectRoute('/account')">{{ $t("login") }}!</NButton>
                     </div>
                 </NTabPane>
-                <NTabPane v-if="isLoggedIn()" name="my feedbacks" tab="My Feedbacks" display-directive="show:lazy">
+                <NTabPane
+                    v-if="userStore.isUserLogged"
+                    name="my feedbacks"
+                    tab="My Feedbacks"
+                    display-directive="show:lazy"
+                >
                     <MyFeedBacks />
                 </NTabPane>
             </NTabs>

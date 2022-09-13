@@ -70,6 +70,7 @@ onMounted(() => {
                 <div class="tooltip capitalize">{{ $t("go_to_sermon") }}</div>
             </div>
             <div
+                v-if="false"
                 class="icon-item"
                 :class="{ 'active-menu-bar-item': pathSelected === '/discussion' && showUnRoutePage == `false` }"
                 @click="selectRoute('/discussion')"
