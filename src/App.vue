@@ -126,13 +126,14 @@ watch(primaryColors, () => {
     </NConfigProvider>
 </template>
 
-<style lang="scss">
+<style lang="postcss">
 .ProseMirror {
     @apply h-[100%];
 }
 .ProseMirror,
 .prayer-list,
-.prayer-list-content {
+.prayer-list-content,
+.post-content {
     s {
         text-decoration: line-through;
         text-decoration-color: red;
@@ -168,7 +169,11 @@ watch(primaryColors, () => {
     }
 
     p {
-        @apply text-size-14px leading-normal;
+        @apply text-size-15px !leading-normal;
+    }
+
+    & > p {
+        margin-block-end: 1em;
     }
 
     ol,

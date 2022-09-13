@@ -1,17 +1,17 @@
 const STORAGE: any = localStorage;
 const VueSession: any = {
     key: "believers-bible-session",
-    setAll: function(all: any) {
+    setAll: function (all: any) {
         STORAGE.setItem(VueSession.key, JSON.stringify(all));
-    }
+    },
 };
 
-export default {
-    getAll: function() {
+export const SESSION = {
+    getAll: function () {
         const all = JSON.parse(STORAGE.getItem(VueSession.key));
         return all || {};
     },
-    set: function(key: string, value: any) {
+    set: function (key: string, value: any) {
         if (key == "session-id") return false;
         let all = this.getAll();
 
@@ -24,44 +24,46 @@ export default {
 
         VueSession.setAll(all);
     },
-    get: function(key: string) {
+    get: function (key: string) {
         const all = this.getAll();
         return all[key];
     },
-    start: function() {
+    start: function () {
         const all = this.getAll();
         all["session-id"] = "sess:" + Date.now();
 
         VueSession.setAll(all);
     },
-    renew: function(sessionId: string) {
+    renew: function (sessionId: string) {
         const all = this.getAll();
         all["session-id"] = "sess:" + sessionId;
         VueSession.setAll(all);
     },
-    exists: function() {
+    exists: function () {
         const all = this.getAll();
         return "session-id" in all;
     },
-    has: function(key: string) {
+    has: function (key: string) {
         const all = this.getAll();
         return key in all;
     },
-    remove: function(key: string) {
+    remove: function (key: string) {
         const all = this.getAll();
         delete all[key];
 
         VueSession.setAll(all);
     },
-    clear: function() {
+    clear: function () {
         const all = this.getAll();
 
         VueSession.setAll({ "session-id": all["session-id"] });
     },
-    destroy: function() {
+    destroy: function () {
         VueSession.setAll({});
     },
-    id: function() {
+    id: function () {
         return this.get("session-id");
-    }
+    },
 };
+
+export default SESSION;

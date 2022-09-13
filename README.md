@@ -19,8 +19,8 @@ Believers Sword App is an application to help you study the bible. Not only that
 - [x] take notes
 - [x] prayer list
 - [x] sermon page to watch or read sermons
-- [ ] believers forum - where people discuss different concepts
-- [ ] play games - play some simple games to reserve the things that you learned.
+- [ ] believers forum/discussion - where people discuss different concepts
+- [x] play games - play some simple games to reserve the things that you learned.
 - [x] can customize colors of your liking. Also has dark and light theme.
 
 # Support
@@ -29,3 +29,23 @@ If you like to support my simple ministry, you can do by one of this ways:
 - [GCash](https://i.ibb.co/kJGg32y/GCash-My-QR-06102021230745.png)
 - [BuyMeCoffee.com](https://www.buymeacoffee.com/BroJenuel)
 - [Ko-Fi.com](https://ko-fi.com/brojenuel)
+
+### To Serve
+```bash
+yarn serve
+```
+
+
+### To build and upload for dev test or nightly version
+this will build the application and upload it available for testing and nightly version.
+for this to work, need to install `yarn install -g json`, this will be used for handling renaming the package.json file.
+```bash
+yarn up:night
+```
+
+
+### To build and upload it for Prod
+this will build the application and upload it available for live prod.
+```bash
+yarn up
+```

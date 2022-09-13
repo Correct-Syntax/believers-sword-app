@@ -2,8 +2,8 @@
 import { NForm, NFormItem, NButton, NInput, NIcon, FormInst, FormItemRule } from "naive-ui";
 import { h, ref } from "vue";
 import { UserFollow } from "@vicons/carbon";
-import { createUserAccount } from "@/service/backend/User";
 import dayjs from "dayjs";
+import { supabase } from "@/service/SupaBase/supabase";
 
 const loading = ref(false);
 const formValue = ref<FormInst | null>(null);
@@ -23,7 +23,9 @@ function validatePasswordSame(rule: FormItemRule, value: string): boolean {
 }
 
 function validateEmail(rule: FormItemRule, value: string) {
-    return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value);
+    return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        value
+    );
 }
 
 const rules = {
@@ -66,14 +68,18 @@ const register = () => {
     formValue.value?.validate(async (errors) => {
         if (!errors) {
             loading.value = true;
-            const isUserCreateSuccess = await createUserAccount(form.value.email, form.value.password);
-            if (isUserCreateSuccess) {
-                const n = window.notification["success"]({
-                    title: "Successfully Submitted!",
-                    description: "From The Creator",
-                    content: `You account is successfully created. I would like to express my gratitude for you being a part of believers sword. Use your newly created account to login.`,
-                    duration: 11000,
+            const { error } = await supabase.auth.signUp({
+                email: form.value.email as string,
+                password: form.value.password as string,
+            });
+
+            if (error) {
+                loading.value = false;
+                const n = window.notification["error"]({
+                    title: "Oops! Error Registering.",
+                    content: error.message,
                     meta: dayjs().format("MMM DD, YYYY"),
+                    duration: 4000,
                     action: () =>
                         h(
                             NButton,
@@ -89,21 +95,30 @@ const register = () => {
                             }
                         ),
                 });
-
-                // reset form and close modal
-                form.value.email = null;
-                form.value.password = null;
-                form.value.retypePassword = null;
-                emit("cancelClicked");
-            } else {
-                window.notification.error({
-                    title: "Ops, System Error",
-                    content: "It seems like we were not able to create your account. Please Recheck the field and submit again.",
-                    duration: 5000,
-                });
             }
 
-            loading.value = false;
+            const n = window.notification["success"]({
+                title: "Successfully Registered!",
+                content: `We have send a confirmation message to your email address ${form.value.email}. This is for making sure the email your using to register is yours.`,
+                meta: dayjs().format("MMM DD, YYYY"),
+                duration: 10000,
+                action: () =>
+                    h(
+                        NButton,
+                        {
+                            text: true,
+                            type: "primary",
+                            onClick: () => {
+                                n.destroy();
+                            },
+                        },
+                        {
+                            default: () => "Mark as Read",
+                        }
+                    ),
+            });
+
+            emit("cancelClicked");
         } else {
             const n = window.notification["error"]({
                 title: "Ops!",
@@ -142,7 +157,7 @@ const register = () => {
             <NInput v-model:value="form.retypePassword" type="password" :placeholder="$t('retype_password')" />
         </NFormItem>
         <div class="flex gap-2 mt-4">
-            <NButton secondary type="primary" @click="register()">
+            <NButton secondary type="primary" @click="register()" :loading="loading" :disabled="loading">
                 <template #icon>
                     <NIcon>
                         <UserFollow />
@@ -150,7 +165,7 @@ const register = () => {
                 </template>
                 {{ $t("sign_up") }}
             </NButton>
-            <NButton @click="emit('cancelClicked')"> {{ $t("cancel") }} </NButton>
+            <NButton @click="emit('cancelClicked')" :disabled="loading"> {{ $t("cancel") }} </NButton>
         </div>
     </NForm>
 </template>

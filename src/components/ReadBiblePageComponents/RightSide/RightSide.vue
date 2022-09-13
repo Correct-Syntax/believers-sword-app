@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import Split from "split.js";
 import { computed, watch, onMounted } from "vue";
 import SelectBibleVersions from "./SelectBibleVersions/SelectBibleVersions.vue";
@@ -22,7 +22,7 @@ onMounted(() => {
     const rightSideColumnSplitSizes = localStorage.getItem("right-side-column-split-sizes");
     let initialSizeForRightSideSplit = [100, 0];
 
-    if ((rightSideColumnSplitSizes && rightSideColumnSplitSizes == "null") || !rightSideColumnSplitSizes) {
+    if ((rightSideColumnSplitSizes && rightSideColumnSplitSizes == null) || !rightSideColumnSplitSizes) {
         localStorage.setItem("right-side-column-split-sizes", JSON.stringify([100, 0]));
         initialSizeForRightSideSplit = [100, 0];
     }
@@ -105,10 +105,8 @@ watch(rightSideBottomSelectedTab, () => {
             </div>
 
             <div id="right-side-bottom-split-div" class="h-[100%]">
-                <div
-                    id="right-side-dictionary-click-to-expand"
-                    class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center flex items-center duration-200 active:bg-[var(--primaryColor)] dark:hover:bg-gray-600 hover:bg-gray-300 h-25px"
-                >
+                <div id="right-side-dictionary-click-to-expand"
+                    class="p-2px cursor-pointer w-[100%] dark:bg-gray-700 bg-gray-400 bg-opacity-30 flex justify-center items-center flex items-center duration-200 active:bg-[var(--primaryColor)] dark:hover:bg-gray-600 hover:bg-gray-300 h-25px">
                     {{ $t("dictionary") }}
                 </div>
                 <Dictionary />
