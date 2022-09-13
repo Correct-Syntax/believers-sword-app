@@ -49,19 +49,32 @@ onMounted(() => {
 <template>
     <div class="menu-bar-icons h-[100%] flex flex-col justify-between z-50">
         <div class="flex flex-col gap-10px">
-            <div class="icon-item" :class="{ 'active-menu-bar-item': showUnRoutePage == 'showBible' }" @click="selectUnRoutedPage('showBible')">
+            <div
+                class="icon-item"
+                :class="{ 'active-menu-bar-item': showUnRoutePage == 'showBible' }"
+                @click="selectUnRoutedPage('showBible')"
+            >
                 <NIcon :size="25">
                     <Book />
                 </NIcon>
                 <div class="tooltip capitalize">{{ $t("read_bible") }}</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': showUnRoutePage == 'showSermons' }" @click="selectUnRoutedPage('showSermons')">
+            <div
+                class="icon-item"
+                :class="{ 'active-menu-bar-item': showUnRoutePage == 'showSermons' }"
+                @click="selectUnRoutedPage('showSermons')"
+            >
                 <NIcon :size="25">
                     <MessageQueue />
                 </NIcon>
                 <div class="tooltip capitalize">{{ $t("go_to_sermon") }}</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': pathSelected === '/discussion' && showUnRoutePage == `false` }" @click="selectRoute('/discussion')">
+            <div
+                v-show="false"
+                class="icon-item"
+                :class="{ 'active-menu-bar-item': pathSelected === '/discussion' && showUnRoutePage == `false` }"
+                @click="selectRoute('/discussion')"
+            >
                 <NIcon :size="25">
                     <ChatbubblesOutline />
                 </NIcon>
@@ -78,13 +91,21 @@ onMounted(() => {
                 </NIcon>
                 <div class="tooltip capitalize">{{ $t("get_directions") }}</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': pathSelected === '/prayer_list' && showUnRoutePage == `false` }" @click="selectRoute('/prayer_list')">
+            <div
+                class="icon-item"
+                :class="{ 'active-menu-bar-item': pathSelected === '/prayer_list' && showUnRoutePage == `false` }"
+                @click="selectRoute('/prayer_list')"
+            >
                 <NIcon :size="25">
                     <ListDropdown />
                 </NIcon>
                 <div class="tooltip capitalize">{{ $t("prayer_list") }}</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': pathSelected === '/games' && showUnRoutePage == `false` }" @click="selectRoute('/games')">
+            <div
+                class="icon-item"
+                :class="{ 'active-menu-bar-item': pathSelected === '/games' && showUnRoutePage == `false` }"
+                @click="selectRoute('/games')"
+            >
                 <NIcon :size="25">
                     <GameConsole />
                 </NIcon>
@@ -92,25 +113,41 @@ onMounted(() => {
             </div>
         </div>
         <div class="flex flex-col justify-center items-center gap-10px">
-            <div class="icon-item heart-donate" :class="{ 'active-menu-bar-item': $route.path === '/donate' && showUnRoutePage == `false` }" @click="selectRoute('/donate')">
+            <div
+                class="icon-item heart-donate"
+                :class="{ 'active-menu-bar-item': $route.path === '/donate' && showUnRoutePage == `false` }"
+                @click="selectRoute('/donate')"
+            >
                 <NIcon :size="25">
                     <LocationHeart />
                 </NIcon>
                 <div class="tooltip capitalize">{{ $t("support") }}</div>
             </div>
-            <div class="icon-item heart-donate" :class="{ 'active-menu-bar-item': $route.path === '/about' && showUnRoutePage == `false` }" @click="selectRoute('/about')">
+            <div
+                class="icon-item heart-donate"
+                :class="{ 'active-menu-bar-item': $route.path === '/about' && showUnRoutePage == `false` }"
+                @click="selectRoute('/about')"
+            >
                 <NIcon :size="25">
                     <Help />
                 </NIcon>
                 <div class="tooltip capitalize">{{ $t("about") }}</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/account' && showUnRoutePage == `false` }" @click="selectRoute('/account')">
+            <div
+                class="icon-item"
+                :class="{ 'active-menu-bar-item': $route.path === '/account' && showUnRoutePage == `false` }"
+                @click="selectRoute('/account')"
+            >
                 <NIcon :size="25">
                     <UserAvatar />
                 </NIcon>
                 <div class="tooltip capitalize">{{ $t("your_account") }}</div>
             </div>
-            <div class="icon-item" :class="{ 'active-menu-bar-item': $route.path === '/settings' && showUnRoutePage == `false` }" @click="store.state.showSettings = true">
+            <div
+                class="icon-item"
+                :class="{ 'active-menu-bar-item': $route.path === '/settings' && showUnRoutePage == `false` }"
+                @click="store.state.showSettings = true"
+            >
                 <NIcon :size="25">
                     <Settings />
                 </NIcon>

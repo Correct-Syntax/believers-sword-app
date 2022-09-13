@@ -4,6 +4,7 @@ import { Information, Reset } from "@vicons/carbon";
 import ShowSermonsLists from "./ShowSermonLists.vue";
 import { computed, ref, watch } from "vue";
 import { useStore } from "vuex";
+import { supabase } from "@/service/SupaBase/supabase";
 
 const store = useStore();
 const selectedSermon = computed(() => store.state.sermonState.selected_sermon);
@@ -17,7 +18,7 @@ watch(selectedSermon, () => {
 });
 
 // methods
-function getSermons() {
+async function getSermons() {
     showSermonsLists.value.getSermons();
 }
 </script>
@@ -31,8 +32,9 @@ function getSermons() {
                         <NIcon> <Information /> </NIcon>
                     </template>
                     <p class="max-w-300px">
-                        This is the sermon page where you can watch and read sermons. Sermons are added by the creator of this app. But you can send a link or a document to my
-                        gmail jenuelganawed936@gmail.com. Where going to create a function later to make this work easily.
+                        This is the sermon page where you can watch and read sermons. Sermons are added by the creator
+                        of this app. But you can send a link or a document to my gmail jenuelganawed936@gmail.com. Where
+                        going to create a function later to make this work easily.
                     </p>
                 </NTooltip>
             </h1>

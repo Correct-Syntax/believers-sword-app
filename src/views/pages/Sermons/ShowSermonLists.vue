@@ -2,18 +2,19 @@
 import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import { computed } from "@vue/reactivity";
-
-import { getFireStoreSermons } from "@/service/backend/Sermons";
+import { userSermonStore } from "@/store/sermons";
 import { LogoYoutube, Document, WifiOff } from "@vicons/carbon";
-import { NIcon, NSkeleton, NEmpty, NButton } from "naive-ui";
+import { NIcon, NSkeleton, NEmpty, NButton, useNotification } from "naive-ui";
 import DrawerContentVue from "./partials/DrawerContent/DrawerContent.vue";
 import { Undo } from "@vicons/carbon";
+import { supabase } from "@/service/SupaBase/supabase";
+import dayjs from "dayjs";
 
 const store = useStore();
-const sermons = computed(() => store.state.sermonState.sermons);
 const selectedSermon = computed(() => store.state.sermonState.selected_sermon);
 const drawerShowContent = ref(false);
-
+const sermonStore = userSermonStore();
+const notification = useNotification();
 const selectASermon = (sermon: any) => {
     store.state.sermonState.selected_sermon = sermon;
 };
@@ -38,29 +39,34 @@ onMounted(() => {
         drawerShowContent.value = true;
     }
 
-    if (sermons.value.data && sermons.value.data.length > 0) {
+    if (sermonStore.sermons && sermonStore.sermons.length > 0) {
         return;
     }
-
     getSermons();
 });
 
-function getSermons() {
+async function getSermons() {
     try {
         loadingSermon.value = true;
 
-        getFireStoreSermons()
-            .then((result) => {
-                store.state.sermonState.sermons = result;
-                loadingSermon.value = false;
-            })
-            .catch((e) => {
-                console.log("This is the what");
-                console.log(e);
-                loadingSermon.value = false;
+        const { data, error } = await supabase.from("sermons").select();
+
+        if (error) {
+            notification.error({
+                title: "Error!",
+                content: error.message,
+                meta: dayjs().format("MMM DD, YYYY"),
             });
+        }
+
+        sermonStore.setSermons(data as any);
+        loadingSermon.value = false;
     } catch (e) {
-        console.log("Their is an error");
+        notification.error({
+            title: "Error!",
+            content: "Their is something happened.",
+            meta: dayjs().format("MMM DD, YYYY"),
+        });
     }
 }
 
@@ -77,7 +83,12 @@ defineExpose({
             :class="{ 'w-[60%] h-[100%] overflow-y-auto overflowing-div scroll-bar-md': selectedSermon }"
             class="relative"
         >
-            <NButton class="fixed z-50 top-50px left-60px" circle secondary @click="store.state.sermonState.selected_sermon = null">
+            <NButton
+                class="fixed z-50 top-50px left-60px"
+                circle
+                secondary
+                @click="store.state.sermonState.selected_sermon = null"
+            >
                 <template #icon>
                     <NIcon>
                         <Undo />
@@ -88,10 +99,18 @@ defineExpose({
         </div>
         <div v-if="isOnline" :class="{ ' w-[40%] h-[100%] overflow-y-auto overflowing-div pr-4': selectedSermon }">
             <div v-show="!loadingSermon && isOnline" class="flex gap-20px flex-wrap">
-                <div v-for="sermon in sermons.data" :key="sermon.title" class="w-300px cursor-pointer flex-grow max-w-400px" @click="selectASermon(sermon)">
+                <div
+                    v-for="sermon in sermonStore.sermons"
+                    :key="sermon.title"
+                    class="w-300px cursor-pointer flex-grow max-w-400px"
+                    @click="selectASermon(sermon)"
+                >
                     <div class="h-160px rounded-md overflow-hidden">
                         <img v-if="sermon.thumbnail" :src="sermon.thumbnail" alt="" class="w-[100%]" />
-                        <div v-else class="w-[100%] bg-black h-160px flex justify-center items-center p-10px overflow-auto">
+                        <div
+                            v-else
+                            class="w-[100%] bg-black h-160px flex justify-center items-center p-10px overflow-auto"
+                        >
                             <h1 class="font-800 text-size-30px">{{ sermon.title }}</h1>
                         </div>
                     </div>
@@ -117,7 +136,11 @@ defineExpose({
                 </div>
             </div>
             <div v-show="loadingSermon && isOnline" class="flex gap-20px mt-3 flex-wrap">
-                <div v-for="count in [1, 2, 3, 4, 5, 6, 7, 8]" :key="count" class="w-300px cursor-pointer flex-grow max-w-400px">
+                <div
+                    v-for="count in [1, 2, 3, 4, 5, 6, 7, 8]"
+                    :key="count"
+                    class="w-300px cursor-pointer flex-grow max-w-400px"
+                >
                     <NSkeleton class="mb-3 rounded-md" :height="160" />
                     <NSkeleton :height="30" round />
                 </div>
