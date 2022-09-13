@@ -4,7 +4,6 @@ import { Information, Reset } from "@vicons/carbon";
 import ShowSermonsLists from "./ShowSermonLists.vue";
 import { computed, ref, watch } from "vue";
 import { useStore } from "vuex";
-import { supabase } from "@/service/SupaBase/supabase";
 
 const store = useStore();
 const selectedSermon = computed(() => store.state.sermonState.selected_sermon);
@@ -23,7 +22,7 @@ async function getSermons() {
 }
 </script>
 <template>
-    <div id="drawer-target" class="h-[100%] p-5 overflow-y-auto w-[100%] relative">
+    <div id="drawer-target" class="h-[100%] p-5 overflow-y-auto overflowing-div scroll-bar-sm w-[100%] relative">
         <div v-show="!selectedSermon" class="mb-4 flex items-center justify-between gap-30px sticky">
             <h1 class="text-size-30px font-800 flex items-center gap-10px">
                 {{ $t("sermons") }}

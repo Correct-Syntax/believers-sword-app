@@ -2,13 +2,12 @@
 import { NButton, NIcon } from "naive-ui";
 import { NotePin16Regular } from "@vicons/fluent";
 import CreateNewDiscussionModalVue from "./CreateDiscussionModal/CreateNewDiscussionModal.vue";
-
-import { isUserLogged } from "@/service/backend/User";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useUserStore } from "@/store/user";
 
 const router = useRouter();
-const isUserSigned = isUserLogged();
+const userStore = useUserStore();
 const showCreateDiscussionModal = ref(false);
 const menus = [
     {
@@ -31,7 +30,7 @@ function selectAMenu(menu: { key: string; label: string; icon: any }) {
     <div class="flex flex-col mb-30px">
         <CreateNewDiscussionModalVue v-model="showCreateDiscussionModal" @close="showCreateDiscussionModal = false" />
         <NButton
-            v-if="isUserSigned"
+            v-if="userStore.isUserLogged"
             type="primary"
             size="large"
             round

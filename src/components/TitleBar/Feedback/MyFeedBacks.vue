@@ -1,21 +1,31 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { getMyFeedbacks } from "./../../../service/backend/feedback";
-import { NSkeleton, NEmpty } from "naive-ui";
+import { NSkeleton, NEmpty, useNotification } from "naive-ui";
+import { supabase } from "@/service/SupaBase/supabase";
+import { useUserStore } from "@/store/user";
+import dayjs from "dayjs";
 
 const myFeedbacks = ref<Array<any>>([]);
 const isLoading = ref(false);
+const userStore = useUserStore();
+const notification = useNotification();
 
-function getMyFeedback() {
+async function getMyFeedback() {
     isLoading.value = true;
-    getMyFeedbacks()
-        .then(({ data }) => {
-            isLoading.value = false;
-            if (data) myFeedbacks.value = data;
-        })
-        .catch(() => {
-            isLoading.value = false;
+    const { data, error } = await supabase.from("feedbacks").select().eq("user_id", userStore.session?.user.id);
+
+    if (error) {
+        notification.error({
+            title: "Oops! Error.",
+            content: error.message,
+            meta: dayjs().format("MMM DD, YYYY"),
         });
+        isLoading.value = false;
+        return;
+    }
+
+    myFeedbacks.value = data;
+    isLoading.value = false;
 }
 
 onMounted(() => {
@@ -26,7 +36,9 @@ onMounted(() => {
 </script>
 <template>
     <div v-if="isLoading" class="flex flex-col gap-5px">
-        <div class="border border-gray-500 rounded-md p-3" v-for="count in [1, 2]" :key="count"><NSkeleton text :repeat="4" /> <n-skeleton text style="width: 60%" /></div>
+        <div class="border border-gray-500 rounded-md p-3" v-for="count in [1, 2]" :key="count">
+            <NSkeleton text :repeat="4" /> <n-skeleton text style="width: 60%" />
+        </div>
     </div>
     <div v-else-if="myFeedbacks.length > 0" class="flex flex-col gap-5px">
         <div class="border border-gray-500 rounded-md p-3" v-for="feedback in myFeedbacks" :key="feedback._id">
@@ -34,8 +46,8 @@ onMounted(() => {
             <small class="text-size-15px">
                 Category: <strong>{{ feedback.category }}</strong>
             </small>
-            <div>
-                {{ feedback.description }}
+            <div class="border border-gray-500 p-4 rounded-md">
+                {{ feedback.content }}
             </div>
         </div>
     </div>

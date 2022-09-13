@@ -1,18 +1,14 @@
 <script setup lang="ts">
 import { View, AddComment } from "@vicons/carbon";
-import { NButton, NIcon, NTag, useMessage, useNotification } from "naive-ui";
+import { NIcon, NTag } from "naive-ui";
 import { discussionPostStore } from "@/store/DiscussionPostsState";
-import { h, onMounted } from "vue";
+import { onMounted } from "vue";
 import { generateText } from "@tiptap/vue-3";
 import { extensionsUsed } from "@/components/Editor/editor-options";
 import sanitizeHtml from "sanitize-html";
 import { ThumbsUp, ThumbsUpFilled, ThumbsDown, ThumbsDownFilled } from "@vicons/carbon";
 import { useRouter } from "vue-router";
-import { isUserLogged } from "@/service/backend/User";
-import Axios from "@/service/Axios/Axios";
 
-const notification = useNotification();
-const message = useMessage();
 const postStore = discussionPostStore();
 const router = useRouter();
 function countRender(upVoteCount: number, downVoteCount: number) {
@@ -21,65 +17,12 @@ function countRender(upVoteCount: number, downVoteCount: number) {
     return sum;
 }
 
-const getPosts = async (refresh = false, search: null | string = null) => {
-    if (postStore.posts.length < 1 || refresh) {
-        console.log(search);
-        await postStore.getPosts(
-            {
-                search: search as string,
-                page: 1,
-            },
-            refresh
-        );
-    }
+const getPosts = async () => {
+    console.log("Click the get posts button");
 };
 
 function clickThumb(discussion: any, isThumbsUp = 1, index: null | number = null) {
-    if (!isUserLogged()) {
-        notification["error"]({
-            title: "You are not logged in",
-            content: "Login so that the action will be executed",
-            duration: 4000,
-            action: () =>
-                h(
-                    NButton,
-                    {
-                        text: true,
-                        type: "primary",
-                        onClick: () => {
-                            router.push({ name: "AccountPage" });
-                        },
-                    },
-                    {
-                        default: () => "Go To Login Page",
-                    }
-                ),
-        });
-        return;
-    }
-
-    Axios.put(`/api/v1/post/${isThumbsUp ? "up" : "down"}/${discussion._id}`)
-        .then((response) => {
-            console.log(response);
-            if (index != null) {
-                if (response && response.data && response.data.post) {
-                    postStore.posts[index] = response.data.post;
-                    message.info(
-                        response.data.message ? response.data.message : isThumbsUp ? "Thumbs Up!" : "Thumbs Down!"
-                    );
-                }
-            }
-        })
-        .catch((error) => {
-            notification["error"]({
-                meta:
-                    error.response && error.response.data && error.response.data.message
-                        ? error.response.data.message
-                        : "Their is an error!",
-                content: "Oops! Their is an error.",
-                duration: 4000,
-            });
-        });
+    console.log(discussion, isThumbsUp, index);
 }
 
 defineExpose({

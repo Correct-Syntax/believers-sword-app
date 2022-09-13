@@ -4,7 +4,7 @@ import { contextMenus } from "./service/ContextMenu/ContextMenu";
 import { appSettingsStore } from "./service/ElectronStoreSchemma/SettingSchema";
 import { AutoUpdaterEvents } from "./service/AutoUpdater/AutoUpdaterMainProcessEvent";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
-import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
+import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import { ipcMainEvents } from "./service/ipcMain";
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -24,10 +24,10 @@ async function createWindow() {
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
-            devTools: true
+            devTools: true,
         },
         show: false,
-        alwaysOnTop: !isDevelopment
+        alwaysOnTop: !isDevelopment,
     };
 
     // Sett the saved appBounds state
@@ -45,9 +45,9 @@ async function createWindow() {
         await win.loadURL("app://./index.html");
     }
 
-    globalShortcut.register('Alt+CommandOrControl+I', () => {
-        win.webContents.isDevToolsOpened() ? win.webContents.closeDevTools() : win.webContents.openDevTools()
-    })
+    globalShortcut.register("Alt+CommandOrControl+I", () => {
+        win.webContents.isDevToolsOpened() ? win.webContents.closeDevTools() : win.webContents.openDevTools();
+    });
 
     // remove the menus
     if (!isDevelopment) {
@@ -55,7 +55,8 @@ async function createWindow() {
         Menu.setApplicationMenu(Menu.buildFromTemplate([]));
     }
 
-    if (appBounds !== undefined && appBounds !== null && appBounds.width > width && appBounds.height > height) win.maximize();
+    if (appBounds !== undefined && appBounds !== null && appBounds.width > width && appBounds.height > height)
+        win.maximize();
     else win.show();
 
     setTimeout(() => {
@@ -89,7 +90,7 @@ app.on("ready", async () => {
     if (isDevelopment && !process.env.IS_TEST) {
         // Install Vue Devtools
         try {
-            await installExtension(VUEJS3_DEVTOOLS);
+            await installExtension(VUEJS_DEVTOOLS);
         } catch (e) {
             // eslint-disable-next-line
             console.error(e);
@@ -101,7 +102,7 @@ app.on("ready", async () => {
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {
     if (process.platform === "win32") {
-        process.on("message", data => {
+        process.on("message", (data) => {
             if (data === "graceful-exit") {
                 app.quit();
             }

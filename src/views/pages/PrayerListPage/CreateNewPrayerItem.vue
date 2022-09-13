@@ -69,7 +69,7 @@ const SaveEditorContent = () => {
         </template>
         <span>{{ $t("new") }}</span>
     </NButton>
-    <NModal v-model:show="showModal">
+    <NModal v-model:show="showModal" class="max-w-400px">
         <div class="create-new-prayer-list-editor">
             <div>
                 <div v-if="editor" class="note-format-buttons flex flex-row items-center justify-between text-size-18px py-5px px-5px dark:bg-black dark:bg-opacity-10">
