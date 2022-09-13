@@ -1,3 +1,5 @@
 set GH_TOKEN=*********************
 set
-yarn build -p always
+yarn nightly:rename
+
+yarn up:nightly:build -p always
