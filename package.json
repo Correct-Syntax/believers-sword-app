@@ -16,7 +16,7 @@
     "rebuild": "electron-rebuild -f -w sqlite3",
     "release": "RELEASE=YES vue-cli-service electron:build",
     "up:local": "release_local.bat",
-    "up:night": "nightly.bat && yarn up:nightly:build -p always",
+    "up:night": "nightly.bat",
     "up": "release.bat",
     "cert": "electron-builder create-self-signed-cert -p BroJenuel",
     "copy:dictionary": "copy-english-dictionary.bat",
