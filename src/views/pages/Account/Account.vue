@@ -2,17 +2,13 @@
 import Login from "./Login/Login.vue";
 import RegisterModal from "./Register/RegisterModal.vue";
 import { onBeforeMount, ref } from "vue";
-// import { getUserLogged } from "@/service/backend/User";
-import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
 import ShowAccount from "./Account/ShowAccount.vue";
 import SESSION from "@/service/session/session";
 import { useUserStore } from "@/store/user";
-// import { isUserLogged } from "@/service/SupaBase/auth";
 
 const registerModalRef = ref<{ toggleModal: any }>();
 const store = useStore();
-// const isLoggedIn = computed(() => store.state.isUserLogged);
 
 const userStore = useUserStore();
 

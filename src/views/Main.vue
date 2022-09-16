@@ -7,15 +7,11 @@ import { NModal, NCard, useMessage, useNotification } from "naive-ui";
 import Settings from "@/components/Settings/Settings.vue";
 import SaveClipModal from "@/components/ReadBiblePageComponents/ViewChapter/Verses/SaveClipNote/SaveClipModal.vue";
 import Sermons from "@/views/pages/Sermons/Sermons.vue";
+import { useMenuStore } from "@/store/menuStore";
 
-const showSettingModal = ref(false);
+const menuStore = useMenuStore();
 const store = useStore();
-const showModalState = computed(() => store.state.showSettings);
 const showUnRoutePage = computed(() => store.state.showUnRoutePage);
-
-watch(showModalState, (val: boolean) => {
-    if (val) showSettingModal.value = val;
-});
 
 const createClipNoteModal = ref(false);
 const isCreateClipNote = computed(() => store.state.clipNotes.createClipNote);
@@ -24,7 +20,7 @@ watch(isCreateClipNote, (val: boolean) => {
 });
 
 const closeModal = () => {
-    store.state.showSettings = false;
+    menuStore.showSettings = false;
     store.state.clipNotes.createClipNote = false;
 };
 
@@ -34,7 +30,7 @@ window.notification = useNotification();
 
 <template>
     <div id="main-container" class="main-container flex h-[100%] flex-col">
-        <NModal v-model:show="showSettingModal" :on-after-leave="closeModal">
+        <NModal v-model:show="menuStore.showSettings" :on-after-leave="closeModal">
             <NCard style="width: 600px; height: 600px" :bordered="false" size="small">
                 <Settings />
             </NCard>
@@ -44,12 +40,23 @@ window.notification = useNotification();
                 <SaveClipModal />
             </NCard>
         </NModal>
-        <div class="w-[100%] pl-40px" :class="{ 'pr-5px': showUnRoutePage == `showBible` }" style="height: calc(100% - var(--header-height) + 4px)">
-            <div id="main-container-wrapper" class="h-[100%] w-[100%] relative pr-35px" v-show="showUnRoutePage == `showBible`">
+        <div
+            class="w-[100%] pl-40px"
+            :class="{ 'pr-5px': showUnRoutePage == `showBible` }"
+            style="height: calc(100% - var(--header-height) + 4px)"
+        >
+            <div
+                id="main-container-wrapper"
+                class="h-[100%] w-[100%] relative pr-35px"
+                v-show="showUnRoutePage == `showBible`"
+            >
                 <ReadBible />
             </div>
             <Sermons v-show="showUnRoutePage == `showSermons`" />
-            <div v-if="showUnRoutePage == `false`" class="h-[100%] w-[100%] relative dark:bg-black dark:bg-opacity-20 bg-gray-200">
+            <div
+                v-if="showUnRoutePage == `false`"
+                class="h-[100%] w-[100%] relative dark:bg-black dark:bg-opacity-20 bg-gray-200"
+            >
                 <router-view></router-view>
             </div>
         </div>

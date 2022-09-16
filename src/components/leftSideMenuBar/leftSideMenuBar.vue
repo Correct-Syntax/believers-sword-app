@@ -14,7 +14,9 @@ import Help from "@vicons/carbon/Help";
 import UserAvatar from "@vicons/carbon/UserAvatar";
 import Settings from "@vicons/carbon/Settings";
 import { ChatbubblesOutline } from "@vicons/ionicons5";
+import { useMenuStore } from "@/store/menuStore";
 
+const menuStore = useMenuStore();
 const store = useStore();
 const router = useRouter();
 const pathSelected = ref("");
@@ -143,11 +145,7 @@ onMounted(() => {
                 </NIcon>
                 <div class="tooltip capitalize">{{ $t("your_account") }}</div>
             </div>
-            <div
-                class="icon-item"
-                :class="{ 'active-menu-bar-item': $route.path === '/settings' && showUnRoutePage == `false` }"
-                @click="store.state.showSettings = true"
-            >
+            <div class="icon-item" @click="menuStore.showSettings = true">
                 <NIcon :size="25">
                     <Settings />
                 </NIcon>
