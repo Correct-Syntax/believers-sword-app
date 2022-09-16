@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { getUserLogged } from "@/service/backend/User";
 import SESSION from "@/service/session/session";
 import { NAlert, NForm, NFormItem, NInput } from "naive-ui";
 import { onMounted, ref } from "vue";

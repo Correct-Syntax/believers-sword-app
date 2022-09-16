@@ -1,18 +1,16 @@
-import { createI18n } from 'vue-i18n'
-import session from '@/service/session/session';
-// import { localeMessages } from './messages';
-import eng from './eng/eng';
+import { createI18n } from "vue-i18n";
+import session from "@/service/session/session";
+import eng from "./eng/eng";
+import tl from "./tl/tl";
 
-const message = {
+const messages = {
     english: eng,
-    // filipino: localeMessages('filipino'),
-    // korean: localeMessages('korean'),
-    // spanish: localeMessages('spanish'),
-    // chinese: localeMessages('chinese')
+    tagalog: tl,
 };
 
 export default createI18n({
-    locale: (session.get('locale') || 'english'),
-    fallbackLocale: 'english',
-    messages: message
-})
+    legacy: false,
+    locale: session.get("locale") || "english",
+    fallbackLocale: "english",
+    messages,
+});

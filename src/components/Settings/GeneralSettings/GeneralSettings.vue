@@ -1,21 +1,13 @@
 <script lang="ts" setup>
+import SESSION from "@/service/session/session";
 import { NAlert, NSelect } from "naive-ui";
-import { computed, watch } from "vue";
+import { watch } from "vue";
 import { useI18n } from "vue-i18n";
-import session from "./../../../service/session/session";
+const { locale } = useI18n();
 
-const availableLocales = computed(() => {
-    return useI18n().availableLocales.map((locale) => {
-        return {
-            label: locale.toUpperCase(),
-            value: locale,
-        };
-    });
-});
-
-watch(useI18n().locale, (newLocale, oldLocale) => {
+watch(locale, (newLocale, oldLocale) => {
     if (newLocale !== oldLocale) {
-        session.set("locale", newLocale);
+        SESSION.set("locale", newLocale);
     }
 });
 </script>
@@ -25,7 +17,17 @@ watch(useI18n().locale, (newLocale, oldLocale) => {
         <div class="flex flex-col gap-10px py-2">
             <div class="locale-changer">
                 <h1 class="font-700">{{ $t("enable_dark_theme") }}</h1>
-                <NSelect v-model:value="$i18n.locale" :options="availableLocales" />
+                <NSelect
+                    v-model:value="$i18n.locale"
+                    :options="
+                        $i18n.availableLocales.map((loc) => {
+                            return {
+                                label: loc.toUpperCase(),
+                                value: loc,
+                            };
+                        })
+                    "
+                />
             </div>
         </div>
     </div>

@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import { NTabs, NTabPane } from "naive-ui";
+import GeneralSettings from "./GeneralSettings/GeneralSettings.vue";
+import PersonalizeSettings from "./PersonalizeSettings/PersonalizeSettings.vue";
+</script>
 <template>
     <div class="h-[100%] p-7px overflow-y-auto relative">
         <NTabs type="card">
@@ -10,13 +15,3 @@
         </NTabs>
     </div>
 </template>
-<script lang="ts">
-import { defineComponent } from "vue";
-import { NTabs, NTabPane } from "naive-ui";
-import GeneralSettings from "./GeneralSettings/GeneralSettings.vue";
-import PersonalizeSettings from "./PersonalizeSettings/PersonalizeSettings.vue";
-
-export default defineComponent({
-    components: { NTabs, NTabPane, GeneralSettings, PersonalizeSettings }
-});
-</script>
