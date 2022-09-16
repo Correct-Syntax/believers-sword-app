@@ -13,7 +13,7 @@ const bibleBook = (number: number) => {
 };
 
 function gotoBibleRead() {
-    store.state.showUnRoutePage = 'showBible';
+    store.state.showUnRoutePage = "showBible";
 }
 </script>
 <template>
