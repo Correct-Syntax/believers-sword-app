@@ -4,13 +4,13 @@ const ElectronStore = require("electron-store");
 const noteStore = new ElectronStore({
     name: "bibleNotes",
     defaults: {
-        notes: {}
+        notes: {},
     },
     schema: {
         notes: {
-            type: "object"
-        }
-    }
+            type: "object",
+        },
+    },
 });
 
 export const bibleNotesEvents = (win: BrowserWindow): any => {

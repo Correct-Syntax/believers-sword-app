@@ -10,17 +10,17 @@ const settingStore: ElectronStore = new store({
         settings: {},
         primaryColors: {
             primaryColorDark: "#3cb1ff",
-            primaryColorLight: "#008fee"
-        }
+            primaryColorLight: "#008fee",
+        },
     },
     schema: {
         settings: {
-            type: "object"
+            type: "object",
         },
         primaryColors: {
-            type: "object"
-        }
-    }
+            type: "object",
+        },
+    },
 });
 
 export const settingsEvents = (): void => {
@@ -39,5 +39,5 @@ export const settingsEvents = (): void => {
         } catch (e) {
             if (e instanceof Error) log.error(e.message);
         }
-    })
+    });
 };
