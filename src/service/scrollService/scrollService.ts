@@ -1,6 +1,11 @@
 import session from "../session/session";
 
-export const saveScrollTopState = (className: string, inArray = 0, sessionKey: string, scrollTopSubtract = 80): void => {
+export const saveScrollTopState = (
+    className: string,
+    inArray = 0,
+    sessionKey: string,
+    scrollTopSubtract = 80
+): void => {
     const el = document.getElementsByClassName(className)[inArray];
     if (el instanceof HTMLElement) {
         session.set(sessionKey, el.offsetTop - scrollTopSubtract);

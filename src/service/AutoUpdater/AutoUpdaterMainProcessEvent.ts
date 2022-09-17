@@ -11,13 +11,13 @@ export const AutoUpdaterEvents = (win: BrowserWindow): void => {
     autoUpdater.on("checking-for-update", () => {
         win.webContents.send("checking-for-update");
     });
-    autoUpdater.on("update-available", info => {
+    autoUpdater.on("update-available", () => {
         win.webContents.send("update-available");
     });
-    autoUpdater.on("update-not-available", info => {
+    autoUpdater.on("update-not-available", () => {
         win.webContents.send("update-not-available");
     });
-    autoUpdater.on("error", err => {
+    autoUpdater.on("error", (err) => {
         win.webContents.send("update-error", err);
     });
 
@@ -25,7 +25,7 @@ export const AutoUpdaterEvents = (win: BrowserWindow): void => {
         autoUpdater.downloadUpdate();
     });
 
-    autoUpdater.on("download-progress", progressObj => {
+    autoUpdater.on("download-progress", (progressObj) => {
         win.webContents.send("update-download-progress", progressObj);
     });
 
@@ -33,7 +33,7 @@ export const AutoUpdaterEvents = (win: BrowserWindow): void => {
         autoUpdater.quitAndInstall();
     });
 
-    autoUpdater.on("update-downloaded", info => {
+    autoUpdater.on("update-downloaded", (info) => {
         win.webContents.send("update-downloaded", info);
     });
 };

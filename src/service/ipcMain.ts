@@ -1,4 +1,4 @@
-import { clipNoteEvents } from './clipNotes/clipNotes';
+import { clipNoteEvents } from "./clipNotes/clipNotes";
 import { memoryFlipCardGameEvents } from "./GamesEvents/MemoryCardGame/MemoryCardGame";
 import { linkEvents } from "./linkEvents/linkEvents";
 import { prayerListEvents } from "./PrayerLists/PrayerListEventsMainEvents";
@@ -9,7 +9,7 @@ import { BrowserWindow } from "electron";
 import { windowBrowserEvents } from "./ipcMainEvents/BrowserWindowEvents";
 import { bibleNotesEvents } from "./Notes/ipcMainNotesEvents";
 import { settingsEvents } from "./Settings/Settings";
-import { dictionaryEvents } from './Dictionary/dictionary';
+import { dictionaryEvents } from "./Dictionary/dictionary";
 
 export const ipcMainEvents = (win: BrowserWindow) => {
     // browser Window Events
